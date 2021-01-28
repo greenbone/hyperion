@@ -1,0 +1,101 @@
+<get_assets_response status="200" status_text="OK">
+  <asset id="d8c5fc4f-c01b-48aa-854b-cfe4bc9fb8c6">
+    <owner>
+      <name>jloechte</name>
+    </owner>
+    <name>xyzxy</name>
+    <comment/>
+    <creation_time>2020-04-08T13:15:56Z</creation_time>
+    <modification_time>2020-06-19T09:34:48Z</modification_time>
+    <writable>1</writable>
+    <in_use>0</in_use>
+    <permissions>
+      <permission>
+        <name>Everything</name>
+      </permission>
+    </permissions>
+    <identifiers>
+      <identifier id="e15e2199-decb-4f4c-927d-8702ddc4a94c">
+        <name>hostname</name>
+        <value>eps01-psn01.dlz-it.de</value>
+        <creation_time>2020-06-19T09:34:48Z</creation_time>
+        <modification_time>2020-06-19T09:34:48Z</modification_time>
+        <source id="3404b586-40be-4a7d-a964-c23c435d9abc">
+          <type>Report Host Detail</type>
+          <data>CMDB-Parser</data>
+          <deleted>0</deleted>
+          <name/>
+        </source>
+      </identifier>
+      <identifier id="d2f59ef2-5ae4-4a74-857b-2a639955d28c">
+        <name>ip</name>
+        <value>0.0.0.0</value>
+        <creation_time>2020-06-19T09:34:48Z</creation_time>
+        <modification_time>2020-06-19T09:34:48Z</modification_time>
+        <source id="3404b586-40be-4a7d-a964-c23c435d9abc">
+          <type>Report Host</type>
+          <data/>
+          <deleted>0</deleted>
+          <name/>
+        </source>
+      </identifier>
+      <identifier id="025aa235-3322-4828-b022-5b71b07ea893">
+        <name>hostname</name>
+        <value>hidden.de.com</value>
+        <creation_time>2020-06-19T09:31:44Z</creation_time>
+        <modification_time>2020-06-19T09:31:44Z</modification_time>
+        <source id="f31d3b1a-4642-44bc-86ea-63ea029d4c63">
+          <type>Report Host Detail</type>
+          <data>CMDB-Parser</data>
+          <deleted>0</deleted>
+          <name/>
+        </source>
+      </identifier>
+    </identifiers>
+    <type>host</type>
+    <host>
+      <severity>
+        <value>7.5</value>
+      </severity>
+      <detail>
+        <name>best_os_cpe</name>
+        <value>cpe:/o:red hat:enterprise_linux_server:7.6</value>
+        <source id="3404b586-40be-4a7d-a964-c23c435d9abc">
+          <type>Report</type>
+        </source>
+      </detail>
+      <detail>
+        <name>best_os_txt</name>
+        <value>Red Hat Enterprise Linux Server release 7.6 (Maipo)</value>
+        <source id="3404b586-40be-4a7d-a964-c23c435d9abc">
+          <type>Report</type>
+        </source>
+      </detail>
+    </host>
+  </asset>
+  <filters id="">
+    <term>rows=1 first=1 sort=name</term>
+    <keywords>
+      <keyword>
+        <column>rows</column>
+        <relation>=</relation>
+        <value>1</value>
+      </keyword>
+      <keyword>
+        <column>first</column>
+        <relation>=</relation>
+        <value>1</value>
+      </keyword>
+      <keyword>
+        <column>sort</column>
+        <relation>=</relation>
+        <value>name</value>
+      </keyword>
+    </keywords>
+  </filters>
+  <sort>
+    <field>name<order>ascending</order></field>
+  </sort>
+  <assets start="1" max="1"/>
+  <asset_count>219<filtered>219</filtered><page>1</page></asset_count>
+</get_assets_response>

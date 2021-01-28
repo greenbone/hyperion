@@ -1,0 +1,310 @@
+<get_permissions_response status="200" status_text="OK">
+    <permission id="989421f6-dcc7-4c09-bddb-767cd1a91406">
+        <owner>
+            <name></name>
+        </owner>
+        <name>authenticate</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>Everything</name>
+            </permission>
+        </permissions>
+        <resource id="">
+            <name></name>
+            <type></type>
+            <trash>0</trash>
+            <deleted>0</deleted>
+            <permissions/>
+        </resource>
+        <subject id="12cdb536-480b-11e4-8552-406186ea4fc5">
+            <name>Monitor</name>
+            <type>role</type>
+            <trash>0</trash>
+        </subject>
+    </permission>
+    <permission id="d409ab9f-88dd-4bb9-bc4c-7f979ee7442e">
+        <owner>
+            <name></name>
+        </owner>
+        <name>authenticate</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>Everything</name>
+            </permission>
+        </permissions>
+        <resource id="">
+            <name></name>
+            <type></type>
+            <trash>0</trash>
+            <deleted>0</deleted>
+            <permissions/>
+        </resource>
+        <subject id="87a7ebce-b74d-11e2-a81f-406186ea4fc5">
+            <name>Observer</name>
+            <type>role</type>
+            <trash>0</trash>
+        </subject>
+    </permission>
+    <permission id="48148969-53ba-40a2-97ea-ad4c2f14e562">
+        <owner>
+            <name></name>
+        </owner>
+        <name>authenticate</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>Everything</name>
+            </permission>
+        </permissions>
+        <resource id="">
+            <name></name>
+            <type></type>
+            <trash>0</trash>
+            <deleted>0</deleted>
+            <permissions/>
+        </resource>
+        <subject id="5f8fd16c-c550-11e3-b6ab-406186ea4fc5">
+            <name>Info</name>
+            <type>role</type>
+            <trash>0</trash>
+        </subject>
+    </permission>
+    <permission id="276ca5b6-0859-40d2-813d-33175248e428">
+        <owner>
+            <name></name>
+        </owner>
+        <name>authenticate</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>Everything</name>
+            </permission>
+        </permissions>
+        <resource id="">
+            <name></name>
+            <type></type>
+            <trash>0</trash>
+            <deleted>0</deleted>
+            <permissions/>
+        </resource>
+        <subject id="8d453140-b74d-11e2-b0be-406186ea4fc5">
+            <name>User</name>
+            <type>role</type>
+            <trash>0</trash>
+        </subject>
+    </permission>
+    <permission id="e2009e06-2ee3-4531-856f-92f20bae87d0">
+        <owner>
+            <name></name>
+        </owner>
+        <name>authenticate</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>Everything</name>
+            </permission>
+        </permissions>
+        <resource id="">
+            <name></name>
+            <type></type>
+            <trash>0</trash>
+            <deleted>0</deleted>
+            <permissions/>
+        </resource>
+        <subject id="cc9cac5e-39a3-11e4-abae-406186ea4fc5">
+            <name>Guest</name>
+            <type>role</type>
+            <trash>0</trash>
+        </subject>
+    </permission>
+    <permission id="7faa1426-e5db-4f01-93e0-194f4fd17c9d">
+        <owner>
+            <name></name>
+        </owner>
+        <name>create_agent</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>Everything</name>
+            </permission>
+        </permissions>
+        <resource id="">
+            <name></name>
+            <type></type>
+            <trash>0</trash>
+            <deleted>0</deleted>
+            <permissions/>
+        </resource>
+        <subject id="8d453140-b74d-11e2-b0be-406186ea4fc5">
+            <name>User</name>
+            <type>role</type>
+            <trash>0</trash>
+        </subject>
+    </permission>
+    <permission id="13601eea-78a1-4004-8c30-88e5b9021b81">
+        <owner>
+            <name></name>
+        </owner>
+        <name>create_alert</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>Everything</name>
+            </permission>
+        </permissions>
+        <resource id="">
+            <name></name>
+            <type></type>
+            <trash>0</trash>
+            <deleted>0</deleted>
+            <permissions/>
+        </resource>
+        <subject id="8d453140-b74d-11e2-b0be-406186ea4fc5">
+            <name>User</name>
+            <type>role</type>
+            <trash>0</trash>
+        </subject>
+    </permission>
+    <permission id="e59d478d-334f-4f05-bffa-923f8dde88ab">
+        <owner>
+            <name></name>
+        </owner>
+        <name>create_asset</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>Everything</name>
+            </permission>
+        </permissions>
+        <resource id="">
+            <name></name>
+            <type></type>
+            <trash>0</trash>
+            <deleted>0</deleted>
+            <permissions/>
+        </resource>
+        <subject id="8d453140-b74d-11e2-b0be-406186ea4fc5">
+            <name>User</name>
+            <type>role</type>
+            <trash>0</trash>
+        </subject>
+    </permission>
+    <permission id="ab74ea73-44cf-486a-b3dc-9d09a7355e6f">
+        <owner>
+            <name></name>
+        </owner>
+        <name>create_config</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>Everything</name>
+            </permission>
+        </permissions>
+        <resource id="">
+            <name></name>
+            <type></type>
+            <trash>0</trash>
+            <deleted>0</deleted>
+            <permissions/>
+        </resource>
+        <subject id="8d453140-b74d-11e2-b0be-406186ea4fc5">
+            <name>User</name>
+            <type>role</type>
+            <trash>0</trash>
+        </subject>
+    </permission>
+    <permission id="3f110974-a493-4d30-9073-896d977fccb7">
+        <owner>
+            <name></name>
+        </owner>
+        <name>create_credential</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>Everything</name>
+            </permission>
+        </permissions>
+        <resource id="">
+            <name></name>
+            <type></type>
+            <trash>0</trash>
+            <deleted>0</deleted>
+            <permissions/>
+        </resource>
+        <subject id="8d453140-b74d-11e2-b0be-406186ea4fc5">
+            <name>User</name>
+            <type>role</type>
+            <trash>0</trash>
+        </subject>
+    </permission>
+    <filters id="">
+        <term>first=1 rows=10 sort=name</term>
+        <keywords>
+            <keyword>
+                <column>first</column>
+                <relation>=</relation>
+                <value>1</value>
+            </keyword>
+            <keyword>
+                <column>rows</column>
+                <relation>=</relation>
+                <value>10</value>
+            </keyword>
+            <keyword>
+                <column>sort</column>
+                <relation>=</relation>
+                <value>name</value>
+            </keyword>
+        </keywords>
+    </filters>
+    <sort>
+        <field>name<order>ascending</order>
+        </field>
+    </sort>
+    <permissions start="1" max="-2"/>
+    <permission_count>354<filtered>354</filtered>
+        <page>10</page>
+    </permission_count>
+</get_permissions_response>

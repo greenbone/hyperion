@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<describe_auth_response status="200" status_text="OK">
+  <group name="method:file">
+    <auth_conf_setting>
+      <key>enable</key>
+      <value>true</value>
+    </auth_conf_setting>
+    <auth_conf_setting>
+      <key>order</key>
+      <value>1</value>
+    </auth_conf_setting>
+  </group>
+  <group name="method:ldap_connect">
+    <auth_conf_setting>
+      <key>enable</key>
+      <value>false</value>
+    </auth_conf_setting>
+    <auth_conf_setting>
+      <key>order</key>
+      <value>0</value>
+    </auth_conf_setting>
+    <auth_conf_setting>
+      <key>ldaphost</key>
+      <value>127.0.0.1</value>
+    </auth_conf_setting>
+    <auth_conf_setting>
+      <key>authdn</key>
+      <value>userid=%s,dc=example,dc=org</value>
+    </auth_conf_setting>
+    <auth_conf_setting>
+      <key>allow-plaintext</key>
+      <value>0</value>
+    </auth_conf_setting>
+  </group>
+  <group name="method:radius_connect">
+    <auth_conf_setting>
+      <key>enable</key>
+      <value>false</value>
+    </auth_conf_setting>
+    <auth_conf_setting>
+      <key>radiushost</key>
+      <value>127.0.0.1</value>
+    </auth_conf_setting>
+    <auth_conf_setting>
+      <key>radiuskey</key>
+      <value>testing123</value>
+    </auth_conf_setting>
+  </group>
+</describe_auth_response>

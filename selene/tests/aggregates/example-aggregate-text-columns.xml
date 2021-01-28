@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<get_aggregates_response status_text="OK" status="200">
+  <aggregate>
+    <text_column>created</text_column>
+    <text_column>name</text_column>
+    <group_column>uuid</group_column>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.14372</value>
+      <count>1</count>
+      <c_count>1</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">wu-ftpd S/KEY authentication overflow</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11278</value>
+      <count>1</count>
+      <c_count>2</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">Quicktime/Darwin Remote Admin Exploit</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11075</value>
+      <count>1</count>
+      <c_count>3</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">dwhttpd format string</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11724</value>
+      <count>1</count>
+      <c_count>4</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">WebLogic source code disclosure</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11880</value>
+      <count>1</count>
+      <c_count>5</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">Fluxay Sensor Detection</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.16093</value>
+      <count>1</count>
+      <c_count>6</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">MySQL Eventum Multiple flaws</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.13751</value>
+      <count>1</count>
+      <c_count>7</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">Direct Connect hub detection</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11206</value>
+      <count>1</count>
+      <c_count>8</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">War FTP Daemon Directory Traversal</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.12244</value>
+      <count>1</count>
+      <c_count>9</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">Sun Java Runtime Environment &lt; 1.4.2_04 DoS</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11834</value>
+      <count>1</count>
+      <c_count>10</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">Source routed packets</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.10742</value>
+      <count>1</count>
+      <c_count>11</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">Amanda Index Server Detection</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.10041</value>
+      <count>1</count>
+      <c_count>12</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">Cobalt RaQ2 cgiwrap</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.15639</value>
+      <count>1</count>
+      <c_count>13</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">Moodle SQL injection flaws</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11317</value>
+      <count>1</count>
+      <c_count>14</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">Discover HP JetDirect EWS Password via SNMP</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.10385</value>
+      <count>1</count>
+      <c_count>15</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">ht://Dig's htsearch reveals web server path</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11053</value>
+      <count>1</count>
+      <c_count>16</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">IMC SMTP EHLO Buffer Overrun</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11065</value>
+      <count>1</count>
+      <c_count>17</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">HTTP method overflow</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11174</value>
+      <count>1</count>
+      <c_count>18</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">HTTP negative Content-Length DoS</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.10034</value>
+      <count>1</count>
+      <c_count>19</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">RedHat 6.0 cachemgr.cgi</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.18393</value>
+      <count>1</count>
+      <c_count>20</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">EGD detection</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11824</value>
+      <count>1</count>
+      <c_count>21</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">myPHPNuke phptonuke.php Directory Traversal</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11726</value>
+      <count>1</count>
+      <c_count>22</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">CSNews.cgi vulnerability</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.10595</value>
+      <count>1</count>
+      <c_count>23</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">DNS AXFR</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11861</value>
+      <count>1</count>
+      <c_count>24</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">Default password 'ibmdb2' for account 'db2fenc1'</text>
+    </group>
+    <group>
+      <value>1.3.6.1.4.1.25623.1.0.11885</value>
+      <count>1</count>
+      <c_count>25</c_count>
+      <text column="created">2005-11-03T13:08:04Z</text>
+      <text column="name">Buffer Overrun in the ListBox and in the ComboBox (824141)</text>
+    </group>
+    <column_info>
+      <aggregate_column>
+        <name>value</name>
+        <stat>value</stat>
+        <type>nvt</type>
+        <column>uuid</column>
+        <data_type>text</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>count</name>
+        <stat>count</stat>
+        <type>nvt</type>
+        <column/>
+        <data_type>integer</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>c_count</name>
+        <stat>c_count</stat>
+        <type>nvt</type>
+        <column/>
+        <data_type>integer</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>created</name>
+        <stat>text</stat>
+        <type>nvt</type>
+        <column>created</column>
+        <data_type>text</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>name</name>
+        <stat>text</stat>
+        <type>nvt</type>
+        <column>name</column>
+        <data_type>text</data_type>
+      </aggregate_column>
+    </column_info>
+  </aggregate>
+  <filters id="">
+    <term>first=1 rows=10 sort=name</term>
+    <keywords>
+      <keyword>
+        <column>first</column>
+        <relation>=</relation>
+        <value>1</value>
+      </keyword>
+      <keyword>
+        <column>rows</column>
+        <relation>=</relation>
+        <value>10</value>
+      </keyword>
+      <keyword>
+        <column>sort</column>
+        <relation>=</relation>
+        <value>name</value>
+      </keyword>
+    </keywords>
+  </filters>
+</get_aggregates_response>

@@ -1,0 +1,300 @@
+<get_scanners_response status="200" status_text="OK">
+    <scanner id="08b69003-5fc2-4037-a479-93b440211c73">
+        <owner>
+            <name/>
+        </owner>
+        <name>OpenVAS Default</name>
+        <comment/>
+        <creation_time>2019-06-19T13:13:16Z</creation_time>
+        <modification_time>2020-05-05T13:11:51Z</modification_time>
+        <writable>1</writable>
+        <in_use>1</in_use>
+        <permissions>
+            <permission>
+                <name>get_scanners</name>
+            </permission>
+            <permission>
+                <name>get_scanners</name>
+            </permission>
+            <permission>
+                <name>get_scanners</name>
+            </permission>
+            <permission>
+                <name>get_scanners</name>
+            </permission>
+            <permission>
+                <name>get_scanners</name>
+            </permission>
+            <permission>
+                <name>get_scanners</name>
+            </permission>
+            <permission>
+                <name>get_scanners</name>
+            </permission>
+            <permission>
+                <name>get_scanners</name>
+            </permission>
+            <permission>
+                <name>modify_scanner</name>
+            </permission>
+            <permission>
+                <name>modify_scanner</name>
+            </permission>
+        </permissions>
+        <host>/home/sdiedrich/install/var/run/ospd-openvas.sock</host>
+        <port>0</port>
+        <type>2</type>
+        <ca_pub/>
+        <credential id="">
+            <name/>
+            <type/>
+            <trash>0</trash>
+        </credential>
+        <configs/>
+        <tasks>
+            <task id="3739d131-2601-45ca-a02b-d534b1bbc649">
+                <name>012345</name>
+            </task>
+            <task id="7d25dbdc-31c8-416b-8be8-346db0fa0b67">
+                <name>01 test task</name>
+            </task>
+        </tasks>
+        <info>
+            <scanner>
+                <name>openvas</name>
+                <version>OpenVAS 7.0.0</version>
+            </scanner>
+            <daemon>
+                <name>OSPd OpenVAS</name>
+                <version>20.8a1</version>
+            </daemon>
+            <protocol>
+                <name>OSP</name>
+                <version>1.2</version>
+            </protocol>
+            <description>
+This scanner runs OpenVAS to scan the target hosts. OpenVAS (Open Vulnerability Assessment Scanner) is a powerful scanner for vulnerabilities in IT infrastrucutres. The capabilities include unauthenticated scanning as well as authenticated scanning for various types of systems and services. For more details about OpenVAS see: http://www.openvas.org/ The current version of ospd-openvas is a simple frame, which sends the server parameters to the Greenbone Vulnerability Manager daemon (GVMd) and checks the existence of OpenVAS binary. But it can not run scans yet.
+            </description>
+            <params>
+                <param>
+                    <id>debug_mode</id>
+                    <name>Debug Mode</name>
+                    <default>0</default>
+                    <description>Whether to get extra scan debug information.</description>
+                    <type>osp_boolean</type>
+                    <mandatory>0</mandatory>
+                </param>
+                <param>
+                    <id>dry_run</id>
+                    <name>Dry Run</name>
+                    <default>0</default>
+                    <description>Whether to dry run scan.</description>
+                    <type>osp_boolean</type>
+                    <mandatory>0</mandatory>
+                </param>
+                <param>
+                    <id>auto_enable_dependencies</id>
+                    <name>auto_enable_dependencies</name>
+                    <default>1</default>
+                    <description>
+Automatically enable the plugins that are depended on
+                    </description>
+                    <type>osp_boolean</type>
+                    <mandatory>1</mandatory>
+                </param>
+                <param>
+                    <id>cgi_path</id>
+                    <name>cgi_path</name>
+                    <default>/cgi-bin:/scripts</default>
+                    <description>Look for default CGIs in /cgi-bin and /scripts</description>
+                    <type>osp_string</type>
+                    <mandatory>1</mandatory>
+                </param>
+                <param>
+                    <id>checks_read_timeout</id>
+                    <name>checks_read_timeout</name>
+                    <default>5</default>
+                    <description>
+Number of seconds that the security checks will wait for when doing a recv()
+                    </description>
+                    <type>osp_integer</type>
+                    <mandatory>1</mandatory>
+                </param>
+                <param>
+                    <id>drop_privileges</id>
+                    <name>drop_privileges</name>
+                    <default>0</default>
+                    <description/>
+                    <type>osp_boolean</type>
+                    <mandatory>1</mandatory>
+                </param>
+                <param>
+                    <id>non_simult_ports</id>
+                    <name>non_simult_ports</name>
+                    <default>139, 445, 3389, Services/irc</default>
+                    <description>
+Prevent to make two connections on the same given ports at the same time.
+                    </description>
+                    <type>osp_string</type>
+                    <mandatory>1</mandatory>
+                </param>
+                <param>
+                    <id>open_sock_max_attempts</id>
+                    <name>open_sock_max_attempts</name>
+                    <default>5</default>
+                    <description>
+Number of unsuccessful retries to open the socket before to set the port as closed.
+                    </description>
+                    <type>osp_integer</type>
+                    <mandatory>0</mandatory>
+                </param>
+                <param>
+                    <id>timeout_retry</id>
+                    <name>timeout_retry</name>
+                    <default>3</default>
+                    <description>
+Number of retries when a socket connection attempt timesout.
+                    </description>
+                    <type>osp_integer</type>
+                    <mandatory>0</mandatory>
+                </param>
+                <param>
+                    <id>optimize_test</id>
+                    <name>optimize_test</name>
+                    <default>1</default>
+                    <description>
+By default, openvas does not trust the remote host banners.
+                    </description>
+                    <type>osp_integer</type>
+                    <mandatory>0</mandatory>
+                </param>
+                <param>
+                    <id>plugins_timeout</id>
+                    <name>plugins_timeout</name>
+                    <default>320</default>
+                    <description>
+This is the maximum lifetime, in seconds of a plugin.
+                    </description>
+                    <type>osp_integer</type>
+                    <mandatory>0</mandatory>
+                </param>
+                <param>
+                    <id>report_host_details</id>
+                    <name>report_host_details</name>
+                    <default>1</default>
+                    <description/>
+                    <type>osp_boolean</type>
+                    <mandatory>1</mandatory>
+                </param>
+                <param>
+                    <id>safe_checks</id>
+                    <name>safe_checks</name>
+                    <default>1</default>
+                    <description>
+Disable the plugins with potential to crash the remote services
+                    </description>
+                    <type>osp_boolean</type>
+                    <mandatory>1</mandatory>
+                </param>
+                <param>
+                    <id>scanner_plugins_timeout</id>
+                    <name>scanner_plugins_timeout</name>
+                    <default>36000</default>
+                    <description>Like plugins_timeout, but for ACT_SCANNER plugins.</description>
+                    <type>osp_integer</type>
+                    <mandatory>1</mandatory>
+                </param>
+                <param>
+                    <id>time_between_request</id>
+                    <name>time_between_request</name>
+                    <default>0</default>
+                    <description>
+Allow to set a wait time between two actions (open, send, close).
+                    </description>
+                    <type>osp_integer</type>
+                    <mandatory>0</mandatory>
+                </param>
+                <param>
+                    <id>unscanned_closed</id>
+                    <name>unscanned_closed</name>
+                    <default>1</default>
+                    <description/>
+                    <type>osp_boolean</type>
+                    <mandatory>1</mandatory>
+                </param>
+                <param>
+                    <id>unscanned_closed_udp</id>
+                    <name>unscanned_closed_udp</name>
+                    <default>1</default>
+                    <description/>
+                    <type>osp_boolean</type>
+                    <mandatory>1</mandatory>
+                </param>
+                <param>
+                    <id>expand_vhosts</id>
+                    <name>expand_vhosts</name>
+                    <default>1</default>
+                    <description>
+Whether to expand the target hosts list of vhosts with values gathered from sources such as reverse-lookup queries and VT checks for SSL/TLS certificates.
+                    </description>
+                    <type>osp_boolean</type>
+                    <mandatory>0</mandatory>
+                </param>
+                <param>
+                    <id>test_empty_vhost</id>
+                    <name>test_empty_vhost</name>
+                    <default>0</default>
+                    <description>
+If set to yes, the scanner will also test the target by using empty vhost value in addition to the targets associated vhost values.
+                    </description>
+                    <type>osp_boolean</type>
+                    <mandatory>0</mandatory>
+                </param>
+            </params>
+        </info>
+    </scanner>
+    <filters id="">
+        <term>
+first=1 rows=1000 uuid= uuid=08b69003-5fc2-4037-a479-93b440211c73 sort=name
+        </term>
+        <keywords>
+            <keyword>
+                <column>first</column>
+                <relation>=</relation>
+                <value>1</value>
+            </keyword>
+            <keyword>
+                <column>rows</column>
+                <relation>=</relation>
+                <value>1000</value>
+            </keyword>
+            <keyword>
+                <column>uuid</column>
+                <relation>=</relation>
+                <value/>
+            </keyword>
+            <keyword>
+                <column>uuid</column>
+                <relation>=</relation>
+                <value>08b69003-5fc2-4037-a479-93b440211c73</value>
+            </keyword>
+            <keyword>
+                <column>sort</column>
+                <relation>=</relation>
+                <value>name</value>
+            </keyword>
+        </keywords>
+    </filters>
+    <sort>
+        <field>
+name
+            <order>ascending</order>
+        </field>
+    </sort>
+    <scanners start="1" max="1000"/>
+    <scanner_count>
+3
+        <filtered>1</filtered>
+        <page>1</page>
+    </scanner_count>
+</get_scanners_response>

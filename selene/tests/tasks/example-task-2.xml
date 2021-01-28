@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<get_tasks_response status="200" status_text="OK">
+  <apply_overrides>0</apply_overrides>
+  <task id="7593ad78-6cbc-48aa-94a4-5e52bb6b3f80">
+    <owner>
+      <name>bricks</name>
+    </owner>
+    <name>Example</name>
+    <comment/>
+    <creation_time>2020-01-10T13:13:33Z</creation_time>
+    <modification_time>2020-01-22T15:31:15Z</modification_time>
+    <writable>1</writable>
+    <in_use>0</in_use>
+    <permissions>
+      <permission>
+        <name>Everything</name>
+      </permission>
+    </permissions>
+    <current_report>
+        <report id="64213415-efe5-4441-9ee6-562cacf4e3ce">
+          <timestamp>2020-02-04T09:42:14+01:00</timestamp>
+          <scan_start>2020-02-04T09:42:33+01:00</scan_start>
+          <scan_end />
+        </report>
+    </current_report>
+    <alterable>0</alterable>
+    <usage_type>scan</usage_type>
+    <config id="d21f6c81-2b88-4ac1-b7b4-a2a9f2ad4663">
+      <name>Base</name>
+      <type>0</type>
+      <trash>0</trash>
+    </config>
+    <target id="e1db1b66-f86f-4a09-bb9e-c81d73d85a5d">
+      <name>Localhost</name>
+      <trash>0</trash>
+    </target>
+    <hosts_ordering/>
+    <scanner id="08b69003-5fc2-4037-a479-93b440211c73">
+      <name>OpenVAS Default</name>
+      <type>2</type>
+      <trash>0</trash>
+    </scanner>
+    <status>New</status>
+    <progress>-1</progress>
+    <report_count>0<finished>0</finished></report_count>
+    <trend/>
+    <schedule id="25473f83-6086-40cb-bbf9-c52cb6c5b92e">
+      <name>Every Week on Friday 16h UTC</name>
+      <trash>0</trash>
+      <first_time>2020-01-22T16:00:00Z</first_time>
+      <next_time>2020-01-24T16:00:00Z</next_time>
+      <icalendar>BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Greenbone.net//NONSGML Greenbone Security Manager 
+ 20.4+alpha~git-ab69c48f-master//EN
+BEGIN:VEVENT
+DTSTART:20200122T160000Z
+DURATION:PT0S
+RRULE:FREQ=WEEKLY;BYDAY=FR
+UID:6cf44c78-a1d1-48a0-8940-3c92f3edd1ab
+DTSTAMP:20200122T153112Z
+END:VEVENT
+END:VCALENDAR
+</icalendar>
+      <period>604800</period>
+      <period_months>0</period_months>
+      <duration>0</duration>
+      <timezone>UTC</timezone>
+    </schedule>
+    <schedule_periods>0</schedule_periods>
+    <observers/>
+    <alert id="8c1e0414-95e4-4bd6-8823-fc507c1fe34b">
+      <name>Http Alert</name>
+    </alert>
+    <alert id="8957b33c-ed0d-47c3-a955-4056498bfef2">
+      <name>Send to Host</name>
+    </alert>
+    <average_duration>0</average_duration>
+    <result_count>0</result_count>
+    <preferences>
+      <preference>
+        <name>Maximum concurrently executed NVTs per host</name>
+        <scanner_name>max_checks</scanner_name>
+        <value>4</value>
+      </preference>
+      <preference>
+        <name>Maximum concurrently scanned hosts</name>
+        <scanner_name>max_hosts</scanner_name>
+        <value>20</value>
+      </preference>
+      <preference>
+        <name>Network Source Interface</name>
+        <scanner_name>source_iface</scanner_name>
+        <value/>
+      </preference>
+      <preference>
+        <name>Add results to Asset Management</name>
+        <scanner_name>in_assets</scanner_name>
+        <value>yes</value>
+      </preference>
+      <preference>
+        <name>Apply Overrides when adding Assets</name>
+        <scanner_name>assets_apply_overrides</scanner_name>
+        <value>yes</value>
+      </preference>
+      <preference>
+        <name>Min QOD when adding Assets</name>
+        <scanner_name>assets_min_qod</scanner_name>
+        <value>70</value>
+      </preference>
+      <preference>
+        <name>Auto Delete Reports</name>
+        <scanner_name>auto_delete</scanner_name>
+        <value>no</value>
+      </preference>
+      <preference>
+        <name>Auto Delete Reports Data</name>
+        <scanner_name>auto_delete_data</scanner_name>
+        <value>0</value>
+      </preference>
+    </preferences>
+  </task>
+  <filters id="">
+    <term>apply_overrides=0 min_qod=70 first=1 rows=1000 uuid= uuid=7593ad78-6cbc-48aa-94a4-5e52bb6b3f80 sort=name</term>
+    <keywords>
+      <keyword>
+        <column>apply_overrides</column>
+        <relation>=</relation>
+        <value>0</value>
+      </keyword>
+      <keyword>
+        <column>min_qod</column>
+        <relation>=</relation>
+        <value>70</value>
+      </keyword>
+      <keyword>
+        <column>first</column>
+        <relation>=</relation>
+        <value>1</value>
+      </keyword>
+      <keyword>
+        <column>rows</column>
+        <relation>=</relation>
+        <value>1000</value>
+      </keyword>
+      <keyword>
+        <column>uuid</column>
+        <relation>=</relation>
+        <value/>
+      </keyword>
+      <keyword>
+        <column>uuid</column>
+        <relation>=</relation>
+        <value>7593ad78-6cbc-48aa-94a4-5e52bb6b3f80</value>
+      </keyword>
+      <keyword>
+        <column>sort</column>
+        <relation>=</relation>
+        <value>name</value>
+      </keyword>
+    </keywords>
+  </filters>
+  <sort>
+    <field>name<order>ascending</order></field>
+  </sort>
+  <tasks start="1" max="1000"/>
+  <task_count>4<filtered>1</filtered><page>1</page></task_count>
+</get_tasks_response>

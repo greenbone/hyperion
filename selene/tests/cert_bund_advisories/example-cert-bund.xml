@@ -1,0 +1,735 @@
+<get_info_response status="200" status_text="OK">
+    <info id="CB-K13/0093">
+        <owner>
+            <name></name>
+        </owner>
+        <name>foo</name>
+        <comment></comment>
+        <creation_time>2019-08-19T00:00:00Z</creation_time>
+        <modification_time>2019-08-19T00:00:00Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions></permissions>
+        <update_time>2020-12-01T02:30:00.000+0000</update_time>
+        <cert_bund_adv>
+            <title>SSL, TLS, DTLS: Schwachstelle ermöglicht Umgehen von Sicherheitsvorkehrungen</title>
+            <summary>GnuTLS (GNU Transport Layer Security Library) ist eine im Quelltext frei verfügbare Bibliothek, die Secure Sockets Layer (SSL) und Transport Layer Security (TLS) implementiert.
+OpenSSL ist eine im Quelltext frei verfügbare Bibliothek, die Secure Sockets Layer (SSL) und Transport Layer Security (TLS) implementiert.Ein entfernter, anonymer Angreifer aus dem lokalen Netzwerk kann eine Schwachstelle in SSL, TLS und DTLS ausnutzen, um Sicherheitsvorkehrungen zu umgehen.</summary>
+            <max_cvss>4.3</max_cvss>
+            <cve_refs>4</cve_refs>
+            <raw_data>
+                <Advisory>
+                    <AggregatedCVSSScoreSet>
+                        <ScoreSet>
+                            <BaseScore>4.3</BaseScore>
+                            <TemporalScore>3.2</TemporalScore>
+                            <Vector>AV:N/AC:M/Au:N/C:P/I:N/A:N/E:U/RL:OF/RC:ND</Vector>
+                        </ScoreSet>
+                    </AggregatedCVSSScoreSet>
+                    <CVEList>
+                        <CVE>CVE-2013-0169</CVE>
+                        <CVE>CVE-2013-1618</CVE>
+                        <CVE>CVE-2013-1619</CVE>
+                        <CVE>CVE-2013-1620</CVE>
+                    </CVEList>
+                    <CategoryTree>Anwendung/Clients/Browser/Opera</CategoryTree>
+                    <CategoryTree>Betriebssystem/Linux_Unix</CategoryTree>
+                    <CategoryTree>Hardware</CategoryTree>
+                    <CategoryTree>Hardware</CategoryTree>
+                    <CategoryTree>Hardware</CategoryTree>
+                    <CategoryTree>Hardware</CategoryTree>
+                    <CategoryTree>Hardware</CategoryTree>
+                    <CategoryTree>Hardware</CategoryTree>
+                    <CategoryTree>Betriebssystem/Linux_Unix/Solaris</CategoryTree>
+                    <CategoryTree>Betriebssystem/Linux_Unix/Solaris</CategoryTree>
+                    <CategoryTree>Betriebssystem/Linux_Unix/Solaris</CategoryTree>
+                    <CategoryTree>Betriebssystem/Linux_Unix/Solaris</CategoryTree>
+                    <CategoryTree>Anwendung/Security/Crypto/GnuTLS</CategoryTree>
+                    <CategoryTree>Anwendung/Security/Crypto/GnuTLS</CategoryTree>
+                    <CategoryTree>Anwendung/Security/Crypto/GnuTLS</CategoryTree>
+                    <CategoryTree>Anwendung/Security/Crypto/OpenSSL</CategoryTree>
+                    <CategoryTree>Hardware</CategoryTree>
+                    <CategoryTree>Hardware</CategoryTree>
+                    <CategoryTree>Hardware</CategoryTree>
+                    <CategoryTree>Anwendung/Server/Backup_Storage/Tivoli_Storage_Manager</CategoryTree>
+                    <CategoryTree>Anwendung/Server/Backup_Storage/Tivoli_Storage_Manager</CategoryTree>
+                    <CategoryTree>Anwendung/Server/Backup_Storage/Tivoli_Storage_Manager</CategoryTree>
+                    <CategoryTree>Anwendung/Server/Backup_Storage/Tivoli_Storage_Manager</CategoryTree>
+                    <CategoryTree>Betriebssystem/Linux_Unix/SuSE</CategoryTree>
+                    <CategoryTree>Anwendung/Server/Web_Proxy_Fileserver/Apache_Webserver</CategoryTree>
+                    <CategoryTree>Anwendung/Server/Web_Proxy_Fileserver/Apache_Webserver</CategoryTree>
+                    <CategoryTree>Anwendung/Server/Web_Proxy_Fileserver/Apache_Webserver</CategoryTree>
+                    <CategoryTree>Anwendung/Server/Web_Proxy_Fileserver/Apache_Webserver</CategoryTree>
+                    <Date>2019-08-19 00:00:00</Date>
+                    <Description Headline="Beschreibung">
+                        <Element>
+                            <TextBlock>GnuTLS (GNU Transport Layer Security Library) ist eine im Quelltext frei verfügbare Bibliothek, die Secure Sockets Layer (SSL) und Transport Layer Security (TLS) implementiert.
+OpenSSL ist eine im Quelltext frei verfügbare Bibliothek, die Secure Sockets Layer (SSL) und Transport Layer Security (TLS) implementiert.</TextBlock>
+                        </Element>
+                        <Element>
+                            <TextBlock>Ein entfernter, anonymer Angreifer aus dem lokalen Netzwerk kann eine Schwachstelle in SSL, TLS und DTLS ausnutzen, um Sicherheitsvorkehrungen zu umgehen.</TextBlock>
+                        </Element>
+                        <Element>
+                            <Infos>
+                                <Info Info_Issuer="Forschungsarbeit &amp;quot;Lucky Thirteen: Breaking the TLS and DTLS Record Protocols&amp;quot; vom 2013-02-04" Info_URL="http://www.isg.rhul.ac.uk/tls/">
+                                </Info>
+                                <Info Info_Issuer="OpenSSL Security Advisory vom 2013-02-05" Info_URL="http://www.openssl.org/news/secadv_20130205.txt">
+                                </Info>
+                                <Info Info_Issuer="F5 Security Advisory sol14190 vom 2013-02-08" Info_URL="http://support.f5.com/kb/en-us/solutions/public/14000/100/sol14190.html">
+                                </Info>
+                                <Info Info_Issuer="Debian Security Advisory DSA-2621-1 vom 2013-02-13" Info_URL="http://www.debian.org/security/2013/dsa-2621">
+                                </Info>
+                                <Info Info_Issuer="Debian Security Advisory DSA-2622-1 vom 2013-02-13" Info_URL="http://www.debian.org/security/2013/dsa-2622">
+                                </Info>
+                                <Info Info_Issuer="Oracle Java SE Critical Patch Update vom 2013-02-19" Info_URL="http://www.oracle.com/technetwork/topics/security/javacpufeb2013update-1905892.html">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:0532-1 vom 2013-02-20" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-0532.html">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:0531-1 vom 2013-02-20" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-0531.html">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:0275-1 vom 2013-02-20" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-0275.html">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:0274-1 vom 2013-02-20" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-0274.html">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:0273-1 vom 2013-02-20" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-0273.html">
+                                </Info>
+                                <Info Info_Issuer=" SUSE-SU-2013:0328-1 vom 2013-02-22" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130328-1.html">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:0588-1 vom 2013-03-04" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-0588.html">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:0587-1 vom 2013-03-04" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-0587.html">
+                                </Info>
+                                <Info Info_Issuer="IBM Support Document #1626523 vom 2013-03-12" Info_URL="http://www-01.ibm.com/support/docview.wss?uid=swg21626523">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:0636-1 vom 2013-03-13" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-0636.html">
+                                </Info>
+                                <Info Info_Issuer="IBM SECURITY ADVISORY vom 2013-03-15" Info_URL="http://aix.software.ibm.com/aix/efixes/security/openssl_advisory5.asc">
+                                </Info>
+                                <Info Info_Issuer="HP SECURITY BULLETIN c03710522 vom 2013-03-21" Info_URL="https://h20565.www2.hp.com/portal/site/hpsc/template.PAGE/public/kb/docDisplay/?javax.portlet.endCacheTok=com.vignette.cachetoken&amp;amp;javax.portlet.prp_ba847bafb2a2d782fcbb0710b053ce01=wsrp-navigationalState%3DdocId%253Demr_na-c03710522-1%257CdocLocale%253Den_US%257CcalledBy%253D&amp;amp;javax.portlet.begCacheTok=com.vignette.cachetoken&amp;amp;javax.portlet.tpst=ba847bafb2a2d782fcbb0710b053ce01&amp;amp;ac.admitted=1363941645758.876444892.492883150">
+                                </Info>
+                                <Info Info_Issuer="HP SECURITY ADVISORY c03710522 vom 2013-03-21" Info_URL="https://h20565.www2.hp.com/portal/site/hpsc/template.PAGE/public/kb/docDisplay/?javax.portlet.endCacheTok=com.vignette.cachetoken&amp;amp;javax.portlet.prp_ba847bafb2a2d782fcbb0710b053ce01=wsrp-navigationalState%3DdocId%253Demr_na-c03710522-1%257CdocLocale%253Den">
+                                </Info>
+                                <Info Info_Issuer="Ubuntu Security Notice USN-1732-3 vom 2013-03-25" Info_URL="http://www.ubuntu.com/usn/usn-1732-3/">
+                                </Info>
+                                <Info Info_Issuer="HP SECURITY BULLETIN HPSBOV02852 SSRT101108 rev.1 vom 2013-03-26" Info_URL="https://h20566.www2.hp.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c03701301">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0554-1 vom 2013-03-27" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130554-1.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0549-1 vom 2013-04-02" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130549-1.html">
+                                </Info>
+                                <Info Info_Issuer="IBM Security Bulletin swg21633351 vom 2013-04-04" Info_URL="http://www-01.ibm.com/support/docview.wss?uid=swg21633351">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0701-2 vom 2013-04-23" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130701-2.html">
+                                </Info>
+                                <Info Info_Issuer="IBM Alert 1638022 vom 2013-05-24:" Info_URL="http://www-01.ibm.com/support/docview.wss?uid=swg21638022">
+                                </Info>
+                                <Info Info_Issuer="IBM Security Bulletin 1635988 vom 2013-05-30" Info_URL="http://www-01.ibm.com/support/docview.wss?uid=swg21635988">
+                                </Info>
+                                <Info Info_Issuer="IBM Security Bulletin 1638270 vom 2013-05-31" Info_URL="http://www-01.ibm.com/support/docview.wss?uid=swg21638270">
+                                </Info>
+                                <Info Info_Issuer="IBM Security Bulletin 1635983 vom 2013-05-30" Info_URL="http://www-01.ibm.com/support/docview.wss?uid=swg21635983">
+                                </Info>
+                                <Info Info_Issuer="Oracle Blogeintrag &amp;quot;Lucky Thirteen vulnerability in Solaris OpenSSL&amp;quot; vom 2013-06-04" Info_URL="https://blogs.oracle.com/sunsecurity/entry/lucky_thirteen_vulnerability_in_solaris">
+                                </Info>
+                                <Info Info_Issuer="Oracle Third Party Vulnerability Resolution Blog vom 2013-07-16" Info_URL="https://blogs.oracle.com/sunsecurity/entry/lucky_thirteen_vulnerability_in_solaris">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:1135-1 vom 2013-08-05" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-1135.html">
+                                </Info>
+                                <Info Info_Issuer="IBM Vulnerability vom 2013-08-17" Info_URL="https://www-304.ibm.com/connections/blogs/PSIRT/entry/security_bulletin_potential_security_vulnerabilities_in_websphere_partner_gateway_express_for_the_oracle_cpu_april_2013?lang=en_us">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:1181-1 vom 2013-08-27" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-1181.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:1386-1 vom 2013-09-10" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20131386-1.html">
+                                </Info>
+                                <Info Info_Issuer="IBM Security Bulletin #1644604" Info_URL="http://www-01.ibm.com/support/docview.wss?uid=swg21644604">
+                                </Info>
+                                <Info Info_Issuer="ORACLE Third Party Vulnerability Resolution Blog vom 2013-09-24" Info_URL="https://blogs.oracle.com/sunsecurity/entry/cve_2013_1619_cryptographic_issues">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:1791-1 vom 2013-12-05" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-1791.html">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:1829-1 vom 2013-12-12" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-1829.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2014:0322-1 vom 2014-03-04" Info_URL="http://lists.opensuse.org/opensuse-security-announce/2014-03/msg00003.html">
+                                </Info>
+                                <Info Info_Issuer="IBM Security Bulletin 1672363  vom 2014-05-08" Info_URL="http://www-01.ibm.com/support/docview.wss?uid=swg21672363">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2014:0800 vom 2014-06-16" Info_URL="http://lists.opensuse.org/opensuse-security-announce/2014-06/msg00020.html">
+                                </Info>
+                                <Info Info_Issuer="Oracle Third Party Vulnerability Resolution Blog Eintrag vom 2014-08-09" Info_URL="https://blogs.oracle.com/sunsecurity/entry/cve_2013_1620_lucky_thirteen">
+                                </Info>
+                                <Info Info_Issuer="F5 Security Advisory: sol15630" Info_URL="http://support.f5.com/kb/en-us/solutions/public/15000/600/sol15630.html?ref=rss">
+                                </Info>
+                                <Info Info_Issuer="Oracle Third Party Vulnerability Resolution Blog" Info_URL="https://blogs.oracle.com/sunsecurity/">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2015:0578-1 vom 2015-03-23" Info_URL="https://www.suse.com/support/update/announcement/2015/suse-su-20150578-1.html">
+                                </Info>
+                                <Info Info_Issuer="Arista Security Advisory 0020 vom 2016-05-06" Info_URL="http://www.arista.com/en/support/advisories-notices/security-advisories/1334-security-advisory-20">
+                                </Info>
+                                <Info Info_Issuer="Splunk Advisory SP-CAAAPP4 vom 2016-07-14" Info_URL="http://www.splunk.com/view/SP-CAAAPP4">
+                                </Info>
+                                <Info Info_Issuer="Oracle Linux Security Advisory ELSA-2019-4747 vom 2019-08-16" Info_URL="http://linux.oracle.com/errata/ELSA-2019-4747.html">
+                                </Info>
+                            </Infos>
+                        </Element>
+                    </Description>
+                    <Effect>SecurityWorkaround</Effect>
+                    <MetaTag>
+                        <id>2013-02-019</id>
+                    </MetaTag>
+                    <Platform>Applicance, Linux, UNIX, Windows</Platform>
+                    <Ref_Num update="24">CB-K13/0093</Ref_Num>
+                    <Reference_Source>Oracle Linux Security Advisory ELSA-2019-4747 vom 2019-08-16</Reference_Source>
+                    <Reference_URL>http://linux.oracle.com/errata/ELSA-2019-4747.html</Reference_URL>
+                    <RemoteAttack>yes</RemoteAttack>
+                    <RevisionHistory>
+                        <Revision>
+                            <Date>2019-08-19T13:30:00+01:00</Date>
+                            <Description>Neue Updates von Oracle Linux aufgenommen</Description>
+                            <Number>69</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2016-07-15T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>66</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2016-05-10T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>64</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2016-05-09T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>62</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2015-03-24T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>60</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2014-11-21T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>59</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2014-09-26T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>57</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2014-08-11T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>55</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2014-06-18T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>53</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2014-03-04T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>50</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-12-13T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>49</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-12-06T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>48</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-09-25T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>47</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-09-12T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>46</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-09-11T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>45</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-08-28T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>44</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-08-19T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>43</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-08-06T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>42</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-07-17T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>40</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-06-05T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>39</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-05-28T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>37</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-04-24T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>36</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-04-08T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>34</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-04-03T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>33</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-28T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>31</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-27T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>30</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-26T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>28</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-14T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>24</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-12T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>23</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-05T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>20</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-02-25T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>18</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-02-21T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>17</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-02-14T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>15</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-02-06T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>5</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-02-05T13:30:00+01:00</Date>
+                            <Description>Initial Release</Description>
+                            <Number>1</Number>
+                        </Revision>
+                    </RevisionHistory>
+                    <Risk>medium</Risk>
+                    <Software>Open Source GnuTLS &lt; 2.12.23, Open Source GnuTLS &lt; 3.0.28, Open Source GnuTLS &lt; 3.1.7, Open Source OpenSSL &lt;= 1.0.1c, Opera Opera Browser &lt; 12.13, F5 ARX 5.3.1, F5 ARX 6.3.0, F5 Advanced Firewall Manager 11.3.0, F5 BIG-IP Access Policy Manager 10.2.4, F5 BIG-IP Access Policy Manager 11.3.0, F5 BIG-IP Analytics 11.3.0, F5 BIG-IP Application Security Manager 10.2.4, F5 BIG-IP Application Security Manager 11.3.0, F5 BIG-IP Application Security Manager 9.4.8, F5 BIG-IP Edge Gateway 10.2.4, F5 BIG-IP Edge Gateway 11.3.0, F5 BIG-IP Global Traffic Manager 10.2.4, F5 BIG-IP Global Traffic Manager 11.3.0, F5 BIG-IP Global Traffic Manager 9.4.8, F5 BIG-IP Link Controller 10.2.4, F5 BIG-IP Link Controller 11.3.0, F5 BIG-IP Link Controller 9.4.8, F5 BIG-IP Local Traffic Manager 10.2.4, F5 BIG-IP Local Traffic Manager 11.3.0, F5 BIG-IP Local Traffic Manager 9.6.1, F5 BIG-IP Protocol Security Manager 10.2.4, F5 BIG-IP Protocol Security Manager 11.3.0, F5 BIG-IP Protocol Security Manager 9.4.8, F5 Enterprise Manager 1.8.0, F5 Policy Enforcement Manager 11.3.0, F5 WAN Optimization Manager 10.2.4, F5 WAN Optimization Manager 11.3.0, F5 WebAccelerator 10.2.4, F5 WebAccelerator 11.3.0, F5 WebAccelerator 9.4.8, IBM HTTP Server 6.1.0.0 - 6.1.0.45, IBM HTTP Server 7.0.0.0 - 7.0.0.27, IBM HTTP Server 8.0.0.0 - 8.0.0.6, IBM HTTP Server 8.5.0.0 - 8.5.0.2, IBM Tivoli Directory Server &lt; 6.0.0.72, IBM Tivoli Directory Server &lt; 6.1.0.55, IBM Tivoli Directory Server &lt; 6.2.0.30, IBM Tivoli Directory Server &lt; 6.3.0.22, IBM WebSphere Application Server 6.1.0.0 - 6.1.0.45, IBM WebSphere Application Server 7.0.0.0 - 7.0.0.27, IBM WebSphere Application Server 8.0.0.0 - 8.0.0.6, IBM WebSphere Application Server 8.5.0.0 - 8.5.0.2, IBM Spectrum Protect 5.5, IBM Spectrum Protect 6.1, IBM Spectrum Protect 6.2, IBM Spectrum Protect 6.3, SUSE Linux, Oracle Solaris 10, Oracle Solaris 11.1, Oracle Solaris 8, Oracle Solaris 9, Arista EOS &lt;= 4.15, Splunk Splunk Enterprise 6.0.12, Splunk Splunk Enterprise 6.1.11, Splunk Splunk Enterprise 6.4.2, Oracle Linux</Software>
+                    <Title>SSL, TLS, DTLS: Schwachstelle ermöglicht Umgehen von Sicherheitsvorkehrungen</Title>
+                    <immediacy prop_method="automated" rating="high" vuln_status="currently_exploited">
+                    </immediacy>
+                    <impact loss="circumvention" rating="low" scope="service">
+                    </impact>
+                </Advisory>
+            </raw_data>
+        </cert_bund_adv>
+    </info>
+    <info id="CB-K13/0096">
+        <owner>
+            <name></name>
+        </owner>
+        <name>CB-K13/0096</name>
+        <comment></comment>
+        <creation_time>2019-08-19T00:00:00Z</creation_time>
+        <modification_time>2019-08-19T00:00:00Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions></permissions>
+        <update_time>2020-12-01T02:30:00.000+0000</update_time>
+        <cert_bund_adv>
+            <title>OpenSSL: Mehrere Schwachstellen ermöglichen Denial Of Service</title>
+            <summary>OpenSSL ist eine im Quelltext frei verfügbare Bibliothek, die Secure Sockets Layer (SSL) und Transport Layer Security (TLS) implementiert.Ein entfernter, anonymer Angreifer kann mehrere Schwachstellen in OpenSSL ausnutzen, um einen Denial Of Service Angriff durchzuführen.</summary>
+            <max_cvss>5</max_cvss>
+            <cve_refs>2</cve_refs>
+            <raw_data>
+                <Advisory>
+                    <AggregatedCVSSScoreSet>
+                        <ScoreSet>
+                            <BaseScore>7.8</BaseScore>
+                            <TemporalScore>5.8</TemporalScore>
+                            <Vector>AV:N/AC:L/Au:N/C:N/I:N/A:C/E:U/RL:OF/RC:ND</Vector>
+                        </ScoreSet>
+                    </AggregatedCVSSScoreSet>
+                    <CVEList>
+                        <CVE>CVE-2012-2686</CVE>
+                        <CVE>CVE-2013-0166</CVE>
+                    </CVEList>
+                    <CategoryTree>Betriebssystem/Linux_Unix</CategoryTree>
+                    <CategoryTree>Anwendung/Security/Crypto/OpenSSL</CategoryTree>
+                    <CategoryTree>Anwendung/Security/Crypto/OpenSSL</CategoryTree>
+                    <CategoryTree>Anwendung/Security/Crypto/OpenSSL</CategoryTree>
+                    <Date>2019-08-19 00:00:00</Date>
+                    <Description Headline="Beschreibung">
+                        <Element>
+                            <TextBlock>OpenSSL ist eine im Quelltext frei verfügbare Bibliothek, die Secure Sockets Layer (SSL) und Transport Layer Security (TLS) implementiert.</TextBlock>
+                        </Element>
+                        <Element>
+                            <TextBlock>Ein entfernter, anonymer Angreifer kann mehrere Schwachstellen in OpenSSL ausnutzen, um einen Denial Of Service Angriff durchzuführen.</TextBlock>
+                        </Element>
+                        <Element>
+                            <Infos>
+                                <Info Info_Issuer="OpenSSL Security Advisory vom 2013-02-05" Info_URL="http://www.openssl.org/news/secadv_20130205.txt">
+                                </Info>
+                                <Info Info_Issuer="Debian Security Advisory DSA-2621-1 vom 2013-02-13" Info_URL="http://www.debian.org/security/2013/dsa-2621">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:0587-1 vom 2013-03-04" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-0587.html">
+                                </Info>
+                                <Info Info_Issuer="AskF5 Knowledge Base sol14261 vom 2013-03-07" Info_URL="http://support.f5.com/kb/en-us/solutions/public/14000/200/sol14261.html?ref=rss">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:0636-1 vom 2013-03-13" Info_URL="http://rhn.redhat.com/errata/RHSA-2013-0636.html">
+                                </Info>
+                                <Info Info_Issuer="IBM SECURITY ADVISORY  vom 2013-03-15" Info_URL="http://aix.software.ibm.com/aix/efixes/security/openssl_advisory5.asc">
+                                </Info>
+                                <Info Info_Issuer="HP SECURITY BULLETIN c03710522 vom 2013-03-21" Info_URL="https://h20565.www2.hp.com/portal/site/hpsc/template.PAGE/public/kb/docDisplay/?javax.portlet.endCacheTok=com.vignette.cachetoken&amp;amp;javax.portlet.prp_ba847bafb2a2d782fcbb0710b053ce01=wsrp-navigationalState%3DdocId%253Demr_na-c03710522-1%257CdocLocale%253Den">
+                                </Info>
+                                <Info Info_Issuer="Ubuntu Security Notice USN-1732-3 vom 2013-03-25" Info_URL="http://www.ubuntu.com/usn/usn-1732-3/">
+                                </Info>
+                                <Info Info_Issuer="HP SECURITY BULLETIN HPSBOV02852 SSRT101108 rev.1 vom 2013-03-26" Info_URL="https://h20566.www2.hp.com/portal/site/hpsc/public/kb/docDisplay?docId=emr_na-c03701301">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0554-1 vom 2013-03-27" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130554-1.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0549-1 vom 2013-04-02" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130549-1.html">
+                                </Info>
+                                <Info Info_Issuer="IBM Security Bulletin swg21633352 vom 2013-04-04" Info_URL="http://www-01.ibm.com/support/docview.wss?uid=swg21633352">
+                                </Info>
+                                <Info Info_Issuer="IBM Security Bulletin swg21633354 vom 2013-04-04" Info_URL="http://www-01.ibm.com/support/docview.wss?uid=swg21633354">
+                                </Info>
+                                <Info Info_Issuer="IBM Alert 1638022 vom 2013-05-24:" Info_URL="http://www-01.ibm.com/support/docview.wss?uid=swg21638022">
+                                </Info>
+                                <Info Info_Issuer="Oracle Blogeintrag &amp;quot;Lucky Thirteen vulnerability in Solaris OpenSSL&amp;quot; vom 2013-06-04" Info_URL="https://blogs.oracle.com/sunsecurity/entry/lucky_thirteen_vulnerability_in_solaris">
+                                </Info>
+                                <Info Info_Issuer="Oracle Third Party Vulnerability Resolution Blog vom 2013-07-16" Info_URL="https://blogs.oracle.com/sunsecurity/entry/lucky_thirteen_vulnerability_in_solaris">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:1386-1 vom 2013-09-10" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20131386-1.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2015:0578-1 vom 2015-03-23" Info_URL="https://www.suse.com/support/update/announcement/2015/suse-su-20150578-1.html">
+                                </Info>
+                                <Info Info_Issuer="Oracle Linux Security Advisory ELSA-2019-4747 vom 2019-08-16" Info_URL="http://linux.oracle.com/errata/ELSA-2019-4747.html">
+                                </Info>
+                            </Infos>
+                        </Element>
+                    </Description>
+                    <Effect>DOS</Effect>
+                    <MetaTag>
+                        <id>2013-02-027</id>
+                    </MetaTag>
+                    <Platform>Linux, MacOS X, UNIX, Windows</Platform>
+                    <Ref_Num update="15">CB-K13/0096</Ref_Num>
+                    <Reference_Source>Oracle Linux Security Advisory ELSA-2019-4747 vom 2019-08-16</Reference_Source>
+                    <Reference_URL>http://linux.oracle.com/errata/ELSA-2019-4747.html</Reference_URL>
+                    <RemoteAttack>yes</RemoteAttack>
+                    <RevisionHistory>
+                        <Revision>
+                            <Date>2019-08-19T13:30:00+01:00</Date>
+                            <Description>Neue Updates von Oracle Linux aufgenommen</Description>
+                            <Number>25</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2015-03-24T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>24</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-09-11T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>23</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-07-17T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>22</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-06-05T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>21</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-05-28T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>20</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-04-08T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>19</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-04-08T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>18</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-04-03T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>17</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-28T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>15</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-27T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>14</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-26T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>12</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-14T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>8</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-05T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>4</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-02-14T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>3</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-02-06T13:30:00+01:00</Date>
+                            <Description>Initial Release</Description>
+                            <Number>1</Number>
+                        </Revision>
+                    </RevisionHistory>
+                    <Risk>low</Risk>
+                    <Software>Open Source OpenSSL &lt; 0.9.8y, Open Source OpenSSL &lt; 1.0.0k, Open Source OpenSSL &lt; 1.0.1d, Oracle Linux</Software>
+                    <Title>OpenSSL: Mehrere Schwachstellen ermöglichen Denial Of Service</Title>
+                    <immediacy prop_method="manual" rating="medium" vuln_status="currently_exploited">
+                    </immediacy>
+                    <impact loss="availability" rating="low" scope="service">
+                    </impact>
+                </Advisory>
+            </raw_data>
+        </cert_bund_adv>
+    </info>
+    <info id="CB-K13/0109">
+        <owner>
+            <name></name>
+        </owner>
+        <name>CB-K13/0109</name>
+        <comment></comment>
+        <creation_time>2020-05-04T00:00:00Z</creation_time>
+        <modification_time>2020-05-04T00:00:00Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions></permissions>
+        <update_time>2020-12-01T02:30:00.000+0000</update_time>
+        <cert_bund_adv>
+            <title>Ruby on Rails: Mehrere Schwachstellen</title>
+            <summary>Ruby on Rails ist ein in der Programmiersprache Ruby geschriebenes und quelloffenes Web Application Framework.Ein entfernter, anonymer Angreifer kann mehrere Schwachstellen in Ruby on Rails ausnutzen, um SQL-Code zu injizieren, um beliebigen Code mit den Rechten des Dienstes auszuführen, um Sicherheitsfunktionen zu umgehen, um Dateien zu manipulieren oder um einen Denial of Service Zustand herbeizuführen.</summary>
+            <max_cvss>10</max_cvss>
+            <cve_refs>3</cve_refs>
+            <raw_data>
+                <Advisory>
+                    <AggregatedCVSSScoreSet>
+                        <ScoreSet>
+                            <BaseScore>7.5</BaseScore>
+                            <TemporalScore>5.5</TemporalScore>
+                            <Vector>AV:N/AC:L/Au:N/C:P/I:P/A:P/E:U/RL:OF/RC:ND</Vector>
+                        </ScoreSet>
+                    </AggregatedCVSSScoreSet>
+                    <CVEList>
+                        <CVE>CVE-2013-0269</CVE>
+                        <CVE>CVE-2013-0276</CVE>
+                        <CVE>CVE-2013-0277</CVE>
+                    </CVEList>
+                    <CategoryTree>Betriebssystem/Linux_Unix/Debian</CategoryTree>
+                    <CategoryTree>Anwendung/Server</CategoryTree>
+                    <CategoryTree>Anwendung/Server</CategoryTree>
+                    <CategoryTree>Anwendung/Server</CategoryTree>
+                    <CategoryTree>Anwendung/Server</CategoryTree>
+                    <CategoryTree>Anwendung/Server</CategoryTree>
+                    <Date>2020-05-04 00:00:00</Date>
+                    <Description Headline="Beschreibung">
+                        <Element>
+                            <TextBlock>Ruby on Rails ist ein in der Programmiersprache Ruby geschriebenes und quelloffenes Web Application Framework.</TextBlock>
+                        </Element>
+                        <Element>
+                            <TextBlock>Ein entfernter, anonymer Angreifer kann mehrere Schwachstellen in Ruby on Rails ausnutzen, um SQL-Code zu injizieren, um beliebigen Code mit den Rechten des Dienstes auszuführen, um Sicherheitsfunktionen zu umgehen, um Dateien zu manipulieren oder um einen Denial of Service Zustand herbeizuführen.</TextBlock>
+                        </Element>
+                        <Element>
+                            <Infos>
+                                <Info Info_Issuer="Ruby on Rails Release Notes vom 2013-02-11" Info_URL="http://weblog.rubyonrails.org/2013/2/11/SEC-ANN-Rails-3-2-12-3-1-11-and-2-3-17-have-been-released/">
+                                </Info>
+                                <Info Info_Issuer="Debian Security Advisory DSA-2620-1 vom 2013-02-12" Info_URL="http://www.debian.org/security/2013/dsa-2620">
+                                </Info>
+                                <Info Info_Issuer="Meldung von Jean-Philippe Lang vom 2013-02-13 vom 2013-02-24" Info_URL="http://www.redmine.org/news/79">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0486-1 vom 2013-03-19" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130486-1.html">
+                                </Info>
+                                <Info Info_Issuer="Red Hat Security Advisory RHSA-2013:0701-1 vom 2013-04-02" Info_URL="https://rhn.redhat.com/errata/RHSA-2013-0701.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0606-1 vom 2013-04-03" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130606-1.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0606-1 vom 2013-04-03" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130606-1.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0615-1 vom 2013-04-03" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130615-1.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0609-1 vom 2013-04-03" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130609-1.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0612-1 vom 2013-04-03" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130612-1.html">
+                                </Info>
+                                <Info Info_Issuer=" SUSE Security Update: Security update for Ruby 1.9 vom 2013-04-09" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130647-1.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update: Security update for rubygem-json_pure vom 2013-04-09" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130609-2.html">
+                                </Info>
+                                <Info Info_Issuer="SUSE Security Update SUSE-SU-2013:0707-2" Info_URL="https://www.suse.com/support/update/announcement/2013/suse-su-20130707-2.html">
+                                </Info>
+                                <Info Info_Issuer="RedHat Security Advisory RHSA-2013-1185 vom 2013-08-29" Info_URL="https://rhn.redhat.com/errata/RHSA-2013-1185.html">
+                                </Info>
+                                <Info Info_Issuer="Debian Security Advisory DLA 2192 vom 2020-05-01" Info_URL="https://lists.debian.org/debian-lts-announce/2020/debian-lts-announce-202004/msg00030.html">
+                                </Info>
+                            </Infos>
+                        </Element>
+                    </Description>
+                    <Effect>ExecuteDaemon</Effect>
+                    <MetaTag>
+                        <id>2013-02-047</id>
+                    </MetaTag>
+                    <Platform>UNIX, Linux, Windows</Platform>
+                    <Ref_Num update="8">CB-K13/0109</Ref_Num>
+                    <Reference_Source>Debian Security Advisory DLA 2192 vom 2020-05-01</Reference_Source>
+                    <Reference_URL>https://lists.debian.org/debian-lts-announce/2020/debian-lts-announce-202004/msg00030.html</Reference_URL>
+                    <RemoteAttack>yes</RemoteAttack>
+                    <RevisionHistory>
+                        <Revision>
+                            <Date>2020-05-04T13:30:00+01:00</Date>
+                            <Description>Neue Updates von Debian aufgenommen</Description>
+                            <Number>18</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-08-30T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>16</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-05-13T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>15</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-04-10T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>14</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-04-10T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>13</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-04-04T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>12</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-03-20T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>8</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-02-13T13:30:00+01:00</Date>
+                            <Description>New remediations available</Description>
+                            <Number>4</Number>
+                        </Revision>
+                        <Revision>
+                            <Date>2013-02-12T13:30:00+01:00</Date>
+                            <Description>Initial Release</Description>
+                            <Number>1</Number>
+                        </Revision>
+                    </RevisionHistory>
+                    <Risk>medium</Risk>
+                    <Software>Open Source Ruby on Rails 1.9.x, Open Source Ruby on Rails 2.3.x &lt; 2.3.17, Open Source Ruby on Rails 3.0.x, Open Source Ruby on Rails 3.1.x &lt; 3.1.11, Open Source Ruby on Rails 3.2.x &lt; 3.2.12, Debian Linux</Software>
+                    <Title>Ruby on Rails: Mehrere Schwachstellen</Title>
+                    <immediacy prop_method="manual" rating="medium" vuln_status="currently_exploited">
+                    </immediacy>
+                    <impact loss="take_partial_control" rating="medium" scope="person">
+                    </impact>
+                </Advisory>
+            </raw_data>
+        </cert_bund_adv>
+    </info>
+    <details>1</details>
+    <filters id="">
+        <term>rows=3 first=1 sort=name</term>
+        <keywords>
+            <keyword>
+                <column>rows</column>
+                <relation>=</relation>
+                <value>3</value>
+            </keyword>
+            <keyword>
+                <column>first</column>
+                <relation>=</relation>
+                <value>1</value>
+            </keyword>
+            <keyword>
+                <column>sort</column>
+                <relation>=</relation>
+                <value>name</value>
+            </keyword>
+        </keywords>
+    </filters>
+    <sort>
+        <field>name<order>ascending</order>
+        </field>
+    </sort>
+    <info start="1" max="3"/>
+    <info_count>11684<filtered>11684</filtered>
+        <page>3</page>
+    </info_count>
+</get_info_response>

@@ -1,0 +1,370 @@
+<?xml version="1.0"?>
+<get_report_formats_response status="200" status_text="OK">
+    <report_format id="5057e5cc-b825-11e4-9d0e-28d24461215b">
+        <owner>
+            <name></name>
+        </owner>
+        <name>Anonymous XML</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2020-08-18T18:42:31Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+        </permissions>
+        <extension>xml</extension>
+        <content_type>text/xml</content_type>
+        <summary>Anonymous version of the raw XML report</summary>
+        <description>Anonymized scan report in GMP XML format.</description>
+        <predefined>1</predefined>
+        <trust>yes<time>2020-09-04T10:13:50Z</time>
+        </trust>
+        <active>1</active>
+    </report_format>
+    <report_format id="910200ca-dc05-11e1-954f-406186ea4fc5">
+        <owner>
+            <name></name>
+        </owner>
+        <name>ARF</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+        </permissions>
+        <extension>xml</extension>
+        <content_type>text/xml</content_type>
+        <summary>Asset Reporting Format v1.0.0.</summary>
+        <description>NIST Asset Reporting Format 1.1 compliant document.</description>
+        <predefined>1</predefined>
+        <trust>yes<time>2020-09-04T10:13:50Z</time>
+        </trust>
+        <active>1</active>
+    </report_format>
+    <report_format id="5ceff8ba-1f62-11e1-ab9f-406186ea4fc5">
+        <owner>
+            <name></name>
+        </owner>
+        <name>CPE</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+        </permissions>
+        <extension>csv</extension>
+        <content_type>text/csv</content_type>
+        <summary>Common Platform Enumeration CSV table.</summary>
+        <description>CPE stands for Common Platform Enumeration.  It is a structured naming scheme for
+information technology systems, platforms, and packages.  In other words: CPE
+provides a unique identifier for virtually any software product that is known for
+a vulnerability.
+
+The CPE dictionary is maintained by MITRE and NIST.  MITRE also maintains CVE
+(Common Vulnerability Enumeration) and other relevant security standards.
+
+The report selects all CPE tables from the results and forms a single table
+as a comma separated values file.</description>
+        <predefined>1</predefined>
+        <trust>yes<time>2020-09-04T10:13:50Z</time>
+        </trust>
+        <active>1</active>
+    </report_format>
+    <report_format id="9087b18c-626c-11e3-8892-406186ea4fc5">
+        <owner>
+            <name></name>
+        </owner>
+        <name>CSV Hosts</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+        </permissions>
+        <extension>csv</extension>
+        <content_type>text/csv</content_type>
+        <summary>CSV host summary.</summary>
+        <description>Base host information and result counts as comma separated values. Text fields starting with &quot;=&quot;, &quot;@&quot;, &quot;+&quot;, &quot;-&quot; will have a single quote &quot;&apos;&quot; added so spreadsheet software does not interpret them as formulas.</description>
+        <predefined>1</predefined>
+        <trust>yes<time>2020-09-04T10:13:50Z</time>
+        </trust>
+        <active>1</active>
+    </report_format>
+    <report_format id="c1645568-627a-11e3-a660-406186ea4fc5">
+        <owner>
+            <name></name>
+        </owner>
+        <name>CSV Results</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+        </permissions>
+        <extension>csv</extension>
+        <content_type>text/csv</content_type>
+        <summary>CSV result list.</summary>
+        <description>List of results as comma separated values. Text fields starting with &quot;=&quot;, &quot;@&quot;, &quot;+&quot;, &quot;-&quot; will have a single quote &quot;&apos;&quot; added so spreadsheet software does not interpret them as formulas.</description>
+        <predefined>1</predefined>
+        <trust>yes<time>2020-09-04T10:13:50Z</time>
+        </trust>
+        <active>1</active>
+    </report_format>
+    <report_format id="dc51a40a-c022-11e9-b02d-3f7ca5bdcb11">
+        <owner>
+            <name></name>
+        </owner>
+        <name>GCR PDF</name>
+        <comment></comment>
+        <creation_time>2020-02-26T23:52:51Z</creation_time>
+        <modification_time>2020-08-18T18:42:31Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+        </permissions>
+        <extension>pdf</extension>
+        <content_type>application/pdf</content_type>
+        <summary>Greenbone Compliance Report.</summary>
+        <description>Greenbone Compliance Report as PDF, version 1.0.1</description>
+        <predefined>1</predefined>
+        <trust>yes<time>2020-09-04T10:13:50Z</time>
+        </trust>
+        <active>1</active>
+    </report_format>
+    <report_format id="ffa123c9-a2d2-409e-bbbb-a6c1385dbeaa">
+        <owner>
+            <name></name>
+        </owner>
+        <name>GSR HTML</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+        </permissions>
+        <extension>html</extension>
+        <content_type>text/html</content_type>
+        <summary>Greenbone Security Report (HTML).</summary>
+        <description>Greenbone Security Report as HTML version 0.4.0</description>
+        <predefined>1</predefined>
+        <trust>yes<time>2020-09-04T10:13:50Z</time>
+        </trust>
+        <active>1</active>
+    </report_format>
+    <report_format id="35ba7077-dc85-42ef-87c9-b0eda7e903b6">
+        <owner>
+            <name></name>
+        </owner>
+        <name>GSR PDF</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+        </permissions>
+        <extension>pdf</extension>
+        <content_type>application/pdf</content_type>
+        <summary>Greenbone Security Report.</summary>
+        <description>Greenbone Security Report as PDF, version 3.0.4</description>
+        <predefined>1</predefined>
+        <trust>yes<time>2020-09-04T10:13:50Z</time>
+        </trust>
+        <active>1</active>
+    </report_format>
+    <report_format id="f0d348de-c022-11e9-bc4c-4bf1d5e1a8ca">
+        <owner>
+            <name></name>
+        </owner>
+        <name>GXCR PDF</name>
+        <comment></comment>
+        <creation_time>2020-02-26T23:52:51Z</creation_time>
+        <modification_time>2020-02-26T23:52:51Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+        </permissions>
+        <extension>pdf</extension>
+        <content_type>application/pdf</content_type>
+        <summary>Greenbone Executive Compliance Report.</summary>
+        <description>Greenbone Executive Compliance Report as PDF, version 1.0.0</description>
+        <predefined>1</predefined>
+        <trust>yes<time>2020-09-04T10:13:50Z</time>
+        </trust>
+        <active>1</active>
+    </report_format>
+    <report_format id="ebbc7f34-8ae5-11e1-b07b-001f29eadec8">
+        <owner>
+            <name></name>
+        </owner>
+        <name>GXR PDF</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2019-09-05T12:25:40Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+        </permissions>
+        <extension>pdf</extension>
+        <content_type>application/pdf</content_type>
+        <summary>Greenbone Executive Report.</summary>
+        <description>Greenbone Executive Report as PDF, version 3.0.4</description>
+        <predefined>1</predefined>
+        <trust>yes<time>2020-09-04T10:13:50Z</time>
+        </trust>
+        <active>1</active>
+    </report_format>
+    <filters id="">
+        <term>first=1 rows=10 sort=name</term>
+        <keywords>
+            <keyword>
+                <column>first</column>
+                <relation>=</relation>
+                <value>1</value>
+            </keyword>
+            <keyword>
+                <column>rows</column>
+                <relation>=</relation>
+                <value>10</value>
+            </keyword>
+            <keyword>
+                <column>sort</column>
+                <relation>=</relation>
+                <value>name</value>
+            </keyword>
+        </keywords>
+    </filters>
+    <sort>
+        <field>name<order>ascending</order>
+        </field>
+    </sort>
+    <report_formats start="1" max="-2"/>
+    <report_format_count>19<filtered>19</filtered>
+        <page>10</page>
+    </report_format_count>
+</get_report_formats_response>

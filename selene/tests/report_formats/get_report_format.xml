@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<get_report_formats_response status="200" status_text="OK">
+    <report_format id="5057e5cc-b825-11e4-9d0e-28d24461215b">
+        <owner>
+            <name></name>
+        </owner>
+        <name>Anonymous XML</name>
+        <comment></comment>
+        <creation_time>2019-09-05T12:25:40Z</creation_time>
+        <modification_time>2020-08-18T18:42:31Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+            <permission>
+                <name>get_report_formats</name>
+            </permission>
+        </permissions>
+        <extension>xml</extension>
+        <content_type>text/xml</content_type>
+        <summary>Anonymous version of the raw XML report</summary>
+        <description>Anonymized scan report in GMP XML format.</description>
+        <predefined>1</predefined>
+        <trust>yes<time>2020-09-04T10:13:50Z</time>
+        </trust>
+        <active>1</active>
+    </report_format>
+    <filters id="">
+        <term>first=1 rows=10 sort=name</term>
+        <keywords>
+            <keyword>
+                <column>first</column>
+                <relation>=</relation>
+                <value>1</value>
+            </keyword>
+            <keyword>
+                <column>rows</column>
+                <relation>=</relation>
+                <value>10</value>
+            </keyword>
+            <keyword>
+                <column>sort</column>
+                <relation>=</relation>
+                <value>name</value>
+            </keyword>
+        </keywords>
+    </filters>
+    <sort>
+        <field>name<order>ascending</order>
+        </field>
+    </sort>
+    <report_formats start="1" max="-2"/>
+    <report_format_count>19<filtered>1</filtered>
+        <page>1</page>
+    </report_format_count>
+</get_report_formats_response>

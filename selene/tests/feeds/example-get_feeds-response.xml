@@ -1,0 +1,26 @@
+<get_feeds_response status="200" status_text="OK">
+    <feed>
+        <type>NVT</type>
+        <name>Greenbone Security Feed</name>
+        <version>202010220502</version>
+        <description>This script synchronizes an NVT collection with the 'Greenbone Security Feed'. The 'Greenbone Security Feed' is provided by 'Greenbone Networks GmbH'. Online information about this feed: 'https://www.greenbone.net/en/security-feed/'.</description>
+    </feed>
+    <feed>
+        <type>SCAP</type>
+        <name>Greenbone SCAP Feed</name>
+        <version>202011130230</version>
+        <description>This script synchronizes a SCAP collection with the 'Greenbone SCAP Feed'. The 'Greenbone SCAP Feed' is provided by 'Greenbone Networks GmbH'. Online information about this feed: 'https://www.greenbone.net/en/security-feed/'.</description>
+    </feed>
+    <feed>
+        <type>CERT</type>
+        <name>Greenbone CERT Feed</name>
+        <version>202010220030</version>
+        <description>This script synchronizes a CERT collection with the 'Greenbone CERT Feed'. The 'Greenbone CERT Feed' is provided by 'Greenbone Networks GmbH'. Online information about this feed: 'https://www.greenbone.net/en/security-feed/'.</description>
+    </feed>
+    <feed>
+        <type>GVMD_DATA</type>
+        <name>Greenbone gvmd Data Feed</name>
+        <version>202010160853</version>
+        <description>This script synchronizes a GVMD_DATA collection with the 'Greenbone gvmd Data Feed'. The 'Greenbone gvmd Data Feed' is provided by 'Greenbone Networks GmbH'. Online information about this feed: 'https://www.greenbone.net/en/security-feed/'.</description>
+    </feed>
+</get_feeds_response>

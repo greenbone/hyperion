@@ -1,0 +1,48 @@
+<get_alerts_response status="200" status_text="OK">
+  <alert id="63431604-1cd5-402c-bb05-748e130edb03">
+    <owner>
+      <name>admin</name>
+    </owner>
+    <name>foo</name>
+    <comment/>
+    <creation_time>2020-08-06T11:34:15Z</creation_time>
+    <modification_time>2020-08-06T11:34:15Z</modification_time>
+    <writable>1</writable>
+    <in_use>0</in_use>
+    <permissions>
+      <permission>
+        <name>Everything</name>
+      </permission>
+    </permissions>
+    <condition>Always</condition>
+    <event>Task run status changed<data><name>status</name>Done</data></event>
+    <method>Alemba vFire<data><name>report_formats</name>c1645568-627a-11e3-a660-406186ea4fc5</data><data><name>vfire_base_url</name>127.0.0.1</data><data><name>vfire_call_type_name</name>sfadf</data><data><name>delta_type</name>None</data><data><name>vfire_client_id</name>clientID</data><data><name>vfire_call_partition_name</name>first partition</data><data><name>delta_report_id</name></data><data><name>vfire_call_template_name</name>1213213</data><data><name>vfire_call_urgency_name</name>dfasdfasdf</data><data><name>vfire_call_impact_name</name>sdfadfasdf</data><data><name>details_url</name>https://secinfo.greenbone.net/omp?cmd=get_info&amp;info_type=$t&amp;info_id=$o&amp;details=1&amp;token=guest</data></method>
+    <tasks/>
+    <active>1</active>
+  </alert>
+  <filters id="">
+    <term>first=1 rows=10 sort=name</term>
+    <keywords>
+      <keyword>
+        <column>first</column>
+        <relation>=</relation>
+        <value>1</value>
+      </keyword>
+      <keyword>
+        <column>rows</column>
+        <relation>=</relation>
+        <value>10</value>
+      </keyword>
+      <keyword>
+        <column>sort</column>
+        <relation>=</relation>
+        <value>name</value>
+      </keyword>
+    </keywords>
+  </filters>
+  <sort>
+    <field>name<order>ascending</order></field>
+  </sort>
+  <alerts start="1" max="1000"/>
+  <alert_count>12<filtered>1</filtered><page>1</page></alert_count>
+</get_alerts_response>

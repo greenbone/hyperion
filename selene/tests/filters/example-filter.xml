@@ -1,0 +1,68 @@
+<get_filters_response status="200" status_text="OK">
+  <filter id="69635c70-8447-4873-946e-8e204f2f28a4">
+    <owner>
+      <name>jloechte</name>
+    </owner>
+    <name>yyy Clone 5 Clone 4 Clone 4 Clone 2</name>
+    <comment/>
+    <creation_time>2020-12-27T03:11:17Z</creation_time>
+    <modification_time>2020-12-27T03:11:30Z</modification_time>
+    <writable>1</writable>
+    <in_use>1</in_use>
+    <permissions>
+      <permission>
+        <name>Everything</name>
+      </permission>
+    </permissions>
+    <type>result</type>
+    <term>alert first=1 rows=100 sort=name</term>
+    <alerts>
+      <alert id="034804af-aa3a-4e1c-8462-21d1c3f7279b">
+        <name>xdfxdf</name>
+      </alert>
+    </alerts>
+  </filter>
+  <filter id="da3b35d0-c85d-48d4-beff-4b7c4719fc82">
+    <owner>
+      <name>jloechte</name>
+    </owner>
+    <name>eienr</name>
+    <comment>lol</comment>
+    <creation_time>2020-12-27T00:53:46Z</creation_time>
+    <modification_time>2020-12-27T00:53:46Z</modification_time>
+    <writable>1</writable>
+    <in_use>0</in_use>
+    <permissions>
+      <permission>
+        <name>Everything</name>
+      </permission>
+    </permissions>
+    <type>alert</type>
+    <term>rows=-1 name=~foo first=1 sort=name</term>
+  </filter>
+  <filters id="">
+    <term>first=1 rows=100 sort=name</term>
+    <keywords>
+      <keyword>
+        <column>first</column>
+        <relation>=</relation>
+        <value>1</value>
+      </keyword>
+      <keyword>
+        <column>rows</column>
+        <relation>=</relation>
+        <value>100</value>
+      </keyword>
+      <keyword>
+        <column>sort</column>
+        <relation>=</relation>
+        <value>name</value>
+      </keyword>
+    </keywords>
+  </filters>
+  <sort>
+    <field>name<order>ascending</order></field>
+  </sort>
+  <filters start="1" max="-2"/>
+  <filter_count>2<filtered>2</filtered><page>2</page></filter_count>
+</get_filters_response>

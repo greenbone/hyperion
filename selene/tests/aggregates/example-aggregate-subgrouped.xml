@@ -1,0 +1,665 @@
+<?xml version="1.0"?>
+<get_aggregates_response status_text="OK" status="200">
+  <aggregate>
+    <data_column>severity</data_column>
+    <group_column>solution_type</group_column>
+    <subgroup_column>family</subgroup_column>
+    <group>
+      <value>Workaround</value>
+      <subgroup>
+        <value>General</value>
+        <count>1</count>
+        <c_count>1</c_count>
+        <stats column="severity">
+          <min>5</min>
+          <max>5</max>
+          <mean>5</mean>
+          <sum>5</sum>
+          <c_sum>5</c_sum>
+        </stats>
+      </subgroup>
+      <count>1</count>
+      <c_count>1</c_count>
+      <stats column="severity">
+        <min>5</min>
+        <max>5</max>
+        <mean>5</mean>
+        <sum>5</sum>
+        <c_sum>5</c_sum>
+      </stats>
+    </group>
+    <group>
+      <value>WillNotFix</value>
+      <subgroup>
+        <value>General</value>
+        <count>1</count>
+        <c_count>2</c_count>
+        <stats column="severity">
+          <min>5</min>
+          <max>5</max>
+          <mean>5</mean>
+          <sum>5</sum>
+          <c_sum>10</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>F5 Local Security Checks</value>
+        <count>2</count>
+        <c_count>2</c_count>
+        <stats column="severity">
+          <min>2.1</min>
+          <max>4.3</max>
+          <mean>3.2</mean>
+          <sum>6.4</sum>
+          <c_sum>6.4</c_sum>
+        </stats>
+      </subgroup>
+      <count>3</count>
+      <c_count>4</c_count>
+      <stats column="severity">
+        <min>2.1</min>
+        <max>5</max>
+        <mean>3.8</mean>
+        <sum>11.4</sum>
+        <c_sum>16.4</c_sum>
+      </stats>
+    </group>
+    <group>
+      <value>VendorFix</value>
+      <subgroup>
+        <value>Mac OS X Local Security Checks</value>
+        <count>6</count>
+        <c_count>6</c_count>
+        <stats column="severity">
+          <min>9.3</min>
+          <max>10</max>
+          <mean>9.76667</mean>
+          <sum>58.6</sum>
+          <c_sum>58.6</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>VMware Local Security Checks</value>
+        <count>9</count>
+        <c_count>9</c_count>
+        <stats column="severity">
+          <min>5</min>
+          <max>10</max>
+          <mean>8.04444</mean>
+          <sum>72.4</sum>
+          <c_sum>72.4</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>HP-UX Local Security Checks</value>
+        <count>8</count>
+        <c_count>8</c_count>
+        <stats column="severity">
+          <min>4.9</min>
+          <max>10</max>
+          <mean>7.5125</mean>
+          <sum>60.1</sum>
+          <c_sum>60.1</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Buffer overflow</value>
+        <count>1</count>
+        <c_count>1</c_count>
+        <stats column="severity">
+          <min>7.5</min>
+          <max>7.5</max>
+          <mean>7.5</mean>
+          <sum>7.5</sum>
+          <c_sum>7.5</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Gentoo Local Security Checks</value>
+        <count>24</count>
+        <c_count>24</c_count>
+        <stats column="severity">
+          <min>2.1</min>
+          <max>10</max>
+          <mean>6.84167</mean>
+          <sum>164.2</sum>
+          <c_sum>164.2</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>SuSE Local Security Checks</value>
+        <count>159</count>
+        <c_count>159</c_count>
+        <stats column="severity">
+          <min>1.9</min>
+          <max>10</max>
+          <mean>6.58931</mean>
+          <sum>1047.7</sum>
+          <c_sum>1047.7</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>JunOS Local Security Checks</value>
+        <count>17</count>
+        <c_count>17</c_count>
+        <stats column="severity">
+          <min>1.9</min>
+          <max>10</max>
+          <mean>6.51176</mean>
+          <sum>110.7</sum>
+          <c_sum>110.7</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Ubuntu Local Security Checks</value>
+        <count>78</count>
+        <c_count>78</c_count>
+        <stats column="severity">
+          <min>1.9</min>
+          <max>10</max>
+          <mean>6.49872</mean>
+          <sum>506.9</sum>
+          <c_sum>506.9</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Web application abuses</value>
+        <count>34</count>
+        <c_count>34</c_count>
+        <stats column="severity">
+          <min>4.3</min>
+          <max>10</max>
+          <mean>6.49706</mean>
+          <sum>220.9</sum>
+          <c_sum>220.9</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Mandrake Local Security Checks</value>
+        <count>54</count>
+        <c_count>54</c_count>
+        <stats column="severity">
+          <min>2.6</min>
+          <max>10</max>
+          <mean>6.49444</mean>
+          <sum>350.7</sum>
+          <c_sum>350.7</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Amazon Linux Local Security Checks</value>
+        <count>38</count>
+        <c_count>38</c_count>
+        <stats column="severity">
+          <min>4.3</min>
+          <max>10</max>
+          <mean>6.40526</mean>
+          <sum>243.4</sum>
+          <c_sum>243.4</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>FreeBSD Local Security Checks</value>
+        <count>31</count>
+        <c_count>31</c_count>
+        <stats column="severity">
+          <min>4.3</min>
+          <max>10</max>
+          <mean>6.39355</mean>
+          <sum>198.2</sum>
+          <c_sum>198.2</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Oracle Linux Local Security Checks</value>
+        <count>43</count>
+        <c_count>43</c_count>
+        <stats column="severity">
+          <min>4.3</min>
+          <max>10</max>
+          <mean>6.31628</mean>
+          <sum>271.6</sum>
+          <c_sum>271.6</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>CentOS Local Security Checks</value>
+        <count>104</count>
+        <c_count>104</c_count>
+        <stats column="severity">
+          <min>1.9</min>
+          <max>10</max>
+          <mean>6.225</mean>
+          <sum>647.4</sum>
+          <c_sum>647.4</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Red Hat Local Security Checks</value>
+        <count>69</count>
+        <c_count>69</c_count>
+        <stats column="severity">
+          <min>1.9</min>
+          <max>10</max>
+          <mean>6.1913</mean>
+          <sum>427.2</sum>
+          <c_sum>427.2</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Fedora Local Security Checks</value>
+        <count>125</count>
+        <c_count>125</c_count>
+        <stats column="severity">
+          <min>1.2</min>
+          <max>10</max>
+          <mean>6.1856</mean>
+          <sum>773.199</sum>
+          <c_sum>773.199</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Slackware Local Security Checks</value>
+        <count>16</count>
+        <c_count>16</c_count>
+        <stats column="severity">
+          <min>4.3</min>
+          <max>10</max>
+          <mean>6.18125</mean>
+          <sum>98.9</sum>
+          <c_sum>98.9</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Debian Local Security Checks</value>
+        <count>98</count>
+        <c_count>98</c_count>
+        <stats column="severity">
+          <min>2.1</min>
+          <max>10</max>
+          <mean>5.95612</mean>
+          <sum>583.7</sum>
+          <c_sum>583.7</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>FortiOS Local Security Checks</value>
+        <count>5</count>
+        <c_count>5</c_count>
+        <stats column="severity">
+          <min>4.3</min>
+          <max>6.8</max>
+          <mean>5.94</mean>
+          <sum>29.7</sum>
+          <c_sum>29.7</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>CISCO</value>
+        <count>11</count>
+        <c_count>11</c_count>
+        <stats column="severity">
+          <min>5</min>
+          <max>7.5</max>
+          <mean>5.87273</mean>
+          <sum>64.6</sum>
+          <c_sum>64.6</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>General</value>
+        <count>108</count>
+        <c_count>110</c_count>
+        <stats column="severity">
+          <min>1.9</min>
+          <max>10</max>
+          <mean>5.78611</mean>
+          <sum>624.9</sum>
+          <c_sum>634.9</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Huawei EulerOS Local Security Checks</value>
+        <count>105</count>
+        <c_count>105</c_count>
+        <stats column="severity">
+          <min>1.9</min>
+          <max>10</max>
+          <mean>5.74762</mean>
+          <sum>603.5</sum>
+          <c_sum>603.5</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Databases</value>
+        <count>11</count>
+        <c_count>11</c_count>
+        <stats column="severity">
+          <min>4.3</min>
+          <max>7.8</max>
+          <mean>5.63636</mean>
+          <sum>62</sum>
+          <c_sum>62</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Denial of Service</value>
+        <count>41</count>
+        <c_count>41</c_count>
+        <stats column="severity">
+          <min>2.6</min>
+          <max>7.8</max>
+          <mean>5.23171</mean>
+          <sum>214.5</sum>
+          <c_sum>214.5</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Mageia Linux Local Security Checks</value>
+        <count>5</count>
+        <c_count>5</c_count>
+        <stats column="severity">
+          <min>4.3</min>
+          <max>6.4</max>
+          <mean>5.14</mean>
+          <sum>25.7</sum>
+          <c_sum>25.7</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>F5 Local Security Checks</value>
+        <count>23</count>
+        <c_count>25</c_count>
+        <stats column="severity">
+          <min>1.9</min>
+          <max>7.8</max>
+          <mean>5.10435</mean>
+          <sum>117.4</sum>
+          <c_sum>123.8</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Huawei</value>
+        <count>6</count>
+        <c_count>6</c_count>
+        <stats column="severity">
+          <min>2.6</min>
+          <max>10</max>
+          <mean>5.08333</mean>
+          <sum>30.5</sum>
+          <c_sum>30.5</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Web Servers</value>
+        <count>2</count>
+        <c_count>2</c_count>
+        <stats column="severity">
+          <min>5</min>
+          <max>5</max>
+          <mean>5</mean>
+          <sum>10</sum>
+          <c_sum>10</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Palo Alto PAN-OS Local Security Checks</value>
+        <count>5</count>
+        <c_count>5</c_count>
+        <stats column="severity">
+          <min>4.3</min>
+          <max>5</max>
+          <mean>4.72</mean>
+          <sum>23.6</sum>
+          <c_sum>23.6</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>SSL and TLS</value>
+        <count>5</count>
+        <c_count>5</c_count>
+        <stats column="severity">
+          <min>2.6</min>
+          <max>5.8</max>
+          <mean>4.4</mean>
+          <sum>22</sum>
+          <c_sum>22</c_sum>
+        </stats>
+      </subgroup>
+      <count>1241</count>
+      <c_count>1245</c_count>
+      <stats column="severity">
+        <min>1.2</min>
+        <max>10</max>
+        <mean>6.18187</mean>
+        <sum>7671.7</sum>
+        <c_sum>7688.1</c_sum>
+      </stats>
+    </group>
+    <group>
+      <value>Mitigation</value>
+      <subgroup>
+        <value>General</value>
+        <count>1</count>
+        <c_count>111</c_count>
+        <stats column="severity">
+          <min>5</min>
+          <max>5</max>
+          <mean>5</mean>
+          <sum>5</sum>
+          <c_sum>639.9</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>F5 Local Security Checks</value>
+        <count>1</count>
+        <c_count>26</c_count>
+        <stats column="severity">
+          <min>5</min>
+          <max>5</max>
+          <mean>5</mean>
+          <sum>5</sum>
+          <c_sum>128.8</c_sum>
+        </stats>
+      </subgroup>
+      <count>2</count>
+      <c_count>1247</c_count>
+      <stats column="severity">
+        <min>5</min>
+        <max>5</max>
+        <mean>5</mean>
+        <sum>10</sum>
+        <c_sum>7698.1</c_sum>
+      </stats>
+    </group>
+    <group>
+      <value/>
+      <subgroup>
+        <value>General</value>
+        <count>3</count>
+        <c_count>114</c_count>
+        <stats column="severity">
+          <min>4.3</min>
+          <max>7.5</max>
+          <mean>5.6</mean>
+          <sum>16.8</sum>
+          <c_sum>656.7</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Debian Local Security Checks</value>
+        <count>2</count>
+        <c_count>100</c_count>
+        <stats column="severity">
+          <min>5</min>
+          <max>5</max>
+          <mean>5</mean>
+          <sum>10</sum>
+          <c_sum>593.7</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Denial of Service</value>
+        <count>1</count>
+        <c_count>42</c_count>
+        <stats column="severity">
+          <min>5</min>
+          <max>5</max>
+          <mean>5</mean>
+          <sum>5</sum>
+          <c_sum>219.5</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>IT-Grundschutz</value>
+        <count>2</count>
+        <c_count>2</c_count>
+        <stats column="severity">
+          <min>0</min>
+          <max>0</max>
+          <mean>0</mean>
+          <sum>0</sum>
+          <c_sum>0</c_sum>
+        </stats>
+      </subgroup>
+      <subgroup>
+        <value>Product detection</value>
+        <count>3</count>
+        <c_count>3</c_count>
+        <stats column="severity">
+          <min>0</min>
+          <max>0</max>
+          <mean>0</mean>
+          <sum>0</sum>
+          <c_sum>0</c_sum>
+        </stats>
+      </subgroup>
+      <count>11</count>
+      <c_count>1258</c_count>
+    </group>
+    <subgroups>
+      <value>Amazon Linux Local Security Checks</value>
+      <value>Buffer overflow</value>
+      <value>CISCO</value>
+      <value>CentOS Local Security Checks</value>
+      <value>Databases</value>
+      <value>Debian Local Security Checks</value>
+      <value>Denial of Service</value>
+      <value>F5 Local Security Checks</value>
+      <value>Fedora Local Security Checks</value>
+      <value>FortiOS Local Security Checks</value>
+      <value>FreeBSD Local Security Checks</value>
+      <value>General</value>
+      <value>Gentoo Local Security Checks</value>
+      <value>HP-UX Local Security Checks</value>
+      <value>Huawei</value>
+      <value>Huawei EulerOS Local Security Checks</value>
+      <value>IT-Grundschutz</value>
+      <value>JunOS Local Security Checks</value>
+      <value>Mac OS X Local Security Checks</value>
+      <value>Mageia Linux Local Security Checks</value>
+      <value>Mandrake Local Security Checks</value>
+      <value>Oracle Linux Local Security Checks</value>
+      <value>Palo Alto PAN-OS Local Security Checks</value>
+      <value>Product detection</value>
+      <value>Red Hat Local Security Checks</value>
+      <value>SSL and TLS</value>
+      <value>Slackware Local Security Checks</value>
+      <value>SuSE Local Security Checks</value>
+      <value>Ubuntu Local Security Checks</value>
+      <value>VMware Local Security Checks</value>
+      <value>Web Servers</value>
+      <value>Web application abuses</value>
+    </subgroups>
+    <column_info>
+      <aggregate_column>
+        <name>value</name>
+        <stat>value</stat>
+        <type>nvt</type>
+        <column>solution_type</column>
+        <data_type>text</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>subgroup_value</name>
+        <stat>value</stat>
+        <type>nvt</type>
+        <column>family</column>
+        <data_type>text</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>count</name>
+        <stat>count</stat>
+        <type>nvt</type>
+        <column/>
+        <data_type>integer</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>c_count</name>
+        <stat>c_count</stat>
+        <type>nvt</type>
+        <column/>
+        <data_type>integer</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>severity_min</name>
+        <stat>min</stat>
+        <type>nvt</type>
+        <column>severity</column>
+        <data_type>cvss</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>severity_max</name>
+        <stat>max</stat>
+        <type>nvt</type>
+        <column>severity</column>
+        <data_type>cvss</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>severity_mean</name>
+        <stat>mean</stat>
+        <type>nvt</type>
+        <column>severity</column>
+        <data_type>cvss</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>severity_sum</name>
+        <stat>sum</stat>
+        <type>nvt</type>
+        <column>severity</column>
+        <data_type>cvss</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>severity_c_sum</name>
+        <stat>c_sum</stat>
+        <type>nvt</type>
+        <column>severity</column>
+        <data_type>cvss</data_type>
+      </aggregate_column>
+    </column_info>
+  </aggregate>
+  <filters id="">
+    <term>~openssl first=1 rows=10 sort=name</term>
+    <keywords>
+      <keyword>
+        <column/>
+        <relation>~</relation>
+        <value>openssl</value>
+      </keyword>
+      <keyword>
+        <column>first</column>
+        <relation>=</relation>
+        <value>1</value>
+      </keyword>
+      <keyword>
+        <column>rows</column>
+        <relation>=</relation>
+        <value>10</value>
+      </keyword>
+      <keyword>
+        <column>sort</column>
+        <relation>=</relation>
+        <value>name</value>
+      </keyword>
+    </keywords>
+  </filters>
+</get_aggregates_response>

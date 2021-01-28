@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<get_aggregates_response status_text="OK" status="200">
+  <aggregate>
+    <overall>
+      <count>85949</count>
+      <c_count>85949</c_count>
+    </overall>
+    <column_info>
+      <aggregate_column>
+        <name>count</name>
+        <stat>count</stat>
+        <type>nvt</type>
+        <column/>
+        <data_type>integer</data_type>
+      </aggregate_column>
+      <aggregate_column>
+        <name>c_count</name>
+        <stat>c_count</stat>
+        <type>nvt</type>
+        <column/>
+        <data_type>integer</data_type>
+      </aggregate_column>
+    </column_info>
+  </aggregate>
+  <filters id="">
+    <term>first=1 rows=10 sort=name</term>
+    <keywords>
+      <keyword>
+        <column>first</column>
+        <relation>=</relation>
+        <value>1</value>
+      </keyword>
+      <keyword>
+        <column>rows</column>
+        <relation>=</relation>
+        <value>10</value>
+      </keyword>
+      <keyword>
+        <column>sort</column>
+        <relation>=</relation>
+        <value>name</value>
+      </keyword>
+    </keywords>
+  </filters>
+</get_aggregates_response>

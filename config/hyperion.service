@@ -1,0 +1,15 @@
+[Unit]
+Description=Hyperion backend
+
+[Service]
+Type=simple
+User=www-data
+Group=gvm
+Restart=always
+KillSignal=SIGQUIT
+WorkingDirectory=/home/admin/source/hyperion
+ExecStart=poetry run uwsgi --ini config/uwsgi.ini
+Environment=LC_ALL=en_US.UTF-8
+
+[Install]
+WantedBy=multi-user.target

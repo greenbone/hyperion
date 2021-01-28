@@ -1,0 +1,47 @@
+<get_info_response status="200" status_text="OK">
+    <info id="cpe:/a:$0.99_kindle_books_project:$0.99_kindle_books:6::~~~android~~">
+        <owner>
+            <name></name>
+        </owner>
+        <name>cpe:/a:$0.99_kindle_books_project:$0.99_kindle_books:6::~~~android~~</name>
+        <comment></comment>
+        <creation_time>2014-11-10T17:01:25Z</creation_time>
+        <modification_time>2014-11-10T17:01:25Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions></permissions>
+        <update_time>2020-11-17T02:30:00.000+0000</update_time>
+        <cpe>
+            <title>$0.99 Kindle Books project $0.99 Kindle Books (aka com.kindle.books.for99) for android 6.0</title>
+            <nvd_id>289692</nvd_id>
+            <max_cvss>5.4</max_cvss>
+            <cve_refs>1</cve_refs>
+            <status>FINAL</status>
+            <cves>
+                <cve>
+                    <entry xmlns:cpe-lang="http://cpe.mitre.org/language/2.0"
+                        xmlns:vuln="http://scap.nist.gov/schema/vulnerability/0.4"
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xmlns:patch="http://scap.nist.gov/schema/patch/0.1"
+                        xmlns:scap-core="http://scap.nist.gov/schema/scap-core/0.1"
+                        xmlns:cvss="http://scap.nist.gov/schema/cvss-v2/0.2"
+                        xmlns="http://scap.nist.gov/schema/feed/vulnerability/2.0" id="CVE-2014-6750">
+                        <vuln:cvss>
+                            <cvss:base_metrics>
+                                <cvss:score>5.4</cvss:score>
+                            </cvss:base_metrics>
+                        </vuln:cvss>
+                    </entry>
+                </cve>
+            </cves>
+            <raw_data>
+                <cpe-item xmlns:scap-core="http://scap.nist.gov/schema/scap-core/0.3"
+                    xmlns:meta="http://scap.nist.gov/schema/cpe-dictionary-metadata/0.2"
+                    xmlns:ns6="http://scap.nist.gov/schema/scap-core/0.1"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xmlns:config="http://scap.nist.gov/schema/configuration/0.1"
+                    xmlns="http://cpe.mitre.org/dictionary/2.0" name="cpe:/a:$0.99_kindle_books_project:$0.99_kindle_books:6::~~~android~~"></cpe-item>
+            </raw_data>
+        </cpe>
+    </info>
+</get_info_response>

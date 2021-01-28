@@ -1,0 +1,26 @@
+<get_info_response status="200" status_text="OK">
+    <info id="CVE-1999-0001">
+        <owner>
+            <name></name>
+        </owner>
+        <name>CVE-1999-0001</name>
+        <comment></comment>
+        <creation_time>1999-12-30T05:00:00Z</creation_time>
+        <modification_time>2010-12-16T05:00:00Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions></permissions>
+        <update_time>2020-11-13T02:30:00.000+0000</update_time>
+        <cve>
+            <cvss>5</cvss>
+            <vector>NETWORK</vector>
+            <complexity>LOW</complexity>
+            <authentication>NONE</authentication>
+            <confidentiality_impact>NONE</confidentiality_impact>
+            <integrity_impact>NONE</integrity_impact>
+            <availability_impact>PARTIAL</availability_impact>
+            <description>ip_input.c in BSD-derived TCP/IP implementations allows remote attackers to cause a denial of service (crash or hang) via crafted packets.</description>
+            <products>cpe:/o:bsdi:bsd_os:3.1 cpe:/o:freebsd:freebsd:1.0 cpe:/o:freebsd:freebsd:1.1 cpe:/o:freebsd:freebsd:1.1.5.1 cpe:/o:freebsd:freebsd:1.2 cpe:/o:freebsd:freebsd:2.0 cpe:/o:freebsd:freebsd:2.0.1 cpe:/o:freebsd:freebsd:2.0.5 cpe:/o:freebsd:freebsd:2.1.5 cpe:/o:freebsd:freebsd:2.1.6 cpe:/o:freebsd:freebsd:2.1.6.1 cpe:/o:freebsd:freebsd:2.1.7 cpe:/o:freebsd:freebsd:2.1.7.1 cpe:/o:freebsd:freebsd:2.2 cpe:/o:freebsd:freebsd:2.2.2 cpe:/o:freebsd:freebsd:2.2.3 cpe:/o:freebsd:freebsd:2.2.4 cpe:/o:freebsd:freebsd:2.2.5 cpe:/o:freebsd:freebsd:2.2.6 cpe:/o:freebsd:freebsd:2.2.8 cpe:/o:freebsd:freebsd:3.0 cpe:/o:openbsd:openbsd:2.3 cpe:/o:openbsd:openbsd:2.4 </products>
+        </cve>
+    </info>
+</get_info_response>

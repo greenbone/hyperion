@@ -1,0 +1,167 @@
+<get_info_response status="200" status_text="OK">
+    <info id="DFN-CERT-2008-0644">
+        <owner>
+            <name></name>
+        </owner>
+        <name>DFN-CERT-2008-0644</name>
+        <comment></comment>
+        <creation_time>2008-04-28T12:35:35Z</creation_time>
+        <modification_time>2010-10-27T11:54:59Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions></permissions>
+        <update_time>2020-12-01T02:30:00.000+0000</update_time>
+        <dfn_cert_adv>
+            <title>Schwachstelle im HP Software Update (Windows)</title>
+            <summary>
+Aufgrund mehrerer fehlerhafter ActiveX Controls im HP Software Update
+kann ein entfernter Angreifer im schlimmsten Fall beliebige Befehle
+mit den Rechten der Anwendung ausführen.
+            </summary>
+            <max_cvss>6.8</max_cvss>
+            <cve_refs>1</cve_refs>
+            <raw_data>
+                <entry xmlns="http://www.w3.org/2005/Atom"
+                    xmlns:dfncert="http://www.dfn-cert.de/dfncert.dtd">
+                    <title>Schwachstelle im HP Software Update (Windows)</title>
+                    <link href="https://adv-archiv.dfn-cert.de/adv/2008-0644/" rel="alternate"></link>
+                    <updated>2010-10-27T13:54:59+02:00</updated>
+                    <author>
+                        <name>DFN-CERT Services GmbH</name>
+                        <uri>http://www.dfn-cert.de/</uri>
+                    </author>
+                    <id>https://adv-archiv.dfn-cert.de/adv/2008-0644/</id>
+                    <summary type="html">
+Aufgrund mehrerer fehlerhafter ActiveX Controls im HP Software Update
+kann ein entfernter Angreifer im schlimmsten Fall beliebige Befehle
+mit den Rechten der Anwendung ausführen.
+                    </summary>
+                    <dfncert:cve>CVE-2008-0712</dfncert:cve>
+                    <published>2008-04-28T14:35:35+02:00</published>
+                    <dfncert:refnum>DFN-CERT-2008-0644</dfncert:refnum>
+                </entry>
+            </raw_data>
+        </dfn_cert_adv>
+    </info>
+    <info id="DFN-CERT-2008-1021">
+        <owner>
+            <name></name>
+        </owner>
+        <name>DFN-CERT-2008-1021</name>
+        <comment></comment>
+        <creation_time>2008-07-17T10:45:17Z</creation_time>
+        <modification_time>2010-10-14T13:58:06Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions></permissions>
+        <update_time>2020-12-01T02:30:00.000+0000</update_time>
+        <dfn_cert_adv>
+            <title>Schwachstelle in BIND 9 vor Version 9.5.0-P1, 9.4.2-P1, 9.3.5-P1 (Unix, HP-UX)</title>
+            <summary>
+Eine Schwachstelle im BIND Nameserver bzw. Resolver ermöglicht
+Angreifern falsche Einträge in den Cachen des Nameservers bzw.
+Resolvers einzufügen (DNS Cache Poisoning).
+ Bitte beachten Sie: Da die Gegenmaßnahme das Verhalten des BIND
+Nameservers im Netz ändert, müssen sie ggfs. ihre Firewall Regeln
+anpassen.
+            </summary>
+            <max_cvss>5</max_cvss>
+            <cve_refs>1</cve_refs>
+            <raw_data>
+                <entry xmlns="http://www.w3.org/2005/Atom"
+                    xmlns:dfncert="http://www.dfn-cert.de/dfncert.dtd">
+                    <title>Schwachstelle in BIND 9 vor Version 9.5.0-P1, 9.4.2-P1, 9.3.5-P1 (Unix, HP-UX)</title>
+                    <link href="https://adv-archiv.dfn-cert.de/adv/2008-1021/" rel="alternate"></link>
+                    <updated>2010-10-14T15:58:06+02:00</updated>
+                    <author>
+                        <name>DFN-CERT Services GmbH</name>
+                        <uri>http://www.dfn-cert.de/</uri>
+                    </author>
+                    <id>https://adv-archiv.dfn-cert.de/adv/2008-1021/</id>
+                    <summary type="html">
+Eine Schwachstelle im BIND Nameserver bzw. Resolver ermöglicht
+Angreifern falsche Einträge in den Cachen des Nameservers bzw.
+Resolvers einzufügen (DNS Cache Poisoning).
+ Bitte beachten Sie: Da die Gegenmaßnahme das Verhalten des BIND
+Nameservers im Netz ändert, müssen sie ggfs. ihre Firewall Regeln
+anpassen.
+                    </summary>
+                    <dfncert:cve>CVE-2008-1447</dfncert:cve>
+                    <published>2008-07-17T12:45:17+02:00</published>
+                    <dfncert:refnum>DFN-CERT-2008-1021</dfncert:refnum>
+                </entry>
+            </raw_data>
+        </dfn_cert_adv>
+    </info>
+    <info id="DFN-CERT-2008-1100">
+        <owner>
+            <name></name>
+        </owner>
+        <name>DFN-CERT-2008-1100</name>
+        <comment></comment>
+        <creation_time>2008-08-07T07:45:30Z</creation_time>
+        <modification_time>2009-11-05T11:42:41Z</modification_time>
+        <writable>0</writable>
+        <in_use>0</in_use>
+        <permissions></permissions>
+        <update_time>2020-12-01T02:30:00.000+0000</update_time>
+        <dfn_cert_adv>
+            <title>Denial of Service Schwachstelle in der HP-UX libc ()</title>
+            <summary>
+HP-UX beinhaltet eine Schwachstelle in der libc, welche von entfernten
+Angreifern für Denial of Service Angriffe ausgenutzt werden kann.
+            </summary>
+            <max_cvss>7.8</max_cvss>
+            <cve_refs>1</cve_refs>
+            <raw_data>
+                <entry xmlns="http://www.w3.org/2005/Atom"
+                    xmlns:dfncert="http://www.dfn-cert.de/dfncert.dtd">
+                    <title>Denial of Service Schwachstelle in der HP-UX libc ()</title>
+                    <link href="https://adv-archiv.dfn-cert.de/adv/2008-1100/" rel="alternate"></link>
+                    <updated>2009-11-05T12:42:41+01:00</updated>
+                    <author>
+                        <name>DFN-CERT Services GmbH</name>
+                        <uri>http://www.dfn-cert.de/</uri>
+                    </author>
+                    <id>https://adv-archiv.dfn-cert.de/adv/2008-1100/</id>
+                    <summary type="html">
+HP-UX beinhaltet eine Schwachstelle in der libc, welche von entfernten
+Angreifern für Denial of Service Angriffe ausgenutzt werden kann.
+                    </summary>
+                    <dfncert:cve>CVE-2008-1664</dfncert:cve>
+                    <published>2008-08-07T09:45:30+02:00</published>
+                    <dfncert:refnum>DFN-CERT-2008-1100</dfncert:refnum>
+                </entry>
+            </raw_data>
+        </dfn_cert_adv>
+    </info>
+    <details>1</details>
+    <filters id="">
+        <term>rows=3 first=1 sort=name</term>
+        <keywords>
+            <keyword>
+                <column>rows</column>
+                <relation>=</relation>
+                <value>3</value>
+            </keyword>
+            <keyword>
+                <column>first</column>
+                <relation>=</relation>
+                <value>1</value>
+            </keyword>
+            <keyword>
+                <column>sort</column>
+                <relation>=</relation>
+                <value>name</value>
+            </keyword>
+        </keywords>
+    </filters>
+    <sort>
+        <field>name<order>ascending</order>
+        </field>
+    </sort>
+    <info start="1" max="3"/>
+    <info_count>24295<filtered>24295</filtered>
+        <page>3</page>
+    </info_count>
+</get_info_response>

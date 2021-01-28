@@ -1,0 +1,104 @@
+<get_tasks_response status="200" status_text="OK">
+    <apply_overrides>0</apply_overrides>
+    <task id="c4335bf9-de7d-4d45-984a-a4a19709a098">
+        <owner>
+            <name>admin</name>
+        </owner>
+        <name>Audit_for_Report</name>
+        <comment>foo</comment>
+        <creation_time>2020-11-24T09:43:15Z</creation_time>
+        <modification_time>2020-11-24T09:43:15Z</modification_time>
+        <writable>1</writable>
+        <in_use>0</in_use>
+        <permissions>
+            <permission>
+                <name>Everything</name>
+            </permission>
+        </permissions>
+        <alterable>0</alterable>
+        <usage_type>audit</usage_type>
+        <config id="9f822ad3-9208-4e02-ac03-78dce3ca9a23">
+            <name>EulerOS Linux Security Configuration</name>
+            <type>0</type>
+            <trash>0</trash>
+        </config>
+        <target id="2d161fb3-1867-4683-a5dc-f2e375194552">
+            <name>234234Unnamed</name>
+            <trash>0</trash>
+        </target>
+        <hosts_ordering>sequential</hosts_ordering>
+        <scanner id='08b69003-5fc2-4037-a479-93b440211c73'>
+            <name>OpenVAS Default</name>
+            <type>2</type>
+            <trash>0</trash>
+        </scanner>
+        <status>New</status>
+        <progress>-1</progress>
+        <report_count>0<finished>0</finished>
+        </report_count>
+        <trend></trend>
+        <schedule id="fef95cd5-3a0a-4df5-bb73-161f75aa3eda">
+            <name>Schedule for alertask - 2020-10-21T08:56:08.850Z</name>
+            <trash>0</trash>
+            <icalendar>BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Greenbone.net//NONSGML Greenbone Security Manager
+ 21.4.0~dev1~git-a98bd26-master//EN
+BEGIN:VEVENT
+DTSTART:20201021T085600Z
+DURATION:PT0S
+UID:339d3438-ae77-49cd-a680-505bc0bb026a
+DTSTAMP:20201021T085608Z
+END:VEVENT
+END:VCALENDAR
+            </icalendar>
+            <timezone>UTC</timezone>
+        </schedule>
+        <schedule_periods>0</schedule_periods>
+        <observers>admin</observers>
+        <average_duration>0</average_duration>
+        <result_count>0</result_count>
+        <preferences>
+            <preference>
+                <name>Maximum concurrently executed NVTs per host</name>
+                <scanner_name>max_checks</scanner_name>
+                <value>4</value>
+            </preference>
+            <preference>
+                <name>Maximum concurrently scanned hosts</name>
+                <scanner_name>max_hosts</scanner_name>
+                <value>20</value>
+            </preference>
+            <preference>
+                <name>Network Source Interface</name>
+                <scanner_name>source_iface</scanner_name>
+                <value></value>
+            </preference>
+            <preference>
+                <name>Add results to Asset Management</name>
+                <scanner_name>in_assets</scanner_name>
+                <value>yes</value>
+            </preference>
+            <preference>
+                <name>Apply Overrides when adding Assets</name>
+                <scanner_name>assets_apply_overrides</scanner_name>
+                <value>yes</value>
+            </preference>
+            <preference>
+                <name>Min QOD when adding Assets</name>
+                <scanner_name>assets_min_qod</scanner_name>
+                <value>70</value>
+            </preference>
+            <preference>
+                <name>Auto Delete Reports</name>
+                <scanner_name>auto_delete</scanner_name>
+                <value>no</value>
+            </preference>
+            <preference>
+                <name>Auto Delete Reports Data</name>
+                <scanner_name>auto_delete_data</scanner_name>
+                <value>5</value>
+            </preference>
+        </preferences>
+    </task>
+</get_tasks_response>
