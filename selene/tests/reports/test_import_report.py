@@ -31,8 +31,6 @@ class ImportReportTestCase(SeleneTestCase):
                 importReport(
                     report: "<report id=&quot;f0fdf522-276d-4893-9274-fb8699dc2270&quot;/>",
                     taskId: "{uuid4()}",
-                    taskName: "SomeTask",
-                    taskComment: "SomeFancyComment",
                     inAssets: "False"
                 ) {{
                     id
