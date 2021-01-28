@@ -48,5 +48,8 @@ exclude = '''
 mode = "poetry"
 pre-commit = ['autohooks.plugins.black', 'autohooks.plugins.pylint']
 
+[tool.autohooks.plugins.pylint]
+arguments = ["--django-settings-module=hyperion.settings"]
+
 [tool.pontos.version]
 version-module-file = "hyperion/__version__.py"
