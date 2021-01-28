@@ -2,6 +2,9 @@
 
 # Project Hyperion <!-- omit in toc -->
 
+[![code test coverage](https://codecov.io/gh/greenbone/hyperion/branch/master/graph/badge.svg)](https://codecov.io/gh/greenbone/hyperion)
+[![CircleCI](https://circleci.com/gh/greenbone/hyperion/tree/master.svg?style=svg)](https://circleci.com/gh/greenbone/hyperion/tree/master)
+
 Project Hyperion is the next generation GVM Architecture.
 
 The project is named after the [titan Hyperion](https://en.wikipedia.org/wiki/Hyperion_(Titan)),
