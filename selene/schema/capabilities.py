@@ -37,7 +37,7 @@ class GetCapabilities(graphene.List):
         gmp = get_gmp(info)
 
         xml = gmp.help(format='xml', help_type='brief')
-        elem_list = xml[0].getchildren()
+        elem_list = xml.find('schema').findall('command')
 
         cap_list = [get_text_from_element(elem, 'name') for elem in elem_list]
 

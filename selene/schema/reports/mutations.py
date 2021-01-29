@@ -105,8 +105,6 @@ class ImportReport(graphene.Mutation):
         report = graphene.String(required=True)
 
         task_id = graphene.UUID()
-        task_name = graphene.String()
-        task_comment = graphene.String()
         in_assets = graphene.String()
 
     report_id = graphene.UUID(name='id')
@@ -117,8 +115,6 @@ class ImportReport(graphene.Mutation):
         info,
         report: str,
         task_id: str = UUID,
-        task_name: str = None,
-        task_comment: str = None,
         in_assets: bool = None,
     ):
         gmp = get_gmp(info)
@@ -126,8 +122,6 @@ class ImportReport(graphene.Mutation):
         resp = gmp.import_report(
             report,
             task_id=str(task_id),
-            task_name=str(task_name),
-            task_comment=str(task_comment),
             in_assets=in_assets,
         )
         return ImportReport(report_id=resp.get('id'))

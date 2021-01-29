@@ -58,7 +58,7 @@ def append_alert_event_data(event, event_data):
     return data if data != {} else None
 
 
-alert_methods = {
+ALERT_METHODS = {
     'HTTP Get': ['URL'],
     'Send': ['send_host', 'send_port', 'send_report_format'],
     'SCP': [
@@ -163,8 +163,8 @@ def append_alert_method_data(method, method_data, *, report_formats=None):
                 append_data_value(data, key, value)
         elif key in other_fields and method != 'Sourcefire Connector':
             append_data_value(data, key, value)
-        if method in alert_methods:
-            if key in alert_methods[method]:
+        if method in ALERT_METHODS:
+            if key in ALERT_METHODS[method]:
                 append_data_value(data, key, value)
 
     return data if data != {} else None
