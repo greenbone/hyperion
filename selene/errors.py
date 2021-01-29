@@ -35,8 +35,10 @@ class ErrorCode(AutoName):
     AUTHENTICATION_REQUIRED = auto()
     AUTHENTICATION_FAILED = auto()
 
-    def __str__(self):  # pylint: disable=invalid-str-returned
-        return self.value
+    def __str__(self):
+        if isinstance(self.value, str):
+            return self.value
+        return str(self.value)
 
 
 class SeleneError(Exception):
