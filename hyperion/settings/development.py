@@ -49,6 +49,6 @@ SECRET_KEY = os.environ.get(
 DEBUG = int(os.environ.get("DEBUG", default=1))
 
 # CORS settings MUST be adjusted for production
-CORS_ALLOW_ORIGINs = ["http://127.0.0.1:8080"]
+CORS_ALLOW_ORIGINS = ["http://127.0.0.1:8080"]
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
