@@ -97,6 +97,7 @@ class TaskTestCase(SeleneTestCase):
                     id
                     name
                     alterable
+                    averageDuration
                     reports {
                         counts {
                             total
@@ -168,6 +169,7 @@ class TaskTestCase(SeleneTestCase):
 
         self.assertEqual(task['name'], 'Task_for_Report')
         self.assertEqual(task['id'], '291a7547-c817-4b46-88f2-32415d825335')
+        self.assertEqual(task['averageDuration'], 0)
 
         reports = task['reports']
 
