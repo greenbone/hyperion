@@ -51,6 +51,8 @@ class Audit(EntityObjectType):
     class Meta:
         default_resolver = find_resolver
 
+    average_duration = graphene.Int()
+
     trend = graphene.String()
     status = graphene.String()
 
@@ -73,6 +75,9 @@ class Audit(EntityObjectType):
     preferences = graphene.List(TaskPreference)
     reports = graphene.Field(TaskReports)
     results = graphene.Field(TaskResults)
+
+    def resolve_average_duration(root, _info):
+        return get_int_from_element(root, 'average_duration')
 
     def resolve_trend(root, _info):
         return get_text_from_element(root, 'trend')
