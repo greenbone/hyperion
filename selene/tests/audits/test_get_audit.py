@@ -95,6 +95,7 @@ class AuditTestCase(SeleneTestCase):
                     name
                     comment
                     alterable
+                    averageDuration
                     reports {
                         counts {
                             total
@@ -183,6 +184,7 @@ class AuditTestCase(SeleneTestCase):
         self.assertEqual(audit['status'], 'New')
         self.assertEqual(audit['progress'], -1)
         self.assertIsNone(audit['trend'])
+        self.assertEqual(audit['averageDuration'], 0)
 
         reports = audit['reports']
 
