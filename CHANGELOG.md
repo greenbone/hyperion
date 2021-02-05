@@ -15,8 +15,10 @@ $ cd hyperion && git log
 
 ## [Unreleased]
 ### Added
-- Implement average_duration for tasks and audits fields [#14](https://github.com/greenbone/hyperion/pull/14)
+- Implement `average_duration` for tasks and audits fields [#14](https://github.com/greenbone/hyperion/pull/14)
+
 ### Changed
 ### Deprecated
 ### Removed
 ### Fixed
+- Fixed a problem with NVT `oid` in Notes [#15](https://github.com/greenbone/hyperion/pull/15)
