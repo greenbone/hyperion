@@ -22,13 +22,13 @@ from selene.tests import SeleneTestCase, GmpMockFactory
 
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)
-class GetNvtTestCase(SeleneTestCase):
+class GetScanConfigNvtTestCase(SeleneTestCase):
     def test_require_authentication(self, _mock_gmp: GmpMockFactory):
         response = self.query(
             '''
             query {
-                scanConfigNvt (oid:"1.3.6.1.4.1.25623.1.0.999999") {
-                oid
+                scanConfigNvt (id:"1.3.6.1.4.1.25623.1.0.999999") {
+                id
                 }
             }
             '''
@@ -83,8 +83,8 @@ class GetNvtTestCase(SeleneTestCase):
         response = self.query(
             '''
             query {
-                scanConfigNvt (oid:"1.3.6.1.4.1.25623.1.0.999999") {
-                oid
+                scanConfigNvt (id:"1.3.6.1.4.1.25623.1.0.100315") {
+                id
                 name
                 creationTime
                 modificationTime
@@ -138,7 +138,7 @@ class GetNvtTestCase(SeleneTestCase):
         nvt = json_response['data']['scanConfigNvt']
 
         self.assertResponseNoErrors(response)
-        self.assertEqual(nvt['oid'], "1.3.6.1.4.1.25623.1.0.100315")
+        self.assertEqual(nvt['id'], "1.3.6.1.4.1.25623.1.0.100315")
         self.assertEqual(nvt['name'], 'Some name')
         self.assertEqual(nvt['creationTime'], '2009-10-26T09:02:32Z')
         self.assertEqual(nvt['modificationTime'], '2020-05-11T05:36:14Z')
@@ -197,5 +197,5 @@ class GetNvtTestCase(SeleneTestCase):
         )
 
         mock_gmp.gmp_protocol.get_nvt.assert_called_with(
-            "1.3.6.1.4.1.25623.1.0.999999"
+            "1.3.6.1.4.1.25623.1.0.100315"
         )

@@ -116,7 +116,7 @@ class NvtDefinitionRefs(graphene.ObjectType):
 class NvtPreferenceNvt(graphene.ObjectType):
     """"NVT to which the NVT preference applies."""
 
-    oid = graphene.String(name='oid')
+    oid = graphene.String(name='id')
     name = graphene.String()
 
     def resolve_oid(root, _info):

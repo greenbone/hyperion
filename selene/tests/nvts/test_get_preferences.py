@@ -87,7 +87,7 @@ class GetPreferencesTestCase(SeleneTestCase):
                 configId: "daba56c8-73ec-11df-a475-002264764cea"
             ){
                     nvt {
-                    oid
+                    id
                     name
                     }
                     hrName
@@ -106,7 +106,7 @@ class GetPreferencesTestCase(SeleneTestCase):
 
         self.assertResponseNoErrors(response)
         self.assertEqual(
-            preference1['nvt']['oid'], '1.3.6.1.4.1.25623.1.0.999999'
+            preference1['nvt']['id'], '1.3.6.1.4.1.25623.1.0.999999'
         )
         self.assertEqual(preference1['nvt']['name'], 'Name of VT')
         self.assertEqual(preference1['hrName'], 'Name of preference')
@@ -122,7 +122,7 @@ class GetPreferencesTestCase(SeleneTestCase):
 
         self.assertResponseNoErrors(response)
         self.assertEqual(
-            preference2['nvt']['oid'], '1.3.6.1.4.1.25623.1.0.999998'
+            preference2['nvt']['id'], '1.3.6.1.4.1.25623.1.0.999998'
         )
         self.assertEqual(preference2['nvt']['name'], 'Name of VT')
         self.assertEqual(preference2['hrName'], 'Name of preference')

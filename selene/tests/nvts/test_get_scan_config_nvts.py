@@ -22,13 +22,13 @@ from selene.tests import SeleneTestCase, GmpMockFactory
 
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)
-class GetNvtsTestCase(SeleneTestCase):
+class GetScanConfigsNvtsTestCase(SeleneTestCase):
     def test_require_authentication(self, _mock_gmp: GmpMockFactory):
         response = self.query(
             '''
             query {
                 scanConfigNvts {
-                oid
+                    id
                 }
             }
             '''
@@ -93,7 +93,7 @@ class GetNvtsTestCase(SeleneTestCase):
                         <name>nmap timing policy</name>
                         <type>radio</type>
                         <value>Normal</value>
-                        <alt>Paranoid</alt>
+                        <alt>Paranid</alt>
                         <alt>Sneaky</alt>
                         <default>Normal</default>
                     </preference>
@@ -109,7 +109,7 @@ class GetNvtsTestCase(SeleneTestCase):
             '''
             query {
                 scanConfigNvts (details:true) {
-                oid
+                id
                 name
                 creationTime
                 modificationTime
@@ -133,7 +133,7 @@ class GetNvtsTestCase(SeleneTestCase):
                 }
                 refs{
                     warning
-                    refList{
+                    refList {
                         id
                         type
                     }
@@ -149,17 +149,17 @@ class GetNvtsTestCase(SeleneTestCase):
                 preferenceCount
                 timeout
                 defaultTimeout
-                solution{
+                solution {
                   type
                   method
                   description
                 }
                 preferences {
                     defaultTimeout
-                    preferenceList{
+                    preferenceList {
                         nvt {
-                        oid
-                        name
+                            id
+                            name
                         }
                         name
                         type
@@ -179,7 +179,7 @@ class GetNvtsTestCase(SeleneTestCase):
         nvt = json_response['data']['scanConfigNvts'][0]
 
         self.assertResponseNoErrors(response)
-        self.assertEqual(nvt['oid'], "1.3.6.1.4.1.25623.1.0.100315")
+        self.assertEqual(nvt['id'], "1.3.6.1.4.1.25623.1.0.100315")
         self.assertEqual(nvt['name'], 'Some name')
         self.assertEqual(nvt['creationTime'], '2009-10-26T09:02:32Z')
         self.assertEqual(nvt['modificationTime'], '2020-05-11T05:36:14Z')
@@ -246,7 +246,7 @@ class GetNvtsTestCase(SeleneTestCase):
                     "id": 13,
                     "nvt": {
                         "name": "Ping Host",
-                        "oid": "1.3.6.1.4.1.25623.1.0.100315",
+                        "id": "1.3.6.1.4.1.25623.1.0.100315",
                     },
                     "hrName": "Log failed nmap calls",
                     "type": "checkbox",
@@ -259,13 +259,13 @@ class GetNvtsTestCase(SeleneTestCase):
                     "id": 14,
                     "nvt": {
                         "name": "Ping Host",
-                        "oid": "1.3.6.1.4.1.25623.1.0.100315",
+                        "id": "1.3.6.1.4.1.25623.1.0.100315",
                     },
                     "hrName": "nmap timing policy",
                     "type": "radio",
                     "value": "Normal",
                     "default": "Normal",
-                    "alt": ["Paranoid", "Sneaky"],
+                    "alt": ["Paranid", "Sneaky"],
                 },
             ],
         )

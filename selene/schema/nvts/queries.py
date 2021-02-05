@@ -49,15 +49,15 @@ class GetScanConfigNvt(graphene.Field):
     """Gets a single ScanConfig NVT.
 
     Args:
-        oid (str): OID of the NVT to get
+        id (str): OID of the NVT to get
 
     Example:
 
         .. code-block::
 
             query {
-                nvt (oid:"1.3.6.1.4.1.25623.1.0.999999") {
-                oid
+                nvt (id:"1.3.6.1.4.1.25623.1.0.999999") {
+                id
                 creationTime
                 modificationTime
                 category
@@ -111,7 +111,7 @@ class GetScanConfigNvt(graphene.Field):
     def __init__(self):
         super().__init__(
             ScanConfigNVT,
-            oid=graphene.String(required=True),
+            oid=graphene.String(required=True, name='id'),
             resolver=self.resolve,
         )
 
@@ -444,7 +444,7 @@ class GetNVTs(EntityConnectionField):
             query {
                 nvts (filterString: "name~Foo rows=2") {
                     nodes {
-                        oid
+                        id
                         name
                     }
                 }
@@ -459,11 +459,11 @@ class GetNVTs(EntityConnectionField):
                     "nvts": {
                         "nodes": [
                             {
-                                "oid": "NVT-2020-12345",
+                                "id": "NVT-2020-12345",
                                 "name": "Foo"
                             },
                             {
-                                "oid": "NVT-2020-12346",
+                                "id": "NVT-2020-12346",
                                 "name": "Foo Bar"
                             },
                         ]
