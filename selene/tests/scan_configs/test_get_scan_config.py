@@ -153,7 +153,7 @@ class GetScanConfigTestCase(SeleneTestCase):
                     preferences{
                         nvt{
                             name
-                            oid
+                            id
                         }
                         hrName
                         name
@@ -220,7 +220,7 @@ class GetScanConfigTestCase(SeleneTestCase):
                     "id": 13,
                     "nvt": {
                         "name": "Ping Host",
-                        "oid": "1.3.6.1.4.1.25623.1.0.100315",
+                        "id": "1.3.6.1.4.1.25623.1.0.100315",
                     },
                     "hrName": "Log failed nmap calls",
                     "type": "checkbox",
@@ -233,7 +233,7 @@ class GetScanConfigTestCase(SeleneTestCase):
                     "id": 14,
                     "nvt": {
                         "name": "Ping Host",
-                        "oid": "1.3.6.1.4.1.25623.1.0.100315",
+                        "id": "1.3.6.1.4.1.25623.1.0.100315",
                     },
                     "hrName": "nmap timing policy",
                     "type": "radio",

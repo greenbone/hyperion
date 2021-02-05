@@ -103,7 +103,7 @@ class ResultsTestCase(SeleneTestCase):
                     }
                     port
                     nvt {
-                        oid
+                        id
                         severities {
                             score
                             severitiesList {
@@ -163,7 +163,7 @@ class ResultsTestCase(SeleneTestCase):
         self.assertIsNone(result['qod']['type'])
         self.assertEqual(result['originalThreat'], 'High')
         self.assertEqual(result['originalSeverity'], 9.3)
-        self.assertEqual(result['nvt']['oid'], '1.3.6.1.4.1.25623.1.0.142265')
+        self.assertEqual(result['nvt']['id'], '1.3.6.1.4.1.25623.1.0.142265')
         severities = result['nvt']['severities']
         self.assertEqual(severities['score'], 93)
         self.assertEqual(

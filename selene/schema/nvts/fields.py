@@ -116,7 +116,7 @@ class NvtDefinitionRefs(graphene.ObjectType):
 class NvtPreferenceNvt(graphene.ObjectType):
     """"NVT to which the NVT preference applies."""
 
-    oid = graphene.String(name='oid')
+    oid = graphene.String(name='id')
     name = graphene.String()
 
     def resolve_oid(root, _info):
@@ -223,7 +223,7 @@ class ScanConfigNVT(graphene.ObjectType):
     class Meta:
         default_resolver = text_resolver
 
-    oid = graphene.String()
+    oid = graphene.String(name='id')
     name = graphene.String()
     family = graphene.String()
     cvss_base = graphene.String()
