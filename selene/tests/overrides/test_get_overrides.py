@@ -107,7 +107,6 @@ class OverrideTestCase(SeleneTestCase):
                         orphan
                         writable
                         hosts
-                        name
                         owner
                         severity
                         newSeverity
@@ -141,7 +140,6 @@ class OverrideTestCase(SeleneTestCase):
         self.assertEqual(override1['inUse'], True)
         self.assertEqual(override1['orphan'], False)
         self.assertEqual(override1['writable'], True)
-        self.assertEqual(override1['name'], 'Greedo')
         self.assertListEqual(
             override1['hosts'], ['123.456.789.1', '123.456.789.2']
         )
@@ -161,7 +159,6 @@ class OverrideTestCase(SeleneTestCase):
         self.assertEqual(override2['inUse'], True)
         self.assertEqual(override2['orphan'], False)
         self.assertEqual(override2['writable'], True)
-        self.assertEqual(override2['name'], 'Ipsum')
         self.assertEqual(override2['hosts'], ['123.456.789.3', '123.456.789.4'])
         self.assertEqual(override2['severity'], 5.5)
         self.assertEqual(override2['newSeverity'], 10)
