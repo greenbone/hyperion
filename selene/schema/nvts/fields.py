@@ -223,7 +223,7 @@ class ScanConfigNVT(graphene.ObjectType):
     class Meta:
         default_resolver = text_resolver
 
-    oid = graphene.String()
+    oid = graphene.String(name='id')
     name = graphene.String()
     family = graphene.String()
     cvss_base = graphene.String()

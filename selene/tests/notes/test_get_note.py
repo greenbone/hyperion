@@ -16,9 +16,14 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from pathlib import Path
 from unittest.mock import patch
 
 from selene.tests import SeleneTestCase, GmpMockFactory
+
+from selene.tests.entity import make_test_get_entity
+
+CWD = Path(__file__).absolute().parent
 
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)
@@ -38,32 +43,17 @@ class NoteTestCase(SeleneTestCase):
         self.assertResponseAuthenticationRequired(response)
 
     def test_get_note(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_note',
-            '''
-            <get_note_response>
-                <note id="08b69003-5fc2-4037-a479-93b440211c73">
-                    <text>Hello World</text>
-                    <owner><name>Foo</name></owner>
-                    <creation_time>2020-06-30T09:16:25Z</creation_time>
-                    <modification_time>2020-07-30T09:16:25Z</modification_time>
-                    <writable>1</writable>
-                    <in_use>1</in_use>
-                    <active>1</active>
-                    <orphan>0</orphan>
-                    <hosts>123.456.789.1,123.456.789.2</hosts>
-                    <severity>5.5</severity>
-                </note>
-            </get_note_response>
-            ''',
-        )
+        note_xml_path = CWD / 'example-note.xml'
+        note_xml_str = note_xml_path.read_text()
+
+        mock_gmp.mock_response('get_note', note_xml_str)
 
         self.login('foo', 'bar')
 
         response = self.query(
             '''
             query {
-                note(id: "08b69003-5fc2-4037-a479-93b440211c73") {
+                note(id: "a4793d3d-b9a7-4b79-8dab-f1ecce14aee6") {
                     id
                     text
                     owner
@@ -75,6 +65,10 @@ class NoteTestCase(SeleneTestCase):
                     orphan
                     hosts
                     severity
+                    nvt {
+                        id
+                        name
+                    }
                 }
             }
             '''
@@ -86,17 +80,21 @@ class NoteTestCase(SeleneTestCase):
 
         note = json['data']['note']
 
-        self.assertEqual(note['id'], '08b69003-5fc2-4037-a479-93b440211c73')
-        self.assertEqual(note['text'], 'Hello World')
-        self.assertEqual(note['owner'], 'Foo')
-        self.assertEqual(note['creationTime'], '2020-06-30T09:16:25+00:00')
-        self.assertEqual(note['modificationTime'], '2020-07-30T09:16:25+00:00')
-        self.assertEqual(note['writable'], True)
-        self.assertEqual(note['inUse'], True)
+        self.assertEqual(note['id'], 'a4793d3d-b9a7-4b79-8dab-f1ecce14aee6')
+        self.assertEqual(note['text'], 'wetert')
         self.assertEqual(note['active'], True)
         self.assertEqual(note['orphan'], False)
-        self.assertListEqual(note['hosts'], ['123.456.789.1', '123.456.789.2'])
-        self.assertEqual(note['severity'], 5.5)
+        self.assertListEqual(note['hosts'], ['127.0.0.1', '1.3.3.7'])
+        self.assertEqual(note['severity'], 0.1)
+
+        self.assertIsNotNone(note['nvt'])
+        nvt = note['nvt']
+        self.assertEqual(nvt['id'], '1.3.6.1.4.1.25623.1.0.117130')
+        self.assertEqual(
+            nvt['name'],
+            'Cisco WebEx Meetings Server Unauthorized Meeting Action'
+            'Vulnerability (Cisco-SA-20140129-CVE-2014-0682)',
+        )
 
     def test_get_note_without_hosts(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
@@ -129,3 +127,10 @@ class NoteTestCase(SeleneTestCase):
         note = json['data']['note']
 
         self.assertListEqual(note['hosts'], [])
+
+
+class NoteGetEntityTestCase(SeleneTestCase):
+    gmp_name = 'note'
+    test_get_entity = make_test_get_entity(
+        gmp_name,
+    )
