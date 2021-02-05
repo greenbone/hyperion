@@ -64,6 +64,7 @@ class NoteTestCase(SeleneTestCase):
                     active
                     orphan
                     hosts
+                    endTime
                     severity
                     nvt {
                         id
@@ -87,12 +88,13 @@ class NoteTestCase(SeleneTestCase):
         self.assertListEqual(note['hosts'], ['127.0.0.1', '1.3.3.7'])
         self.assertEqual(note['severity'], 0.1)
 
+        self.assertEqual(note['endTime'], '2021-03-07T11:13:55+01:00')
         self.assertIsNotNone(note['nvt'])
         nvt = note['nvt']
         self.assertEqual(nvt['id'], '1.3.6.1.4.1.25623.1.0.117130')
         self.assertEqual(
             nvt['name'],
-            'Cisco WebEx Meetings Server Unauthorized Meeting Action'
+            'Cisco WebEx Meetings Server Unauthorized Meeting Actions '
             'Vulnerability (Cisco-SA-20140129-CVE-2014-0682)',
         )
 
