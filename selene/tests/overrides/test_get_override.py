@@ -50,7 +50,6 @@ class OverrideTestCase(SeleneTestCase):
             '''
             query {
                 override(id: "08b69003-5fc2-4037-a479-93b440211c73") {
-                    id
                     name
                 }
             }
@@ -72,7 +71,7 @@ class OverrideTestCase(SeleneTestCase):
         response = self.query(
             '''
             query {
-                override(id: "08b69003-5fc2-4037-a479-93b440211c73") {
+                override(id: "5221d57f-3e62-4114-8e19-135a79b6b102") {
                     id
                     text
                     owner

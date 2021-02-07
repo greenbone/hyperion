@@ -64,7 +64,7 @@ class Override(EntityObjectType):
     def resolve_name(root, _info):
         raise GraphQLError(
             f'Cannot query field "{_info.field_name}"'
-            ' on type "{_info.parent_type}".'
+            f' on type "{_info.parent_type}".'
         )
 
     def resolve_end_time(root, _info):

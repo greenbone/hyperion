@@ -21,7 +21,7 @@ from unittest.mock import patch
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
-from selene.tests.entity import make_test_get_entity
+# from selene.tests.entity import make_test_get_entity
 
 CWD = Path(__file__).absolute().parent
 
@@ -41,6 +41,24 @@ class NoteTestCase(SeleneTestCase):
         )
 
         self.assertResponseAuthenticationRequired(response)
+
+    def test_query_name_in_note(self, _mock_gmp: GmpMockFactory):
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                note(id: "5221d57f-3e62-4114-8e19-135a79b6b102") {
+                    name
+                }
+            }
+            '''
+        )
+
+        self.assertResponseHasErrorMessage(
+            response, 'Cannot query field "name" on type "Note".'
+        )
 
     def test_get_note(self, mock_gmp: GmpMockFactory):
         note_xml_path = CWD / 'example-note.xml'
@@ -133,6 +151,6 @@ class NoteTestCase(SeleneTestCase):
 
 class NoteGetEntityTestCase(SeleneTestCase):
     gmp_name = 'note'
-    test_get_entity = make_test_get_entity(
-        gmp_name,
-    )
+    # test_get_entity = make_test_get_entity(
+    #     gmp_name,
+    # )
