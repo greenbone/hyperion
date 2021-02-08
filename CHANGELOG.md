@@ -26,3 +26,4 @@ $ cd hyperion && git log
 - Fixed a problem with NVT `oid` in Notes. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Fixed a problem with NVT `oid` in Overrides. [#16](https://github.com/greenbone/hyperion/pull/16)
 - Now the `name` field in Overrides and Notes can not be queried. It returned the `name` of the `permission`/`owner` because of `.find()`. Notes/Overrides don't have a name field theirself. [#16](https://github.com/greenbone/hyperion/pull/16)
+- Added the `asset_hosts_filter` parameter to `createTarget` mutation
