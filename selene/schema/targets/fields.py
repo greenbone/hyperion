@@ -64,6 +64,11 @@ class Target(EntityObjectType):
     snmp_credential = graphene.Field(TargetCredential)
 
     alive_tests = graphene.String(description="Which alive test to use.")
+    allow_simultaneous_ips = graphene.Boolean(
+        description=(
+            "Whether to scan multiple IPs of the same host simultaneously."
+        )
+    )
     reverse_lookup_only = graphene.Boolean(
         description="Whether to scan only hosts that have names."
     )
@@ -107,6 +112,9 @@ class Target(EntityObjectType):
 
     def resolve_alive_tests(root, _info):
         return get_text_from_element(root, 'alive_tests')
+
+    def resolve_allow_simultaneous_ips(root, _info):
+        return get_boolean_from_element(root, "allow_simultaneous_ips")
 
     def resolve_reverse_lookup_only(root, _info):
         return get_boolean_from_element(root, "reverse_lookup_only")
