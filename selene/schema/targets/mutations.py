@@ -22,7 +22,7 @@ import graphene
 
 from graphql import GraphQLError
 
-from gvm.protocols.latest import get_alive_test_from_string
+from gvm.protocols.next import get_alive_test_from_string
 
 from selene.schema.entities import (
     create_delete_by_ids_mutation,

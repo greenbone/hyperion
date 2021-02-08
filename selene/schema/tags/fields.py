@@ -20,7 +20,7 @@
 
 import graphene
 
-from gvm.protocols.latest import EntityType as GvmEntityType
+from gvm.protocols.next import EntityType as GvmEntityType
 
 from selene.schema.resolver import text_resolver
 

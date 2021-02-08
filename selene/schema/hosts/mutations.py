@@ -20,7 +20,7 @@
 
 import graphene
 
-from gvm.protocols.latest import AssetType as GvmAssetType
+from gvm.protocols.next import AssetType as GvmAssetType
 
 from selene.schema.entities import (
     create_delete_by_ids_mutation,

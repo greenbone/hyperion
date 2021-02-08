@@ -20,7 +20,7 @@
 
 import graphene
 
-from gvm.protocols.latest import ScannerType as GvmScannerType
+from gvm.protocols.next import ScannerType as GvmScannerType
 
 from selene.schema.resolver import find_resolver, text_resolver
 

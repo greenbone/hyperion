@@ -20,7 +20,7 @@
 
 import graphene
 
-from gvm.protocols.latest import (
+from gvm.protocols.next import (
     FilterType as GvmFilterType,
     get_filter_type_from_string,
 )

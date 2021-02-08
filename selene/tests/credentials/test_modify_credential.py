@@ -20,7 +20,7 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.latest import SnmpAuthAlgorithm, SnmpPrivacyAlgorithm
+from gvm.protocols.next import SnmpAuthAlgorithm, SnmpPrivacyAlgorithm
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 

@@ -19,7 +19,7 @@
 # pylint: disable=no-self-argument, no-member
 
 import graphene
-from gvm.protocols.latest import (
+from gvm.protocols.next import (
     PortRangeType as GvmPortRangeType,
 )
 

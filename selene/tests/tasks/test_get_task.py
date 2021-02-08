@@ -21,7 +21,7 @@ from pathlib import Path
 
 from unittest.mock import patch
 
-from gvm.protocols.latest import ScannerType
+from gvm.protocols.next import ScannerType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 

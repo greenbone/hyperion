@@ -19,7 +19,7 @@
 from uuid import uuid4
 
 from unittest.mock import patch
-from gvm.protocols.latest import InfoType as GvmInfoType
+from gvm.protocols.next import InfoType as GvmInfoType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 

@@ -19,7 +19,7 @@
 from uuid import uuid4
 
 from unittest.mock import patch
-from gvm.protocols.latest import AssetType as GvmAssetType
+from gvm.protocols.next import AssetType as GvmAssetType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 

@@ -22,7 +22,7 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.latest import (
+from gvm.protocols.next import (
     AlertCondition,
     AlertEvent,
     AlertMethod,

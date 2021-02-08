@@ -20,7 +20,7 @@
 
 import graphene
 
-from gvm.protocols.latest import TicketStatus as GvmTicketStatus
+from gvm.protocols.next import TicketStatus as GvmTicketStatus
 from selene.schema.resolver import text_resolver
 
 from selene.schema.parser import parse_uuid

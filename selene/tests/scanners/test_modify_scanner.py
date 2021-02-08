@@ -20,7 +20,7 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.latest import ScannerType as GvmScannerType
+from gvm.protocols.next import ScannerType as GvmScannerType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 

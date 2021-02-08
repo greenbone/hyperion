@@ -19,7 +19,7 @@
 from uuid import uuid4
 from unittest.mock import patch
 
-from gvm.protocols.latest import get_alive_test_from_string
+from gvm.protocols.next import get_alive_test_from_string
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 

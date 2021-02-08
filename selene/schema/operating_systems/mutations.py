@@ -20,7 +20,7 @@
 
 import graphene
 
-from gvm.protocols.latest import AssetType as GvmAssetType
+from gvm.protocols.next import AssetType as GvmAssetType
 
 from selene.schema.utils import get_gmp, require_authentication
 from selene.schema.entities import (
