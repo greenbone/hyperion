@@ -18,7 +18,7 @@
 
 from unittest.mock import patch
 
-from gvm.protocols.latest import get_filter_type_from_string
+from gvm.protocols.next import get_filter_type_from_string
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 

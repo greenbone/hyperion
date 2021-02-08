@@ -20,7 +20,7 @@
 
 import graphene
 
-from gvm.protocols.latest import (
+from gvm.protocols.next import (
     get_alert_event_from_string,
     get_alert_condition_from_string,
     get_alert_method_from_string,

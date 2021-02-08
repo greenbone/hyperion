@@ -21,7 +21,7 @@
 import graphene
 
 from graphql import ResolveInfo
-from gvm.protocols.latest import InfoType as GvmInfoType
+from gvm.protocols.next import InfoType as GvmInfoType
 
 from selene.schema.oval_definitions.fields import OvalDefinition
 

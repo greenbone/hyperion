@@ -17,7 +17,7 @@
 
 import graphene
 
-from gvm.protocols.latest import FeedType as GmpFeedType
+from gvm.protocols.next import FeedType as GmpFeedType
 
 from selene.schema.feeds.fields import Feed, FeedType
 from selene.schema.utils import get_gmp, require_authentication, XmlElement

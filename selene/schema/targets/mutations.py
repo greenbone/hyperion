@@ -22,9 +22,7 @@ import graphene
 
 from graphql import GraphQLError
 
-from gvm.protocols.latest import (
-    get_alive_test_from_string,
-)
+from gvm.protocols.next import get_alive_test_from_string
 
 from selene.schema.entities import (
     create_delete_by_ids_mutation,
@@ -58,6 +56,8 @@ class CreateTargetInput(graphene.InputObjectType):
         esxi_credential_id (UUID, optional): UUID of a esxi credential to use
             on target.
         alive_test (str, optional): Which alive test to use.
+        allow_simultaneous_ips (bool, optional): Whether to scan multiple
+            IPs of the same host simultaneously.
         reverse_lookup_only (bool, optional): Whether to scan only hosts that
             have names.
         reverse_lookup_unify (bool, optional): Whether to scan only one IP
@@ -65,6 +65,8 @@ class CreateTargetInput(graphene.InputObjectType):
         port_list_id (UUID): UUID of the port list to use on target.
         port_range (str, optional): Comma separated list of port ranges for the
             target (allowing whitespace)
+        hosts_filter (str, optional): Filter to select target host from
+            assets hosts
     """
 
     name = graphene.String(required=True, description="Target name.")
@@ -93,6 +95,11 @@ class CreateTargetInput(graphene.InputObjectType):
         description="UUID of a esxi credential to use on target."
     )
     alive_test = graphene.String(description="Which alive test to use.")
+    allow_simultaneous_ips = graphene.Boolean(
+        description=(
+            "Whether to scan multiple IPs of the same host simultaneously."
+        )
+    )
     reverse_lookup_only = graphene.Boolean(
         description="Whether to scan only hosts that have names."
     )
@@ -110,6 +117,9 @@ class CreateTargetInput(graphene.InputObjectType):
             "Comma separated list of port ranges for "
             "the target (allowing whitespace)"
         )
+    )
+    hosts_filter = graphene.String(
+        description="Filter to select target host from assets hosts."
     )
 
 
@@ -173,6 +183,8 @@ class CreateTarget(graphene.Mutation):
         else:
             esxi_credential_id = None
 
+        allow_simultaneous_ips = input_object.allow_simultaneous_ips
+
         reverse_lookup_only = input_object.reverse_lookup_only
 
         reverse_lookup_unify = input_object.reverse_lookup_unify
@@ -190,6 +202,8 @@ class CreateTarget(graphene.Mutation):
         else:
             port_list_id = None
 
+        asset_hosts_filter = input_object.hosts_filter
+
         gmp = get_gmp(info)
 
         resp = gmp.create_target(
@@ -203,10 +217,12 @@ class CreateTarget(graphene.Mutation):
             smb_credential_id=smb_credential_id,
             snmp_credential_id=snmp_credential_id,
             esxi_credential_id=esxi_credential_id,
+            allow_simultaneous_ips=allow_simultaneous_ips,
             reverse_lookup_only=reverse_lookup_only,
             reverse_lookup_unify=reverse_lookup_unify,
             port_list_id=port_list_id,
             port_range=input_object.port_range,
+            asset_hosts_filter=asset_hosts_filter,
         )
 
         return CreateTarget(target_id=resp.get('id'))
@@ -233,6 +249,8 @@ class ModifyTargetInput(graphene.InputObjectType):
         esxi_credential_id (UUID, optional): UUID of a esxi credential to use
             on target.
         alive_test (str, optional): Which alive test to use.
+        allow_simultaneous_ips (bool, optional): Whether to scan multiple
+            IPs of the same host simultaneously.
         reverse_lookup_only (bool, optional): Whether to scan only hosts that
             have names.
         reverse_lookup_unify (bool, optional): Whether to scan only one IP
@@ -271,6 +289,11 @@ class ModifyTargetInput(graphene.InputObjectType):
         description="UUID of a esxi credential to use on target."
     )
     alive_test = graphene.String(description="Which alive test to use.")
+    allow_simultaneous_ips = graphene.Boolean(
+        description=(
+            "Whether to scan multiple IPs of the same host simultaneously."
+        )
+    )
     reverse_lookup_only = graphene.Boolean(
         description="Whether to scan only hosts that have names."
     )
@@ -350,6 +373,8 @@ class ModifyTarget(graphene.Mutation):
         else:
             port_list_id = None
 
+        allow_simultaneous_ips = input_object.allow_simultaneous_ips
+
         reverse_lookup_only = input_object.reverse_lookup_only
 
         reverse_lookup_unify = input_object.reverse_lookup_unify
@@ -368,6 +393,7 @@ class ModifyTarget(graphene.Mutation):
             smb_credential_id=smb_credential_id,
             snmp_credential_id=snmp_credential_id,
             esxi_credential_id=esxi_credential_id,
+            allow_simultaneous_ips=allow_simultaneous_ips,
             reverse_lookup_only=reverse_lookup_only,
             reverse_lookup_unify=reverse_lookup_unify,
             port_list_id=port_list_id,

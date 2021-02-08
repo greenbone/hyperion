@@ -20,7 +20,7 @@
 
 import graphene
 
-from gvm.protocols.latest import (
+from gvm.protocols.next import (
     PermissionSubjectType as GvmPermissionSubjectType,
     EntityType as GvmEntityType,
 )

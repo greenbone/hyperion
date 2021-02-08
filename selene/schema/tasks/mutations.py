@@ -20,7 +20,7 @@
 
 import graphene
 
-from gvm.protocols.latest import (
+from gvm.protocols.next import (
     HostsOrdering as GvmHostsOrdering,
     get_hosts_ordering_from_string,
 )

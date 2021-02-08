@@ -18,7 +18,7 @@
 
 import graphene
 
-from gvm.protocols.latest import (
+from gvm.protocols.next import (
     get_aggregate_statistic_from_string,
     get_sort_order_from_string,
 )

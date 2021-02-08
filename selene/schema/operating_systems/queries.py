@@ -23,7 +23,7 @@ from uuid import UUID
 import graphene
 
 from graphql import ResolveInfo
-from gvm.protocols.latest import AssetType
+from gvm.protocols.next import AssetType
 
 from selene.schema.operating_systems.fields import OperatingSystem
 

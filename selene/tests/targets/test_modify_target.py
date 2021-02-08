@@ -20,7 +20,7 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.latest import get_alive_test_from_string
+from gvm.protocols.next import get_alive_test_from_string
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
@@ -73,6 +73,7 @@ class ModifyTargetTestCase(SeleneTestCase):
                     snmpCredentialId: "{self.snmp_credential_id}",
                     esxiCredentialId: "{self.esxi_credential_id}",
                     aliveTest: "icmp ping",
+                    allowSimultaneousIps: false,
                     reverseLookupUnify: false,
                 }}) {{
                     ok
@@ -100,6 +101,7 @@ class ModifyTargetTestCase(SeleneTestCase):
             smb_credential_id=str(self.smb_credential_id),
             snmp_credential_id=str(self.snmp_credential_id),
             esxi_credential_id=str(self.esxi_credential_id),
+            allow_simultaneous_ips=False,
             name="bar",
             reverse_lookup_only=None,
             reverse_lookup_unify=False,
@@ -150,6 +152,7 @@ class ModifyTargetTestCase(SeleneTestCase):
             smb_credential_id=None,
             snmp_credential_id=None,
             esxi_credential_id=None,
+            allow_simultaneous_ips=None,
             reverse_lookup_only=None,
             reverse_lookup_unify=None,
             port_list_id=None,
@@ -200,6 +203,7 @@ class ModifyTargetTestCase(SeleneTestCase):
             smb_credential_id=None,
             snmp_credential_id=None,
             esxi_credential_id=None,
+            allow_simultaneous_ips=None,
             reverse_lookup_only=None,
             reverse_lookup_unify=None,
             port_list_id=str(self.port_list_id),

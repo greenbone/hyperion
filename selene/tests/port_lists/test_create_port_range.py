@@ -20,7 +20,7 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.latest import PortRangeType as GvmPortRangeType
+from gvm.protocols.next import PortRangeType as GvmPortRangeType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 

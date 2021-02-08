@@ -22,7 +22,7 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.latest import get_hosts_ordering_from_string
+from gvm.protocols.next import get_hosts_ordering_from_string
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 

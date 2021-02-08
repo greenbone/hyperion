@@ -22,7 +22,7 @@ from pathlib import Path
 
 from unittest.mock import patch
 
-from gvm.protocols.latest import InfoType as GvmInfoType
+from gvm.protocols.next import InfoType as GvmInfoType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
