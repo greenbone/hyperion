@@ -18,32 +18,31 @@
 
 # pylint: disable=no-self-argument, no-member
 
+from graphql import GraphQLError
 import graphene
 
-from selene.schema.parser import parse_uuid
 from selene.schema.severity import SeverityType
 
 from selene.schema.resolver import find_resolver
 
+
 from selene.schema.utils import (
-    get_owner,
     get_boolean_from_element,
     get_datetime_from_element,
-    get_subelement,
     get_text_from_element,
 )
 
-from selene.schema.nvts.fields import NVT
+from selene.schema.entity import EntityObjectType
+from selene.schema.nvts.fields import ScanConfigNVT as NVT
+from selene.schema.results.queries import Result
+from selene.schema.tasks.fields import Task
 
 
-class Override(graphene.ObjectType):
+class Override(EntityObjectType):
     class Meta:
         default_resolver = find_resolver
 
-    uuid = graphene.UUID(name='id')
-
-    creation_time = graphene.DateTime()
-    modification_time = graphene.DateTime()
+    end_time = graphene.DateTime()
 
     active = graphene.Boolean()
     in_use = graphene.Boolean()
@@ -59,34 +58,23 @@ class Override(graphene.ObjectType):
     new_severity = SeverityType()
 
     nvt = graphene.Field(NVT)
+    task = graphene.Field(Task)
+    result = graphene.Field(Result)
 
-    def resolve_uuid(root, _info):
-        return parse_uuid(root.get('id'))
+    def resolve_name(root, _info):
+        raise GraphQLError(
+            f'Cannot query field "{_info.field_name}"'
+            f' on type "{_info.parent_type}".'
+        )
 
-    def resolve_owner(root, _info):
-        return get_owner(root)
-
-    def resolve_creation_time(root, _info):
-        return get_datetime_from_element(root, 'creation_time')
-
-    def resolve_modification_time(root, _info):
-        return get_datetime_from_element(root, 'modification_time')
-
-    def resolve_writable(root, _info):
-        return get_boolean_from_element(root, 'writable')
-
-    def resolve_in_use(root, _info):
-        return get_boolean_from_element(root, 'in_use')
+    def resolve_end_time(root, _info):
+        return get_datetime_from_element(root, 'end_time')
 
     def resolve_active(root, _info):
         return get_boolean_from_element(root, 'active')
 
     def resolve_orphan(root, _info):
         return get_boolean_from_element(root, 'orphan')
-
-    def resolve_name(root, _info):
-        nvt = get_subelement(root, 'nvt')
-        return get_text_from_element(nvt, 'name')
 
     def resolve_text(root, _info):
         return get_text_from_element(root, 'text')
@@ -95,7 +83,7 @@ class Override(graphene.ObjectType):
         hosts = get_text_from_element(root, 'hosts')
         if hosts is None:
             return []
-        return hosts.split(',')
+        return [host.strip() for host in hosts.split(',')]
 
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'severity')

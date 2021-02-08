@@ -18,6 +18,7 @@
 
 # pylint: disable=no-self-argument, no-member
 
+from graphql import GraphQLError
 import graphene
 
 from selene.schema.severity import SeverityType
@@ -52,6 +53,12 @@ class Note(EntityObjectType):
     nvt = graphene.Field(NVT)
     task = graphene.Field(Task)
     result = graphene.Field(Result)
+
+    def resolve_name(root, _info):
+        raise GraphQLError(
+            f'Cannot query field "{_info.field_name}"'
+            f' on type "{_info.parent_type}".'
+        )
 
     def resolve_end_time(root, _info):
         return get_datetime_from_element(root, 'end_time')

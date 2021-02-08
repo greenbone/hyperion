@@ -15,10 +15,14 @@ $ cd hyperion && git log
 
 ## [Unreleased]
 ### Added
-- Implement `average_duration` for tasks and audits fields [#14](https://github.com/greenbone/hyperion/pull/14)
+- Implement `average_duration` for tasks and audits fields. [#14](https://github.com/greenbone/hyperion/pull/14)
 
 ### Changed
+- For all NVT related Entities we use `id` instead of `oid` now, so every Entity uses `id` now. [#15](https://github.com/greenbone/hyperion/pull/15)
+
 ### Deprecated
 ### Removed
 ### Fixed
-- Fixed a problem with NVT `oid` in Notes [#15](https://github.com/greenbone/hyperion/pull/15)
+- Fixed a problem with NVT `oid` in Notes. [#15](https://github.com/greenbone/hyperion/pull/15)
+- Fixed a problem with NVT `oid` in Overrides. [#16](https://github.com/greenbone/hyperion/pull/16)
+- Now the `name` field in Overrides and Notes can not be queried. It returned the `name` of the `permission`/`owner` because of `.find()`. Notes/Overrides don't have a name field theirself. [#16](https://github.com/greenbone/hyperion/pull/16)
