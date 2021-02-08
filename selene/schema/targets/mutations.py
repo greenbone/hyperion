@@ -22,9 +22,7 @@ import graphene
 
 from graphql import GraphQLError
 
-from gvm.protocols.latest import (
-    get_alive_test_from_string,
-)
+from gvm.protocols.latest import get_alive_test_from_string
 
 from selene.schema.entities import (
     create_delete_by_ids_mutation,
@@ -65,6 +63,8 @@ class CreateTargetInput(graphene.InputObjectType):
         port_list_id (UUID): UUID of the port list to use on target.
         port_range (str, optional): Comma separated list of port ranges for the
             target (allowing whitespace)
+        hosts_filter (str, optional): Filter to select target host from
+            assets hosts
     """
 
     name = graphene.String(required=True, description="Target name.")
@@ -110,6 +110,9 @@ class CreateTargetInput(graphene.InputObjectType):
             "Comma separated list of port ranges for "
             "the target (allowing whitespace)"
         )
+    )
+    hosts_filter = graphene.String(
+        description="Filter to select target host from assets hosts."
     )
 
 
@@ -190,6 +193,8 @@ class CreateTarget(graphene.Mutation):
         else:
             port_list_id = None
 
+        asset_hosts_filter = input_object.hosts_filter
+
         gmp = get_gmp(info)
 
         resp = gmp.create_target(
@@ -207,6 +212,7 @@ class CreateTarget(graphene.Mutation):
             reverse_lookup_unify=reverse_lookup_unify,
             port_list_id=port_list_id,
             port_range=input_object.port_range,
+            asset_hosts_filter=asset_hosts_filter,
         )
 
         return CreateTarget(target_id=resp.get('id'))
