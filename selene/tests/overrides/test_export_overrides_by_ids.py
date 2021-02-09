@@ -76,7 +76,7 @@ class ExportOverridesByIdsTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, overrides_xml)
         mock_gmp.gmp_protocol.get_overrides.assert_called_with(
-            filter=f'uuid= uuid={self.id1} uuid={self.id2} ', details=True
+            filter=f'uuid={self.id1} uuid={self.id2} ', details=True
         )
 
     def test_export_empty_ids_array(self, mock_gmp: GmpMockFactory):
@@ -116,5 +116,5 @@ class ExportOverridesByIdsTestCase(SeleneTestCase):
         self.assertEqual(mock_xml, overrides_xml)
 
         mock_gmp.gmp_protocol.get_overrides.assert_called_with(
-            filter='uuid= ', details=True
+            filter='', details=True
         )

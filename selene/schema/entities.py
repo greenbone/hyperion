@@ -19,6 +19,7 @@
 # pylint: disable=no-self-argument
 
 from xml import etree
+from typing import List
 
 import graphene
 
@@ -92,7 +93,7 @@ def create_export_by_ids_mutation(
     entity_name: str,
     *,
     with_details: bool = None,
-    entities_name: str = None,
+    entities_name: List[str] = None,
     **kwargs,
 ):
     """
@@ -115,7 +116,7 @@ def create_export_by_ids_mutation(
                 else getattr(gmp, f'get_{entity_name}s')
             )
 
-            filter_string = 'uuid= '
+            filter_string = ''
 
             for entity_id in entity_ids:
                 filter_string += f'uuid={str(entity_id)} '

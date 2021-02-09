@@ -83,7 +83,7 @@ class ExportOperatingSystemsByIdsTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, operating_systems_xml)
         mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter=f'uuid= uuid={self.id1} uuid={self.id2} ',
+            filter=f'uuid={self.id1} uuid={self.id2} ',
             asset_type=GvmAssetType.OPERATING_SYSTEM,
         )
 
@@ -126,5 +126,5 @@ class ExportOperatingSystemsByIdsTestCase(SeleneTestCase):
         self.assertEqual(mock_xml, operating_systems_xml)
 
         mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter='uuid= ', asset_type=GvmAssetType.OPERATING_SYSTEM
+            filter='', asset_type=GvmAssetType.OPERATING_SYSTEM
         )

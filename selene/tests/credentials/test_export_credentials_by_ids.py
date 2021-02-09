@@ -78,7 +78,7 @@ class ExportCredentialsByIdsTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, credentials_xml)
         mock_gmp.gmp_protocol.get_credentials.assert_called_with(
-            filter=f'uuid= uuid={self.id1} uuid={self.id2} '
+            filter=f'uuid={self.id1} uuid={self.id2} '
         )
 
     def test_export_empty_ids_array(self, mock_gmp: GmpMockFactory):
@@ -119,6 +119,4 @@ class ExportCredentialsByIdsTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, credentials_xml)
 
-        mock_gmp.gmp_protocol.get_credentials.assert_called_with(
-            filter='uuid= '
-        )
+        mock_gmp.gmp_protocol.get_credentials.assert_called_with(filter='')
