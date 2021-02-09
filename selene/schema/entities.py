@@ -283,3 +283,61 @@ def create_delete_by_ids_mutation(
             return AbstractDeleteByIds(ok=True)
 
     return DeleteByIds
+
+
+class AbstractExportSecInfosByIds(graphene.ObjectType):
+    class Arguments:
+        entity_ids = graphene.List(
+            graphene.String,
+            required=True,
+            name='ids',
+            description="List of IDs of secinfo to export.",
+        )
+
+    exported_entities = graphene.String()
+
+
+def create_export_secinfos_by_ids_mutation(
+    entity_name: str,
+    *,
+    with_details: bool = None,
+    entities_name: str = None,
+    **kwargs,
+):
+    """
+    Args:
+        entity_name (str): Type of the entity in singular. E.g. 'config'
+        with_details (bool, optional): Should entities be returned with details
+        entities_name (str, optional): Plural for irregular words
+        ultimate (bool, optional): Whether to remove entirely, or to the
+            trashcan.
+    """
+
+    class ExportByIds(graphene.Mutation, AbstractExportByIds):
+        @require_authentication
+        def mutate(root, info, entity_ids: List[str] = None):
+            gmp = get_gmp(info)
+
+            get_entities = (
+                getattr(gmp, f'get_{entities_name}')
+                if entities_name
+                else getattr(gmp, f'get_{entity_name}s')
+            )
+
+            filter_string = ''
+
+            for entity_id in entity_ids:
+                filter_string += f'uuid={str(entity_id)} '
+
+            if with_details:
+                # not all get_entities function has details argument
+                xml: XmlElement = get_entities(
+                    filter=filter_string, details=True, **kwargs
+                )
+            else:
+                xml: XmlElement = get_entities(filter=filter_string, **kwargs)
+            serialized_xml = etree.ElementTree.tostring(xml, encoding='unicode')
+
+            return AbstractExportByIds(exported_entities=serialized_xml)
+
+    return ExportByIds
