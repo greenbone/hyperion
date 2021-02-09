@@ -72,7 +72,7 @@ class ExportAlertsByFilterTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, xml)
         mock_gmp.gmp_protocol.get_alerts.assert_called_with(
-            filter=f'uuid= uuid={self.id1} uuid={self.id2} '
+            filter=f'uuid={self.id1} uuid={self.id2} '
         )
 
     def test_export_empty_ids_array(self, mock_gmp: GmpMockFactory):
@@ -106,4 +106,4 @@ class ExportAlertsByFilterTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, xml)
 
-        mock_gmp.gmp_protocol.get_alerts.assert_called_with(filter='uuid= ')
+        mock_gmp.gmp_protocol.get_alerts.assert_called_with(filter='')
