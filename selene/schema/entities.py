@@ -22,6 +22,7 @@ from xml import etree
 from typing import List
 
 import graphene
+from gvm.protocols.next import InfoType
 
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
@@ -298,14 +299,11 @@ class AbstractExportSecInfosByIds(graphene.ObjectType):
 
 
 def create_export_secinfos_by_ids_mutation(
-    entity_name: str,
-    *,
-    entities_name: str = None,
-    **kwargs,
+    info_type: InfoType,
 ):
     """
     Args:
-        entity_name (str): Type of the entity in singular. E.g. 'config'
+        info_type (str): Type of the secinfo in singular. E.g. 'nvt'
         entities_name (str, optional): Plural for irregular words
         ultimate (bool, optional): Whether to remove entirely, or to the
             trashcan.
@@ -316,11 +314,7 @@ def create_export_secinfos_by_ids_mutation(
         def mutate(root, info, entity_ids: List[str] = None):
             gmp = get_gmp(info)
 
-            get_entities = (
-                getattr(gmp, f'get_{entities_name}')
-                if entities_name
-                else getattr(gmp, f'get_{entity_name}s')
-            )
+            get_entities = getattr(gmp, 'get_info_list')
 
             filter_string = ''
 
@@ -328,7 +322,7 @@ def create_export_secinfos_by_ids_mutation(
                 filter_string += f'uuid={str(entity_id)} '
 
             xml: XmlElement = get_entities(
-                filter=filter_string, details=True, **kwargs
+                filter=filter_string, info_type=info_type, details=True
             )
             serialized_xml = etree.ElementTree.tostring(xml, encoding='unicode')
 
