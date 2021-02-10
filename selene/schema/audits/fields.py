@@ -28,10 +28,12 @@ from selene.schema.utils import (
     get_subelement,
     get_sub_element_if_id_available,
     get_text_from_element,
+    get_text,
+    get_datetime_from_element,
 )
 from selene.schema.entity import EntityObjectType
+from selene.schema.severity import SeverityType
 from selene.schema.tasks.fields import (
-    TaskReports,
     TaskSubObjectType,
     TaskScanConfig,
     TaskScanner,
@@ -39,8 +41,20 @@ from selene.schema.tasks.fields import (
     TaskSchedule,
     TaskPreference,
     TaskResults,
-    LastReport as TaskLastReport,
 )
+
+
+class AuditReportsCounts(graphene.ObjectType):
+    total = graphene.Int(description="Total count of reports for the audit")
+    finished = graphene.Int(
+        description="Number of finished reports for the audit"
+    )
+
+    def resolve_finished(parent, _info):
+        return get_text_from_element(parent, 'finished')
+
+    def resolve_total(parent, _info):
+        return get_text(parent)
 
 
 class AuditComplianceCount(graphene.ObjectType):
@@ -52,9 +66,14 @@ class AuditComplianceCount(graphene.ObjectType):
         default_resolver = int_resolver
 
 
-class AuditLastReport(TaskLastReport):
-    """ The last report of a task for a finished scan """
+class AuditLastReport(graphene.ObjectType):
+    """ The last report of an audit for a finished scan """
 
+    uuid = graphene.String(name='id')
+    severity = SeverityType()
+    scan_start = graphene.DateTime()
+    scan_end = graphene.DateTime()
+    timestamp = graphene.DateTime()
     compliance_count = graphene.Field(
         AuditComplianceCount,
         description='Compliance status for this audit',
@@ -64,14 +83,71 @@ class AuditLastReport(TaskLastReport):
         report = get_subelement(root, 'report')
         return get_subelement(report, 'compliance_count')
 
+    def resolve_uuid(parent, _info):
+        report = parent.find('report')
+        uuid = report.get('id')
+        return uuid
 
-class AuditReports(TaskReports):
+    def resolve_severity(parent, _info):
+        report = parent.find('report')
+        severity = report.find('severity')
+        return get_text(severity)
+
+    def resolve_timestamp(parent, _info):
+        report = parent.find('report')
+        return get_datetime_from_element(report, 'timestamp')
+
+    def resolve_scan_start(parent, _info):
+        report = parent.find('report')
+        return get_datetime_from_element(report, 'scan_start')
+
+    def resolve_scan_end(parent, _info):
+        report = parent.find('report')
+        return get_datetime_from_element(report, 'scan_end')
+
+
+class AuditCurrentReport(graphene.ObjectType):
+    """The current report of an audit is only available
+    during a running scan
+    """
+
+    uuid = graphene.String(name='id')
+    scan_start = graphene.DateTime()
+    scan_end = graphene.DateTime()
+    timestamp = graphene.DateTime()
+
+    def resolve_uuid(parent, _info):
+        report = parent.find('report')
+        return report.get('id')
+
+    def resolve_scan_start(parent, _info):
+        report = parent.find('report')
+        return get_datetime_from_element(report, 'scan_start')
+
+    def resolve_scan_end(parent, _info):
+        report = parent.find('report')
+        return get_datetime_from_element(report, 'scan_end')
+
+    def resolve_timestamp(parent, _info):
+        report = parent.find('report')
+        return get_datetime_from_element(report, 'timestamp')
+
+
+class AuditReports(graphene.ObjectType):
+    counts = graphene.Field(AuditReportsCounts)
+    current_report = graphene.Field(
+        AuditCurrentReport,
+        description='Report of the current running scan for this audit',
+    )
     last_report = graphene.Field(
         AuditLastReport, description='Last finished report of the audit'
     )
 
     class Meta:
         default_resolver = find_resolver
+
+    def resolve_counts(root, _info):
+        return get_subelement(root, 'report_count')
 
 
 class Audit(EntityObjectType):
