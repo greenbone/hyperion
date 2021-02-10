@@ -16,6 +16,7 @@ $ cd hyperion && git log
 ## [Unreleased]
 ### Added
 - Implement `average_duration` for tasks and audits fields. [#14](https://github.com/greenbone/hyperion/pull/14)
+- Implement new abstract Class for SecInfo BulkExport by IDs. [#24](https://github.com/greenbone/hyperion/pull/24) 
 
 ### Changed
 - For all NVT related Entities we use `id` instead of `oid` now, so every Entity uses `id` now. [#15](https://github.com/greenbone/hyperion/pull/15)

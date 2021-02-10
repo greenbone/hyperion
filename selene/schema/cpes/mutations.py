@@ -20,7 +20,7 @@
 
 from gvm.protocols.next import InfoType as GvmInfoType
 from selene.schema.entities import (
-    create_export_by_ids_mutation,
+    create_export_secinfos_by_ids_mutation,
     create_export_by_filter_mutation,
 )
 
@@ -29,10 +29,7 @@ from selene.schema.entities import (
 # 'AssertionError: Found different types with the same name in the
 #   schema: ExportByIds, ExportByIds.'
 
-ExportByIdsClass = create_export_by_ids_mutation(
-    entity_name='info',
-    entities_name='info_list',
-    with_details=True,
+ExportByIdsClass = create_export_secinfos_by_ids_mutation(
     info_type=GvmInfoType.CPE,
 )
 

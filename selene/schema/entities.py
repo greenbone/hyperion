@@ -22,6 +22,7 @@ from xml import etree
 from typing import List
 
 import graphene
+from gvm.protocols.next import InfoType
 
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
@@ -283,3 +284,48 @@ def create_delete_by_ids_mutation(
             return AbstractDeleteByIds(ok=True)
 
     return DeleteByIds
+
+
+class AbstractExportSecInfosByIds(graphene.ObjectType):
+    class Arguments:
+        entity_ids = graphene.List(
+            graphene.String,
+            required=True,
+            name='ids',
+            description="List of IDs of secinfo to export.",
+        )
+
+    exported_entities = graphene.String()
+
+
+def create_export_secinfos_by_ids_mutation(
+    info_type: InfoType,
+):
+    """
+    Args:
+        info_type (str): Type of the secinfo in singular. E.g. 'nvt'
+        entities_name (str, optional): Plural for irregular words
+        ultimate (bool, optional): Whether to remove entirely, or to the
+            trashcan.
+    """
+
+    class ExportSecInfoByIds(graphene.Mutation, AbstractExportSecInfosByIds):
+        @require_authentication
+        def mutate(root, info, entity_ids: List[str] = None):
+            gmp = get_gmp(info)
+
+            get_entities = getattr(gmp, 'get_info_list')
+
+            filter_string = ''
+
+            for entity_id in entity_ids:
+                filter_string += f'uuid={str(entity_id)} '
+
+            xml: XmlElement = get_entities(
+                filter=filter_string, info_type=info_type, details=True
+            )
+            serialized_xml = etree.ElementTree.tostring(xml, encoding='unicode')
+
+            return AbstractExportByIds(exported_entities=serialized_xml)
+
+    return ExportSecInfoByIds
