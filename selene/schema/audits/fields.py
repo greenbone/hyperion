@@ -20,7 +20,7 @@
 
 import graphene
 
-from selene.schema.resolver import find_resolver
+from selene.schema.resolver import find_resolver, int_resolver
 
 from selene.schema.utils import (
     get_boolean_from_element,
@@ -39,7 +39,39 @@ from selene.schema.tasks.fields import (
     TaskSchedule,
     TaskPreference,
     TaskResults,
+    LastReport as TaskLastReport,
 )
+
+
+class AuditComplianceCount(graphene.ObjectType):
+    yes = graphene.Int()
+    no = graphene.Int()
+    incomplete = graphene.Int()
+
+    class Meta:
+        default_resolver = int_resolver
+
+
+class AuditLastReport(TaskLastReport):
+    """ The last report of a task for a finished scan """
+
+    compliance_count = graphene.Field(
+        AuditComplianceCount,
+        description='Compliance status for this audit',
+    )
+
+    def resolve_compliance_count(root, _info):
+        report = get_subelement(root, 'report')
+        return get_subelement(report, 'compliance_count')
+
+
+class AuditReports(TaskReports):
+    last_report = graphene.Field(
+        AuditLastReport, description='Last finished report of the audit'
+    )
+
+    class Meta:
+        default_resolver = find_resolver
 
 
 class Audit(EntityObjectType):
@@ -73,7 +105,7 @@ class Audit(EntityObjectType):
     schedule_periods = graphene.Int()
 
     preferences = graphene.List(TaskPreference)
-    reports = graphene.Field(TaskReports)
+    reports = graphene.Field(AuditReports)
     results = graphene.Field(TaskResults)
 
     def resolve_average_duration(root, _info):
