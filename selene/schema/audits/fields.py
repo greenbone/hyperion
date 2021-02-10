@@ -167,7 +167,7 @@ class AuditSubObjectType(BaseObjectType):
         return get_boolean_from_element(root, 'trash')
 
 
-class AuditScanConfig(AuditSubObjectType):
+class AuditPolicy(AuditSubObjectType):
 
     scan_config_type = graphene.Int(
         name="type", description="Type of the scan config"
@@ -251,7 +251,7 @@ class Audit(EntityObjectType):
 
     progress = graphene.Int()
 
-    policy = graphene.Field(AuditScanConfig)
+    policy = graphene.Field(AuditPolicy)
     target = graphene.Field(AuditSubObjectType)
     scanner = graphene.Field(AuditScanner)
     alerts = graphene.List(AuditSubObjectType)
