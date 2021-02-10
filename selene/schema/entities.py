@@ -22,6 +22,7 @@ from xml import etree
 from typing import List
 
 import graphene
+from gvm.protocols.next import InfoType
 
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
@@ -298,46 +299,33 @@ class AbstractExportSecInfosByIds(graphene.ObjectType):
 
 
 def create_export_secinfos_by_ids_mutation(
-    entity_name: str,
-    *,
-    with_details: bool = None,
-    entities_name: str = None,
-    **kwargs,
+    info_type: InfoType,
 ):
     """
     Args:
-        entity_name (str): Type of the entity in singular. E.g. 'config'
-        with_details (bool, optional): Should entities be returned with details
+        info_type (str): Type of the secinfo in singular. E.g. 'nvt'
         entities_name (str, optional): Plural for irregular words
         ultimate (bool, optional): Whether to remove entirely, or to the
             trashcan.
     """
 
-    class ExportByIds(graphene.Mutation, AbstractExportByIds):
+    class ExportSecInfoByIds(graphene.Mutation, AbstractExportSecInfosByIds):
         @require_authentication
         def mutate(root, info, entity_ids: List[str] = None):
             gmp = get_gmp(info)
 
-            get_entities = (
-                getattr(gmp, f'get_{entities_name}')
-                if entities_name
-                else getattr(gmp, f'get_{entity_name}s')
-            )
+            get_entities = getattr(gmp, 'get_info_list')
 
             filter_string = ''
 
             for entity_id in entity_ids:
                 filter_string += f'uuid={str(entity_id)} '
 
-            if with_details:
-                # not all get_entities function has details argument
-                xml: XmlElement = get_entities(
-                    filter=filter_string, details=True, **kwargs
-                )
-            else:
-                xml: XmlElement = get_entities(filter=filter_string, **kwargs)
+            xml: XmlElement = get_entities(
+                filter=filter_string, info_type=info_type, details=True
+            )
             serialized_xml = etree.ElementTree.tostring(xml, encoding='unicode')
 
             return AbstractExportByIds(exported_entities=serialized_xml)
 
-    return ExportByIds
+    return ExportSecInfoByIds
