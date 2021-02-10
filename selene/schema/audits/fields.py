@@ -20,8 +20,9 @@
 
 import graphene
 
-from selene.schema.resolver import find_resolver, int_resolver
+from selene.schema.resolver import find_resolver, int_resolver, text_resolver
 
+from selene.schema.parser import parse_int
 from selene.schema.utils import (
     get_boolean_from_element,
     get_int_from_element,
@@ -30,18 +31,13 @@ from selene.schema.utils import (
     get_text_from_element,
     get_text,
     get_datetime_from_element,
+    XmlElement,
 )
+from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
+from selene.schema.scanners.fields import ScannerType
 from selene.schema.severity import SeverityType
-from selene.schema.tasks.fields import (
-    TaskSubObjectType,
-    TaskScanConfig,
-    TaskScanner,
-    Observers,
-    TaskSchedule,
-    TaskPreference,
-    TaskResults,
-)
+from selene.schema.tasks.fields import BaseCounts
 
 
 class AuditReportsCounts(graphene.ObjectType):
@@ -150,6 +146,91 @@ class AuditReports(graphene.ObjectType):
         return get_subelement(root, 'report_count')
 
 
+class AuditResultsCounts(BaseCounts):
+    def resolve_current(current: int, _info):
+        return current
+
+
+class AuditResults(graphene.ObjectType):
+    counts = graphene.Field(AuditResultsCounts)
+
+    def resolve_counts(result_count: XmlElement, _info):
+        current = get_text(result_count)
+        return parse_int(current)
+
+
+class AuditSubObjectType(BaseObjectType):
+
+    trash = graphene.Boolean()
+
+    def resolve_trash(root, _info):
+        return get_boolean_from_element(root, 'trash')
+
+
+class AuditScanConfig(AuditSubObjectType):
+
+    scan_config_type = graphene.Int(
+        name="type", description="Type of the scan config"
+    )
+
+    def resolve_scan_config_type(parent, _info):
+        return get_int_from_element(parent, 'type')
+
+
+class AuditScanner(AuditSubObjectType):
+    scanner_type = graphene.Field(
+        ScannerType, name="type", description="Type of the scanner"
+    )
+
+    def resolve_scanner_type(root, _info):
+        return get_text_from_element(root, 'type')
+
+
+class AuditSchedule(AuditSubObjectType):
+    class Meta:
+        default_resolver = text_resolver
+
+    icalendar = graphene.String()
+    duration = graphene.Int()
+    timezone = graphene.String()
+
+    def resolve_duration(root, _info):
+        return get_int_from_element(root, 'duration')
+
+
+class AuditPreference(graphene.ObjectType):
+    class Meta:
+        default_resolver = text_resolver
+
+    description = graphene.String()
+    name = graphene.String()
+    value = graphene.String()
+
+    def resolve_name(root, _info):
+        return get_text_from_element(root, 'scanner_name')
+
+    def resolve_description(root, _info):
+        return get_text_from_element(root, 'name')
+
+
+class AuditObservers(graphene.ObjectType):
+    users = graphene.List(graphene.String)
+    groups = graphene.List(BaseObjectType)
+    roles = graphene.List(BaseObjectType)
+
+    def resolve_users(root, _info):
+        user_string = get_text(root)
+        if not user_string:
+            return None
+        return user_string.split(' ')
+
+    def resolve_groups(root, _info):
+        return root.findall('group')
+
+    def resolve_roles(root, _info):
+        return root.findall('role')
+
+
 class Audit(EntityObjectType):
     """Audit object type. Can be used in GetAudit and GetAudits queries.
 
@@ -170,19 +251,19 @@ class Audit(EntityObjectType):
 
     progress = graphene.Int()
 
-    policy = graphene.Field(TaskScanConfig)
-    target = graphene.Field(TaskSubObjectType)
-    scanner = graphene.Field(TaskScanner)
-    alerts = graphene.List(TaskSubObjectType)
+    policy = graphene.Field(AuditScanConfig)
+    target = graphene.Field(AuditSubObjectType)
+    scanner = graphene.Field(AuditScanner)
+    alerts = graphene.List(AuditSubObjectType)
 
-    observers = graphene.Field(Observers)
+    observers = graphene.Field(AuditObservers)
 
-    schedule = graphene.Field(TaskSchedule)
+    schedule = graphene.Field(AuditSchedule)
     schedule_periods = graphene.Int()
 
-    preferences = graphene.List(TaskPreference)
+    preferences = graphene.List(AuditPreference)
     reports = graphene.Field(AuditReports)
-    results = graphene.Field(TaskResults)
+    results = graphene.Field(AuditResults)
 
     def resolve_average_duration(root, _info):
         return get_int_from_element(root, 'average_duration')
