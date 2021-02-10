@@ -300,20 +300,18 @@ class AbstractExportSecInfosByIds(graphene.ObjectType):
 def create_export_secinfos_by_ids_mutation(
     entity_name: str,
     *,
-    with_details: bool = None,
     entities_name: str = None,
     **kwargs,
 ):
     """
     Args:
         entity_name (str): Type of the entity in singular. E.g. 'config'
-        with_details (bool, optional): Should entities be returned with details
         entities_name (str, optional): Plural for irregular words
         ultimate (bool, optional): Whether to remove entirely, or to the
             trashcan.
     """
 
-    class ExportByIds(graphene.Mutation, AbstractExportByIds):
+    class ExportSecInfoByIds(graphene.Mutation, AbstractExportSecInfosByIds):
         @require_authentication
         def mutate(root, info, entity_ids: List[str] = None):
             gmp = get_gmp(info)
@@ -329,15 +327,11 @@ def create_export_secinfos_by_ids_mutation(
             for entity_id in entity_ids:
                 filter_string += f'uuid={str(entity_id)} '
 
-            if with_details:
-                # not all get_entities function has details argument
-                xml: XmlElement = get_entities(
-                    filter=filter_string, details=True, **kwargs
-                )
-            else:
-                xml: XmlElement = get_entities(filter=filter_string, **kwargs)
+            xml: XmlElement = get_entities(
+                filter=filter_string, details=True, **kwargs
+            )
             serialized_xml = etree.ElementTree.tostring(xml, encoding='unicode')
 
             return AbstractExportByIds(exported_entities=serialized_xml)
 
-    return ExportByIds
+    return ExportSecInfoByIds

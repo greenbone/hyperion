@@ -32,7 +32,6 @@ from selene.schema.entities import (
 ExportByIdsClass = create_export_secinfos_by_ids_mutation(
     entity_name='info',
     entities_name='info_list',
-    with_details=True,
     info_type=GvmInfoType.CPE,
 )
 
