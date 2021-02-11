@@ -86,13 +86,13 @@ class ExportTicketsByIdsTestCase(SeleneTestCase):
             '<get_tickets_response status=\"200\" status_text=\"OK\">'
             '<filters id=\"\"><term>uuid= first=1 rows=10 sort=name</term>'
             '<keywords><keyword><column>uuid</column><relation>=</relation>'
-            '<value /></keyword><keyword><column>first</column><relation>'
+            '<value/></keyword><keyword><column>first</column><relation>'
             '=</relation><value>1</value></keyword><keyword><column>rows'
             '</column><relation>=</relation><value>10</value></keyword>'
             '<keyword><column>sort</column><relation>=</relation><value>name'
             '</value></keyword></keywords></filters><sort><field>name<order>'
             'ascending</order></field></sort>'
-            '<tickets max=\"10\" start=\"1\" /><ticket_count>16<filtered>0'
+            '<tickets max=\"10\" start=\"1\"/><ticket_count>16<filtered>0'
             '</filtered><page>0</page></ticket_count></get_tickets_response>'
         )
         mock_gmp.mock_response('get_tickets', bytes(mock_xml, 'utf-8'))

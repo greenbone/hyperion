@@ -83,7 +83,7 @@ class ExportReportsByFilterTestCase(SeleneTestCase):
             "<apply_overrides>0</apply_overrides><filters id=\"\">"
             "<term>uuid= first=1 rows=10 sort=name</term>"
             "<keywords><keyword><column>uuid</column><relation>=</relation>"
-            "<value /></keyword></keywords></filters></get_reports_response>"
+            "<value/></keyword></keywords></filters></get_reports_response>"
         )
 
         mock_gmp.mock_response('get_reports', bytes(mock_xml, 'utf-8'))

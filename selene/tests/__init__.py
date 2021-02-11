@@ -17,10 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
-
-import xml.etree.ElementTree as ET
-
 from unittest.mock import create_autospec, patch, MagicMock
+
+import lxml.etree as ET
 
 from django.http import HttpResponse
 from django.test import TestCase
@@ -98,16 +97,16 @@ class SeleneTestCase(TestCase):
             Response object from client
         """
         body = {"query": query}
-        if op_name:
+        if op_name is not None:
             body["operation_name"] = op_name
-        if variables:
+        if variables is not None:
             body["variables"] = variables
-        if input_data:
+        if input_data is not None:
             if variables in body:
                 body["variables"]["input"] = input_data
             else:
                 body["variables"] = {"input": input_data}
-        if headers:
+        if headers is not None:
             resp = self.client.post(
                 self.GRAPHQL_URL,
                 json.dumps(body),

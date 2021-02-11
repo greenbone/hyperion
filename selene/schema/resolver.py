@@ -49,7 +49,7 @@ def find_resolver(attname, default_value, root, info, **args):
 def nvt_tags_resolver(attname, default_value, root, info, **args):
     # pylint: disable=unused-argument
     tags = get_text(root)
-    if tags:
+    if tags is not None:
         tags = tags.split('|')
         for tag in tags:
             key, value = tag.strip().split('=', 1)

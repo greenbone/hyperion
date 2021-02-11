@@ -69,6 +69,6 @@ class Filter(EntityObjectType):
 
     def resolve_alerts(root, _info):
         alerts = root.find('alerts')
-        if alerts:
+        if alerts is not None:
             return alerts.findall('alert')
         return None

@@ -137,7 +137,7 @@ class SchemaTable(Table):
         # Build the node containing the table content
         table_node = self.build_table(table_body, col_widths, table_headers)
         self.add_name(table_node)
-        if title:
+        if title is not None:
             table_node.insert(0, title)
         return [table_node] + messages
 

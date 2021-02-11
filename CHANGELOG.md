@@ -23,6 +23,7 @@ $ cd hyperion && git log
 - For all NVT related Entities we use `id` instead of `oid` now, so every Entity uses `id` now. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Use `next` instead of `latest` `python-gvm` version for developement. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Removed empty `uuid= ` from `filter_string` in `create_export_by_ids_mutation` [#23](https://github.com/greenbone/hyperion/pull/23) 
+- Changed dependency of `xml` to `lxml` [#27](https://github.com/greenbone/hyperion/pull/27)
 
 ### Deprecated
 ### Removed
@@ -32,3 +33,4 @@ $ cd hyperion && git log
 - Now the `name` field in Overrides and Notes can not be queried. It returned the `name` of the `permission`/`owner` because of `.find()`. Notes/Overrides don't have a name field theirself. [#16](https://github.com/greenbone/hyperion/pull/16)
 - Added the `asset_hosts_filter` parameter to `createTarget` mutation [#15](https://github.com/greenbone/hyperion/pull/15)
 - Added the `allow_simultaneous_ips` parameter to `createTarget`, `modifyTarget` mutation and `getTarget(s)` queries. [#15](https://github.com/greenbone/hyperion/pull/15)
+- Fixed `FutureWarnings` due to `if x:` -> `if x is not None:` [#27](https://github.com/greenbone/hyperion/pull/27)

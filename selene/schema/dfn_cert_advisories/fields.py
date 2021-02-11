@@ -70,31 +70,31 @@ class DFNCertAdvisory(EntityObjectType):
 
     def resolve_title(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv')
-        if dfn_cert_adv:
+        if dfn_cert_adv is not None:
             return get_text_from_element(dfn_cert_adv, 'title')
         return None
 
     def resolve_summary(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv')
-        if dfn_cert_adv:
+        if dfn_cert_adv is not None:
             return get_text_from_element(dfn_cert_adv, 'summary').strip()
         return None
 
     def resolve_max_cvss(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv')
-        if dfn_cert_adv:
+        if dfn_cert_adv is not None:
             return get_text_from_element(dfn_cert_adv, 'max_cvss')
         return None
 
     def resolve_score(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv')
-        if dfn_cert_adv:
+        if dfn_cert_adv is not None:
             return get_text_from_element(dfn_cert_adv, 'score')
         return None
 
     def resolve_cve_refs(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv')
-        if dfn_cert_adv:
+        if dfn_cert_adv is not None:
             return get_int_from_element(dfn_cert_adv, 'cve_refs')
         return None
 
@@ -109,7 +109,7 @@ class DFNCertAdvisory(EntityObjectType):
 
     def resolve_status(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv')
-        if dfn_cert_adv:
+        if dfn_cert_adv is not None:
             return get_text_from_element(dfn_cert_adv, 'status')
         return None
 
@@ -117,7 +117,7 @@ class DFNCertAdvisory(EntityObjectType):
         # dfn_cert_adv = (
         #     root.find('dfn_cert_adv').find('raw_data').find('{*}entry')
         # )
-        # if dfn_cert_adv:
+        # if dfn_cert_adv is not None:
         #     return dfn_cert_adv.find('{*}author')
 
         # somehow support python 3.7,

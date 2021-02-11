@@ -494,7 +494,7 @@ def create_modify_user_mutation(
 
             # Get the User which is to be modified
             user_xml = None
-            if user_id:
+            if user_id is not None:
                 get_user_xml_response = gmp.get_user(user_id=user_id)
                 user_xml = (
                     get_user_xml_response.find('user')
@@ -517,7 +517,7 @@ def create_modify_user_mutation(
             # Hosts
             hosts_old = []
             hosts_string = get_text_from_element(user_xml, 'hosts')
-            if hosts_string:
+            if hosts_string is not None:
                 hosts_string = hosts_string.translate(
                     str.maketrans('', '', string.whitespace)
                 )
@@ -525,7 +525,7 @@ def create_modify_user_mutation(
             # Ifaces list
             ifaces_old = []
             ifaces_string = get_text_from_element(user_xml, 'ifaces')
-            if ifaces_string:
+            if ifaces_string is not None:
                 ifaces_string = ifaces_string.translate(
                     str.maketrans('', '', string.whitespace)
                 )
