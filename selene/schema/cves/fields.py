@@ -153,15 +153,15 @@ class CVE(EntityObjectType):
         return get_text_from_element(root.find('cve'), 'cvss_vector')
 
     def resolve_cvss_v2_vector(root, _info):
-        entry = root.find('cve').find('raw_data').find('{*}entry')
+        entry = root.find('cve/raw_data/{*}entry')
         if entry is not None:
-            return entry.find('{*}cvss').find('{*}base_metrics')
+            return entry.find('{*}cvss/{*}base_metrics')
         return None
 
     def resolve_cvss_v3_vector(root, _info):
-        entry = root.find('cve').find('raw_data').find('{*}entry')
+        entry = root.find('cve/raw_data/{*}entry')
         if entry is not None:
-            return entry.find('{*}cvss3').find('{*}base_metrics')
+            return entry.find('{*}cvss3/{*}base_metrics')
         return None
 
     def resolve_description(root, _info):
@@ -174,13 +174,13 @@ class CVE(EntityObjectType):
         return None
 
     def resolve_nvt_refs(root, _info):
-        nvts = root.find('cve').find('nvts').findall('nvt')
+        nvts = root.find('cve/nvts')
         if nvts is not None:
-            return nvts
+            return nvts.findall('nvt')
         return None
 
     def resolve_cert_refs(root, _info):
-        cert = root.find('cve').find('cert').findall('cert_ref')
+        cert = root.find('cve/cert')
         if cert is not None:
-            return cert
+            return cert.findall('cert_ref')
         return None
