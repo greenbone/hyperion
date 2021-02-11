@@ -93,20 +93,20 @@ class CVETestCase(SeleneTestCase):
         response = self.query(
             '''
             query {
-                cve(id: "CVE-1999-0001") {
+                cve(id: "CVE-2020-2222") {
                     id
                     name
                     updateTime
                     description
                     products
-                    cvssV2Vector {
-                        accessVector
-                        accessComplexity
-                        authentication
-                        confidentiality
-                        integrity
-                        availability
-                        baseScore
+                    nvtRefs {
+                        id
+                        name
+                    }
+                    certRefs {
+                        name
+                        title
+                        type
                     }
                 }
             }
@@ -119,53 +119,27 @@ class CVETestCase(SeleneTestCase):
 
         cve = json['data']['cve']
 
-        self.assertEqual(cve['name'], 'CVE-1999-0001')
-        self.assertEqual(cve['id'], 'CVE-1999-0001')
+        self.assertEqual(cve['name'], 'CVE-2020-2222')
+        self.assertEqual(cve['id'], 'CVE-2020-2222')
         self.assertEqual(
             cve['description'],
-            'ip_input.c in BSD-derived TCP/IP implementations allows remote '
-            'attackers to cause a denial of service (crash or hang) via '
-            'crafted packets.',
+            'bar baz boing',
         )
-        self.assertIsNotNone(cve['cvssV2Vector'])
-
-        cvss_v2_vector = cve['cvssV2Vector']
-        self.assertEqual(cvss_v2_vector['accessVector'], 'NETWORK')
-        self.assertEqual(cvss_v2_vector['accessComplexity'], 'LOW')
-        self.assertEqual(cvss_v2_vector['authentication'], 'NONE')
-        self.assertEqual(cvss_v2_vector['confidentiality'], 'NONE')
-        self.assertEqual(cvss_v2_vector['integrity'], 'NONE')
-        self.assertEqual(cvss_v2_vector['availability'], 'PARTIAL')
-        self.assertEqual(cvss_v2_vector['baseScore'], 5)
 
         self.assertEqual(
             cve['products'],
             [
-                'cpe:/o:bsdi:bsd_os:3.1',
-                'cpe:/o:freebsd:freebsd:1.0',
-                'cpe:/o:freebsd:freebsd:1.1',
-                'cpe:/o:freebsd:freebsd:1.1.5.1',
-                'cpe:/o:freebsd:freebsd:1.2',
-                'cpe:/o:freebsd:freebsd:2.0',
-                'cpe:/o:freebsd:freebsd:2.0.1',
-                'cpe:/o:freebsd:freebsd:2.0.5',
-                'cpe:/o:freebsd:freebsd:2.1.5',
-                'cpe:/o:freebsd:freebsd:2.1.6',
-                'cpe:/o:freebsd:freebsd:2.1.6.1',
-                'cpe:/o:freebsd:freebsd:2.1.7',
-                'cpe:/o:freebsd:freebsd:2.1.7.1',
-                'cpe:/o:freebsd:freebsd:2.2',
-                'cpe:/o:freebsd:freebsd:2.2.2',
-                'cpe:/o:freebsd:freebsd:2.2.3',
-                'cpe:/o:freebsd:freebsd:2.2.4',
-                'cpe:/o:freebsd:freebsd:2.2.5',
-                'cpe:/o:freebsd:freebsd:2.2.6',
-                'cpe:/o:freebsd:freebsd:2.2.8',
-                'cpe:/o:freebsd:freebsd:3.0',
-                'cpe:/o:openbsd:openbsd:2.3',
-                'cpe:/o:openbsd:openbsd:2.4',
+                'cpe:/a:foo:bar:2.235.1:',
+                'cpe:/a:foo:bar:2.244.1:',
             ],
         )
+
+        self.assertIsNotNone(cve['nvtRefs'])
+        nvts = cve['nvtRefs']
+        self.assertEqual(nvts[0]['id'], '1.3.6.1.4.1.25623.1.0.123456')
+        self.assertEqual(nvts[0]['name'], 'blee')
+        self.assertEqual(nvts[1]['id'], '1.3.6.1.4.1.25623.1.0.654321')
+        self.assertEqual(nvts[1]['name'], 'bloo')
 
 
 class CVEGetEntityTestCase(SeleneTestCase):

@@ -86,13 +86,13 @@ class ExportScannersByIdsTestCase(SeleneTestCase):
             '<get_scanners_response status=\"200\" status_text=\"OK\">'
             '<filters id=\"\"><term>uuid= first=1 rows=10 sort=name</term>'
             '<keywords><keyword><column>uuid</column><relation>=</relation>'
-            '<value /></keyword><keyword><column>first</column><relation>'
+            '<value/></keyword><keyword><column>first</column><relation>'
             '=</relation><value>1</value></keyword><keyword><column>rows'
             '</column><relation>=</relation><value>10</value></keyword>'
             '<keyword><column>sort</column><relation>=</relation><value>name'
             '</value></keyword></keywords></filters><sort><field>name<order>'
             'ascending</order></field></sort>'
-            '<scanners max=\"10\" start=\"1\" /><scanner_count>2<filtered>0'
+            '<scanners max=\"10\" start=\"1\"/><scanner_count>2<filtered>0'
             '</filtered><page>0</page></scanner_count></get_scanners_response>'
         )
         mock_gmp.mock_response('get_scanners', bytes(mock_xml, 'utf-8'))

@@ -18,8 +18,8 @@
 
 # pylint: disable=no-self-argument
 
-from xml import etree
 from typing import List
+from lxml import etree
 
 import graphene
 from gvm.protocols.next import InfoType
@@ -71,7 +71,7 @@ def create_export_by_filter_mutation(
             else:
                 xml: XmlElement = get_entities(filter=filter_string, **kwargs)
 
-            serialized_xml = etree.ElementTree.tostring(xml, encoding='unicode')
+            serialized_xml = etree.tostring(xml, encoding='unicode')
 
             return AbstractExportByFilter(exported_entities=serialized_xml)
 
@@ -129,7 +129,7 @@ def create_export_by_ids_mutation(
                 )
             else:
                 xml: XmlElement = get_entities(filter=filter_string, **kwargs)
-            serialized_xml = etree.ElementTree.tostring(xml, encoding='unicode')
+            serialized_xml = etree.tostring(xml, encoding='unicode')
 
             return AbstractExportByIds(exported_entities=serialized_xml)
 
@@ -324,7 +324,7 @@ def create_export_secinfos_by_ids_mutation(
             xml: XmlElement = get_entities(
                 filter=filter_string, info_type=info_type, details=True
             )
-            serialized_xml = etree.ElementTree.tostring(xml, encoding='unicode')
+            serialized_xml = etree.tostring(xml, encoding='unicode')
 
             return AbstractExportByIds(exported_entities=serialized_xml)
 

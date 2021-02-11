@@ -88,13 +88,13 @@ class ExportCredentialsByIdsTestCase(SeleneTestCase):
             '<get_credentials_response status=\"200\" status_text=\"OK\">'
             '<filters id=\"\"><term>uuid= first=1 rows=10 sort=name</term>'
             '<keywords><keyword><column>uuid</column><relation>=</relation>'
-            '<value /></keyword><keyword><column>first</column><relation>'
+            '<value/></keyword><keyword><column>first</column><relation>'
             '=</relation><value>1</value></keyword><keyword><column>rows'
             '</column><relation>=</relation><value>10</value></keyword>'
             '<keyword><column>sort</column><relation>=</relation><value>name'
             '</value></keyword></keywords></filters><sort><field>name<order>'
             'ascending</order></field></sort><credentials max=\"10\" '
-            'start=\"1\" /><credential_count>16<filtered>0</filtered>'
+            'start=\"1\"/><credential_count>16<filtered>0</filtered>'
             '<page>0</page></credential_count></get_credentials_response>'
         )
         mock_gmp.mock_response('get_credentials', bytes(mock_xml, 'utf-8'))

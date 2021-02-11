@@ -302,6 +302,11 @@ from selene.schema.nvts.queries import (
     GetPreferences,
 )
 
+from selene.schema.nvts.mutations import (
+    ExportNVTsByFilter,
+    ExportNVTsByIds,
+)
+
 from selene.schema.overrides.queries import GetOverrides, GetOverride
 
 from selene.schema.overrides.mutations import (
@@ -570,6 +575,9 @@ class Mutations(ObjectType):
     export_notes_by_ids = ExportNotesByIds.Field()
     export_notes_by_filter = ExportNotesByFilter.Field()
     modify_note = ModifyNote.Field()
+    # NVTs
+    export_nvts_by_filter = ExportNVTsByFilter.Field()
+    export_nvts_by_ids = ExportNVTsByIds.Field()
     # OperatingSystems
     delete_operating_system = DeleteOperatingSystem.Field()
     delete_operating_systems_by_ids = DeleteOperatingSystemsByIds.Field()

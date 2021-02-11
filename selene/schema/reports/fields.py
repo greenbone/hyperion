@@ -327,7 +327,7 @@ class Report(graphene.ObjectType):
 
     def resolve_delta_report(root, _info):
         delta = root.inner_report.find('delta')
-        if delta:
+        if delta is not None:
             return delta.find('report')
         return None
 
@@ -396,7 +396,7 @@ class Report(graphene.ObjectType):
 
     def resolve_hosts(root, _info):
         hosts = root.inner_report.findall('host')
-        if hosts:
+        if hosts is not None:
             return hosts
         return None
 

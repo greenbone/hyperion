@@ -36,7 +36,7 @@ class UserRole(BaseRoleType):
 
     def resolve_permissions(root, _info):
         permissions = root.find('permissions')
-        if not permissions or permissions is None:
+        if permissions is None:
             return None
         return permissions.findall("permission")
 
@@ -46,7 +46,7 @@ class UserGroup(BaseObjectType):
 
     def resolve_permissions(root, _info):
         permissions = root.find('permissions')
-        if not permissions or permissions is None:
+        if permissions is None:
             return None
         return permissions.findall("permission")
 

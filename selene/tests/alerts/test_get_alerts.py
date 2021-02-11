@@ -46,7 +46,7 @@ class AlertsTestCase(SeleneTestCase):
                 <alert id="63431604-1cd5-402c-bb05-748e130edb03">
                     <name>foo</name>
                     <comment/>
-                    <tasks />
+                    <tasks/>
                 </alert>
                 <alert id="3a39bea5-fc9f-41f4-9107-7e0e69db9035">
                     <name>bar</name>

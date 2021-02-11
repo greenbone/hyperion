@@ -20,7 +20,8 @@ import datetime
 
 from unittest import TestCase
 
-from xml.etree import ElementTree as et
+from lxml import etree as et
+from lxml.etree import Element
 
 from selene.schema.utils import (
     has_id,
@@ -40,21 +41,21 @@ class HasIdTestCase(TestCase):
         self.assertFalse(has_id(None))
 
     def test_no_id(self):
-        element = et.Element("foo")
+        element = Element("foo")
         self.assertFalse(has_id(element))
 
     def test_empty_id(self):
-        element = et.Element("foo", attrib={'id': ''})
+        element = Element("foo", attrib={'id': ''})
         self.assertFalse(has_id(element))
 
-        element = et.Element("foo", attrib={'id': ' '})
+        element = Element("foo", attrib={'id': ' '})
         self.assertFalse(has_id(element))
 
     def test_has_id(self):
-        element = et.Element("foo", attrib={'id': '1'})
+        element = Element("foo", attrib={'id': '1'})
         self.assertTrue(has_id(element))
 
-        element = et.Element("foo", attrib={'id': 'bar'})
+        element = Element("foo", attrib={'id': 'bar'})
         self.assertTrue(has_id(element))
 
 
@@ -63,11 +64,11 @@ class GetOwnerTestCase(TestCase):
         self.assertIsNone(get_owner(None))
 
     def test_no_owner(self):
-        element = et.Element("foo")
+        element = Element("foo")
         self.assertIsNone(get_owner(element))
 
     def test_no_name(self):
-        element = et.Element("owner")
+        element = Element("owner")
         self.assertIsNone(get_owner(element))
 
     def test_get_owner(self):
@@ -112,7 +113,7 @@ class GetTextFromElementTestCase(TestCase):
         self.assertIsNone(get_text_from_element(None, 'foo'))
 
     def test_unkown_subelement(self):
-        element = et.Element('foo')
+        element = Element('foo')
         self.assertIsNone(get_text_from_element(element, 'bar'))
 
     def test_getting_text_from_subelement(self):
@@ -125,7 +126,7 @@ class GetBooleanFromElementTestCase(TestCase):
         self.assertIsNone(get_boolean_from_element(None, 'foo'))
 
     def test_unkown_subelement(self):
-        element = et.Element('foo')
+        element = Element('foo')
         self.assertIsNone(get_boolean_from_element(element, 'bar'))
 
     def test_empty_subelement(self):
@@ -159,7 +160,7 @@ class GetDatetimeFromElementTestCase(TestCase):
         self.assertIsNone(get_datetime_from_element(None, 'foo'))
 
     def test_unkown_subelement(self):
-        element = et.Element('foo')
+        element = Element('foo')
         self.assertIsNone(get_datetime_from_element(element, 'bar'))
 
     def test_invalid_datetime(self):
@@ -195,7 +196,7 @@ class GetIntFromElementTestCase(TestCase):
         self.assertIsNone(get_int_from_element(None, 'foo'))
 
     def test_unkown_subelement(self):
-        element = et.Element('foo')
+        element = Element('foo')
         self.assertIsNone(get_int_from_element(element, 'bar'))
 
     def test_invalid_int(self):
@@ -229,7 +230,7 @@ class GetSubElementIfIdAvailableTestCase(TestCase):
         self.assertIsNone(get_sub_element_if_id_available(None, 'foo'))
 
     def test_unkown_subelement(self):
-        element = et.Element('foo')
+        element = Element('foo')
         self.assertIsNone(get_sub_element_if_id_available(element, 'bar'))
 
     def test_subelement_no_id(self):
