@@ -18,7 +18,7 @@
 
 # pylint: disable=no-self-argument, no-member, not-an-iterable
 
-from xml import etree
+from lxml import etree
 
 import graphene
 
@@ -83,7 +83,7 @@ class OvalDefinition(EntityObjectType):
         # criteria and affected assets
         criteria = root.find('ovaldef').find('raw_data').find('*')
         if criteria:
-            return etree.ElementTree.tostring(criteria, encoding='unicode')
+            return etree.tostring(criteria, encoding='unicode')
         return None
 
     def resolve_score(root, _info):
