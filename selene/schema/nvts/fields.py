@@ -322,63 +322,63 @@ class NVT(EntityObjectType):
 
     def resolve_family(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return get_text_from_element(nvt, 'family')
         return None
 
     def resolve_cvss_base(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return get_text_from_element(nvt, 'cvss_base')
         return None
 
     def resolve_tags(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return nvt.find('tags')
         return None
 
     def resolve_category(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return get_int_from_element(nvt, 'category')
 
     def resolve_preference_count(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return get_int_from_element(nvt, 'preference_count')
 
     def resolve_timeout(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return get_int_from_element(nvt, 'timeout')
 
     def resolve_default_timeout(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return get_int_from_element(nvt, 'default_timeout')
 
     def resolve_qod(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return nvt.find('qod')
 
     def resolve_severities(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return nvt.find('severities')
 
     def resolve_refs(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return nvt.find('refs')
 
     def resolve_preferences(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return nvt.find('preferences')
 
     def resolve_solution(root, _info):
         nvt = root.find('nvt')
-        if nvt:
+        if nvt is not None:
             return nvt.find('solution')

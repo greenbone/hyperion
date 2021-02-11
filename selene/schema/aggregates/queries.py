@@ -96,15 +96,15 @@ def _sort_input_to_python_gvm(sort_input):
     new_item = {}
 
     field = sort_input.get('field')
-    if field:
+    if field is not None:
         new_item['field'] = field
 
     stat = sort_input.get('stat')
-    if stat:
+    if stat is not None:
         new_item['stat'] = get_aggregate_statistic_from_string(stat)
 
     order = sort_input.get('order')
-    if order:
+    if order is not None:
         new_item['order'] = get_sort_order_from_string(order)
 
     return new_item

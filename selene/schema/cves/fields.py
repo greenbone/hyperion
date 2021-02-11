@@ -155,7 +155,7 @@ class CVE(EntityObjectType):
     def resolve_cvss_v2_vector(root, _info):
         entry = root.find('cve').find('raw_data').find('*')
         # print(entry)
-        if entry:
+        if entry is not None:
             return entry.find('{vuln}cvss').find('{cvss}base_metrics')
         return None
 
@@ -165,7 +165,7 @@ class CVE(EntityObjectType):
         print(dir(entry))
         print(entry.__class__.__module__)
         # tree = etree.tostring(entry)
-        if entry:
+        if entry is not None:
             print("Entry")
             print(entry.find('{*}cvss3'))
             return entry.find('{vuln}cvss3').find('{cvss3}base_metrics')
@@ -182,12 +182,12 @@ class CVE(EntityObjectType):
 
     def resolve_nvt_refs(root, _info):
         nvts = root.find('cve').find('nvts').findall('nvt')
-        if nvts:
+        if nvts is not None:
             return nvts
         return None
 
     def resolve_cert_refs(root, _info):
         cert = root.find('cve').find('cert').findall('cert_ref')
-        if cert:
+        if cert is not None:
             return cert
         return None

@@ -46,30 +46,30 @@ class CPE(EntityObjectType):
 
     def resolve_title(root, _info):
         cpe = root.find('cpe')
-        if cpe:
+        if cpe is not None:
             return get_text_from_element(cpe, 'title')
         return None
 
     def resolve_nvd_id(root, _info):
         cpe = root.find('cpe')
-        if cpe:
+        if cpe is not None:
             return get_text_from_element(cpe, 'nvd_id')
         return None
 
     def resolve_max_cvss(root, _info):
         cpe = root.find('cpe')
-        if cpe:
+        if cpe is not None:
             return get_text_from_element(cpe, 'max_cvss')
         return None
 
     def resolve_cve_refs(root, _info):
         cpe = root.find('cpe')
-        if cpe:
+        if cpe is not None:
             return get_int_from_element(cpe, 'cve_refs')
         return None
 
     def resolve_status(root, _info):
         cpe = root.find('cpe')
-        if cpe:
+        if cpe is not None:
             return get_text_from_element(cpe, 'status')
         return None

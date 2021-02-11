@@ -49,31 +49,31 @@ class OvalDefinition(EntityObjectType):
 
     def resolve_cve_refs(root, _info):
         ovaldef = root.find('ovaldef')
-        if ovaldef:
+        if ovaldef is not None:
             return get_int_from_element(ovaldef, 'cve_refs')
         return None
 
     def resolve_deprecated(root, _info):
         ovaldef = root.find('ovaldef')
-        if ovaldef:
+        if ovaldef is not None:
             return get_boolean_from_element(ovaldef, 'deprecated')
         return None
 
     def resolve_description(root, _info):
         ovaldef = root.find('ovaldef')
-        if ovaldef:
+        if ovaldef is not None:
             return get_text_from_element(ovaldef, 'description')
         return None
 
     def resolve_file_path(root, _info):
         ovaldef = root.find('ovaldef')
-        if ovaldef:
+        if ovaldef is not None:
             return get_text_from_element(ovaldef, 'file')
         return None
 
     def resolve_info_class(root, _info):
         ovaldef = root.find('ovaldef')
-        if ovaldef:
+        if ovaldef is not None:
             return get_text_from_element(ovaldef, 'class')
         return None
 
@@ -82,30 +82,30 @@ class OvalDefinition(EntityObjectType):
         # properly in GSA. It will include (among others) the information about
         # criteria and affected assets
         criteria = root.find('ovaldef').find('raw_data').find('*')
-        if criteria:
+        if criteria is not None:
             return etree.tostring(criteria, encoding='unicode')
         return None
 
     def resolve_score(root, _info):
         ovaldef = root.find('ovaldef')
-        if ovaldef:
+        if ovaldef is not None:
             return get_text_from_element(ovaldef, 'score')
         return None
 
     def resolve_status(root, _info):
         ovaldef = root.find('ovaldef')
-        if ovaldef:
+        if ovaldef is not None:
             return get_text_from_element(ovaldef, 'status')
         return None
 
     def resolve_title(root, _info):
         ovaldef = root.find('ovaldef')
-        if ovaldef:
+        if ovaldef is not None:
             return get_text_from_element(ovaldef, 'title')
         return None
 
     def resolve_version(root, _info):
         ovaldef = root.find('ovaldef')
-        if ovaldef:
+        if ovaldef is not None:
             return get_int_from_element(ovaldef, 'version')
         return None

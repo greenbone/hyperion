@@ -97,16 +97,16 @@ class SeleneTestCase(TestCase):
             Response object from client
         """
         body = {"query": query}
-        if op_name:
+        if op_name is not None:
             body["operation_name"] = op_name
-        if variables:
+        if variables is not None:
             body["variables"] = variables
-        if input_data:
+        if input_data is not None:
             if variables in body:
                 body["variables"]["input"] = input_data
             else:
                 body["variables"] = {"input": input_data}
-        if headers:
+        if headers is not None:
             resp = self.client.post(
                 self.GRAPHQL_URL,
                 json.dumps(body),
