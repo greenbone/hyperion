@@ -99,6 +99,28 @@ class CVETestCase(SeleneTestCase):
                     updateTime
                     description
                     products
+                    cvssV2Vector {
+                        accessVector
+                        accessComplexity
+                        authentication
+                        confidentiality
+                        integrity
+                        availability
+                        baseScore
+                        vector
+                    }
+                    cvssV3Vector {
+                        attackVector
+                        attackComplexity
+                        privilegesRequired
+                        userInteraction
+                        scope
+                        confidentiality
+                        integrity
+                        availability
+                        baseScore
+                        vector
+                    }
                     nvtRefs {
                         id
                         name
@@ -124,6 +146,32 @@ class CVETestCase(SeleneTestCase):
         self.assertEqual(
             cve['description'],
             'bar baz boing',
+        )
+        self.assertIsNotNone(cve['cvssV2Vector'])
+
+        cvss_v2_vector = cve['cvssV2Vector']
+        self.assertEqual(cvss_v2_vector['accessVector'], 'NETWORK')
+        self.assertEqual(cvss_v2_vector['accessComplexity'], 'MEDIUM')
+        self.assertEqual(cvss_v2_vector['authentication'], 'SINGLE')
+        self.assertEqual(cvss_v2_vector['confidentiality'], 'NONE')
+        self.assertEqual(cvss_v2_vector['integrity'], 'PARTIAL')
+        self.assertEqual(cvss_v2_vector['availability'], 'NONE')
+        self.assertEqual(cvss_v2_vector['baseScore'], 3.5)
+        self.assertEqual(cvss_v2_vector['vector'], 'AV:N/AC:M/Au:S/C:N/I:P/A:N')
+
+        cvss_v3_vector = cve['cvssV3Vector']
+        self.assertEqual(cvss_v3_vector['attackVector'], 'NETWORK')
+        self.assertEqual(cvss_v3_vector['attackComplexity'], 'LOW')
+        self.assertEqual(cvss_v3_vector['privilegesRequired'], 'LOW')
+        self.assertEqual(cvss_v3_vector['userInteraction'], 'REQUIRED')
+        self.assertEqual(cvss_v3_vector['scope'], 'CHANGED')
+        self.assertEqual(cvss_v3_vector['confidentiality'], 'LOW')
+        self.assertEqual(cvss_v3_vector['integrity'], 'LOW')
+        self.assertEqual(cvss_v3_vector['availability'], 'NONE')
+        self.assertEqual(cvss_v3_vector['baseScore'], 5.4)
+        self.assertEqual(
+            cvss_v3_vector['vector'],
+            'CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N',
         )
 
         self.assertEqual(
