@@ -46,12 +46,13 @@ class CVETestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_get_cve(self, mock_gmp: GmpMockFactory):
+    def test_get_cve_none_cases(self, mock_gmp: GmpMockFactory):
+        cve_id = 'CVE-1999-0001'
         mock_gmp.mock_response(
             'get_info',
-            '''
+            f'''
             <get_info_response>
-                <info id="CVE-1999-0001">
+                <info id="{cve_id}">
                     <name>foo</name>
                 </info>
             </get_info_response>
@@ -61,14 +62,29 @@ class CVETestCase(SeleneTestCase):
         self.login('foo', 'bar')
 
         response = self.query(
-            '''
-            query {
-                cve(id: "CVE-1999-0001") {
+            f'''
+            query {{
+                cve(id: "{cve_id}") {{
                     id
                     name
                     owner
-                }
-            }
+                    products
+                    score
+                    cvssVector
+                    cvssV2Vector {{
+                        vector
+                    }}
+                    cvssV3Vector {{
+                        vector
+                    }}
+                    nvtRefs {{
+                        id
+                    }}
+                    certRefs {{
+                        name
+                    }}
+                }}
+            }}
             '''
         )
 
@@ -78,9 +94,20 @@ class CVETestCase(SeleneTestCase):
 
         cve = json['data']['cve']
 
-        self.assertEqual(cve['id'], 'CVE-1999-0001')
+        self.assertEqual(cve['id'], cve_id)
         self.assertEqual(cve['name'], 'foo')
         self.assertIsNone(cve['owner'])
+        self.assertIsNone(cve['score'])
+        self.assertIsNone(cve['cvssVector'])
+        self.assertIsNone(cve['cvssV2Vector'])
+        self.assertIsNone(cve['cvssV3Vector'])
+        self.assertIsNone(cve['nvtRefs'])
+        self.assertIsNone(cve['certRefs'])
+        self.assertIsNone(cve['products'])
+
+        mock_gmp.gmp_protocol.get_info.assert_called_with(
+            cve_id, info_type=GvmInfoType.CVE
+        )
 
     def test_complex_cve(self, mock_gmp: GmpMockFactory):
         cve_xml_path = CWD / 'example-cve.xml'
@@ -99,6 +126,8 @@ class CVETestCase(SeleneTestCase):
                     updateTime
                     description
                     products
+                    score
+                    cvssVector
                     cvssV2Vector {
                         accessVector
                         accessComplexity
@@ -173,6 +202,12 @@ class CVETestCase(SeleneTestCase):
             cvss_v3_vector['vector'],
             'CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N',
         )
+        self.assertEqual(
+            cve['cvssVector'],
+            'CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N',
+        )
+
+        self.assertEqual(cve['score'], 54)
 
         self.assertEqual(
             cve['products'],

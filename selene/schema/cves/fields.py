@@ -135,6 +135,7 @@ class CertRef(graphene.ObjectType):
 class CVE(EntityObjectType):
     uuid = graphene.String(name='id')
     update_time = graphene.DateTime()
+    score = graphene.Field(SeverityType)
     cvss_vector = graphene.String()
     cvss_v2_vector = graphene.Field(CVSSv2Vector)
     cvss_v3_vector = graphene.Field(CVSSv3Vector)
@@ -150,18 +151,27 @@ class CVE(EntityObjectType):
         return get_datetime_from_element(root, 'update_time')
 
     def resolve_cvss_vector(root, _info):
-        return get_text_from_element(root.find('cve'), 'cvss_vector')
+        cve = root.find('cve')
+        if cve is not None:
+            return get_text_from_element(cve, 'cvss_vector')
+        return None
 
     def resolve_cvss_v2_vector(root, _info):
-        entry = root.find('cve').find('raw_data').find('{*}entry')
+        entry = root.find('cve/raw_data/{*}entry')
         if entry is not None:
-            return entry.find('{*}cvss').find('{*}base_metrics')
+            return entry.find('{*}cvss/{*}base_metrics')
         return None
 
     def resolve_cvss_v3_vector(root, _info):
-        entry = root.find('cve').find('raw_data').find('{*}entry')
+        entry = root.find('cve/raw_data/{*}entry')
         if entry is not None:
-            return entry.find('{*}cvss3').find('{*}base_metrics')
+            return entry.find('{*}cvss3/{*}base_metrics')
+        return None
+
+    def resolve_score(root, _info):
+        cve = root.find('cve')
+        if cve is not None:
+            return get_text_from_element(cve, 'score')
         return None
 
     def resolve_description(root, _info):
@@ -174,13 +184,13 @@ class CVE(EntityObjectType):
         return None
 
     def resolve_nvt_refs(root, _info):
-        nvts = root.find('cve').find('nvts').findall('nvt')
+        nvts = root.find('cve/nvts')
         if nvts is not None:
-            return nvts
+            return nvts.findall('nvt')
         return None
 
     def resolve_cert_refs(root, _info):
-        cert = root.find('cve').find('cert').findall('cert_ref')
+        cert = root.find('cve/cert')
         if cert is not None:
-            return cert
+            return cert.findall('cert_ref')
         return None
