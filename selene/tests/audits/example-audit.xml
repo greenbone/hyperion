@@ -67,6 +67,13 @@ END:VCALENDAR
                 </compliance_count>
             </report>
         </last_report>
+        <current_report>
+            <report id="12e6275b-6933-4c04-9c8a-5762d8489c9e">
+                <timestamp>2021-02-11T15:07:24Z</timestamp>
+                <scan_start>2021-02-11T15:07:28Z</scan_start>
+                <scan_end/>
+            </report>
+        </current_report>
         <observers>admin</observers>
         <average_duration>0</average_duration>
         <result_count>0</result_count>
