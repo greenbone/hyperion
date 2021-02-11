@@ -55,6 +55,18 @@ END:VCALENDAR
             <timezone>UTC</timezone>
         </schedule>
         <schedule_periods>0</schedule_periods>
+        <last_report>
+            <report id="001b46dc-fdaa-4fc3-b094-0329805edcd0">
+                <timestamp>2021-02-09T15:54:45Z</timestamp>
+                <scan_start>2021-02-09T15:54:50Z</scan_start>
+                <scan_end>2021-02-09T16:11:22Z</scan_end>
+                <compliance_count>
+                    <yes>3</yes>
+                    <no>2</no>
+                    <incomplete>1</incomplete>
+                </compliance_count>
+            </report>
+        </last_report>
         <observers>admin</observers>
         <average_duration>0</average_duration>
         <result_count>0</result_count>

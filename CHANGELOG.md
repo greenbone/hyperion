@@ -15,11 +15,13 @@ $ cd hyperion && git log
 
 ## [Unreleased]
 ### Added
+- Add `compliance_count` to AuditLastReport [#26](https://github.com/greenbone/hyperion/pull/26)
 - Implement `average_duration` for tasks and audits fields. [#14](https://github.com/greenbone/hyperion/pull/14)
 - Implement new abstract Class for SecInfo BulkExport by IDs. [#24](https://github.com/greenbone/hyperion/pull/24)
 - Add Bulk Export for NVTs. [#25](https://github.com/greenbone/hyperion/pull/25)
 
 ### Changed
+- Explicitly implement audit subobjects [#26](https://github.com/greenbone/hyperion/pull/26)
 - For all NVT related Entities we use `id` instead of `oid` now, so every Entity uses `id` now. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Use `next` instead of `latest` `python-gvm` version for developement. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Removed empty `uuid= ` from `filter_string` in `create_export_by_ids_mutation` [#23](https://github.com/greenbone/hyperion/pull/23) 

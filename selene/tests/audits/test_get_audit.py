@@ -113,6 +113,11 @@ class AuditTestCase(SeleneTestCase):
                             timestamp
                             scanStart
                             scanEnd
+                            complianceCount {
+                                yes
+                                no
+                                incomplete
+                            }
                         }
                     }
                     status
@@ -187,8 +192,21 @@ class AuditTestCase(SeleneTestCase):
         self.assertEqual(audit['averageDuration'], 0)
 
         reports = audit['reports']
+        last_report = reports['lastReport']
+        compliance_count = last_report['complianceCount']
 
-        self.assertIsNone(reports['lastReport'])
+        self.assertEqual(
+            last_report['id'], '001b46dc-fdaa-4fc3-b094-0329805edcd0'
+        )
+        self.assertIsNone(last_report['severity'])
+        self.assertEqual(last_report['timestamp'], '2021-02-09T15:54:45+00:00')
+        self.assertEqual(last_report['scanStart'], '2021-02-09T15:54:50+00:00')
+        self.assertEqual(last_report['scanEnd'], '2021-02-09T16:11:22+00:00')
+
+        self.assertEqual(compliance_count['yes'], 3)
+        self.assertEqual(compliance_count['no'], 2)
+        self.assertEqual(compliance_count['incomplete'], 1)
+
         self.assertIsNone(reports['currentReport'])
         self.assertEqual(reports['counts']['total'], 0)
 
