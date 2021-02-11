@@ -17,10 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
-
-import xml.etree.ElementTree as ET
-
 from unittest.mock import create_autospec, patch, MagicMock
+
+import lxml.etree as ET
 
 from django.http import HttpResponse
 from django.test import TestCase
