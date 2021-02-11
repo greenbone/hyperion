@@ -6,6 +6,12 @@
         </owner>
         <name>Audit_for_Report</name>
         <comment>foo</comment>
+        <alert id="69a80538-161d-424c-ae57-8f0b92950092">
+            <name>Email</name>
+        </alert>
+        <alert id="71bb9279-7204-4275-8ff9-ab9f1a64a7de">
+            <name>Email Clone 1</name>
+        </alert>
         <creation_time>2020-11-24T09:43:15Z</creation_time>
         <modification_time>2020-11-24T09:43:15Z</modification_time>
         <writable>1</writable>
@@ -53,6 +59,7 @@ END:VEVENT
 END:VCALENDAR
             </icalendar>
             <timezone>UTC</timezone>
+            <duration>0</duration>
         </schedule>
         <schedule_periods>0</schedule_periods>
         <last_report>
@@ -67,7 +74,23 @@ END:VCALENDAR
                 </compliance_count>
             </report>
         </last_report>
-        <observers>admin</observers>
+        <current_report>
+            <report id="12e6275b-6933-4c04-9c8a-5762d8489c9e">
+                <timestamp>2021-02-11T15:07:24Z</timestamp>
+                <scan_start>2021-02-11T15:07:28Z</scan_start>
+                <scan_end/>
+            </report>
+        </current_report>
+        <observers>admin<group id="0a854798-b7cf-4458-a847-1cdba2ad6e1d">
+                <name>group</name>
+            </group>
+            <role id="7a8cb5b4-b74d-11e2-8187-406186ea4fc5">
+                <name>Admin</name>
+            </role>
+            <role id="5f8fd16c-c550-11e3-b6ab-406186ea4fc5">
+                <name>Info</name>
+            </role>
+        </observers>
         <average_duration>0</average_duration>
         <result_count>0</result_count>
         <preferences>
