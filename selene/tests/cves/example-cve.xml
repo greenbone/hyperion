@@ -1,26 +1,136 @@
 <get_info_response status="200" status_text="OK">
-    <info id="CVE-1999-0001">
-        <owner>
-            <name></name>
-        </owner>
-        <name>CVE-1999-0001</name>
-        <comment></comment>
-        <creation_time>1999-12-30T05:00:00Z</creation_time>
-        <modification_time>2010-12-16T05:00:00Z</modification_time>
-        <writable>0</writable>
-        <in_use>0</in_use>
-        <permissions></permissions>
-        <update_time>2020-11-13T02:30:00.000+0000</update_time>
-        <cve>
-            <cvss>5</cvss>
-            <vector>NETWORK</vector>
-            <complexity>LOW</complexity>
-            <authentication>NONE</authentication>
-            <confidentiality_impact>NONE</confidentiality_impact>
-            <integrity_impact>NONE</integrity_impact>
-            <availability_impact>PARTIAL</availability_impact>
-            <description>ip_input.c in BSD-derived TCP/IP implementations allows remote attackers to cause a denial of service (crash or hang) via crafted packets.</description>
-            <products>cpe:/o:bsdi:bsd_os:3.1 cpe:/o:freebsd:freebsd:1.0 cpe:/o:freebsd:freebsd:1.1 cpe:/o:freebsd:freebsd:1.1.5.1 cpe:/o:freebsd:freebsd:1.2 cpe:/o:freebsd:freebsd:2.0 cpe:/o:freebsd:freebsd:2.0.1 cpe:/o:freebsd:freebsd:2.0.5 cpe:/o:freebsd:freebsd:2.1.5 cpe:/o:freebsd:freebsd:2.1.6 cpe:/o:freebsd:freebsd:2.1.6.1 cpe:/o:freebsd:freebsd:2.1.7 cpe:/o:freebsd:freebsd:2.1.7.1 cpe:/o:freebsd:freebsd:2.2 cpe:/o:freebsd:freebsd:2.2.2 cpe:/o:freebsd:freebsd:2.2.3 cpe:/o:freebsd:freebsd:2.2.4 cpe:/o:freebsd:freebsd:2.2.5 cpe:/o:freebsd:freebsd:2.2.6 cpe:/o:freebsd:freebsd:2.2.8 cpe:/o:freebsd:freebsd:3.0 cpe:/o:openbsd:openbsd:2.3 cpe:/o:openbsd:openbsd:2.4 </products>
-        </cve>
-    </info>
+  <info id="CVE-2020-2222">
+    <owner>
+      <name></name>
+    </owner>
+    <name>CVE-2020-2222</name>
+    <comment></comment>
+    <creation_time>2020-07-15T18:15:00Z</creation_time>
+    <modification_time>2020-07-21T16:36:00Z</modification_time>
+    <writable>0</writable>
+    <in_use>0</in_use>
+    <permissions></permissions>
+    <update_time>2020-11-20T02:30:00.000+0000</update_time>
+    <cve>
+      <score>54</score>
+      <cvss_vector>CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N</cvss_vector>
+      <description>bar baz boing</description>
+      <products>cpe:/a:foo:bar:2.235.1: cpe:/a:foo:bar:2.244.1: </products>
+      <nvts>
+        <nvt oid="1.3.6.1.4.1.25623.1.0.123456">
+          <name>blee</name>
+        </nvt>
+        <nvt oid="1.3.6.1.4.1.25623.1.0.654321">
+          <name>bloo</name>
+        </nvt>
+      </nvts>
+      <cert>
+        <cert_ref type="DFN-CERT">
+          <name>DFN-CERT-2020-4321</name>
+          <title>foo baz</title>
+        </cert_ref>
+        <cert_ref type="DFN-CERT">
+          <name>DFN-CERT-2020-5432</name>
+          <title>foo bar</title>
+        </cert_ref>
+      </cert>
+      <raw_data>
+        <entry xmlns="http://scap.nist.gov/schema/feed/vulnerability/2.0"
+          xmlns:cpe-lang="http://cpe.mitre.org/language/2.0"
+          xmlns:cvss="http://scap.nist.gov/schema/cvss-v2/0.2"
+          xmlns:cvss3="https://www.first.org/cvss/cvss-v3.1.xsd"
+          xmlns:patch="http://scap.nist.gov/schema/patch/0.1"
+          xmlns:scap-core="http://scap.nist.gov/schema/scap-core/0.1"
+          xmlns:vuln="http://scap.nist.gov/schema/vulnerability/0.4"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="CVE-2020-2222">
+          <vuln:vulnerable-software-list>
+            <vuln:product>cpe:/a:foo:bar:2.235.1:</vuln:product>
+            <vuln:product>cpe:/a:foo:bar:2.244.1:</vuln:product>
+          </vuln:vulnerable-software-list>
+          <vuln:cve-id>CVE-2020-2222</vuln:cve-id>
+          <vuln:published-datetime>2020-07-15T18:15:00+00:00</vuln:published-datetime>
+          <vuln:last-modified-datetime>2020-07-21T16:36:00+00:00</vuln:last-modified-datetime>
+          <vuln:cvss>
+            <cvss:base_metrics>
+              <cvss:integrity-impact>PARTIAL</cvss:integrity-impact>
+              <cvss:access-complexity>MEDIUM</cvss:access-complexity>
+              <cvss:availability-impact>NONE</cvss:availability-impact>
+              <cvss:vector-string>AV:N/AC:M/Au:S/C:N/I:P/A:N</cvss:vector-string>
+              <cvss:confidentiality-impact>NONE</cvss:confidentiality-impact>
+              <cvss:access-vector>NETWORK</cvss:access-vector>
+              <cvss:authentication>SINGLE</cvss:authentication>
+              <cvss:score>3.5</cvss:score>
+              <cvss:source>http://nvd.nist.gov</cvss:source>
+              <cvss:generated-on-datetime>2020-07-21T16:36:00+00:00</cvss:generated-on-datetime>
+            </cvss:base_metrics>
+          </vuln:cvss>
+          <vuln:cvss3>
+            <cvss3:base_metrics>
+              <cvss3:availability-impact>NONE</cvss3:availability-impact>
+              <cvss3:attack-complexity>LOW</cvss3:attack-complexity>
+              <cvss3:vector-string>CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N</cvss3:vector-string>
+              <cvss3:integrity-impact>LOW</cvss3:integrity-impact>
+              <cvss3:user-interaction>REQUIRED</cvss3:user-interaction>
+              <cvss3:base-score>5.4</cvss3:base-score>
+              <cvss3:attack-vector>NETWORK</cvss3:attack-vector>
+              <cvss3:privileges-required>LOW</cvss3:privileges-required>
+              <cvss3:scope>CHANGED</cvss3:scope>
+              <cvss3:confidentiality-impact>LOW</cvss3:confidentiality-impact>
+              <cvss3:base-severity>MEDIUM</cvss3:base-severity>
+            </cvss3:base_metrics>
+            <cvss3:generated-on-datetime>2020-07-21T16:36:00+00:00</cvss3:generated-on-datetime>
+          </vuln:cvss3>
+          <vuln:cwe id="CWE-79"></vuln:cwe>
+          <vuln:references>
+            <vuln:source>MLIST</vuln:source>
+            <vuln:reference href="http://www.openwall.com/lists/oss-security/2020/07/15/5">[oss-security] 20200715 Multiple vulnerabilities in Jenkins and Jenkins plugins</vuln:reference>
+          </vuln:references>
+          <vuln:references>
+            <vuln:source>CONFIRM</vuln:source>
+            <vuln:reference href="https://jenkins.io/security/advisory/2020-07-15/#SECURITY-1902">https://jenkins.io/security/advisory/2020-07-15/#SECURITY-1902</vuln:reference>
+          </vuln:references>
+          <vuln:summary>bar baz boing</vuln:summary>
+        </entry>
+      </raw_data>
+    </cve>
+  </info>
+  <details>1</details>
+  <filters id="">
+    <term>first=1 rows=1000 uuid= uuid=CVE-2020-2222 sort=name</term>
+    <keywords>
+      <keyword>
+        <column>first</column>
+        <relation>=</relation>
+        <value>1</value>
+      </keyword>
+      <keyword>
+        <column>rows</column>
+        <relation>=</relation>
+        <value>1000</value>
+      </keyword>
+      <keyword>
+        <column>uuid</column>
+        <relation>=</relation>
+        <value></value>
+      </keyword>
+      <keyword>
+        <column>uuid</column>
+        <relation>=</relation>
+        <value>CVE-2020-2222</value>
+      </keyword>
+      <keyword>
+        <column>sort</column>
+        <relation>=</relation>
+        <value>name</value>
+      </keyword>
+    </keywords>
+  </filters>
+  <sort>
+    <field>name<order>ascending</order>
+    </field>
+  </sort>
+  <info start="1" max="1000"/>
+  <info_count>153392<filtered>1</filtered>
+    <page>1</page>
+  </info_count>
 </get_info_response>
