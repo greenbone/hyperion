@@ -162,7 +162,9 @@ class AuditTestCase(SeleneTestCase):
                         trash
                         icalendar
                         timezone
+                        duration
                     }
+                    hostsOrdering
                     alerts {
                         id
                         name
@@ -190,8 +192,10 @@ class AuditTestCase(SeleneTestCase):
         self.assertEqual(audit['progress'], -1)
         self.assertIsNone(audit['trend'])
         self.assertEqual(audit['averageDuration'], 0)
+        self.assertEqual(audit['hostsOrdering'], 'sequential')
 
         reports = audit['reports']
+        current_report = reports['currentReport']
         last_report = reports['lastReport']
         compliance_count = last_report['complianceCount']
 
@@ -203,11 +207,21 @@ class AuditTestCase(SeleneTestCase):
         self.assertEqual(last_report['scanStart'], '2021-02-09T15:54:50+00:00')
         self.assertEqual(last_report['scanEnd'], '2021-02-09T16:11:22+00:00')
 
+        self.assertEqual(
+            current_report['id'], '12e6275b-6933-4c04-9c8a-5762d8489c9e'
+        )
+        self.assertEqual(
+            current_report['timestamp'], '2021-02-11T15:07:24+00:00'
+        )
+        self.assertEqual(
+            current_report['scanStart'], '2021-02-11T15:07:28+00:00'
+        )
+        self.assertIsNone(current_report['scanEnd'])
+
         self.assertEqual(compliance_count['yes'], 3)
         self.assertEqual(compliance_count['no'], 2)
         self.assertEqual(compliance_count['incomplete'], 1)
 
-        self.assertIsNone(reports['currentReport'])
         self.assertEqual(reports['counts']['total'], 0)
 
         target = audit['target']
@@ -224,6 +238,7 @@ class AuditTestCase(SeleneTestCase):
         self.assertEqual(
             schedule['name'], 'Schedule for alertask - 2020-10-21T08:56:08.850Z'
         )
+        self.assertEqual(schedule['duration'], 0)
         self.assertEqual(schedule['timezone'], 'UTC')
         self.assertEqual(
             schedule['icalendar'],
@@ -241,9 +256,22 @@ END:VCALENDAR
             """,
         )
 
-        self.assertIsNone(audit['alerts'])
+        self.assertEqual(
+            audit['alerts'],
+            [
+                {'id': '69a80538-161d-424c-ae57-8f0b92950092', 'name': 'Email'},
+                {
+                    'id': '71bb9279-7204-4275-8ff9-ab9f1a64a7de',
+                    'name': 'Email Clone 1',
+                },
+            ],
+        )
         observers = audit['observers']
         self.assertEqual(observers['users'], ['admin'])
+        self.assertEqual(
+            observers['roles'], [{'name': 'Admin'}, {'name': 'Info'}]
+        )
+        self.assertEqual(observers['groups'], [{'name': 'group'}])
 
         policy = audit['policy']
         self.assertEqual(policy['id'], '9f822ad3-9208-4e02-ac03-78dce3ca9a23')
