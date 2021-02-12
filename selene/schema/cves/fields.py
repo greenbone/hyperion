@@ -39,28 +39,28 @@ class CVSSv2Vector(graphene.ObjectType):
     vector = graphene.String()
 
     def resolve_access_vector(root, _info):
-        return get_text_from_element(root, '{cvss}access-vector')
+        return get_text_from_element(root, '{*}access-vector')
 
     def resolve_access_complexity(root, _info):
-        return get_text_from_element(root, '{cvss}access-complexity')
+        return get_text_from_element(root, '{*}access-complexity')
 
     def resolve_authentication(root, _info):
-        return get_text_from_element(root, '{cvss}authentication')
+        return get_text_from_element(root, '{*}authentication')
 
     def resolve_confidentiality(root, _info):
-        return get_text_from_element(root, '{cvss}confidentiality-impact')
+        return get_text_from_element(root, '{*}confidentiality-impact')
 
     def resolve_integrity(root, _info):
-        return get_text_from_element(root, '{cvss}integrity-impact')
+        return get_text_from_element(root, '{*}integrity-impact')
 
     def resolve_availability(root, _info):
-        return get_text_from_element(root, '{cvss}availability-impact')
+        return get_text_from_element(root, '{*}availability-impact')
 
     def resolve_base_score(root, _info):
-        return get_text_from_element(root, '{cvss}score')
+        return get_text_from_element(root, '{*}score')
 
     def resolve_vector(root, _info):
-        return get_text_from_element(root, '{cvss}vector-string')
+        return get_text_from_element(root, '{*}vector-string')
 
 
 class CVSSv3Vector(graphene.ObjectType):
@@ -76,34 +76,34 @@ class CVSSv3Vector(graphene.ObjectType):
     vector = graphene.String()
 
     def resolve_attack_vector(root, _info):
-        return get_text_from_element(root, '{cvss3}vector')
+        return get_text_from_element(root, '{*}attack-vector')
 
     def resolve_attack_complexity(root, _info):
-        return get_text_from_element(root, '{cvss3}complexity')
+        return get_text_from_element(root, '{*}attack-complexity')
 
     def resolve_privileges_required(root, _info):
-        return get_text_from_element(root, '{cvss3}privileges-required')
+        return get_text_from_element(root, '{*}privileges-required')
 
     def resolve_user_interaction(root, _info):
-        return get_text_from_element(root, '{cvss3}user-interaction')
+        return get_text_from_element(root, '{*}user-interaction')
 
     def resolve_scope(root, _info):
-        return get_text_from_element(root, '{cvss3}scope')
+        return get_text_from_element(root, '{*}scope')
 
     def resolve_confidentiality(root, _info):
-        return get_text_from_element(root, '{cvss3}confidentiality-impact')
+        return get_text_from_element(root, '{*}confidentiality-impact')
 
-    def resolve_access_integrity(root, _info):
-        return get_text_from_element(root, '{cvss3}integrity-impact')
+    def resolve_integrity(root, _info):
+        return get_text_from_element(root, '{*}integrity-impact')
 
-    def resolve_access_availability(root, _info):
-        return get_text_from_element(root, '{cvss3}availability-impact')
+    def resolve_availability(root, _info):
+        return get_text_from_element(root, '{*}availability-impact')
 
     def resolve_base_score(root, _info):
-        return get_text_from_element(root, '{cvss3}base-score')
+        return get_text_from_element(root, '{*}base-score')
 
     def resolve_vector(root, _info):
-        return get_text_from_element(root, '{cvss3}vector-string')
+        return get_text_from_element(root, '{*}vector-string')
 
 
 class NvtRef(graphene.ObjectType):
@@ -135,6 +135,7 @@ class CertRef(graphene.ObjectType):
 class CVE(EntityObjectType):
     uuid = graphene.String(name='id')
     update_time = graphene.DateTime()
+    score = graphene.Field(SeverityType)
     cvss_vector = graphene.String()
     cvss_v2_vector = graphene.Field(CVSSv2Vector)
     cvss_v3_vector = graphene.Field(CVSSv3Vector)
@@ -150,25 +151,27 @@ class CVE(EntityObjectType):
         return get_datetime_from_element(root, 'update_time')
 
     def resolve_cvss_vector(root, _info):
-        return get_text_from_element(root.find('cve'), 'cvss_vector')
+        cve = root.find('cve')
+        if cve is not None:
+            return get_text_from_element(cve, 'cvss_vector')
+        return None
 
     def resolve_cvss_v2_vector(root, _info):
-        entry = root.find('cve').find('raw_data').find('*')
-        # print(entry)
+        entry = root.find('cve/raw_data/{*}entry')
         if entry is not None:
-            return entry.find('{vuln}cvss').find('{cvss}base_metrics')
+            return entry.find('{*}cvss/{*}base_metrics')
         return None
 
     def resolve_cvss_v3_vector(root, _info):
-        entry = root.find('cve').find('raw_data').find('{*}entry')
-        # from lxml import etree
-        print(dir(entry))
-        print(entry.__class__.__module__)
-        # tree = etree.tostring(entry)
+        entry = root.find('cve/raw_data/{*}entry')
         if entry is not None:
-            print("Entry")
-            print(entry.find('{*}cvss3'))
-            return entry.find('{vuln}cvss3').find('{cvss3}base_metrics')
+            return entry.find('{*}cvss3/{*}base_metrics')
+        return None
+
+    def resolve_score(root, _info):
+        cve = root.find('cve')
+        if cve is not None:
+            return get_text_from_element(cve, 'score')
         return None
 
     def resolve_description(root, _info):
@@ -181,13 +184,13 @@ class CVE(EntityObjectType):
         return None
 
     def resolve_nvt_refs(root, _info):
-        nvts = root.find('cve').find('nvts').findall('nvt')
+        nvts = root.find('cve/nvts')
         if nvts is not None:
-            return nvts
+            return nvts.findall('nvt')
         return None
 
     def resolve_cert_refs(root, _info):
-        cert = root.find('cve').find('cert').findall('cert_ref')
+        cert = root.find('cve/cert')
         if cert is not None:
-            return cert
+            return cert.findall('cert_ref')
         return None
