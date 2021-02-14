@@ -135,6 +135,7 @@ class CertRef(graphene.ObjectType):
 class CVE(EntityObjectType):
     uuid = graphene.String(name='id')
     update_time = graphene.DateTime()
+    score = graphene.Field(SeverityType)
     cvss_vector = graphene.String()
     cvss_v2_vector = graphene.Field(CVSSv2Vector)
     cvss_v3_vector = graphene.Field(CVSSv3Vector)
@@ -150,7 +151,10 @@ class CVE(EntityObjectType):
         return get_datetime_from_element(root, 'update_time')
 
     def resolve_cvss_vector(root, _info):
-        return get_text_from_element(root.find('cve'), 'cvss_vector')
+        cve = root.find('cve')
+        if cve is not None:
+            return get_text_from_element(cve, 'cvss_vector')
+        return None
 
     def resolve_cvss_v2_vector(root, _info):
         entry = root.find('cve/raw_data/{*}entry')
@@ -162,6 +166,12 @@ class CVE(EntityObjectType):
         entry = root.find('cve/raw_data/{*}entry')
         if entry is not None:
             return entry.find('{*}cvss3/{*}base_metrics')
+        return None
+
+    def resolve_score(root, _info):
+        cve = root.find('cve')
+        if cve is not None:
+            return get_text_from_element(cve, 'score')
         return None
 
     def resolve_description(root, _info):

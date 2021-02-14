@@ -69,6 +69,8 @@ class CVETestCase(SeleneTestCase):
                     name
                     owner
                     products
+                    score
+                    cvssVector
                     cvssV2Vector {{
                         vector
                     }}
@@ -95,6 +97,8 @@ class CVETestCase(SeleneTestCase):
         self.assertEqual(cve['id'], cve_id)
         self.assertEqual(cve['name'], 'foo')
         self.assertIsNone(cve['owner'])
+        self.assertIsNone(cve['score'])
+        self.assertIsNone(cve['cvssVector'])
         self.assertIsNone(cve['cvssV2Vector'])
         self.assertIsNone(cve['cvssV3Vector'])
         self.assertIsNone(cve['nvtRefs'])
@@ -122,6 +126,7 @@ class CVETestCase(SeleneTestCase):
                     updateTime
                     description
                     products
+                    score
                     cvssVector
                     cvssV2Vector {
                         accessVector
@@ -201,6 +206,8 @@ class CVETestCase(SeleneTestCase):
             cve['cvssVector'],
             'CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N',
         )
+
+        self.assertEqual(cve['score'], 54)
 
         self.assertEqual(
             cve['products'],
