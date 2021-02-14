@@ -31,11 +31,43 @@ from selene.schema.utils import (
 )
 
 
+class HistoryStatusChange(graphene.ObjectType):
+    status = graphene.String()
+    date = graphene.String()
+
+    def resolve_status(root, _info):
+        return get_text_from_element(root, 'status')
+
+    def resolve_date(root, _info):
+        return root.get('date')
+
+
 class OvalDefinitionHistory(graphene.ObjectType):
     status = graphene.String()
     date = graphene.DateTime()
     contributors = graphene.String()
     company = graphene.String()
+    status_changes = graphene.List(HistoryStatusChange)
+
+    def resolve_status(root, _info):
+        return get_text_from_element(root, 'status')
+
+    def resolve_date(root, _info):
+        submitted = root.find('dates/submitted')
+        if submitted is not None:
+            return submitted.get('date')
+        return None
+
+    def resolve_contributor(root, _info):
+        submitted = root.find('dates/submitted')
+        if submitted is not None:
+            return get_text_from_element(submitted, 'contributor')
+
+    def resolve_company(root, _info):
+        contributor = root.find('dates/submitted/contributor')
+        if contributor is not None:
+            return contributor.get('company')
+        return None
 
 
 class OvalDefinitionCriteria(graphene.ObjectType):
@@ -61,7 +93,7 @@ class OvalDefinitionRefs(graphene.ObjectType):
         return root.get('url')
 
 
-class OvalDefinitionFamilies(graphene.ObjectType):
+class OvalDefinitionAffectedFamily(graphene.ObjectType):
     family = graphene.String()
     platforms = graphene.List(graphene.String)
     products = graphene.List(graphene.String)
@@ -89,8 +121,10 @@ class OvalDefinition(EntityObjectType):
     description = graphene.String()
     file_path = graphene.String(name='file')
     info_class = graphene.String(name='class')
-    affected_family = graphene.Field(OvalDefinitionFamilies)
+    affected_family = graphene.Field(OvalDefinitionAffectedFamily)
     references = graphene.List(OvalDefinitionRefs)
+    history = graphene.Field(OvalDefinitionHistory)
+    criteria = graphene.Field(OvalDefinitionCriteria)
     raw_data = graphene.String()
     score = graphene.Field(SeverityType)
     status = graphene.String()
@@ -131,9 +165,25 @@ class OvalDefinition(EntityObjectType):
         return None
 
     def resolve_affected_family(root, _info):
-        affected = root.find('ovaldef/raw_data/{*}definition/metadata/affected')
+        affected = root.find(
+            'ovaldef/raw_data/{*}definition/{*}metadata/{*}affected'
+        )
         if affected is not None:
             return affected
+        return None
+
+    def resolve_history(root, _info):
+        history = root.find(
+            'ovaldef/raw_data/{*}definition/{*}metadata/{*}oval_repository'
+        )
+        if history is not None:
+            return history
+        return None
+
+    def resolve_criteria(root, _info):
+        criteria = root.find('ovaldef/raw_data/{*}definition/{*}criteria')
+        if criteria is not None:
+            return criteria
         return None
 
     def resolve_raw_data(root, _info):

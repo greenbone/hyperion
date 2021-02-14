@@ -68,6 +68,15 @@ class OvalDefinitionTestCase(SeleneTestCase):
                     description
                     file
                     class
+                    affectedFamily{
+                        family
+                    }
+                    history{
+                        status
+                    }
+                    criteria{
+                        operator
+                    }
                     rawData
                     score
                     status
@@ -110,6 +119,12 @@ class OvalDefinitionTestCase(SeleneTestCase):
         self.assertEqual(oval_definition['class'], 'vulnerability')
         self.assertEqual(oval_definition['status'], 'INTERIM')
         self.assertEqual(oval_definition['version'], 2)
+
+        self.assertIsNotNone(oval_definition['affectedFamily'])
+        family = oval_definition['affectedFamily']
+        self.assertEqual(family['family'], 'windows')
+        self.assertIsNotNone(oval_definition['history'])
+        self.assertIsNotNone(oval_definition['criteria'])
 
         # tests for the complex rawData will need to be added, when a
         # final design decision about them was made
