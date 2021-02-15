@@ -26,7 +26,9 @@ $ cd hyperion && git log
 - Use `next` instead of `latest` `python-gvm` version for developement. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Removed empty `uuid= ` from `filter_string` in `create_export_by_ids_mutation` [#23](https://github.com/greenbone/hyperion/pull/23) 
 - Changed dependency of `xml` to `lxml` [#27](https://github.com/greenbone/hyperion/pull/27)
-- Changed `CVE`s entity so it can parse new-format xml correctly [#29](https://github.com/greenbone/hyperion/pull/27)
+- Changed `CVE`s entity so it can parse new-format xml correctly [#29](https://github.com/greenbone/hyperion/pull/29)
+- Refactored `OvalDefinitions` entity [#30](https://github.com/greenbone/hyperion/pull/30)
+- Increased coverage for `OvalDefinitions`, `CertBundAdvisories` and `DFNCertAdvisories` entity [#30](https://github.com/greenbone/hyperion/pull/30)
 
 ### Deprecated
 ### Removed
