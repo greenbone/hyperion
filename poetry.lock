@@ -304,20 +304,20 @@ test = ["pytest (>=3.6.3)", "pytest-cov", "coveralls", "mock", "pytz", "pytest-d
 
 [[package]]
 name = "graphql-core"
-version = "2.3.2"
+version = "2.2"
 description = "GraphQL implementation for Python"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-promise = ">=2.3,<3"
-rx = ">=1.6,<2"
+promise = ">=2.1"
+rx = ">=1.6.0"
 six = ">=1.10.0"
 
 [package.extras]
 gevent = ["gevent (>=1.1)"]
-test = ["six (==1.14.0)", "pyannotate (==1.2.0)", "pytest (==4.6.10)", "pytest-django (==3.9.0)", "pytest-cov (==2.8.1)", "coveralls (==1.11.1)", "cython (==0.29.17)", "gevent (==1.5.0)", "pytest-benchmark (==3.2.3)", "pytest-mock (==2.0.0)"]
+test = ["pytest (>=3.3,<4.0)", "pytest-django (==2.9.1)", "pytest-cov (==2.3.1)", "coveralls", "gevent (>=1.1)", "six (>=1.10.0)", "pytest-benchmark (==3.0.0)", "pytest-mock (==1.2)"]
 
 [[package]]
 name = "graphql-relay"
@@ -640,11 +640,11 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
 
 [[package]]
 name = "rx"
-version = "1.6.1"
+version = "3.1.1"
 description = "Reactive Extensions (Rx) for Python"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.6.0"
 
 [[package]]
 name = "singledispatch"
@@ -1042,8 +1042,8 @@ graphene-django = [
     {file = "graphene_django-2.15.0-py2.py3-none-any.whl", hash = "sha256:02671d195f0c09c8649acff2a8f4ad4f297d0f7d98ea6e6cdf034b81bab92880"},
 ]
 graphql-core = [
-    {file = "graphql-core-2.3.2.tar.gz", hash = "sha256:aac46a9ac524c9855910c14c48fc5d60474def7f99fd10245e76608eba7af746"},
-    {file = "graphql_core-2.3.2-py2.py3-none-any.whl", hash = "sha256:44c9bac4514e5e30c5a595fac8e3c76c1975cae14db215e8174c7fe995825bad"},
+    {file = "graphql-core-2.2.tar.gz", hash = "sha256:60ef8277b82aaad49e87154a0288a9542a82a63909568375712f826b1c280ef5"},
+    {file = "graphql_core-2.2-py2.py3-none-any.whl", hash = "sha256:6288fe97c32d2f868a2dfe62e766dc85d48c96c1d085294edf44714190f2e4f3"},
 ]
 graphql-relay = [
     {file = "graphql-relay-2.0.1.tar.gz", hash = "sha256:870b6b5304123a38a0b215a79eace021acce5a466bf40cd39fa18cb8528afabb"},
@@ -1316,8 +1316,8 @@ requests = [
     {file = "requests-2.25.1.tar.gz", hash = "sha256:27973dd4a904a4f13b263a19c866c13b92a39ed1c964655f025f3f8d3d75b804"},
 ]
 rx = [
-    {file = "Rx-1.6.1-py2.py3-none-any.whl", hash = "sha256:7357592bc7e881a95e0c2013b73326f704953301ab551fbc8133a6fadab84105"},
-    {file = "Rx-1.6.1.tar.gz", hash = "sha256:13a1d8d9e252625c173dc795471e614eadfe1cf40ffc684e08b8fff0d9748c23"},
+    {file = "Rx-3.1.1-py3-none-any.whl", hash = "sha256:0e0f2715a3452e95dcb5d6ea28ffe5742e832592bbcc67a48f394ef8ba871e6f"},
+    {file = "Rx-3.1.1.tar.gz", hash = "sha256:562851cfdb27fd5a218443cdbd682029684144dbafeb5dce34f6a709511282de"},
 ]
 singledispatch = [
     {file = "singledispatch-3.4.0.3-py2.py3-none-any.whl", hash = "sha256:833b46966687b3de7f438c761ac475213e53b306740f1abfaa86e1d1aae56aa8"},
