@@ -84,10 +84,9 @@ def parse_bool(value: Union[str, int]) -> Optional[bool]:
 
 def parse_datetime(value: str) -> Optional[datetime.datetime]:
     """Parse a string as datetime"""
-    if not value:
-        return None
-
-    return django_parse_datatime(value)
+    if value is not None:
+        return django_parse_datatime(value)
+    return None
 
 
 def parse_filter_string(value: str) -> FilterString:

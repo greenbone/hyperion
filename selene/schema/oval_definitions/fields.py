@@ -18,16 +18,16 @@
 
 # pylint: disable=no-self-argument, no-member, not-an-iterable
 
-from lxml import etree
-
 import graphene
 
 from selene.schema.entity import EntityObjectType
 from selene.schema.severity import SeverityType
+from selene.schema.parser import parse_datetime
 from selene.schema.utils import (
     get_boolean_from_element,
     get_int_from_element,
     get_text_from_element,
+    get_text,
 )
 
 
@@ -36,46 +36,80 @@ class HistoryStatusChange(graphene.ObjectType):
     date = graphene.String()
 
     def resolve_status(root, _info):
-        return get_text_from_element(root, 'status')
+        return get_text(root)
 
     def resolve_date(root, _info):
-        return root.get('date')
+        return parse_datetime(root.get('date'))
 
 
 class OvalDefinitionHistory(graphene.ObjectType):
     status = graphene.String()
     date = graphene.DateTime()
-    contributors = graphene.String()
-    company = graphene.String()
+    contributor = graphene.String()
+    organization = graphene.String()
     status_changes = graphene.List(HistoryStatusChange)
 
     def resolve_status(root, _info):
-        return get_text_from_element(root, 'status')
+        return get_text_from_element(root, '{*}status')
 
     def resolve_date(root, _info):
-        submitted = root.find('dates/submitted')
+        submitted = root.find('{*}dates/{*}submitted')
         if submitted is not None:
-            return submitted.get('date')
+            return parse_datetime(submitted.get('date'))
         return None
 
     def resolve_contributor(root, _info):
-        submitted = root.find('dates/submitted')
+        submitted = root.find('{*}dates/{*}submitted')
         if submitted is not None:
-            return get_text_from_element(submitted, 'contributor')
+            return get_text_from_element(submitted, '{*}contributor')
 
-    def resolve_company(root, _info):
-        contributor = root.find('dates/submitted/contributor')
+    def resolve_organization(root, _info):
+        contributor = root.find('{*}dates/{*}submitted/{*}contributor')
         if contributor is not None:
-            return contributor.get('company')
+            return contributor.get('organization')
+        return None
+
+    def resolve_status_changes(root, _info):
+        dates = root.find('{*}dates')
+        if dates is not None:
+            status_changes = dates.findall('{*}status_change')
+            if len(status_changes) != 0:
+                return status_changes
         return None
 
 
 class OvalDefinitionCriteria(graphene.ObjectType):
+    """ Recursive Criteria definition for OvalDefinitions ... """
+
     operator = graphene.String()
     comment = graphene.String()
-    extended_definition = graphene.String()
+    extend_definition = graphene.String()
     criterion = graphene.String()
-    criteria = graphene.Field(lambda: OvalDefinitionCriteria)
+    criteria = graphene.List(lambda: OvalDefinitionCriteria)
+
+    def resolve_operator(root, _info):
+        return root.get('operator')
+
+    def resolve_comment(root, _info):
+        return root.get('comment')
+
+    def resolve_extend_definition(root, _info):
+        extend_definition = root.find('{*}extend_definition')
+        if extend_definition is not None:
+            return extend_definition.get('comment')
+        return None
+
+    def resolve_criterion(root, _info):
+        criterion = root.find('{*}criterion')
+        if criterion is not None:
+            return criterion.get('comment')
+        return None
+
+    def resolve_criteria(root, _info):
+        criteria = root.findall('{*}criteria')
+        if len(criteria) != 0:
+            return criteria
+        return None
 
 
 class OvalDefinitionRefs(graphene.ObjectType):
@@ -90,7 +124,7 @@ class OvalDefinitionRefs(graphene.ObjectType):
         return root.get('ref_id')
 
     def resolve_url(root, _info):
-        return root.get('url')
+        return root.get('ref_url')
 
 
 class OvalDefinitionAffectedFamily(graphene.ObjectType):
@@ -102,15 +136,15 @@ class OvalDefinitionAffectedFamily(graphene.ObjectType):
         return root.get('family')
 
     def resolve_platforms(root, _info):
-        platforms = root.findall('platform')
-        if platforms != []:
-            return platforms
+        platforms = root.findall('{*}platform')
+        if len(platforms) != 0:
+            return [platform.text for platform in platforms]
         return None
 
     def resolve_products(root, _info):
-        products = root.findall('product')
-        if products != []:
-            return products
+        products = root.findall('{*}product')
+        if len(products) != 0:
+            return [product.text for product in products]
         return None
 
 
@@ -186,13 +220,12 @@ class OvalDefinition(EntityObjectType):
             return criteria
         return None
 
-    def resolve_raw_data(root, _info):
-        # dump everything in raw_data into a string. This needs to be parsed
-        # properly in GSA. It will include (among others) the information about
-        # criteria and affected assets
-        criteria = root.find('ovaldef').find('raw_data').find('*')
-        if criteria is not None:
-            return etree.tostring(criteria, encoding='unicode')
+    def resolve_references(root, _info):
+        metadata = root.find('ovaldef/raw_data/{*}definition/{*}metadata')
+        if metadata is not None:
+            references = metadata.findall('{*}reference')
+            if len(references) != 0:
+                return references
         return None
 
     def resolve_score(root, _info):

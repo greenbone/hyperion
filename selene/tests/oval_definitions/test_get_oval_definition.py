@@ -47,6 +47,158 @@ class OvalDefinitionTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
+    def test_get_oval_definition_sub_field_none_cases(
+        self, mock_gmp: GmpMockFactory
+    ):
+        oval_definition_id = 'foooo'
+        mock_gmp.mock_response(
+            'get_info',
+            f'''
+            <get_info_response>
+                <info id="{oval_definition_id}">
+                    <name>foo</name>
+                    <ovaldef>
+                        <raw_data>
+                            <definition xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5"
+                            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                            xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5"
+                            xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5" id="oval:org.mitre.oval:def:29480" version="2" class="vulnerability">
+                            <metadata>
+                                <title>Adobe Reader and Acrobat 7.0.8 and earlier allows user-assisted remote attackers to execute code (CVE-2006-5857)</title>
+                                <affected/>
+                                <reference source="CVE" ref_id="CVE-2006-5857" ref_url="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2006-5857"></reference>
+                                <description>Adobe Reader and Acrobat 7.0.8 and earlier allows user-assisted remote attackers to execute code via a crafted PDF file that triggers memory corruption and overwrites a subroutine pointer during rendering.</description>
+                                <oval_repository><dates/></oval_repository>
+                            </metadata>
+                            </definition>
+                        </raw_data>
+                    </ovaldef>
+                </info>
+            </get_info_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            f'''
+            query {{
+                ovalDefinition(id: "{oval_definition_id}") {{
+                    id
+                    name
+                    cveRefs
+                    affectedFamily {{
+                        family
+                        platforms
+                        products
+                    }}
+                    history {{
+                        status
+                        date
+                        contributor
+                        organization
+                        statusChanges {{
+                            status
+                            date
+                        }}
+                    }}
+                }}
+            }}
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        oval_definition = json['data']['ovalDefinition']
+
+        self.assertEqual(oval_definition['id'], oval_definition_id)
+        self.assertEqual(oval_definition['name'], 'foo')
+        self.assertIsNone(oval_definition['affectedFamily']['platforms'])
+        self.assertIsNone(oval_definition['affectedFamily']['products'])
+        self.assertIsNone(oval_definition['history']['date'])
+        self.assertIsNone(oval_definition['history']['contributor'])
+        self.assertIsNone(oval_definition['history']['organization'])
+        self.assertIsNone(oval_definition['history']['statusChanges'])
+
+        mock_gmp.gmp_protocol.get_info.assert_called_with(
+            oval_definition_id, info_type=GvmInfoType.OVALDEF
+        )
+
+    def test_get_oval_definition_none_cases(self, mock_gmp: GmpMockFactory):
+        oval_definition_id = 'foooo'
+        mock_gmp.mock_response(
+            'get_info',
+            f'''
+            <get_info_response>
+                <info id="{oval_definition_id}">
+                    <name>foo</name>
+                </info>
+            </get_info_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            f'''
+            query {{
+                ovalDefinition(id: "{oval_definition_id}") {{
+                    id
+                    name
+                    cveRefs
+                    references {{
+                        source
+                    }}
+                    deprecated
+                    description
+                    file
+                    class
+                    affectedFamily {{
+                        family
+                    }}
+                    history {{
+                        status
+                    }}
+                    criteria {{
+                        operator
+                    }}
+                    score
+                    status
+                    title
+                    version
+                }}
+            }}
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        oval_definition = json['data']['ovalDefinition']
+
+        self.assertEqual(oval_definition['id'], oval_definition_id)
+        self.assertEqual(oval_definition['name'], 'foo')
+        self.assertIsNone(oval_definition['cveRefs'])
+        self.assertIsNone(oval_definition['references'])
+        self.assertIsNone(oval_definition['deprecated'])
+        self.assertIsNone(oval_definition['description'])
+        self.assertIsNone(oval_definition['file'])
+        self.assertIsNone(oval_definition['class'])
+        self.assertIsNone(oval_definition['affectedFamily'])
+        self.assertIsNone(oval_definition['history'])
+        self.assertIsNone(oval_definition['criteria'])
+        self.assertIsNone(oval_definition['score'])
+        self.assertIsNone(oval_definition['status'])
+        self.assertIsNone(oval_definition['title'])
+        self.assertIsNone(oval_definition['version'])
+
+        mock_gmp.gmp_protocol.get_info.assert_called_with(
+            oval_definition_id, info_type=GvmInfoType.OVALDEF
+        )
+
     def test_oval_definition(self, mock_gmp: GmpMockFactory):
         oval_definition_xml_path = CWD / 'example-oval-definition.xml'
         oval_definition_xml_str = oval_definition_xml_path.read_text()
@@ -63,21 +215,46 @@ class OvalDefinitionTestCase(SeleneTestCase):
                 ) {
                     id
                     name
-                    cveRefs
+                    references {
+                        source
+                        id
+                        url
+                    }
                     deprecated
                     description
                     file
+                    cveRefs
                     class
-                    affectedFamily{
+                    affectedFamily {
                         family
+                        platforms
+                        products
                     }
-                    history{
+                    history {
                         status
+                        date
+                        contributor
+                        organization
+                        statusChanges {
+                            status
+                            date
+                        }
                     }
-                    criteria{
+                    criteria {
                         operator
+                        comment
+                        extendDefinition
+                        criterion
+                        criteria {
+                            operator
+                            comment
+                            extendDefinition
+                            criterion
+                            criteria {
+                                operator
+                            }
+                        }
                     }
-                    rawData
                     score
                     status
                     title
@@ -121,13 +298,79 @@ class OvalDefinitionTestCase(SeleneTestCase):
         self.assertEqual(oval_definition['version'], 2)
 
         self.assertIsNotNone(oval_definition['affectedFamily'])
+
         family = oval_definition['affectedFamily']
         self.assertEqual(family['family'], 'windows')
+        self.assertEqual(
+            family['platforms'],
+            [
+                'Microsoft Windows 2000',
+                'Microsoft Windows 7',
+                'Microsoft Windows Server 2003',
+                'Microsoft Windows Server 2008',
+                'Microsoft Windows Vista',
+                'Microsoft Windows XP',
+                'Microsoft Windows Server 2008 R2',
+                'Microsoft Windows 8',
+                'Microsoft Windows Server 2012',
+                'Microsoft Windows 8.1',
+                'Microsoft Windows Server 2012 R2',
+            ],
+        )
+        self.assertEqual(family['products'], ['Adobe Acrobat', 'Adobe Reader'])
+
         self.assertIsNotNone(oval_definition['history'])
+        history = oval_definition['history']
+        self.assertEqual(history['status'], 'INTERIM')
+        self.assertEqual(history['date'], '2015-07-30T08:31:03')
+        self.assertEqual(history['contributor'], 'Mr. Foo')
+        self.assertEqual(history['organization'], 'foo inc')
+
+        self.assertIsNotNone(history['statusChanges'])
+
+        status_changes = history['statusChanges']
+        self.assertEqual(
+            status_changes[0]['date'], '2015-07-31 12:47:21.289000-04:00'
+        )
+        self.assertEqual(status_changes[0]['status'], 'DRAFT')
+
         self.assertIsNotNone(oval_definition['criteria'])
 
-        # tests for the complex rawData will need to be added, when a
-        # final design decision about them was made
+        criteria = oval_definition['criteria']
+        self.assertEqual(criteria['operator'], 'OR')
+        self.assertIsNone(
+            criteria['comment'],
+        )
+        self.assertIsNone(criteria['criterion'])
+        self.assertIsNone(criteria['extendDefinition'])
+
+        self.assertIsNotNone(criteria['criteria'])
+
+        level_2_criteria = criteria['criteria']
+        self.assertEqual(level_2_criteria[0]['operator'], 'AND')
+        self.assertEqual(
+            level_2_criteria[0]['comment'], 'Check version of Acrobat'
+        )
+        self.assertEqual(
+            level_2_criteria[0]['criterion'],
+            'Check if the version of Adobe Acrobat is less than 7.0.8',
+        )
+        self.assertEqual(
+            level_2_criteria[0]['extendDefinition'],
+            'Adobe Acrobat is installed',
+        )
+
+        self.assertIsNone(level_2_criteria[0]['criteria'])
+
+        self.assertIsNotNone(oval_definition['references'])
+
+        oval_definition_refs = oval_definition['references']
+        self.assertEqual(oval_definition_refs[0]['source'], 'CVE')
+        self.assertEqual(oval_definition_refs[0]['id'], 'CVE-2006-5857')
+        self.assertEqual(
+            oval_definition_refs[0]['url'],
+            'http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2006-5857',
+        )
 
 
 class OvalDefinitionGetEntityTestCase(SeleneTestCase):
