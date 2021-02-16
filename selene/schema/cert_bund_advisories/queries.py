@@ -23,7 +23,7 @@ import graphene
 from graphql import ResolveInfo
 from gvm.protocols.next import InfoType as GvmInfoType
 
-from selene.schema.cert_bund.fields import CertBundAdvisory
+from selene.schema.cert_bund_advisories.fields import CertBundAdvisory
 
 from selene.schema.parser import FilterString
 

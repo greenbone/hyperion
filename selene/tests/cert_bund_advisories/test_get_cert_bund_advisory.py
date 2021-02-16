@@ -82,6 +82,80 @@ class CertBundTestCase(SeleneTestCase):
         self.assertEqual(cert_bund['name'], 'foo')
         self.assertIsNone(cert_bund['owner'])
 
+    def test_get_cert_bund_advisory_none_fields(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_info',
+            '''
+            <get_info_response>
+                <info id="CB-K13/0093">
+                    <name>foo</name>
+                </info>
+            </get_info_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                certBundAdvisory(id: "CB-K13/0093") {
+                    id
+                    name
+                    owner
+                    updateTime
+                    description
+                    cveRefs
+                    cves
+                    categories
+                    infos {
+                        infoIssuer
+                        infoUrl
+                    }
+                    effect
+                    remoteAttack
+                    platform
+                    referenceNumber
+                    referenceId
+                    referenceUrl
+                    referenceSource
+                    risk
+                    software
+                    revisions {
+                        date
+                        description
+                        number
+                    }
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        cert_bund = json['data']['certBundAdvisory']
+
+        self.assertEqual(cert_bund['id'], 'CB-K13/0093')
+        self.assertEqual(cert_bund['name'], 'foo')
+        self.assertIsNone(cert_bund['owner'])
+        self.assertIsNone(cert_bund['updateTime'])
+        self.assertIsNone(cert_bund['description'])
+        self.assertIsNone(cert_bund['cveRefs'])
+        self.assertIsNone(cert_bund['cves'])
+        self.assertIsNone(cert_bund['categories'])
+        self.assertIsNone(cert_bund['infos'])
+        self.assertIsNone(cert_bund['effect'])
+        self.assertFalse(cert_bund['remoteAttack'])
+        self.assertIsNone(cert_bund['platform'])
+        self.assertIsNone(cert_bund['referenceNumber'])
+        self.assertIsNone(cert_bund['referenceId'])
+        self.assertIsNone(cert_bund['referenceUrl'])
+        self.assertIsNone(cert_bund['risk'])
+        self.assertIsNone(cert_bund['software'])
+        self.assertIsNone(cert_bund['revisions'])
+
     def test_complex_cert_bund(self, mock_gmp: GmpMockFactory):
         cert_bund_xml_path = CWD / 'example-cert-bund.xml'
         cert_bund_xml_str = cert_bund_xml_path.read_text()
@@ -114,6 +188,7 @@ class CertBundTestCase(SeleneTestCase):
                     referenceSource
                     risk
                     software
+                    title
                     revisions {
                         date
                         description
@@ -164,6 +239,11 @@ OpenSSL ist eine im Quelltext frei verfügbare Bibliothek, die Secure Sockets La
         self.assertEqual(cert_bund['remoteAttack'], True)
         self.assertEqual(cert_bund['effect'], 'SecurityWorkaround')
         self.assertEqual(cert_bund['risk'], 'medium')
+        self.assertEqual(
+            cert_bund['title'],
+            'SSL, TLS, DTLS: Schwachstelle ermöglicht'
+            ' Umgehen von Sicherheitsvorkehrungen',
+        )
 
         self.assertEqual(
             cert_bund['categories'],

@@ -96,7 +96,7 @@ class CertBundAdvisory(EntityObjectType):
         return get_int_from_element(cert_bund, 'cve_refs')
 
     def resolve_cves(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             cves_tag = adv.find('CVEList').findall('CVE')
             cves = []
@@ -106,7 +106,7 @@ class CertBundAdvisory(EntityObjectType):
         return None
 
     def resolve_categories(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             category_tags = adv.findall('CategoryTree')
             categories = []
@@ -122,7 +122,7 @@ class CertBundAdvisory(EntityObjectType):
         return get_text_from_element(root.find('cert_bund_adv'), 'title')
 
     def resolve_infos(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             elements = adv.find('Description').findall('Element')
             for element in elements:
@@ -132,53 +132,53 @@ class CertBundAdvisory(EntityObjectType):
         return None
 
     def resolve_effect(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Effect')
 
     def resolve_remote_attack(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             if get_text_from_element(adv, 'RemoteAttack') == 'yes':
                 return True
         return False
 
     def resolve_platform(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Platform')
 
     def resolve_reference_id(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Ref_Num')
 
     def resolve_reference_number(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return adv.find('Ref_Num').get('update')
 
     def resolve_reference_source(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Reference_Source')
 
     def resolve_reference_url(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Reference_URL')
 
     def resolve_revisions(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return adv.find('RevisionHistory').findall('Revision')
 
     def resolve_risk(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Risk')
 
     def resolve_software(root, _info):
-        adv = root.find('cert_bund_adv').find('raw_data').find('Advisory')
+        adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Software')

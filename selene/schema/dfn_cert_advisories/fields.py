@@ -99,40 +99,21 @@ class DFNCertAdvisory(EntityObjectType):
         return None
 
     def resolve_cves(root, _info):
-        # ignoring the namespaces ...
-        dfn_cert_adv = root.find('dfn_cert_adv').find('raw_data').find('*')
-        cves = []
-        for elem in dfn_cert_adv:
-            if 'cve' in elem.tag:
-                cves.append(elem.text)
-        return cves if cves else None
-
-    def resolve_status(root, _info):
-        dfn_cert_adv = root.find('dfn_cert_adv')
+        dfn_cert_adv = root.find('dfn_cert_adv/raw_data/{*}entry')
         if dfn_cert_adv is not None:
-            return get_text_from_element(dfn_cert_adv, 'status')
+            cves = dfn_cert_adv.findall('{*}cve')
+            if cves is not None:
+                return [cve.text for cve in cves]
         return None
 
     def resolve_author(root, _info):
-        # dfn_cert_adv = (
-        #     root.find('dfn_cert_adv').find('raw_data').find('{*}entry')
-        # )
-        # if dfn_cert_adv is not None:
-        #     return dfn_cert_adv.find('{*}author')
-
-        # somehow support python 3.7,
-        # it seems that find('{*}tag') is not supported here
-        dfn_cert_adv = root.find('dfn_cert_adv').find('raw_data').find('*')
-        for elem in dfn_cert_adv:
-            if 'author' in elem.tag:
-                return elem
+        author = root.find('dfn_cert_adv/raw_data/{*}entry/{*}author')
+        if author is not None:
+            return author
         return None
 
     def resolve_link(root, _info):
-        # somehow support python 3.7,
-        # it seems that find('{+}tag') is not supported here
-        dfn_cert_adv = root.find('dfn_cert_adv').find('raw_data').find('*')
-        for elem in dfn_cert_adv:
-            if 'link' in elem.tag:
-                return elem.get('href')
+        link = root.find('dfn_cert_adv/raw_data/{*}entry/{*}link')
+        if link is not None:
+            return link.get('href')
         return None

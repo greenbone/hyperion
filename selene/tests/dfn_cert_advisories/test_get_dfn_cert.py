@@ -86,6 +86,60 @@ class DFNCertAdvisoryTestCase(SeleneTestCase):
         self.assertEqual(dfn_cert_advisory['name'], 'foo')
         self.assertIsNone(dfn_cert_advisory['owner'])
 
+    def test_get_dfn_cert_advisory_none_cases(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_info',
+            '''
+            <get_info_response>
+                <info id="DFN-CERT-2008-0644">
+                    <name>foo</name>
+                </info>
+            </get_info_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                dfnCertAdvisory(id:"DFN-CERT-2008-0644") {
+                    id
+                    name
+                    title
+                    summary
+                    maxCvss
+                    cveRefs
+                    cves
+                    link
+                    author {
+                        name
+                        uri
+                    }
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        dfn_cert_advisory = json['data']['dfnCertAdvisory']
+
+        self.assertEqual(
+            dfn_cert_advisory['id'],
+            'DFN-CERT-2008-0644',
+        )
+        self.assertEqual(dfn_cert_advisory['name'], 'foo')
+        self.assertIsNone(dfn_cert_advisory['title'])
+        self.assertIsNone(dfn_cert_advisory['summary'])
+        self.assertIsNone(dfn_cert_advisory['maxCvss'])
+        self.assertIsNone(dfn_cert_advisory['cveRefs'])
+        self.assertIsNone(dfn_cert_advisory['cves'])
+        self.assertIsNone(dfn_cert_advisory['link'])
+        self.assertIsNone(dfn_cert_advisory['author'])
+
     def test_complex_dfn_cert_advisory(self, mock_gmp: GmpMockFactory):
         dfn_cert_advisory_xml_path = CWD / 'example-dfn-cert.xml'
         dfn_cert_advisory_xml_str = dfn_cert_advisory_xml_path.read_text()

@@ -32,7 +32,7 @@ from selene.tests.pagination import (
 )
 from selene.tests.entity import make_test_get_entities
 
-from selene.schema.cert_bund.queries import GetCertBundAdvisories
+from selene.schema.cert_bund_advisories.queries import GetCertBundAdvisories
 
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)

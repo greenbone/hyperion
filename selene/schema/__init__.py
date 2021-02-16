@@ -66,12 +66,12 @@ from selene.schema.auth_methods.queries import DescribeAuth
 
 from selene.schema.capabilities import GetCapabilities
 
-from selene.schema.cert_bund.queries import (
+from selene.schema.cert_bund_advisories.queries import (
     GetCertBundAdvisories,
     GetCertBundAdvisory,
 )
 
-from selene.schema.cert_bund.mutations import (
+from selene.schema.cert_bund_advisories.mutations import (
     ExportCertBundAdvisoriesByFilter,
     ExportCertBundAdvisoriesByIds,
 )

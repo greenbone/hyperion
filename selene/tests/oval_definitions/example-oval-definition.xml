@@ -1,43 +1,112 @@
-<get_info_response status="200" status_text="OK"><info id="oval:org.mitre.oval:def:29480_/oval/5.10/org.mitre.oval/v/family/windows.xml"><owner><name></name></owner><name>oval:org.mitre.oval:def:29480</name><comment></comment><creation_time>2015-07-30T08:31:03Z</creation_time><modification_time>2015-08-17T08:01:41Z</modification_time><writable>0</writable><in_use>0</in_use><permissions></permissions><update_time>2020-12-04T02:30:00.000+0000</update_time><ovaldef><version>2</version><deprecated>0</deprecated><status>INTERIM</status><class>vulnerability</class><title>Adobe Reader and Acrobat 7.0.8 and earlier allows user-assisted remote attackers to execute code (CVE-2006-5857)</title><score>93</score><cve_refs>1</cve_refs><file>/oval/5.10/org.mitre.oval/v/family/windows.xml</file><description>short text</description><raw_data><definition xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5" xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5" id="oval:org.mitre.oval:def:29480" version="2" class="vulnerability">
-      <metadata>
-        <title>Adobe Reader and Acrobat 7.0.8 and earlier allows user-assisted remote attackers to execute code (CVE-2006-5857)</title>
-        <affected family="windows">
-          <platform>Microsoft Windows 2000</platform>
-          <platform>Microsoft Windows 7</platform>
-          <platform>Microsoft Windows Server 2003</platform>
-          <platform>Microsoft Windows Server 2008</platform>
-          <platform>Microsoft Windows Vista</platform>
-          <platform>Microsoft Windows XP</platform>
-          <platform>Microsoft Windows Server 2008 R2</platform>
-          <platform>Microsoft Windows 8</platform>
-          <platform>Microsoft Windows Server 2012</platform>
-          <platform>Microsoft Windows 8.1</platform>
-          <platform>Microsoft Windows Server 2012 R2</platform>
-          <product>Adobe Acrobat</product>
-          <product>Adobe Reader</product>
-        </affected>
-        <reference source="CVE" ref_id="CVE-2006-5857" ref_url="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2006-5857"></reference>
-        <description>Adobe Reader and Acrobat 7.0.8 and earlier allows user-assisted remote attackers to execute code via a crafted PDF file that triggers memory corruption and overwrites a subroutine pointer during rendering.</description>
-        <oval_repository>
-          <dates>
-            <submitted date="2015-07-30T08:31:03">
-              <contributor organization="ALTX-SOFT">Maria Mikhno</contributor>
-            </submitted>
-            <status_change date="2015-07-31T12:47:21.289-04:00">DRAFT</status_change>
-            <status_change date="2015-08-17T04:01:41.726-04:00">INTERIM</status_change>
-          </dates>
-          <status>INTERIM</status>
-        </oval_repository>
-      </metadata>
-      <criteria operator="OR">
-        <criteria operator="AND" comment="Check version of Acrobat">
-          <extend_definition comment="Adobe Acrobat is installed" definition_ref="oval:org.mitre.oval:def:28344"></extend_definition>
-          <criterion comment="Check if the version of Adobe Acrobat is less than 7.0.8" test_ref="oval:org.mitre.oval:tst:141217"></criterion>
-        </criteria>
-        <criteria operator="AND" comment="Check version of Reader">
-          <extend_definition comment="Adobe Reader is installed" definition_ref="oval:org.mitre.oval:def:27788"></extend_definition>
-          <criterion comment="Check if the version of Adobe Reader is less than 7.0.8" test_ref="oval:org.mitre.oval:tst:141155"></criterion>
-        </criteria>
-      </criteria>
-    </definition>
-</raw_data></ovaldef></info><details>1</details><filters id=""><term>first=1 rows=1000 uuid= uuid=oval:org.mitre.oval:def:29480_/oval/5.10/org.mitre.oval/v/family/windows.xml sort=name</term><keywords><keyword><column>first</column><relation>=</relation><value>1</value></keyword><keyword><column>rows</column><relation>=</relation><value>1000</value></keyword><keyword><column>uuid</column><relation>=</relation><value></value></keyword><keyword><column>uuid</column><relation>=</relation><value>oval:org.mitre.oval:def:29480_/oval/5.10/org.mitre.oval/v/family/windows.xml</value></keyword><keyword><column>sort</column><relation>=</relation><value>name</value></keyword></keywords></filters><sort><field>name<order>ascending</order></field></sort><info start="1" max="1000"/><info_count>28175<filtered>1</filtered><page>1</page></info_count></get_info_response>
+<get_info_response status="200" status_text="OK">
+  <info id="oval:org.mitre.oval:def:29480_/oval/5.10/org.mitre.oval/v/family/windows.xml">
+    <owner>
+      <name></name>
+    </owner>
+    <name>oval:org.mitre.oval:def:29480</name>
+    <comment></comment>
+    <creation_time>2015-07-30T08:31:03Z</creation_time>
+    <modification_time>2015-08-17T08:01:41Z</modification_time>
+    <writable>0</writable>
+    <in_use>0</in_use>
+    <permissions></permissions>
+    <update_time>2020-12-04T02:30:00.000+0000</update_time>
+    <ovaldef>
+      <version>2</version>
+      <deprecated>0</deprecated>
+      <status>INTERIM</status>
+      <class>vulnerability</class>
+      <title>Adobe Reader and Acrobat 7.0.8 and earlier allows user-assisted remote attackers to execute code (CVE-2006-5857)</title>
+      <score>93</score>
+      <cve_refs>1</cve_refs>
+      <file>/oval/5.10/org.mitre.oval/v/family/windows.xml</file>
+      <description>short text</description>
+      <raw_data>
+        <definition xmlns="http://oval.mitre.org/XMLSchema/oval-definitions-5"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:oval="http://oval.mitre.org/XMLSchema/oval-common-5"
+          xmlns:oval-def="http://oval.mitre.org/XMLSchema/oval-definitions-5" id="oval:org.mitre.oval:def:29480" version="2" class="vulnerability">
+          <metadata>
+            <title>Adobe Reader and Acrobat 7.0.8 and earlier allows user-assisted remote attackers to execute code (CVE-2006-5857)</title>
+            <affected family="windows">
+              <platform>Microsoft Windows 2000</platform>
+              <platform>Microsoft Windows 7</platform>
+              <platform>Microsoft Windows Server 2003</platform>
+              <platform>Microsoft Windows Server 2008</platform>
+              <platform>Microsoft Windows Vista</platform>
+              <platform>Microsoft Windows XP</platform>
+              <platform>Microsoft Windows Server 2008 R2</platform>
+              <platform>Microsoft Windows 8</platform>
+              <platform>Microsoft Windows Server 2012</platform>
+              <platform>Microsoft Windows 8.1</platform>
+              <platform>Microsoft Windows Server 2012 R2</platform>
+              <product>Adobe Acrobat</product>
+              <product>Adobe Reader</product>
+            </affected>
+            <reference source="CVE" ref_id="CVE-2006-5857" ref_url="http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2006-5857"></reference>
+            <description>Adobe Reader and Acrobat 7.0.8 and earlier allows user-assisted remote attackers to execute code via a crafted PDF file that triggers memory corruption and overwrites a subroutine pointer during rendering.</description>
+            <oval_repository>
+              <dates>
+                <submitted date="2015-07-30T08:31:03">
+                  <contributor organization="foo inc">Mr. Foo</contributor>
+                </submitted>
+                <status_change date="2015-07-31T12:47:21.289-04:00">DRAFT</status_change>
+                <status_change date="2015-08-17T04:01:41.726-04:00">INTERIM</status_change>
+              </dates>
+              <status>INTERIM</status>
+            </oval_repository>
+          </metadata>
+          <criteria operator="OR">
+            <criteria operator="AND" comment="Check version of Acrobat">
+              <extend_definition comment="Adobe Acrobat is installed" definition_ref="oval:org.mitre.oval:def:28344"></extend_definition>
+              <criterion comment="Check if the version of Adobe Acrobat is less than 7.0.8" test_ref="oval:org.mitre.oval:tst:141217"></criterion>
+            </criteria>
+            <criteria operator="AND" comment="Check version of Reader">
+              <extend_definition comment="Adobe Reader is installed" definition_ref="oval:org.mitre.oval:def:27788"></extend_definition>
+              <criterion comment="Check if the version of Adobe Reader is less than 7.0.8" test_ref="oval:org.mitre.oval:tst:141155"></criterion>
+            </criteria>
+          </criteria>
+        </definition>
+      </raw_data>
+    </ovaldef>
+  </info>
+  <details>1</details>
+  <filters id="">
+    <term>first=1 rows=1000 uuid= uuid=oval:org.mitre.oval:def:29480_/oval/5.10/org.mitre.oval/v/family/windows.xml sort=name</term>
+    <keywords>
+      <keyword>
+        <column>first</column>
+        <relation>=</relation>
+        <value>1</value>
+      </keyword>
+      <keyword>
+        <column>rows</column>
+        <relation>=</relation>
+        <value>1000</value>
+      </keyword>
+      <keyword>
+        <column>uuid</column>
+        <relation>=</relation>
+        <value></value>
+      </keyword>
+      <keyword>
+        <column>uuid</column>
+        <relation>=</relation>
+        <value>oval:org.mitre.oval:def:29480_/oval/5.10/org.mitre.oval/v/family/windows.xml</value>
+      </keyword>
+      <keyword>
+        <column>sort</column>
+        <relation>=</relation>
+        <value>name</value>
+      </keyword>
+    </keywords>
+  </filters>
+  <sort>
+    <field>name<order>ascending</order>
+    </field>
+  </sort>
+  <info start="1" max="1000"/>
+  <info_count>28175<filtered>1</filtered>
+    <page>1</page>
+  </info_count>
+</get_info_response>
