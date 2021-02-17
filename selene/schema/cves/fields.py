@@ -132,6 +132,24 @@ class CertRef(graphene.ObjectType):
         return root.get('type')
 
 
+class Refs(graphene.ObjectType):
+    source = graphene.String()
+    link = graphene.String()
+    reference = graphene.String()
+
+    def resolve_source(root, _info):
+        return get_text_from_element(root, '{*}source')
+
+    def resolve_link(root, _info):
+        ref = root.find('{*}reference')
+        if ref is not None:
+            return ref.get('href')
+        return None
+
+    def resolve_reference(root, _info):
+        return get_text_from_element(root, '{*}reference')
+
+
 class CVE(EntityObjectType):
     uuid = graphene.String(name='id')
     update_time = graphene.DateTime()
@@ -141,6 +159,7 @@ class CVE(EntityObjectType):
     cvss_v3_vector = graphene.Field(CVSSv3Vector)
     description = graphene.String()
     products = graphene.List(graphene.String)
+    refs = graphene.List(Refs)
     nvt_refs = graphene.List(NvtRef)
     cert_refs = graphene.List(CertRef)
 
@@ -193,4 +212,12 @@ class CVE(EntityObjectType):
         cert = root.find('cve/cert')
         if cert is not None:
             return cert.findall('cert_ref')
+        return None
+
+    def resolve_refs(root, _info):
+        entry = root.find('cve/raw_data/{*}entry')
+        if entry is not None:
+            refs = entry.findall('{*}references')
+            if len(refs) > 0:
+                return refs
         return None

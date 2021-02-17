@@ -83,6 +83,9 @@ class CVETestCase(SeleneTestCase):
                     certRefs {{
                         name
                     }}
+                    refs {{
+                        source
+                    }}
                 }}
             }}
             '''
@@ -103,6 +106,7 @@ class CVETestCase(SeleneTestCase):
         self.assertIsNone(cve['cvssV3Vector'])
         self.assertIsNone(cve['nvtRefs'])
         self.assertIsNone(cve['certRefs'])
+        self.assertIsNone(cve['refs'])
         self.assertIsNone(cve['products'])
 
         mock_gmp.gmp_protocol.get_info.assert_called_with(
@@ -158,6 +162,11 @@ class CVETestCase(SeleneTestCase):
                         name
                         title
                         type
+                    }
+                    refs {
+                        source
+                        link
+                        reference
                     }
                 }
             }
@@ -223,6 +232,15 @@ class CVETestCase(SeleneTestCase):
         self.assertEqual(nvts[0]['name'], 'blee')
         self.assertEqual(nvts[1]['id'], '1.3.6.1.4.1.25623.1.0.654321')
         self.assertEqual(nvts[1]['name'], 'bloo')
+
+        self.assertIsNotNone(cve['refs'])
+        refs = cve['refs']
+        self.assertEqual(refs[0]['source'], 'MLIST')
+        self.assertEqual(refs[0]['link'], 'link1')
+        self.assertEqual(refs[0]['reference'], 'ref1')
+        self.assertEqual(refs[1]['source'], 'CONFIRM')
+        self.assertEqual(refs[1]['link'], 'link2')
+        self.assertEqual(refs[1]['reference'], 'ref2')
 
 
 class CVEGetEntityTestCase(SeleneTestCase):

@@ -83,11 +83,11 @@
           <vuln:cwe id="CWE-79"></vuln:cwe>
           <vuln:references>
             <vuln:source>MLIST</vuln:source>
-            <vuln:reference href="http://www.openwall.com/lists/oss-security/2020/07/15/5">[oss-security] 20200715 Multiple vulnerabilities in Jenkins and Jenkins plugins</vuln:reference>
+            <vuln:reference href="link1">ref1</vuln:reference>
           </vuln:references>
           <vuln:references>
             <vuln:source>CONFIRM</vuln:source>
-            <vuln:reference href="https://jenkins.io/security/advisory/2020-07-15/#SECURITY-1902">https://jenkins.io/security/advisory/2020-07-15/#SECURITY-1902</vuln:reference>
+            <vuln:reference href="link2">ref2</vuln:reference>
           </vuln:references>
           <vuln:summary>bar baz boing</vuln:summary>
         </entry>
