@@ -37,7 +37,7 @@ class CPETestCase(SeleneTestCase):
         response = self.query(
             '''
             query {
-                cpe(id: "cpe:/a:$0.99_kindle_books_project:$0.99_kindle_books:6::~~~android~~") {
+                cpe(id: "cpe:/a:foo:bar") {
                     id
                     name
                 }
@@ -52,7 +52,7 @@ class CPETestCase(SeleneTestCase):
             'get_info',
             '''
             <get_info_response>
-                <info id="cpe:/a:$0.99_kindle_books_project:$0.99_kindle_books:6::~~~android~~">
+                <info id="cpe:/a:foo:bar">
                     <name>foo</name>
                 </info>
             </get_info_response>
@@ -65,7 +65,7 @@ class CPETestCase(SeleneTestCase):
             '''
             query {
                 cpe(id:
-                    "cpe:/a:$0.99_kindle_books_project:$0.99_kindle_books:6::~~~android~~"
+                    "cpe:/a:foo:bar"
                 ) {
                     id
                     name
@@ -83,10 +83,66 @@ class CPETestCase(SeleneTestCase):
 
         self.assertEqual(
             cpe['id'],
-            'cpe:/a:$0.99_kindle_books_project:$0.99_kindle_books:6::~~~android~~',
+            'cpe:/a:foo:bar',
         )
         self.assertEqual(cpe['name'], 'foo')
         self.assertIsNone(cpe['owner'])
+
+    def test_get_cpe_none_fields(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_info',
+            '''
+            <get_info_response>
+                <info id="cpe:/a:foo:bar">
+                    <name>foo</name>
+                </info>
+            </get_info_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                cpe(id:
+                    "cpe:/a:foo:bar"
+                ) {
+                    id
+                    name
+                    updateTime
+                    title
+                    nvdId
+                    maxSeverity
+                    cveRefCount
+                    cveRefs {
+                        id
+                        severity
+                    }
+                    status
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        cpe = json['data']['cpe']
+
+        self.assertEqual(
+            cpe['id'],
+            'cpe:/a:foo:bar',
+        )
+        self.assertEqual(cpe['name'], 'foo')
+        self.assertIsNone(cpe['updateTime'])
+        self.assertIsNone(cpe['title'])
+        self.assertIsNone(cpe['nvdId'])
+        self.assertIsNone(cpe['maxSeverity'])
+        self.assertIsNone(cpe['cveRefCount'])
+        self.assertIsNone(cpe['cveRefs'])
+        self.assertIsNone(cpe['status'])
 
     def test_complex_cpe(self, mock_gmp: GmpMockFactory):
         cpe_xml_path = CWD / 'example-cpe.xml'
@@ -100,15 +156,19 @@ class CPETestCase(SeleneTestCase):
             '''
             query {
                 cpe(id:
-                    "cpe:/a:$0.99_kindle_books_project:$0.99_kindle_books:6::~~~android~~"
+                    "cpe:/a:foo:bar"
                 ) {
                     id
                     name
                     updateTime
                     title
                     nvdId
-                    maxCvss
-                    cveRefs
+                    maxSeverity
+                    cveRefCount
+                    cveRefs {
+                        id
+                        severity
+                    }
                     status
                 }
             }
@@ -123,23 +183,25 @@ class CPETestCase(SeleneTestCase):
 
         self.assertEqual(
             cpe['name'],
-            'cpe:/a:$0.99_kindle_books_project:'
-            '$0.99_kindle_books:6::~~~android~~',
+            'cpe:/a:foo:bar',
         )
         self.assertEqual(
             cpe['id'],
-            'cpe:/a:$0.99_kindle_books_project:'
-            '$0.99_kindle_books:6::~~~android~~',
+            'cpe:/a:foo:bar',
         )
         self.assertEqual(
             cpe['title'],
-            '$0.99 Kindle Books project $0.99 Kindle Books '
-            '(aka com.kindle.books.for99) for android 6.0',
+            'Foo bar baz',
         )
         self.assertEqual(cpe['nvdId'], '289692')
         self.assertEqual(cpe['status'], 'FINAL')
-        self.assertEqual(cpe['maxCvss'], 5.4)
-        self.assertEqual(cpe['cveRefs'], 1)
+        self.assertEqual(cpe['maxSeverity'], 5.4)
+        self.assertEqual(cpe['cveRefCount'], 1)
+
+        self.assertIsNotNone(cpe['cveRefs'])
+        cve_refs = cpe['cveRefs']
+        self.assertEqual(cve_refs[0]['id'], 'CVE-2014-6750')
+        self.assertEqual(cve_refs[0]['severity'], 5.4)
 
 
 class CPEGetEntityTestCase(SeleneTestCase):

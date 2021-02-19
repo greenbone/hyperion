@@ -1,9 +1,9 @@
 <get_info_response status="200" status_text="OK">
-    <info id="cpe:/a:$0.99_kindle_books_project:$0.99_kindle_books:6::~~~android~~">
+    <info id="cpe:/a:foo:bar">
         <owner>
             <name></name>
         </owner>
-        <name>cpe:/a:$0.99_kindle_books_project:$0.99_kindle_books:6::~~~android~~</name>
+        <name>cpe:/a:foo:bar</name>
         <comment></comment>
         <creation_time>2014-11-10T17:01:25Z</creation_time>
         <modification_time>2014-11-10T17:01:25Z</modification_time>
@@ -12,7 +12,7 @@
         <permissions></permissions>
         <update_time>2020-11-17T02:30:00.000+0000</update_time>
         <cpe>
-            <title>$0.99 Kindle Books project $0.99 Kindle Books (aka com.kindle.books.for99) for android 6.0</title>
+            <title>Foo bar baz</title>
             <nvd_id>289692</nvd_id>
             <max_cvss>5.4</max_cvss>
             <cve_refs>1</cve_refs>
@@ -40,7 +40,7 @@
                     xmlns:ns6="http://scap.nist.gov/schema/scap-core/0.1"
                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                     xmlns:config="http://scap.nist.gov/schema/configuration/0.1"
-                    xmlns="http://cpe.mitre.org/dictionary/2.0" name="cpe:/a:$0.99_kindle_books_project:$0.99_kindle_books:6::~~~android~~"></cpe-item>
+                    xmlns="http://cpe.mitre.org/dictionary/2.0" name="cpe:/a:foo:bar"></cpe-item>
             </raw_data>
         </cpe>
     </info>

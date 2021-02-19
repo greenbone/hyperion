@@ -29,14 +29,34 @@ from selene.schema.utils import (
 )
 
 
+class CveRef(graphene.ObjectType):
+    uuid = graphene.String(name='id', description="ID of referenced CVE")
+    severity = graphene.Field(
+        SeverityType, description="Severity of referenced CVE"
+    )
+
+    def resolve_uuid(root, _info):
+        return root.get('id')
+
+    def resolve_severity(root, _info):
+        return get_text_from_element(root, '{*}cvss/{*}base_metrics/{*}score')
+
+
 class CPE(EntityObjectType):
-    uuid = graphene.String(name='id')
-    update_time = graphene.DateTime()
-    title = graphene.String()
-    nvd_id = graphene.String()
-    max_cvss = graphene.Field(SeverityType)
-    cve_refs = graphene.Int()
-    status = graphene.String()
+    uuid = graphene.String(name='id', description="URI of this CPE")
+    update_time = graphene.DateTime(description="Last updated timestamp")
+    title = graphene.String(description="Short description/name of this CPE")
+    nvd_id = graphene.String(
+        description=(
+            "Corresponding ID in the national" " vulnerability database (NVD)"
+        )
+    )
+    max_severity = graphene.Field(
+        SeverityType, description="Maximum severity from referenced CVEs"
+    )
+    cve_ref_count = graphene.Int(description="Number of CVE references")
+    cve_refs = graphene.List(CveRef, description="CVE references list")
+    status = graphene.String(description="Latest CPE status")
 
     def resolve_uuid(root, _info):
         return root.get('id')
@@ -56,16 +76,24 @@ class CPE(EntityObjectType):
             return get_text_from_element(cpe, 'nvd_id')
         return None
 
-    def resolve_max_cvss(root, _info):
+    def resolve_max_severity(root, _info):
         cpe = root.find('cpe')
         if cpe is not None:
             return get_text_from_element(cpe, 'max_cvss')
         return None
 
-    def resolve_cve_refs(root, _info):
+    def resolve_cve_ref_count(root, _info):
         cpe = root.find('cpe')
         if cpe is not None:
             return get_int_from_element(cpe, 'cve_refs')
+        return None
+
+    def resolve_cve_refs(root, _info):
+        cves = root.find('cpe/cves')
+        if cves is not None:
+            cves = cves.findall('cve/{*}entry')
+            if len(cves) > 0:
+                return cves
         return None
 
     def resolve_status(root, _info):
