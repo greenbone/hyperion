@@ -79,7 +79,7 @@ class CPE(EntityObjectType):
     def resolve_max_severity(root, _info):
         cpe = root.find('cpe')
         if cpe is not None:
-            return get_text_from_element(cpe, 'max_cvss')
+            return get_text_from_element(cpe, 'score')
         return None
 
     def resolve_cve_ref_count(root, _info):
