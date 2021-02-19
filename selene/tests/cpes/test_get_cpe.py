@@ -113,7 +113,7 @@ class CPETestCase(SeleneTestCase):
                     updateTime
                     title
                     nvdId
-                    maxSeverity
+                    score
                     cveRefCount
                     cveRefs {
                         id
@@ -139,7 +139,7 @@ class CPETestCase(SeleneTestCase):
         self.assertIsNone(cpe['updateTime'])
         self.assertIsNone(cpe['title'])
         self.assertIsNone(cpe['nvdId'])
-        self.assertIsNone(cpe['maxSeverity'])
+        self.assertIsNone(cpe['score'])
         self.assertIsNone(cpe['cveRefCount'])
         self.assertIsNone(cpe['cveRefs'])
         self.assertIsNone(cpe['status'])
@@ -163,7 +163,7 @@ class CPETestCase(SeleneTestCase):
                     updateTime
                     title
                     nvdId
-                    maxSeverity
+                    score
                     cveRefCount
                     cveRefs {
                         id
@@ -195,7 +195,7 @@ class CPETestCase(SeleneTestCase):
         )
         self.assertEqual(cpe['nvdId'], '289692')
         self.assertEqual(cpe['status'], 'FINAL')
-        self.assertEqual(cpe['maxSeverity'], 5.4)
+        self.assertEqual(cpe['score'], 54)
         self.assertEqual(cpe['cveRefCount'], 1)
 
         self.assertIsNotNone(cpe['cveRefs'])
