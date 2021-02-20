@@ -199,7 +199,9 @@ class CVE(EntityObjectType):
     def resolve_products(root, _info):
         cve = root.find('cve')
         if cve is not None:
-            return get_text_from_element(cve, 'products').rstrip().split(' ')
+            products = get_text_from_element(cve, 'products')
+            if products is not None:
+                return products.rstrip().split(' ')
         return None
 
     def resolve_nvt_refs(root, _info):
