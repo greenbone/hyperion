@@ -39,4 +39,5 @@ $ cd hyperion && git log
 - Added the `asset_hosts_filter` parameter to `createTarget` mutation [#15](https://github.com/greenbone/hyperion/pull/15)
 - Added the `allow_simultaneous_ips` parameter to `createTarget`, `modifyTarget` mutation and `getTarget(s)` queries. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Fixed `FutureWarnings` due to `if x:` -> `if x is not None:` [#27](https://github.com/greenbone/hyperion/pull/27)
-- Added missing fields to `CVE` entity [#39](https://github.com/greenbone/hyperion/pull/39)
+- Added missing fields to `CPE` entity [#39](https://github.com/greenbone/hyperion/pull/39)
+- Fix product rstrip() from NoneType error. [#41](https://github.com/greenbone/hyperion/pull/41)

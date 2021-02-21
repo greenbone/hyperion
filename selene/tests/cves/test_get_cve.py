@@ -113,6 +113,44 @@ class CVETestCase(SeleneTestCase):
             cve_id, info_type=GvmInfoType.CVE
         )
 
+    def test_get_cve_products_empty(self, mock_gmp: GmpMockFactory):
+        cve_id = 'CVE-1999-0001'
+        mock_gmp.mock_response(
+            'get_info',
+            f'''
+            <get_info_response>
+                <info id="{cve_id}">
+                    <name>foo</name>
+                    <cve><products/></cve>
+                </info>
+            </get_info_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            f'''
+            query {{
+                cve(id: "{cve_id}") {{
+                    products
+                }}
+            }}
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        cve = json['data']['cve']
+
+        self.assertIsNone(cve['products'])
+
+        mock_gmp.gmp_protocol.get_info.assert_called_with(
+            cve_id, info_type=GvmInfoType.CVE
+        )
+
     def test_complex_cve(self, mock_gmp: GmpMockFactory):
         cve_xml_path = CWD / 'example-cve.xml'
         cve_xml_str = cve_xml_path.read_text()
