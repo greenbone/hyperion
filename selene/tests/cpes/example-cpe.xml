@@ -14,7 +14,7 @@
         <cpe>
             <title>Foo bar baz</title>
             <nvd_id>289692</nvd_id>
-            <max_cvss>5.4</max_cvss>
+            <score>54</score>
             <cve_refs>1</cve_refs>
             <status>FINAL</status>
             <cves>

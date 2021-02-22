@@ -51,9 +51,7 @@ class CPE(EntityObjectType):
             "Corresponding ID in the national" " vulnerability database (NVD)"
         )
     )
-    max_severity = graphene.Field(
-        SeverityType, description="Maximum severity from referenced CVEs"
-    )
+    score = graphene.Int(description="Maximum score from referenced CVEs")
     cve_ref_count = graphene.Int(description="Number of CVE references")
     cve_refs = graphene.List(CveRef, description="CVE references list")
     status = graphene.String(description="Latest CPE status")
@@ -76,10 +74,10 @@ class CPE(EntityObjectType):
             return get_text_from_element(cpe, 'nvd_id')
         return None
 
-    def resolve_max_severity(root, _info):
+    def resolve_score(root, _info):
         cpe = root.find('cpe')
         if cpe is not None:
-            return get_text_from_element(cpe, 'max_cvss')
+            return get_text_from_element(cpe, 'score')
         return None
 
     def resolve_cve_ref_count(root, _info):
