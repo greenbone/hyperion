@@ -97,7 +97,7 @@ class EntityObjectType(graphene.ObjectType):
 
     def resolve_permissions(root, _info):
         permissions = root.find('permissions')
-        if len(permissions) == 0:
+        if permissions is None or len(permissions) == 0:
             return None
         return permissions.findall('permission')
 
