@@ -29,6 +29,7 @@ $ cd hyperion && git log
 - Changed `CVE`s entity so it can parse new-format xml correctly [#29](https://github.com/greenbone/hyperion/pull/29) [#38](https://github.com/greenbone/hyperion/pull/38)
 - Refactored `OvalDefinitions` entity [#30](https://github.com/greenbone/hyperion/pull/30)
 - Increased coverage for `OvalDefinitions`, `CertBundAdvisories` and `DFNCertAdvisories` entity [#30](https://github.com/greenbone/hyperion/pull/30)
+- Added the `deprecatedBy` field to `CPEs` [#51](https://github.com/greenbone/hyperion/pull/51)
 
 ### Deprecated
 ### Removed
