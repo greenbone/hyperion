@@ -119,6 +119,7 @@ class CPETestCase(SeleneTestCase):
                         id
                         severity
                     }
+                    deprecatedBy
                     status
                 }
             }
@@ -142,6 +143,7 @@ class CPETestCase(SeleneTestCase):
         self.assertIsNone(cpe['score'])
         self.assertIsNone(cpe['cveRefCount'])
         self.assertIsNone(cpe['cveRefs'])
+        self.assertIsNone(cpe['deprecatedBy'])
         self.assertIsNone(cpe['status'])
 
     def test_complex_cpe(self, mock_gmp: GmpMockFactory):
@@ -169,6 +171,7 @@ class CPETestCase(SeleneTestCase):
                         id
                         severity
                     }
+                    deprecatedBy
                     status
                 }
             }
@@ -197,6 +200,7 @@ class CPETestCase(SeleneTestCase):
         self.assertEqual(cpe['status'], 'FINAL')
         self.assertEqual(cpe['score'], 54)
         self.assertEqual(cpe['cveRefCount'], 1)
+        self.assertEqual(cpe['deprecatedBy'], 'cpe:/a:foo:bar2')
 
         self.assertIsNotNone(cpe['cveRefs'])
         cve_refs = cpe['cveRefs']
