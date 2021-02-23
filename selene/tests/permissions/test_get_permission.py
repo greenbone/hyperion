@@ -181,6 +181,42 @@ class GetPermissionTestCase(SeleneTestCase):
             "6fe1f935-d8eb-4b78-a1d7-1fce90af227c"
         )
 
+    def test_get_permission_is_none(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_permission',
+            '''
+            <get_permissions_response status="200" status_text="OK">
+            <permission id="ecade4f9-cc42-4f51-b5db-7cbcf90fc8b6">
+            </permission>
+            </get_permissions_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                permission(
+                    id: "6fe1f935-d8eb-4b78-a1d7-1fce90af227c",
+                ) {
+                    permissions {
+                        name
+                    }
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        permissions = json['data']['permission']['permissions']
+
+        # Entity fields
+        self.assertIsNone(permissions)
+
 
 class PermissionGetEntityTestCase(SeleneTestCase):
     gmp_name = 'permission'
