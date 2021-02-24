@@ -35,12 +35,16 @@
                 </cve>
             </cves>
             <raw_data>
-                <cpe-item xmlns:scap-core="http://scap.nist.gov/schema/scap-core/0.3"
-                    xmlns:meta="http://scap.nist.gov/schema/cpe-dictionary-metadata/0.2"
-                    xmlns:ns6="http://scap.nist.gov/schema/scap-core/0.1"
-                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                <cpe-item xmlns:meta="http://scap.nist.gov/schema/cpe-dictionary-metadata/0.2"
                     xmlns:config="http://scap.nist.gov/schema/configuration/0.1"
-                    xmlns="http://cpe.mitre.org/dictionary/2.0" name="cpe:/a:foo:bar"></cpe-item>
+                    xmlns="http://cpe.mitre.org/dictionary/2.0"
+                    xmlns:cpe-23="http://scap.nist.gov/schema/cpe-extension/2.3"
+                    xmlns:scap-core="http://scap.nist.gov/schema/scap-core/0.3"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xmlns:ns6="http://scap.nist.gov/schema/scap-core/0.1" name="cpe:/a:foo:bar" deprecated="true" deprecated_by="cpe:/a:foo:bar2" deprecation_date="2013-01-10T19:06:01.740Z">
+                    <title xml:lang="en-US">Adobe Acrobat Reader 7.0</title>
+                    <meta:item-metadata nvd-id="104845" deprecated-by-nvd-id="12958" status="RETIRED" modification-date="2013-01-10T19:06:01.740Z"/>
+                </cpe-item>
             </raw_data>
         </cpe>
     </info>

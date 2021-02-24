@@ -54,6 +54,9 @@ class CPE(EntityObjectType):
     score = graphene.Int(description="Maximum score from referenced CVEs")
     cve_ref_count = graphene.Int(description="Number of CVE references")
     cve_refs = graphene.List(CveRef, description="CVE references list")
+    deprecated_by = graphene.String(
+        description="The parent CVE is deprecated by this CVE"
+    )
     status = graphene.String(description="Latest CPE status")
 
     def resolve_uuid(root, _info):
@@ -92,6 +95,12 @@ class CPE(EntityObjectType):
             cves = cves.findall('cve/{*}entry')
             if len(cves) > 0:
                 return cves
+        return None
+
+    def resolve_deprecated_by(root, _info):
+        cpe_item = root.find('cpe/raw_data/{*}cpe-item')
+        if cpe_item is not None:
+            return cpe_item.get('deprecated_by')
         return None
 
     def resolve_status(root, _info):
