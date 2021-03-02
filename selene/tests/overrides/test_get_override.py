@@ -80,6 +80,7 @@ class OverrideTestCase(SeleneTestCase):
                     writable
                     inUse
                     active
+                    port
                     orphan
                     hosts
                     severity
@@ -107,6 +108,7 @@ class OverrideTestCase(SeleneTestCase):
         self.assertEqual(override['writable'], True)
         self.assertEqual(override['inUse'], False)
         self.assertEqual(override['active'], True)
+        self.assertEqual(override['port'], '66/tcp')
         self.assertEqual(override['orphan'], False)
         self.assertListEqual(override['hosts'], ['127.0.01.1'])
         self.assertEqual(override['severity'], None)

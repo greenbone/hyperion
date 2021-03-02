@@ -20,7 +20,7 @@
     <end_time>2021-03-07T13:32:36+01:00</end_time>
     <text>sdr</text>
     <hosts>127.0.01.1</hosts>
-    <port></port>
+    <port>66/tcp</port>
     <threat>Internal Error</threat>
     <severity></severity>
     <new_threat>False Positive</new_threat>
