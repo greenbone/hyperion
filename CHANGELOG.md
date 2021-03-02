@@ -42,3 +42,4 @@ $ cd hyperion && git log
 - Fixed `FutureWarnings` due to `if x:` -> `if x is not None:` [#27](https://github.com/greenbone/hyperion/pull/27)
 - Added missing fields to `CPE` entity [#39](https://github.com/greenbone/hyperion/pull/39)
 - Fix product rstrip() from NoneType error. [#41](https://github.com/greenbone/hyperion/pull/41)
+- Adding missing field `port` to `override` entity. [#57](https://github.com/greenbone/hyperion/pull/57)

@@ -50,6 +50,7 @@ class Override(EntityObjectType):
     writable = graphene.Boolean()
 
     hosts = graphene.List(graphene.String)
+    port = graphene.String()
     name = graphene.String()
     owner = graphene.String()
     text = graphene.String()
@@ -84,6 +85,9 @@ class Override(EntityObjectType):
         if hosts is None:
             return []
         return [host.strip() for host in hosts.split(',')]
+
+    def resolve_port(root, _info):
+        return get_text_from_element(root, 'port')
 
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'severity')
