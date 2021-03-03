@@ -131,6 +131,19 @@ class NVTTestCase(SeleneTestCase):
                         vuldetect
                     }
                     preferenceCount
+                    preferences {
+                        nvt {
+                            id
+                            name
+                        }
+                        hrName
+                        name
+                        id
+                        type
+                        value
+                        default
+                        alt
+                    }
                     timeout
                     defaultTimeout
                     solution{
@@ -204,6 +217,29 @@ class NVTTestCase(SeleneTestCase):
                 "method": "",
                 "description": "Sorry.",
             },
+        )
+        self.assertIsNotNone(nvt['preferences'])
+        preferences = nvt['preferences']
+        self.assertEqual(preferences[0]['id'], 1)
+        self.assertEqual(preferences[0]['name'], 'Do a TCP ping')
+        self.assertEqual(preferences[0]['hrName'], 'Do a TCP ping')
+        self.assertEqual(preferences[0]['type'], 'checkbox')
+        self.assertEqual(preferences[0]['value'], 'no')
+        self.assertEqual(preferences[0]['default'], 'no')
+
+        self.assertEqual(preferences[2]['id'], 3)
+        self.assertEqual(
+            preferences[2]['name'], 'Minimum allowed hash algorithm'
+        )
+        self.assertEqual(
+            preferences[2]['hrName'], 'Minimum allowed hash algorithm'
+        )
+        self.assertEqual(preferences[2]['type'], 'radio')
+        self.assertEqual(preferences[2]['value'], 'SHA-512')
+        self.assertEqual(preferences[2]['default'], 'SHA-512')
+        self.assertEqual(
+            preferences[2]['alt'],
+            ['SHA-256', 'NT Hash', 'Blowfish', 'MD5', 'DES'],
         )
 
 

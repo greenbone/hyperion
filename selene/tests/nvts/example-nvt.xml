@@ -44,6 +44,44 @@
       <preferences>
         <timeout></timeout>
         <default_timeout></default_timeout>
+        <preference>
+          <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
+            <name>Ping Host</name>
+          </nvt>
+          <id>1</id>
+          <hr_name>Do a TCP ping</hr_name>
+          <name>Do a TCP ping</name>
+          <type>checkbox</type>
+          <value>no</value>
+          <default>no</default>
+        </preference>
+        <preference>
+          <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
+            <name>Ping Host</name>
+          </nvt>
+          <id>2</id>
+          <hr_name>TCP ping tries also TCP-SYN ping</hr_name>
+          <name>TCP ping tries also TCP-SYN ping</name>
+          <type>checkbox</type>
+          <value>no</value>
+          <default>no</default>
+        </preference>
+        <preference>
+          <nvt oid="1.3.6.1.4.1.25623.1.0.108495">
+            <name>Minimum allowed hash algorithm in /etc/shadow</name>
+          </nvt>
+          <id>3</id>
+          <hr_name>Minimum allowed hash algorithm</hr_name>
+          <name>Minimum allowed hash algorithm</name>
+          <type>radio</type>
+          <value>SHA-512</value>
+          <default>SHA-512</default>
+          <alt>SHA-256</alt>
+          <alt>NT Hash</alt>
+          <alt>Blowfish</alt>
+          <alt>MD5</alt>
+          <alt>DES</alt>
+        </preference>
       </preferences>
       <raw_data>
         <nvt oid="1.3.6.1.4.1.25623.1.0.117130">
