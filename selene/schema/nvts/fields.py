@@ -129,14 +129,31 @@ class NvtPreferenceNvt(graphene.ObjectType):
 class NvtPreference(graphene.ObjectType):
     """Nvt preference."""
 
-    nvt = graphene.Field(NvtPreferenceNvt)
-    hr_name = graphene.String()
-    name = graphene.String()
-    pref_id = graphene.Int(name='id')
-    pref_type = graphene.String(name='type')
-    value = graphene.String()
-    default = graphene.String()
-    alt = graphene.List(graphene.String)
+    nvt = graphene.Field(
+        NvtPreferenceNvt,
+        description='Crossreference to the NVT this preference belongs to',
+    )
+    hr_name = graphene.String(
+        description='Human readable name of the preference'
+    )
+    name = graphene.String(description='Name of the preference')
+    pref_id = graphene.Int(name='id', description='ID of this preference [1..]')
+    pref_type = graphene.String(
+        name='type',
+        description=(
+            'The value type of the preference. '
+            'One of ratio, checkbox, entry, password'
+        ),
+    )
+    value = graphene.String(description='Current value for this preference')
+    default = graphene.String(description='default value for this preference')
+    alt = graphene.List(
+        graphene.String,
+        description=(
+            'alternative value(s) for this preference '
+            '(preference type: ratio)'
+        ),
+    )
 
     def resolve_hr_name(root, _info):
         return get_text_from_element(root, 'hr_name')
