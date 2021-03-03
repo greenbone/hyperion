@@ -36,7 +36,7 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_get_nvt(self, mock_gmp: GmpMockFactory):
+    def test_get_scan_config_nvt(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
             'get_nvt',
             '''
@@ -84,51 +84,51 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
             '''
             query {
                 scanConfigNvt (id:"1.3.6.1.4.1.25623.1.0.100315") {
-                id
-                name
-                creationTime
-                modificationTime
-                category
-                summary
-                family
-                cvssBase
-                qod {
-                    value
-                    type
-                }
-                severities {
-                    score
-                    severitiesList {
-                        date
-                        origin
-                        score
-                        type
-                        vector
-                    }
-                }
-                refs{
-                    warning
-                    refList{
-                        id
-                        type
-                    }
-                }
-                tags {
-                    cvssBaseVector
+                    id
+                    name
+                    creationTime
+                    modificationTime
+                    category
                     summary
-                    insight
-                    impact
-                    affected
-                    vuldetect
-                }
-                preferenceCount
-                timeout
-                defaultTimeout
-                solution{
-                  type
-                  method
-                  description
-                }
+                    family
+                    cvssBase
+                    qod {
+                        value
+                        type
+                    }
+                    severities {
+                        score
+                        severitiesList {
+                            date
+                            origin
+                            score
+                            type
+                            vector
+                        }
+                    }
+                    refs{
+                        warning
+                        refList{
+                            id
+                            type
+                        }
+                    }
+                    tags {
+                        cvssBaseVector
+                        summary
+                        insight
+                        impact
+                        affected
+                        vuldetect
+                    }
+                    preferenceCount
+                    timeout
+                    defaultTimeout
+                    solution{
+                    type
+                    method
+                    description
+                    }
                 }
             }
             '''

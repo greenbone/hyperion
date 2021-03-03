@@ -82,6 +82,87 @@ class NVTTestCase(SeleneTestCase):
         self.assertEqual(nvt['name'], 'foo')
         self.assertIsNone(nvt['owner'])
 
+    def test_get_nvt_none_fields(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_info',
+            '''
+            <get_info_response>
+                <info id="1.3.6.1.4.1.25623.1.0.814313">
+                    <name>foo</name>
+                </info>
+            </get_info_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                nvt(id: "1.3.6.1.4.1.25623.1.0.814313") {
+                    id
+                    name
+                    creationTime
+                    modificationTime
+                    category
+                    family
+                    cvssBase
+                    qod {
+                        value
+                    }
+                    severities {
+                        score
+                        severitiesList {
+                            date
+                        }
+                    }
+                    refs{
+                        warning
+                        refList{
+                            id
+                        }
+                    }
+                    tags {
+                        cvssBaseVector
+                    }
+                    preferenceCount
+                    preferences {
+                        nvt {
+                            id
+                        }
+                        hrName
+                    }
+                    timeout
+                    defaultTimeout
+                    solution{
+                        type
+                    }
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        nvt = json['data']['nvt']
+
+        self.assertEqual(nvt['id'], '1.3.6.1.4.1.25623.1.0.814313')
+        self.assertEqual(nvt['name'], 'foo')
+        self.assertIsNone(nvt['category'])
+        self.assertIsNone(nvt['family'])
+        self.assertIsNone(nvt['cvssBase'])
+        self.assertIsNone(nvt['qod'])
+        self.assertIsNone(nvt['severities'])
+        self.assertIsNone(nvt['refs'])
+        self.assertIsNone(nvt['tags'])
+        self.assertIsNone(nvt['preferenceCount'])
+        self.assertIsNone(nvt['preferences'])
+        self.assertIsNone(nvt['timeout'])
+        self.assertIsNone(nvt['defaultTimeout'])
+        self.assertIsNone(nvt['solution'])
+
     def test_complex_nvt(self, mock_gmp: GmpMockFactory):
         nvt_xml_path = CWD / 'example-nvt.xml'
         nvt_xml_str = nvt_xml_path.read_text()
@@ -131,6 +212,19 @@ class NVTTestCase(SeleneTestCase):
                         vuldetect
                     }
                     preferenceCount
+                    preferences {
+                        nvt {
+                            id
+                            name
+                        }
+                        hrName
+                        name
+                        id
+                        type
+                        value
+                        default
+                        alt
+                    }
                     timeout
                     defaultTimeout
                     solution{
@@ -204,6 +298,29 @@ class NVTTestCase(SeleneTestCase):
                 "method": "",
                 "description": "Sorry.",
             },
+        )
+        self.assertIsNotNone(nvt['preferences'])
+        preferences = nvt['preferences']
+        self.assertEqual(preferences[0]['id'], 1)
+        self.assertEqual(preferences[0]['name'], 'Do a TCP ping')
+        self.assertEqual(preferences[0]['hrName'], 'Do a TCP ping')
+        self.assertEqual(preferences[0]['type'], 'checkbox')
+        self.assertEqual(preferences[0]['value'], 'no')
+        self.assertEqual(preferences[0]['default'], 'no')
+
+        self.assertEqual(preferences[2]['id'], 3)
+        self.assertEqual(
+            preferences[2]['name'], 'Minimum allowed hash algorithm'
+        )
+        self.assertEqual(
+            preferences[2]['hrName'], 'Minimum allowed hash algorithm'
+        )
+        self.assertEqual(preferences[2]['type'], 'radio')
+        self.assertEqual(preferences[2]['value'], 'SHA-512')
+        self.assertEqual(preferences[2]['default'], 'SHA-512')
+        self.assertEqual(
+            preferences[2]['alt'],
+            ['SHA-256', 'NT Hash', 'Blowfish', 'MD5', 'DES'],
         )
 
 

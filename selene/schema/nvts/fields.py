@@ -129,14 +129,31 @@ class NvtPreferenceNvt(graphene.ObjectType):
 class NvtPreference(graphene.ObjectType):
     """Nvt preference."""
 
-    nvt = graphene.Field(NvtPreferenceNvt)
-    hr_name = graphene.String()
-    name = graphene.String()
-    pref_id = graphene.Int(name='id')
-    pref_type = graphene.String(name='type')
-    value = graphene.String()
-    default = graphene.String()
-    alt = graphene.List(graphene.String)
+    nvt = graphene.Field(
+        NvtPreferenceNvt,
+        description='Crossreference to the NVT this preference belongs to',
+    )
+    hr_name = graphene.String(
+        description='Human readable name of the preference'
+    )
+    name = graphene.String(description='Name of the preference')
+    pref_id = graphene.Int(name='id', description='ID of this preference [1..]')
+    pref_type = graphene.String(
+        name='type',
+        description=(
+            'The value type of the preference. '
+            'One of ratio, checkbox, entry, password'
+        ),
+    )
+    value = graphene.String(description='Current value for this preference')
+    default = graphene.String(description='default value for this preference')
+    alt = graphene.List(
+        graphene.String,
+        description=(
+            'alternative value(s) for this preference '
+            '(preference type: ratio)'
+        ),
+    )
 
     def resolve_hr_name(root, _info):
         return get_text_from_element(root, 'hr_name')
@@ -167,23 +184,6 @@ class NvtPreference(graphene.ObjectType):
         if not alts:
             return None
         return alts
-
-
-class NvtPreferences(graphene.ObjectType):
-    """preferences of a NVT."""
-
-    timeout = graphene.Int()
-    default_timeout = graphene.Int()
-    preference_list = graphene.List(NvtPreference)
-
-    def resolve_timeout(root, _info):
-        return get_int_from_element(root, 'timeout')
-
-    def resolve_default_timeout(root, _info):
-        return get_int_from_element(root, 'default_timeout')
-
-    def resolve_preference_list(root, _info):
-        return root.findall('preference')
 
 
 class NvtSolution(graphene.ObjectType):
@@ -240,7 +240,7 @@ class ScanConfigNVT(graphene.ObjectType):
     qod = graphene.Field(NvtDefinitionQod)
     severities = graphene.Field(NvtSeverities)
     refs = graphene.Field(NvtDefinitionRefs)
-    preferences = graphene.Field(NvtPreferences)
+    preferences = graphene.List(NvtPreference)
     solution = graphene.Field(NvtSolution)
 
     def resolve_oid(root, _info):
@@ -271,7 +271,9 @@ class ScanConfigNVT(graphene.ObjectType):
         return root.find('tags')
 
     def resolve_preferences(root, _info):
-        return root.find('preferences')
+        preferences = root.find('preferences')
+        if preferences is not None:
+            return preferences.findall('preference')
 
     def resolve_solution(root, _info):
         return root.find('solution')
@@ -303,7 +305,7 @@ class NVT(EntityObjectType):
     qod = graphene.Field(NvtDefinitionQod)
     severities = graphene.Field(NvtSeverities)
     refs = graphene.Field(NvtDefinitionRefs)
-    preferences = graphene.Field(NvtPreferences)
+    preferences = graphene.List(NvtPreference)
     solution = graphene.Field(NvtSolution)
     cvss_base = graphene.Field(SeverityType)
 
@@ -374,9 +376,9 @@ class NVT(EntityObjectType):
             return nvt.find('refs')
 
     def resolve_preferences(root, _info):
-        nvt = root.find('nvt')
-        if nvt is not None:
-            return nvt.find('preferences')
+        preferences = root.find('nvt/preferences')
+        if preferences is not None:
+            return preferences.findall('preference')
 
     def resolve_solution(root, _info):
         nvt = root.find('nvt')

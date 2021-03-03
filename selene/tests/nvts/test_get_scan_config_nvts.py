@@ -109,54 +109,52 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
             '''
             query {
                 scanConfigNvts (details:true) {
-                id
-                name
-                creationTime
-                modificationTime
-                category
-                summary
-                family
-                cvssBase
-                qod {
-                    value
-                    type
-                }
-                severities {
-                    score
-                    severitiesList {
-                        date
-                        origin
-                        score
-                        type
-                        vector
-                    }
-                }
-                refs{
-                    warning
-                    refList {
-                        id
-                        type
-                    }
-                }
-                tags {
-                    cvssBaseVector
+                    id
+                    name
+                    creationTime
+                    modificationTime
+                    category
                     summary
-                    insight
-                    impact
-                    affected
-                    vuldetect
-                }
-                preferenceCount
-                timeout
-                defaultTimeout
-                solution {
-                  type
-                  method
-                  description
-                }
-                preferences {
+                    family
+                    cvssBase
+                    qod {
+                        value
+                        type
+                    }
+                    severities {
+                        score
+                        severitiesList {
+                            date
+                            origin
+                            score
+                            type
+                            vector
+                        }
+                    }
+                    refs{
+                        warning
+                        refList {
+                            id
+                            type
+                        }
+                    }
+                    tags {
+                        cvssBaseVector
+                        summary
+                        insight
+                        impact
+                        affected
+                        vuldetect
+                    }
+                    preferenceCount
+                    timeout
                     defaultTimeout
-                    preferenceList {
+                    solution {
+                    type
+                    method
+                    description
+                    }
+                    preferences {
                         nvt {
                             id
                             name
@@ -169,7 +167,6 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                         hrName
                         id
                     }
-                }
                 }
             }
             '''
@@ -239,7 +236,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
         )
 
         self.assertEqual(
-            nvt['preferences']["preferenceList"],
+            nvt['preferences'],
             [
                 {
                     "name": "Log failed nmap calls",
