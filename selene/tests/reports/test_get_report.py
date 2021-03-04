@@ -375,12 +375,10 @@ class ReportTestCase(SeleneTestCase):
                         name
                         family
                         cvssBase
+                        refWarning
                         refs {
-                            warning
-                            refList{
-                                id
-                                type
-                            }
+                            id
+                            type
                         }
                         tags {
                             cvssBaseVector
@@ -390,13 +388,11 @@ class ReportTestCase(SeleneTestCase):
                             affected
                             vuldetect
                         }
+                        score
                         severities {
+                            type
                             score
-                            severitiesList {
-                                type
-                                score
-                                vector
-                            }
+                            vector
                         }
                     }
                     threat
@@ -575,23 +571,19 @@ class ReportTestCase(SeleneTestCase):
 
         self.assertEqual(nvt['name'], '/doc directory browsable')
         self.assertEqual(nvt['family'], 'Web application abuses')
-        self.assertEqual(nvt['cvssBase'], '5.0')
+        self.assertEqual(nvt['cvssBase'], 5.0)
+        self.assertEqual(nvt['score'], 50)
+        self.assertEqual(nvt['refWarning'], None)
         self.assertEqual(
             nvt['refs'],
-            {
-                "warning": None,
-                "refList": [
-                    {"id": "CVE-1999-0678", "type": "cve"},
-                    {"id": "318", "type": "bid"},
-                ],
-            },
+            [
+                {"id": "CVE-1999-0678", "type": "cve"},
+                {"id": "318", "type": "bid"},
+            ],
         )
 
-        severities = nvt['severities']
-        self.assertEqual(severities['score'], 50)
-        self.assertEqual(
-            severities['severitiesList'][0]['type'], 'cvss_base_v2'
-        )
+        self.assertIsNotNone(nvt['severities'])
+        self.assertEqual(nvt['severities'][0]['type'], 'cvss_base_v2')
 
     def test_delta_report(self, mock_gmp: GmpMockFactory):
         report_xml_path = CWD / 'example-report.xml'
