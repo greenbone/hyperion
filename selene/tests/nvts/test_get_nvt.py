@@ -110,17 +110,14 @@ class NVTTestCase(SeleneTestCase):
                     qod {
                         value
                     }
+                    score
                     severities {
-                        score
-                        severitiesList {
-                            date
-                        }
+                        date
                     }
+                    refWarning
                     refs{
-                        warning
-                        refList{
-                            id
-                        }
+                        id
+                        type
                     }
                     tags {
                         cvssBaseVector
@@ -153,8 +150,10 @@ class NVTTestCase(SeleneTestCase):
         self.assertIsNone(nvt['category'])
         self.assertIsNone(nvt['family'])
         self.assertIsNone(nvt['cvssBase'])
+        self.assertIsNone(nvt['score'])
         self.assertIsNone(nvt['qod'])
         self.assertIsNone(nvt['severities'])
+        self.assertIsNone(nvt['refWarning'])
         self.assertIsNone(nvt['refs'])
         self.assertIsNone(nvt['tags'])
         self.assertIsNone(nvt['preferenceCount'])
@@ -186,22 +185,18 @@ class NVTTestCase(SeleneTestCase):
                         value
                         type
                     }
+                    score
                     severities {
+                        date
+                        origin
                         score
-                        severitiesList {
-                            date
-                            origin
-                            score
-                            type
-                            vector
-                        }
+                        type
+                        vector
                     }
+                    refWarning
                     refs{
-                        warning
-                        refList{
-                            id
-                            type
-                        }
+                        id
+                        type
                     }
                     tags {
                         cvssBaseVector
@@ -249,36 +244,32 @@ class NVTTestCase(SeleneTestCase):
         self.assertEqual(nvt['category'], 3)
         self.assertEqual(nvt['family'], 'Some family')
         self.assertEqual(nvt['cvssBase'], 4.9)
+        self.assertEqual(nvt['score'], 49)
         self.assertEqual(
             nvt['qod'],
             {"value": 80, "type": "remote_banner"},
         )
         self.assertEqual(
             nvt['severities'],
-            {
-                "score": 49,
-                "severitiesList": [
-                    {
-                        "date": "2020-12-23T06:28:09+00:00",
-                        "origin": None,
-                        "score": 49,
-                        "type": "cvss_base_v2",
-                        "vector": "AV:N/AC:M/Au:S/C:P/I:N/A:P",
-                    }
-                ],
-            },
+            [
+                {
+                    "date": "2020-12-23T06:28:09+00:00",
+                    "origin": None,
+                    "score": 49,
+                    "type": "cvss_base_v2",
+                    "vector": "AV:N/AC:M/Au:S/C:P/I:N/A:P",
+                }
+            ],
         )
+        self.assertEqual(nvt['refWarning'], 'database not available')
         self.assertEqual(
             nvt['refs'],
-            {
-                "warning": None,
-                "refList": [
-                    {"id": "54321", "type": "cert-bund"},
-                    {"id": "12345", "type": "dfn-cert"},
-                    {"id": "CVE-2014-0682", "type": "cve"},
-                    {"id": "http://test.test", "type": "url"},
-                ],
-            },
+            [
+                {"id": "54321", "type": "cert-bund"},
+                {"id": "12345", "type": "dfn-cert"},
+                {"id": "CVE-2014-0682", "type": "cve"},
+                {"id": "http://test.test", "type": "url"},
+            ],
         )
         self.assertIsNotNone(nvt['tags'])
         tags = nvt['tags']

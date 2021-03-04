@@ -31,6 +31,7 @@
         <type>remote_banner</type>
       </qod>
       <refs>
+        <warning>database not available</warning>
         <ref type="cert-bund" id="54321"/>
         <ref type="dfn-cert" id="12345"/>
         <ref type="cve" id="CVE-2014-0682"/>
@@ -104,6 +105,7 @@
             <type>remote_banner</type>
           </qod>
           <refs>
+            <warning>database not available</warning>
             <ref type="cert-bund" id="CB-K14/0116"/>
             <ref type="dfn-cert" id="DFN-CERT-2014-0119"/>
             <ref type="cve" id="CVE-2014-0682"/>

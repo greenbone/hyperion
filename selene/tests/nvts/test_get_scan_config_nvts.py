@@ -121,22 +121,18 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                         value
                         type
                     }
+                    score
                     severities {
+                        date
+                        origin
                         score
-                        severitiesList {
-                            date
-                            origin
-                            score
-                            type
-                            vector
-                        }
+                        type
+                        vector
                     }
+                    refWarning
                     refs{
-                        warning
-                        refList {
-                            id
-                            type
-                        }
+                        id
+                        type
                     }
                     tags {
                         cvssBaseVector
@@ -173,9 +169,9 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
         )
 
         json_response = response.json()
+        self.assertResponseNoErrors(response)
         nvt = json_response['data']['scanConfigNvts'][0]
 
-        self.assertResponseNoErrors(response)
         self.assertEqual(nvt['id'], "1.3.6.1.4.1.25623.1.0.100315")
         self.assertEqual(nvt['name'], 'Some name')
         self.assertEqual(nvt['creationTime'], '2009-10-26T09:02:32Z')
@@ -183,36 +179,32 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
         self.assertEqual(nvt['category'], 1)
         self.assertEqual(nvt['summary'], None)
         self.assertEqual(nvt['family'], 'Some family')
-        self.assertEqual(nvt['cvssBase'], '5.0')
+        self.assertEqual(nvt['cvssBase'], 5.0)
+        self.assertEqual(nvt['score'], 50)
         self.assertEqual(
             nvt['qod'],
             {"value": 80, "type": "remote_banner"},
         )
         self.assertEqual(
             nvt['severities'],
-            {
-                "score": 50,
-                "severitiesList": [
-                    {
-                        "date": "2009-10-26T09:02:32+00:00",
-                        "origin": "CVE-2011-9999",
-                        "score": 50,
-                        "type": "cvss_base_v2",
-                        "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:P",
-                    }
-                ],
-            },
+            [
+                {
+                    "date": "2009-10-26T09:02:32+00:00",
+                    "origin": "CVE-2011-9999",
+                    "score": 50,
+                    "type": "cvss_base_v2",
+                    "vector": "AV:N/AC:M/Au:N/C:N/I:P/A:P",
+                }
+            ],
         )
+        self.assertEqual(nvt['refWarning'], None)
         self.assertEqual(
             nvt['refs'],
-            {
-                "warning": None,
-                "refList": [
-                    {"id": "CVE-2011-9999", "type": "cve"},
-                    {"id": "12345", "type": "bid"},
-                    {"id": "http://test.test", "type": "url"},
-                ],
-            },
+            [
+                {"id": "CVE-2011-9999", "type": "cve"},
+                {"id": "12345", "type": "bid"},
+                {"id": "http://test.test", "type": "url"},
+            ],
         )
         self.assertIsNotNone(nvt['tags'])
         tags = nvt['tags']
