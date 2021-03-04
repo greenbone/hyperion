@@ -104,13 +104,11 @@ class ResultsTestCase(SeleneTestCase):
                     port
                     nvt {
                         id
+                        score
                         severities {
+                            type
                             score
-                            severitiesList {
-                                type
-                                score
-                                vector
-                            }
+                            vector
                         }
                     }
                     threat
@@ -164,14 +162,12 @@ class ResultsTestCase(SeleneTestCase):
         self.assertEqual(result['originalThreat'], 'High')
         self.assertEqual(result['originalSeverity'], 9.3)
         self.assertEqual(result['nvt']['id'], '1.3.6.1.4.1.25623.1.0.142265')
+        self.assertEqual(result['nvt']['score'], 93)
         severities = result['nvt']['severities']
-        self.assertEqual(severities['score'], 93)
+        self.assertEqual(severities[0]['type'], 'cvss_base_v2')
+        self.assertEqual(severities[0]['score'], 93)
         self.assertEqual(
-            severities['severitiesList'][0]['type'], 'cvss_base_v2'
-        )
-        self.assertEqual(severities['severitiesList'][0]['score'], 93)
-        self.assertEqual(
-            severities['severitiesList'][0]['vector'],
+            severities[0]['vector'],
             'AV:N/AC:M/Au:N/C:C/I:C/A:C',
         )
         self.assertIsNone(result['description'])
