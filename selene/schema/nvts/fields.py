@@ -60,19 +60,6 @@ class NvtSeverity(graphene.ObjectType):
         return get_text_from_element(root, 'value')
 
 
-class NvtSeverities(graphene.ObjectType):
-    """Severities of an NVT. """
-
-    score = graphene.Int()
-    severities_list = graphene.List(NvtSeverity)
-
-    def resolve_score(root, _info):
-        return root.get('score')
-
-    def resolve_severities_list(root, _info):
-        return root.findall('severity')
-
-
 class NvtDefinitionQod(graphene.ObjectType):
     """QOD of a NVT."""
 
@@ -226,7 +213,8 @@ class ScanConfigNVT(graphene.ObjectType):
     oid = graphene.String(name='id')
     name = graphene.String()
     family = graphene.String()
-    cvss_base = graphene.String()
+    cvss_base = graphene.Field(SeverityType)
+    score = graphene.Int()
     tags = graphene.Field(NvtTags)
 
     creation_time = graphene.String()
@@ -238,7 +226,7 @@ class ScanConfigNVT(graphene.ObjectType):
     default_timeout = graphene.Int()
 
     qod = graphene.Field(NvtDefinitionQod)
-    severities = graphene.Field(NvtSeverities)
+    severities = graphene.List(NvtSeverity)
     refs = graphene.Field(NvtDefinitionRefs)
     preferences = graphene.List(NvtPreference)
     solution = graphene.Field(NvtSolution)
@@ -261,8 +249,15 @@ class ScanConfigNVT(graphene.ObjectType):
     def resolve_qod(root, _info):
         return root.find('qod')
 
+    def resolve_score(root, _info):
+        severities = root.find('severities')
+        if severities is not None:
+            return severities.get('score')
+
     def resolve_severities(root, _info):
-        return root.find('severities')
+        severities = root.find('severities')
+        if severities is not None:
+            return severities.findall('severity')
 
     def resolve_refs(root, _info):
         return root.find('refs')
@@ -299,15 +294,21 @@ class NvtFamily(BaseNvtFamily):
 class NVT(EntityObjectType):
     """Definition of a secinfo NVT"""
 
-    uuid = graphene.String(name='id')
-    update_time = graphene.DateTime()
+    uuid = graphene.String(name='id', description='OID of the vulnerability')
+    update_time = graphene.DateTime(
+        description='Time stamp of the last update of the vulnerability'
+    )
 
     qod = graphene.Field(NvtDefinitionQod)
-    severities = graphene.Field(NvtSeverities)
+    severities = graphene.List(NvtSeverity)
     refs = graphene.Field(NvtDefinitionRefs)
     preferences = graphene.List(NvtPreference)
     solution = graphene.Field(NvtSolution)
+    # Not sure if this is needed anymore
     cvss_base = graphene.Field(SeverityType)
+    score = graphene.Int(
+        description='Describes the severity of this vulnerability'
+    )
 
     family = graphene.String()
     tags = graphene.Field(NvtTags)
@@ -333,6 +334,11 @@ class NVT(EntityObjectType):
         if nvt is not None:
             return get_text_from_element(nvt, 'cvss_base')
         return None
+
+    def resolve_score(root, _info):
+        severities = root.find('nvt/severities')
+        if severities is not None:
+            return severities.get('score')
 
     def resolve_tags(root, _info):
         nvt = root.find('nvt')
@@ -366,9 +372,9 @@ class NVT(EntityObjectType):
             return nvt.find('qod')
 
     def resolve_severities(root, _info):
-        nvt = root.find('nvt')
-        if nvt is not None:
-            return nvt.find('severities')
+        severities = root.find('nvt/severities')
+        if severities is not None:
+            return severities.findall('severity')
 
     def resolve_refs(root, _info):
         nvt = root.find('nvt')

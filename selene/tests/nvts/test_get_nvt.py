@@ -110,11 +110,9 @@ class NVTTestCase(SeleneTestCase):
                     qod {
                         value
                     }
+                    score
                     severities {
-                        score
-                        severitiesList {
-                            date
-                        }
+                        date
                     }
                     refs{
                         warning
@@ -153,6 +151,7 @@ class NVTTestCase(SeleneTestCase):
         self.assertIsNone(nvt['category'])
         self.assertIsNone(nvt['family'])
         self.assertIsNone(nvt['cvssBase'])
+        self.assertIsNone(nvt['score'])
         self.assertIsNone(nvt['qod'])
         self.assertIsNone(nvt['severities'])
         self.assertIsNone(nvt['refs'])
@@ -186,15 +185,13 @@ class NVTTestCase(SeleneTestCase):
                         value
                         type
                     }
+                    score
                     severities {
+                        date
+                        origin
                         score
-                        severitiesList {
-                            date
-                            origin
-                            score
-                            type
-                            vector
-                        }
+                        type
+                        vector
                     }
                     refs{
                         warning
@@ -249,24 +246,22 @@ class NVTTestCase(SeleneTestCase):
         self.assertEqual(nvt['category'], 3)
         self.assertEqual(nvt['family'], 'Some family')
         self.assertEqual(nvt['cvssBase'], 4.9)
+        self.assertEqual(nvt['score'], 49)
         self.assertEqual(
             nvt['qod'],
             {"value": 80, "type": "remote_banner"},
         )
         self.assertEqual(
             nvt['severities'],
-            {
-                "score": 49,
-                "severitiesList": [
-                    {
-                        "date": "2020-12-23T06:28:09+00:00",
-                        "origin": None,
-                        "score": 49,
-                        "type": "cvss_base_v2",
-                        "vector": "AV:N/AC:M/Au:S/C:P/I:N/A:P",
-                    }
-                ],
-            },
+            [
+                {
+                    "date": "2020-12-23T06:28:09+00:00",
+                    "origin": None,
+                    "score": 49,
+                    "type": "cvss_base_v2",
+                    "vector": "AV:N/AC:M/Au:S/C:P/I:N/A:P",
+                }
+            ],
         )
         self.assertEqual(
             nvt['refs'],
