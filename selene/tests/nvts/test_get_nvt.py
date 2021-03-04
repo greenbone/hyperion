@@ -114,11 +114,10 @@ class NVTTestCase(SeleneTestCase):
                     severities {
                         date
                     }
+                    refWarning
                     refs{
-                        warning
-                        refList{
-                            id
-                        }
+                        id
+                        type
                     }
                     tags {
                         cvssBaseVector
@@ -154,6 +153,7 @@ class NVTTestCase(SeleneTestCase):
         self.assertIsNone(nvt['score'])
         self.assertIsNone(nvt['qod'])
         self.assertIsNone(nvt['severities'])
+        self.assertIsNone(nvt['refWarning'])
         self.assertIsNone(nvt['refs'])
         self.assertIsNone(nvt['tags'])
         self.assertIsNone(nvt['preferenceCount'])
@@ -193,12 +193,10 @@ class NVTTestCase(SeleneTestCase):
                         type
                         vector
                     }
+                    refWarning
                     refs{
-                        warning
-                        refList{
-                            id
-                            type
-                        }
+                        id
+                        type
                     }
                     tags {
                         cvssBaseVector
@@ -263,17 +261,15 @@ class NVTTestCase(SeleneTestCase):
                 }
             ],
         )
+        self.assertEqual(nvt['refWarning'], 'database not available')
         self.assertEqual(
             nvt['refs'],
-            {
-                "warning": None,
-                "refList": [
-                    {"id": "54321", "type": "cert-bund"},
-                    {"id": "12345", "type": "dfn-cert"},
-                    {"id": "CVE-2014-0682", "type": "cve"},
-                    {"id": "http://test.test", "type": "url"},
-                ],
-            },
+            [
+                {"id": "54321", "type": "cert-bund"},
+                {"id": "12345", "type": "dfn-cert"},
+                {"id": "CVE-2014-0682", "type": "cve"},
+                {"id": "http://test.test", "type": "url"},
+            ],
         )
         self.assertIsNotNone(nvt['tags'])
         tags = nvt['tags']

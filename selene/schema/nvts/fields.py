@@ -73,31 +73,24 @@ class NvtDefinitionQod(graphene.ObjectType):
         return get_text_from_element(root, 'type')
 
 
-class NvtDefinitionRef(graphene.ObjectType):
+class NvtReference(graphene.ObjectType):
     """Reference of a NVT. """
 
-    ref_id = graphene.String(name='id')
-    # Type of the reference, for example "cve", "bid", "dfn-cert", "cert-bund".
-    ref_type = graphene.String(name='type')
+    ref_id = graphene.String(
+        name='id', description='ID of the corrosponding reference'
+    )
+    ref_type = graphene.String(
+        name='type',
+        description=(
+            'Type of the reference, e.g. "cve", "bid", "dfn-cert", "cert-bund"'
+        ),
+    )
 
     def resolve_ref_id(root, _info):
         return root.get('id')
 
     def resolve_ref_type(root, _info):
         return root.get('type')
-
-
-class NvtDefinitionRefs(graphene.ObjectType):
-    """List of references of various types for a NVT."""
-
-    warning = graphene.String()
-    ref_list = graphene.List(NvtDefinitionRef)
-
-    def resolve_warning(root, _info):
-        return get_text_from_element(root, 'warning')
-
-    def resolve_ref_list(root, _info):
-        return root.findall('ref')
 
 
 class NvtPreferenceNvt(graphene.ObjectType):
@@ -204,8 +197,25 @@ class NvtTags(graphene.ObjectType):
     vuldetect = graphene.String()
 
 
+class BaseNvtFamily(graphene.ObjectType):
+    """NVT family"""
+
+    name = graphene.String()
+    max_nvt_count = graphene.Int()
+
+    def resolve_name(root, _info):
+        return get_text_from_element(root, 'name')
+
+    def resolve_max_nvt_count(root, _info):
+        return get_int_from_element(root, 'max_nvt_count')
+
+
+class NvtFamily(BaseNvtFamily):
+    pass
+
+
 class ScanConfigNVT(graphene.ObjectType):
-    """Definition of a NVT for a scan config."""
+    """Definition of a NVT for a scan config. (API call: get_nvt/get_nvts)"""
 
     class Meta:
         default_resolver = text_resolver
@@ -225,11 +235,24 @@ class ScanConfigNVT(graphene.ObjectType):
     timeout = graphene.Int()
     default_timeout = graphene.Int()
 
-    qod = graphene.Field(NvtDefinitionQod)
-    severities = graphene.List(NvtSeverity)
-    refs = graphene.Field(NvtDefinitionRefs)
-    preferences = graphene.List(NvtPreference)
-    solution = graphene.Field(NvtSolution)
+    qod = graphene.Field(
+        NvtDefinitionQod, description='Quality of detection for this NVT'
+    )
+    severities = graphene.List(
+        NvtSeverity, description='Severities List to related sec infos'
+    )
+    ref_warning = graphene.String(
+        description='Warning if the CERT DB is not available'
+    )
+    refs = graphene.List(
+        NvtReference, description='References List to related sec infos'
+    )
+    preferences = graphene.List(
+        NvtPreference, description='List of preferences for this NVT'
+    )
+    solution = graphene.Field(
+        NvtSolution, description='Fix solution for this NVT'
+    )
 
     def resolve_oid(root, _info):
         return root.get('oid')
@@ -259,8 +282,15 @@ class ScanConfigNVT(graphene.ObjectType):
         if severities is not None:
             return severities.findall('severity')
 
+    def resolve_ref_warning(root, _info):
+        refs = root.find('refs')
+        if refs is not None:
+            return get_text_from_element(refs, 'warning')
+
     def resolve_refs(root, _info):
-        return root.find('refs')
+        refs = root.find('refs')
+        if refs is not None:
+            return refs.findall('ref')
 
     def resolve_tags(root, _info):
         return root.find('tags')
@@ -274,36 +304,14 @@ class ScanConfigNVT(graphene.ObjectType):
         return root.find('solution')
 
 
-class BaseNvtFamily(graphene.ObjectType):
-    """NVT family"""
-
-    name = graphene.String()
-    max_nvt_count = graphene.Int()
-
-    def resolve_name(root, _info):
-        return get_text_from_element(root, 'name')
-
-    def resolve_max_nvt_count(root, _info):
-        return get_int_from_element(root, 'max_nvt_count')
-
-
-class NvtFamily(BaseNvtFamily):
-    pass
-
-
 class NVT(EntityObjectType):
-    """Definition of a secinfo NVT"""
+    """Definition of a secinfo NVT (API call: get_info/get_info_list)"""
 
     uuid = graphene.String(name='id', description='OID of the vulnerability')
     update_time = graphene.DateTime(
         description='Time stamp of the last update of the vulnerability'
     )
 
-    qod = graphene.Field(NvtDefinitionQod)
-    severities = graphene.List(NvtSeverity)
-    refs = graphene.Field(NvtDefinitionRefs)
-    preferences = graphene.List(NvtPreference)
-    solution = graphene.Field(NvtSolution)
     # Not sure if this is needed anymore
     cvss_base = graphene.Field(SeverityType)
     score = graphene.Int(
@@ -316,6 +324,25 @@ class NVT(EntityObjectType):
     preference_count = graphene.Int()
     timeout = graphene.Int()
     default_timeout = graphene.Int()
+
+    qod = graphene.Field(
+        NvtDefinitionQod, description='Quality of detection for this NVT'
+    )
+    severities = graphene.List(
+        NvtSeverity, description='Severities List to related sec infos'
+    )
+    ref_warning = graphene.String(
+        description='Warning if the CERT DB is not available'
+    )
+    refs = graphene.List(
+        NvtReference, description='References List to related sec infos'
+    )
+    preferences = graphene.List(
+        NvtPreference, description='List of preferences for this NVT'
+    )
+    solution = graphene.Field(
+        NvtSolution, description='Fix solution for this NVT'
+    )
 
     def resolve_uuid(root, _info):
         return root.get('id')
@@ -377,9 +404,14 @@ class NVT(EntityObjectType):
             return severities.findall('severity')
 
     def resolve_refs(root, _info):
-        nvt = root.find('nvt')
-        if nvt is not None:
-            return nvt.find('refs')
+        refs = root.find('nvt/refs')
+        if refs is not None:
+            return refs.findall('ref')
+
+    def resolve_ref_warning(root, _info):
+        refs = root.find('nvt/refs')
+        if refs is not None:
+            return get_text_from_element(refs, 'warning')
 
     def resolve_preferences(root, _info):
         preferences = root.find('nvt/preferences')

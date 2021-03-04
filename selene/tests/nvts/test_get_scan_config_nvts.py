@@ -129,12 +129,10 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                         type
                         vector
                     }
+                    refWarning
                     refs{
-                        warning
-                        refList {
-                            id
-                            type
-                        }
+                        id
+                        type
                     }
                     tags {
                         cvssBaseVector
@@ -199,16 +197,14 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                 }
             ],
         )
+        self.assertEqual(nvt['refWarning'], None)
         self.assertEqual(
             nvt['refs'],
-            {
-                "warning": None,
-                "refList": [
-                    {"id": "CVE-2011-9999", "type": "cve"},
-                    {"id": "12345", "type": "bid"},
-                    {"id": "http://test.test", "type": "url"},
-                ],
-            },
+            [
+                {"id": "CVE-2011-9999", "type": "cve"},
+                {"id": "12345", "type": "bid"},
+                {"id": "http://test.test", "type": "url"},
+            ],
         )
         self.assertIsNotNone(nvt['tags'])
         tags = nvt['tags']
