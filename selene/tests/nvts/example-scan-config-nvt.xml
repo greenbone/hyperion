@@ -1,0 +1,66 @@
+<get_nvts_response status="200" status_text="OK">
+  <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
+      <name>Some name</name>
+      <creation_time>2009-10-26T09:02:32Z</creation_time>
+      <modification_time>2020-05-11T05:36:14Z</modification_time>
+      <category>1</category>
+      <summary>Some summary</summary>
+      <family>Some family</family>
+      <cvss_base>5.0</cvss_base>
+      <qod>
+          <value>80</value>
+          <type>remote_banner</type>
+      </qod>
+      <severities score="50">
+          <severity type="cvss_base_v2">
+              <origin>CVE-2011-9999</origin>
+              <date>2009-10-26T09:02:32Z</date>
+              <score>50</score>
+              <value>AV:N/AC:M/Au:N/C:N/I:P/A:P</value>
+          </severity>
+      </severities>
+      <refs>
+          <warning>database not available</warning>
+          <ref type="cert-bund" id="54321"/>
+          <ref type="dfn-cert" id="12345"/>
+          <ref type="cve" id="CVE-2014-0682"/>
+          <ref type="cve_id" id="CVE-2014-0681"/>
+          <ref type="bid" id="BID1337"/>
+          <ref type="bugtraq_id" id="BID31337"/>
+          <ref type="url" id="http://test.test"/>
+      </refs>
+      <tags>cvss_base_vector=vec|summary=sum|insight=ins|
+          affected=aff|impact=imp|vuldetect=vul
+      </tags>
+      <preference_count>-1</preference_count>
+      <timeout/>
+      <default_timeout/>
+      <solution type="VendorFix" method="">Just update.</solution>
+      <preferences>
+          <preference>
+              <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
+                  <name>Ping Host</name>
+              </nvt>
+              <id>13</id>
+              <hr_name>Log failed nmap calls</hr_name>
+              <name>Log failed nmap calls</name>
+              <type>checkbox</type>
+              <value>no</value>
+              <default>no</default>
+          </preference>
+          <preference>
+              <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
+                  <name>Ping Host</name>
+              </nvt>
+              <id>14</id>
+              <hr_name>nmap timing policy</hr_name>
+              <name>nmap timing policy</name>
+              <type>radio</type>
+              <value>Normal</value>
+              <alt>Paranid</alt>
+              <alt>Sneaky</alt>
+              <default>Normal</default>
+          </preference>
+      </preferences>
+  </nvt>
+</get_nvts_response>

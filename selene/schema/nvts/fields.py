@@ -244,7 +244,16 @@ class ScanConfigNVT(graphene.ObjectType):
     ref_warning = graphene.String(
         description='Warning if the CERT DB is not available'
     )
-    refs = graphene.List(
+    other_refs = graphene.List(
+        NvtReference, description='References List to related sec infos'
+    )
+    cve_refs = graphene.List(
+        NvtReference, description='References List to related sec infos'
+    )
+    bid_refs = graphene.List(
+        NvtReference, description='References List to related sec infos'
+    )
+    cert_refs = graphene.List(
         NvtReference, description='References List to related sec infos'
     )
     preferences = graphene.List(
@@ -287,10 +296,42 @@ class ScanConfigNVT(graphene.ObjectType):
         if refs is not None:
             return get_text_from_element(refs, 'warning')
 
-    def resolve_refs(root, _info):
+    def resolve_other_refs(root, _info):
         refs = root.find('refs')
         if refs is not None:
-            return refs.findall('ref')
+            return [
+                ref for ref in refs.findall('ref') if ref.get('type') == 'url'
+            ]
+
+    def resolve_cert_refs(root, _info):
+        refs = root.find('refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (
+                    ref.get('type') == 'dfn-cert'
+                    or ref.get('type') == 'cert-bund'
+                )
+            ]
+
+    def resolve_bid_refs(root, _info):
+        refs = root.find('refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (ref.get('type') == 'bid' or ref.get('type') == 'bugtraq_id')
+            ]
+
+    def resolve_cve_refs(root, _info):
+        refs = root.find('refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (ref.get('type') == 'cve' or ref.get('type') == 'cve_id')
+            ]
 
     def resolve_tags(root, _info):
         return root.find('tags')
@@ -334,7 +375,16 @@ class NVT(EntityObjectType):
     ref_warning = graphene.String(
         description='Warning if the CERT DB is not available'
     )
-    refs = graphene.List(
+    other_refs = graphene.List(
+        NvtReference, description='References List to related sec infos'
+    )
+    cve_refs = graphene.List(
+        NvtReference, description='References List to related sec infos'
+    )
+    bid_refs = graphene.List(
+        NvtReference, description='References List to related sec infos'
+    )
+    cert_refs = graphene.List(
         NvtReference, description='References List to related sec infos'
     )
     preferences = graphene.List(
@@ -403,10 +453,42 @@ class NVT(EntityObjectType):
         if severities is not None:
             return severities.findall('severity')
 
-    def resolve_refs(root, _info):
+    def resolve_other_refs(root, _info):
         refs = root.find('nvt/refs')
         if refs is not None:
-            return refs.findall('ref')
+            return [
+                ref for ref in refs.findall('ref') if ref.get('type') == 'url'
+            ]
+
+    def resolve_cert_refs(root, _info):
+        refs = root.find('nvt/refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (
+                    ref.get('type') == 'dfn-cert'
+                    or ref.get('type') == 'cert-bund'
+                )
+            ]
+
+    def resolve_bid_refs(root, _info):
+        refs = root.find('nvt/refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (ref.get('type') == 'bid' or ref.get('type') == 'bugtraq_id')
+            ]
+
+    def resolve_cve_refs(root, _info):
+        refs = root.find('nvt/refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (ref.get('type') == 'cve' or ref.get('type') == 'cve_id')
+            ]
 
     def resolve_ref_warning(root, _info):
         refs = root.find('nvt/refs')

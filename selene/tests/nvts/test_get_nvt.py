@@ -115,7 +115,19 @@ class NVTTestCase(SeleneTestCase):
                         date
                     }
                     refWarning
-                    refs{
+                    certRefs{
+                        id
+                        type
+                    }
+                    cveRefs{
+                        id
+                        type
+                    }
+                    bidRefs{
+                        id
+                        type
+                    }
+                    otherRefs{
                         id
                         type
                     }
@@ -154,7 +166,10 @@ class NVTTestCase(SeleneTestCase):
         self.assertIsNone(nvt['qod'])
         self.assertIsNone(nvt['severities'])
         self.assertIsNone(nvt['refWarning'])
-        self.assertIsNone(nvt['refs'])
+        self.assertIsNone(nvt['certRefs'])
+        self.assertIsNone(nvt['cveRefs'])
+        self.assertIsNone(nvt['bidRefs'])
+        self.assertIsNone(nvt['otherRefs'])
         self.assertIsNone(nvt['tags'])
         self.assertIsNone(nvt['preferenceCount'])
         self.assertIsNone(nvt['preferences'])
@@ -194,7 +209,19 @@ class NVTTestCase(SeleneTestCase):
                         vector
                     }
                     refWarning
-                    refs{
+                    certRefs{
+                        id
+                        type
+                    }
+                    cveRefs{
+                        id
+                        type
+                    }
+                    bidRefs{
+                        id
+                        type
+                    }
+                    otherRefs{
                         id
                         type
                     }
@@ -263,12 +290,30 @@ class NVTTestCase(SeleneTestCase):
         )
         self.assertEqual(nvt['refWarning'], 'database not available')
         self.assertEqual(
-            nvt['refs'],
+            nvt['certRefs'],
             [
                 {"id": "54321", "type": "cert-bund"},
                 {"id": "12345", "type": "dfn-cert"},
-                {"id": "CVE-2014-0682", "type": "cve"},
+            ],
+        )
+        self.assertEqual(
+            nvt['bidRefs'],
+            [
+                {"id": "BID1337", "type": "bid"},
+                {"id": "BID31337", "type": "bugtraq_id"},
+            ],
+        )
+        self.assertEqual(
+            nvt['otherRefs'],
+            [
                 {"id": "http://test.test", "type": "url"},
+            ],
+        )
+        self.assertEqual(
+            nvt['cveRefs'],
+            [
+                {"id": "CVE-2014-0682", "type": "cve"},
+                {"id": "CVE-2014-0681", "type": "cve_id"},
             ],
         )
         self.assertIsNotNone(nvt['tags'])

@@ -376,7 +376,19 @@ class ReportTestCase(SeleneTestCase):
                         family
                         cvssBase
                         refWarning
-                        refs {
+                        certRefs{
+                            id
+                            type
+                        }
+                        cveRefs{
+                            id
+                            type
+                        }
+                        bidRefs{
+                            id
+                            type
+                        }
+                        otherRefs{
                             id
                             type
                         }
@@ -575,13 +587,17 @@ class ReportTestCase(SeleneTestCase):
         self.assertEqual(nvt['score'], 50)
         self.assertEqual(nvt['refWarning'], None)
         self.assertEqual(
-            nvt['refs'],
+            nvt['cveRefs'],
             [
                 {"id": "CVE-1999-0678", "type": "cve"},
+            ],
+        )
+        self.assertEqual(
+            nvt['bidRefs'],
+            [
                 {"id": "318", "type": "bid"},
             ],
         )
-
         self.assertIsNotNone(nvt['severities'])
         self.assertEqual(nvt['severities'][0]['type'], 'cvss_base_v2')
 

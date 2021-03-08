@@ -15,10 +15,13 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from pathlib import Path
 
 from unittest.mock import patch
 
 from selene.tests import SeleneTestCase, GmpMockFactory
+
+CWD = Path(__file__).absolute().parent
 
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)
@@ -37,46 +40,10 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
         self.assertResponseAuthenticationRequired(response)
 
     def test_get_scan_config_nvt(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_nvt',
-            '''
-            <get_nvts_response status="200" status_text="OK">
-            <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
-                <name>Some name</name>
-                <creation_time>2009-10-26T09:02:32Z</creation_time>
-                <modification_time>2020-05-11T05:36:14Z</modification_time>
-                <category>1</category>
-                <summary>Some summary</summary>
-                <family>Some family</family>
-                <cvss_base>5.0</cvss_base>
-                <qod>
-                    <value>80</value>
-                    <type>remote_banner</type>
-                </qod>
-                <severities score="50">
-                    <severity type="cvss_base_v2">
-                        <origin>CVE-2011-9999</origin>
-                        <date>2009-10-26T09:02:32Z</date>
-                        <score>50</score>
-                        <value>AV:N/AC:M/Au:N/C:N/I:P/A:P</value>
-                    </severity>
-                </severities>
-                <refs>
-                    <ref type="cve" id="CVE-2011-9999"/>
-                    <ref type="bid" id="12345"/>
-                    <ref type="url" id="http://test.test"/>
-                </refs>
-                <tags>cvss_base_vector=vec|summary=sum|insight=ins|
-                    affected=aff|impact=imp|vuldetect=vul
-                </tags>
-                <preference_count>-1</preference_count>
-                <timeout/>
-                <default_timeout/>
-                <solution type="VendorFix" method="">Just update.</solution>
-            </nvt>
-            </get_nvts_response>
-            ''',
-        )
+        nvt_xml_path = CWD / 'example-scan-config-nvt.xml'
+        nvt_xml_str = nvt_xml_path.read_text()
+
+        mock_gmp.mock_response('get_nvt', nvt_xml_str)
 
         self.login('foo', 'bar')
 
@@ -105,7 +72,19 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
                         vector
                     }
                     refWarning
-                    refs{
+                    certRefs{
+                        id
+                        type
+                    }
+                    cveRefs{
+                        id
+                        type
+                    }
+                    bidRefs{
+                        id
+                        type
+                    }
+                    otherRefs{
                         id
                         type
                     }
@@ -159,13 +138,32 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
                 }
             ],
         )
-        self.assertEqual(nvt['refWarning'], None)
+        self.assertEqual(nvt['refWarning'], 'database not available')
         self.assertEqual(
-            nvt['refs'],
+            nvt['certRefs'],
             [
-                {"id": "CVE-2011-9999", "type": "cve"},
-                {"id": "12345", "type": "bid"},
+                {"id": "54321", "type": "cert-bund"},
+                {"id": "12345", "type": "dfn-cert"},
+            ],
+        )
+        self.assertEqual(
+            nvt['bidRefs'],
+            [
+                {"id": "BID1337", "type": "bid"},
+                {"id": "BID31337", "type": "bugtraq_id"},
+            ],
+        )
+        self.assertEqual(
+            nvt['otherRefs'],
+            [
                 {"id": "http://test.test", "type": "url"},
+            ],
+        )
+        self.assertEqual(
+            nvt['cveRefs'],
+            [
+                {"id": "CVE-2014-0682", "type": "cve"},
+                {"id": "CVE-2014-0681", "type": "cve_id"},
             ],
         )
         self.assertIsNotNone(nvt['tags'])

@@ -35,6 +35,9 @@
         <ref type="cert-bund" id="54321"/>
         <ref type="dfn-cert" id="12345"/>
         <ref type="cve" id="CVE-2014-0682"/>
+        <ref type="cve_id" id="CVE-2014-0681"/>
+        <ref type="bid" id="BID1337"/>
+        <ref type="bugtraq_id" id="BID31337"/>
         <ref type="url" id="http://test.test"/>
       </refs>
       <tags>cvss_base_vector=vec|summary=sum|insight=ins|affected=aff|impact=imp|vuldetect=vul</tags>
