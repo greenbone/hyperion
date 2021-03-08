@@ -22,6 +22,7 @@ import graphene
 
 from gvm.protocols.next import (
     CredentialType as GvmCredentialType,
+    CredentialFormat as GvmCredentialFormat,
     SnmpAuthAlgorithm,
     SnmpPrivacyAlgorithm,
 )
@@ -49,6 +50,11 @@ class AuthAlgorithm(graphene.Enum):
 class PrivacyAlgorithm(graphene.Enum):
     class Meta:
         enum = SnmpPrivacyAlgorithm
+
+
+class CredentialFormat(graphene.Enum):
+    class Meta:
+        enum = GvmCredentialFormat
 
 
 class Credential(EntityObjectType):

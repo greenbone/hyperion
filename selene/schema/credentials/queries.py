@@ -24,7 +24,7 @@ import graphene
 
 from graphql import ResolveInfo
 
-from selene.schema.credentials.fields import Credential
+from selene.schema.credentials.fields import Credential, CredentialFormat
 
 from selene.schema.parser import FilterString
 
@@ -79,16 +79,35 @@ class GetCredential(graphene.Field):
             credential_id=graphene.UUID(required=True, name='id'),
             scanners=graphene.Boolean(default_value=True),
             targets=graphene.Boolean(default_value=True),
+            credential_format=graphene.String(
+                default_value=None, name='format'
+            ),
             resolver=self.resolve,
         )
 
     @staticmethod
     @require_authentication
-    def resolve(_root, info, credential_id: UUID, targets, scanners):
+    def resolve(
+        _root,
+        info,
+        credential_id: UUID,
+        targets,
+        scanners,
+        credential_format=None,
+    ):
         gmp = get_gmp(info)
 
+        cred_format = (
+            CredentialFormat.get(credential_format)
+            if credential_format
+            else None
+        )
+
         xml = gmp.get_credential(
-            str(credential_id), scanners=scanners, targets=targets
+            str(credential_id),
+            scanners=scanners,
+            targets=targets,
+            credential_format=cred_format,
         )
         return xml.find('credential')
 
