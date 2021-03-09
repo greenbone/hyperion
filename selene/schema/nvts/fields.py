@@ -245,16 +245,16 @@ class ScanConfigNVT(graphene.ObjectType):
         description='Warning if the CERT DB is not available'
     )
     other_refs = graphene.List(
-        NvtReference, description='References List to related sec infos'
+        NvtReference, description='Other references List to related sec infos'
     )
     cve_refs = graphene.List(
-        NvtReference, description='References List to related sec infos'
+        NvtReference, description='CVE references List to related sec infos'
     )
     bid_refs = graphene.List(
-        NvtReference, description='References List to related sec infos'
+        NvtReference, description='Bugtraq references List to related sec infos'
     )
     cert_refs = graphene.List(
-        NvtReference, description='References List to related sec infos'
+        NvtReference, description='CERT references List to related sec infos'
     )
     preferences = graphene.List(
         NvtPreference, description='List of preferences for this NVT'
@@ -376,16 +376,16 @@ class NVT(EntityObjectType):
         description='Warning if the CERT DB is not available'
     )
     other_refs = graphene.List(
-        NvtReference, description='References List to related sec infos'
+        NvtReference, description='Other references List to related sec infos'
     )
     cve_refs = graphene.List(
-        NvtReference, description='References List to related sec infos'
+        NvtReference, description='CVE references List to related sec infos'
     )
     bid_refs = graphene.List(
-        NvtReference, description='References List to related sec infos'
+        NvtReference, description='Bugtraq references List to related sec infos'
     )
     cert_refs = graphene.List(
-        NvtReference, description='References List to related sec infos'
+        NvtReference, description='CERT references List to related sec infos'
     )
     preferences = graphene.List(
         NvtPreference, description='List of preferences for this NVT'
