@@ -71,20 +71,20 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
                         type
                         vector
                     }
-                    refWarning
-                    certRefs{
+                    referenceWarning
+                    certReferences{
                         id
                         type
                     }
-                    cveRefs{
+                    cveReferences{
                         id
                         type
                     }
-                    bidRefs{
+                    bidReferences{
                         id
                         type
                     }
-                    otherRefs{
+                    otherReferences{
                         id
                         type
                     }
@@ -138,29 +138,29 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
                 }
             ],
         )
-        self.assertEqual(nvt['refWarning'], 'database not available')
+        self.assertEqual(nvt['referenceWarning'], 'database not available')
         self.assertEqual(
-            nvt['certRefs'],
+            nvt['certReferences'],
             [
                 {"id": "54321", "type": "cert-bund"},
                 {"id": "12345", "type": "dfn-cert"},
             ],
         )
         self.assertEqual(
-            nvt['bidRefs'],
+            nvt['bidReferences'],
             [
                 {"id": "BID1337", "type": "bid"},
                 {"id": "BID31337", "type": "bugtraq_id"},
             ],
         )
         self.assertEqual(
-            nvt['otherRefs'],
+            nvt['otherReferences'],
             [
                 {"id": "http://test.test", "type": "url"},
             ],
         )
         self.assertEqual(
-            nvt['cveRefs'],
+            nvt['cveReferences'],
             [
                 {"id": "CVE-2014-0682", "type": "cve"},
                 {"id": "CVE-2014-0681", "type": "cve_id"},

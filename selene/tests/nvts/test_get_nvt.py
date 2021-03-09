@@ -114,20 +114,20 @@ class NVTTestCase(SeleneTestCase):
                     severities {
                         date
                     }
-                    refWarning
-                    certRefs{
+                    referenceWarning
+                    certReferences{
                         id
                         type
                     }
-                    cveRefs{
+                    cveReferences{
                         id
                         type
                     }
-                    bidRefs{
+                    bidReferences{
                         id
                         type
                     }
-                    otherRefs{
+                    otherReferences{
                         id
                         type
                     }
@@ -165,11 +165,11 @@ class NVTTestCase(SeleneTestCase):
         self.assertIsNone(nvt['score'])
         self.assertIsNone(nvt['qod'])
         self.assertIsNone(nvt['severities'])
-        self.assertIsNone(nvt['refWarning'])
-        self.assertIsNone(nvt['certRefs'])
-        self.assertIsNone(nvt['cveRefs'])
-        self.assertIsNone(nvt['bidRefs'])
-        self.assertIsNone(nvt['otherRefs'])
+        self.assertIsNone(nvt['referenceWarning'])
+        self.assertIsNone(nvt['certReferences'])
+        self.assertIsNone(nvt['cveReferences'])
+        self.assertIsNone(nvt['bidReferences'])
+        self.assertIsNone(nvt['otherReferences'])
         self.assertIsNone(nvt['tags'])
         self.assertIsNone(nvt['preferenceCount'])
         self.assertIsNone(nvt['preferences'])
@@ -208,20 +208,20 @@ class NVTTestCase(SeleneTestCase):
                         type
                         vector
                     }
-                    refWarning
-                    certRefs{
+                    referenceWarning
+                    certReferences{
                         id
                         type
                     }
-                    cveRefs{
+                    cveReferences{
                         id
                         type
                     }
-                    bidRefs{
+                    bidReferences{
                         id
                         type
                     }
-                    otherRefs{
+                    otherReferences{
                         id
                         type
                     }
@@ -288,29 +288,29 @@ class NVTTestCase(SeleneTestCase):
                 }
             ],
         )
-        self.assertEqual(nvt['refWarning'], 'database not available')
+        self.assertEqual(nvt['referenceWarning'], 'database not available')
         self.assertEqual(
-            nvt['certRefs'],
+            nvt['certReferences'],
             [
                 {"id": "54321", "type": "cert-bund"},
                 {"id": "12345", "type": "dfn-cert"},
             ],
         )
         self.assertEqual(
-            nvt['bidRefs'],
+            nvt['bidReferences'],
             [
                 {"id": "BID1337", "type": "bid"},
                 {"id": "BID31337", "type": "bugtraq_id"},
             ],
         )
         self.assertEqual(
-            nvt['otherRefs'],
+            nvt['otherReferences'],
             [
                 {"id": "http://test.test", "type": "url"},
             ],
         )
         self.assertEqual(
-            nvt['cveRefs'],
+            nvt['cveReferences'],
             [
                 {"id": "CVE-2014-0682", "type": "cve"},
                 {"id": "CVE-2014-0681", "type": "cve_id"},
