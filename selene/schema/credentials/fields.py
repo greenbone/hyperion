@@ -68,6 +68,9 @@ class Credential(EntityObjectType):
     privacy_algorithm = graphene.Field(PrivacyAlgorithm)
     scanners = graphene.List(Scanner)
     targets = graphene.List(Target)
+    credential_package = graphene.String()
+    certificate = graphene.String()
+    public_key = graphene.String()
 
     def resolve_login(root, _info):
         return get_text_from_element(root, 'login')
@@ -96,3 +99,12 @@ class Credential(EntityObjectType):
         if len(targets) == 0:
             return None
         return targets.findall('target')
+
+    def resolve_credential_package(root, _info):
+        return get_text_from_element(root, 'package')
+
+    def resolve_certificate(root, _info):
+        return get_text_from_element(root, 'certificate')
+
+    def resolve_public_key(root, _info):
+        return get_text_from_element(root, 'public_key')
