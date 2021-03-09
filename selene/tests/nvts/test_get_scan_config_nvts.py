@@ -94,7 +94,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                         insight
                         impact
                         affected
-                        vuldetect
+                        detectionMethod
                     }
                     preferenceCount
                     timeout
@@ -112,7 +112,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                         name
                         type
                         value
-                        alt
+                        alternativeValues
                         default
                         hrName
                         id
@@ -186,7 +186,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
         self.assertEqual(tags['insight'], 'ins')
         self.assertEqual(tags['impact'], 'imp')
         self.assertEqual(tags['affected'], 'aff')
-        self.assertEqual(tags['vuldetect'], 'vul')
+        self.assertEqual(tags['detectionMethod'], 'vul')
 
         self.assertEqual(nvt['preferenceCount'], -1)
         self.assertEqual(nvt['timeout'], None)
@@ -214,7 +214,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                     "type": "checkbox",
                     "value": "no",
                     "default": "no",
-                    "alt": None,
+                    "alternativeValues": None,
                 },
                 {
                     "name": "nmap timing policy",
@@ -227,7 +227,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                     "type": "radio",
                     "value": "Normal",
                     "default": "Normal",
-                    "alt": ["Paranid", "Sneaky"],
+                    "alternativeValues": ["Paranid", "Sneaky"],
                 },
             ],
         )

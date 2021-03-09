@@ -94,7 +94,7 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
                         insight
                         impact
                         affected
-                        vuldetect
+                        detectionMethod
                     }
                     preferenceCount
                     timeout
@@ -173,7 +173,7 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
         self.assertEqual(tags['insight'], 'ins')
         self.assertEqual(tags['impact'], 'imp')
         self.assertEqual(tags['affected'], 'aff')
-        self.assertEqual(tags['vuldetect'], 'vul')
+        self.assertEqual(tags['detectionMethod'], 'vul')
         self.assertEqual(nvt['preferenceCount'], -1)
         self.assertEqual(nvt['timeout'], None)
         self.assertEqual(nvt['defaultTimeout'], None)

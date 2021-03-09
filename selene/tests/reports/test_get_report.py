@@ -398,7 +398,7 @@ class ReportTestCase(SeleneTestCase):
                             insight
                             impact
                             affected
-                            vuldetect
+                            detectionMethod
                         }
                         score
                         severities {

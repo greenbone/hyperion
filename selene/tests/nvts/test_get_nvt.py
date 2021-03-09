@@ -231,7 +231,7 @@ class NVTTestCase(SeleneTestCase):
                         insight
                         impact
                         affected
-                        vuldetect
+                        detectionMethod
                     }
                     preferenceCount
                     preferences {
@@ -245,7 +245,7 @@ class NVTTestCase(SeleneTestCase):
                         type
                         value
                         default
-                        alt
+                        alternativeValues
                     }
                     timeout
                     defaultTimeout
@@ -323,7 +323,7 @@ class NVTTestCase(SeleneTestCase):
         self.assertEqual(tags['insight'], 'ins')
         self.assertEqual(tags['impact'], 'imp')
         self.assertEqual(tags['affected'], 'aff')
-        self.assertEqual(tags['vuldetect'], 'vul')
+        self.assertEqual(tags['detectionMethod'], 'vul')
         self.assertEqual(nvt['preferenceCount'], -1)
         self.assertEqual(nvt['timeout'], None)
         self.assertEqual(nvt['defaultTimeout'], None)
@@ -355,7 +355,7 @@ class NVTTestCase(SeleneTestCase):
         self.assertEqual(preferences[2]['value'], 'SHA-512')
         self.assertEqual(preferences[2]['default'], 'SHA-512')
         self.assertEqual(
-            preferences[2]['alt'],
+            preferences[2]['alternativeValues'],
             ['SHA-256', 'NT Hash', 'Blowfish', 'MD5', 'DES'],
         )
 
