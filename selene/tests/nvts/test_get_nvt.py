@@ -114,8 +114,20 @@ class NVTTestCase(SeleneTestCase):
                     severities {
                         date
                     }
-                    refWarning
-                    refs{
+                    referenceWarning
+                    certReferences{
+                        id
+                        type
+                    }
+                    cveReferences{
+                        id
+                        type
+                    }
+                    bidReferences{
+                        id
+                        type
+                    }
+                    otherReferences{
                         id
                         type
                     }
@@ -153,8 +165,11 @@ class NVTTestCase(SeleneTestCase):
         self.assertIsNone(nvt['score'])
         self.assertIsNone(nvt['qod'])
         self.assertIsNone(nvt['severities'])
-        self.assertIsNone(nvt['refWarning'])
-        self.assertIsNone(nvt['refs'])
+        self.assertIsNone(nvt['referenceWarning'])
+        self.assertIsNone(nvt['certReferences'])
+        self.assertIsNone(nvt['cveReferences'])
+        self.assertIsNone(nvt['bidReferences'])
+        self.assertIsNone(nvt['otherReferences'])
         self.assertIsNone(nvt['tags'])
         self.assertIsNone(nvt['preferenceCount'])
         self.assertIsNone(nvt['preferences'])
@@ -193,8 +208,20 @@ class NVTTestCase(SeleneTestCase):
                         type
                         vector
                     }
-                    refWarning
-                    refs{
+                    referenceWarning
+                    certReferences{
+                        id
+                        type
+                    }
+                    cveReferences{
+                        id
+                        type
+                    }
+                    bidReferences{
+                        id
+                        type
+                    }
+                    otherReferences{
                         id
                         type
                     }
@@ -204,7 +231,7 @@ class NVTTestCase(SeleneTestCase):
                         insight
                         impact
                         affected
-                        vuldetect
+                        detectionMethod
                     }
                     preferenceCount
                     preferences {
@@ -218,7 +245,7 @@ class NVTTestCase(SeleneTestCase):
                         type
                         value
                         default
-                        alt
+                        alternativeValues
                     }
                     timeout
                     defaultTimeout
@@ -261,14 +288,32 @@ class NVTTestCase(SeleneTestCase):
                 }
             ],
         )
-        self.assertEqual(nvt['refWarning'], 'database not available')
+        self.assertEqual(nvt['referenceWarning'], 'database not available')
         self.assertEqual(
-            nvt['refs'],
+            nvt['certReferences'],
             [
                 {"id": "54321", "type": "cert-bund"},
                 {"id": "12345", "type": "dfn-cert"},
-                {"id": "CVE-2014-0682", "type": "cve"},
+            ],
+        )
+        self.assertEqual(
+            nvt['bidReferences'],
+            [
+                {"id": "BID1337", "type": "bid"},
+                {"id": "BID31337", "type": "bugtraq_id"},
+            ],
+        )
+        self.assertEqual(
+            nvt['otherReferences'],
+            [
                 {"id": "http://test.test", "type": "url"},
+            ],
+        )
+        self.assertEqual(
+            nvt['cveReferences'],
+            [
+                {"id": "CVE-2014-0682", "type": "cve"},
+                {"id": "CVE-2014-0681", "type": "cve_id"},
             ],
         )
         self.assertIsNotNone(nvt['tags'])
@@ -278,7 +323,7 @@ class NVTTestCase(SeleneTestCase):
         self.assertEqual(tags['insight'], 'ins')
         self.assertEqual(tags['impact'], 'imp')
         self.assertEqual(tags['affected'], 'aff')
-        self.assertEqual(tags['vuldetect'], 'vul')
+        self.assertEqual(tags['detectionMethod'], 'vul')
         self.assertEqual(nvt['preferenceCount'], -1)
         self.assertEqual(nvt['timeout'], None)
         self.assertEqual(nvt['defaultTimeout'], None)
@@ -310,7 +355,7 @@ class NVTTestCase(SeleneTestCase):
         self.assertEqual(preferences[2]['value'], 'SHA-512')
         self.assertEqual(preferences[2]['default'], 'SHA-512')
         self.assertEqual(
-            preferences[2]['alt'],
+            preferences[2]['alternativeValues'],
             ['SHA-256', 'NT Hash', 'Blowfish', 'MD5', 'DES'],
         )
 

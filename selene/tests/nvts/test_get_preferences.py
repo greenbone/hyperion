@@ -94,17 +94,17 @@ class GetPreferencesTestCase(SeleneTestCase):
                     name
                     type
                     value
-                    alt
+                    alternativeValues
                     default
             }
             }
         '''
         )
 
+        self.assertResponseNoErrors(response)
         json = response.json()
         preference1 = json['data']['preferences'][0]
 
-        self.assertResponseNoErrors(response)
         self.assertEqual(
             preference1['nvt']['id'], '1.3.6.1.4.1.25623.1.0.999999'
         )
@@ -114,7 +114,8 @@ class GetPreferencesTestCase(SeleneTestCase):
         self.assertEqual(preference1['type'], 'radio')
         self.assertEqual(preference1['value'], 'Some value')
         self.assertEqual(
-            preference1['alt'], ['Some alternative1', 'Some alternative2']
+            preference1['alternativeValues'],
+            ['Some alternative1', 'Some alternative2'],
         )
         self.assertEqual(preference1['default'], 'Some default')
 
@@ -130,7 +131,8 @@ class GetPreferencesTestCase(SeleneTestCase):
         self.assertEqual(preference2['type'], 'radio')
         self.assertEqual(preference2['value'], 'Some value')
         self.assertEqual(
-            preference2['alt'], ['Some alternative1', 'Some alternative2']
+            preference2['alternativeValues'],
+            ['Some alternative1', 'Some alternative2'],
         )
         self.assertEqual(preference2['default'], 'Some default')
 

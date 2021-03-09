@@ -15,10 +15,13 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from pathlib import Path
 
 from unittest.mock import patch
 
 from selene.tests import SeleneTestCase, GmpMockFactory
+
+CWD = Path(__file__).absolute().parent
 
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)
@@ -36,47 +39,106 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_get_scan_config_nvt(self, mock_gmp: GmpMockFactory):
+    def test_get_scan_config_nvt_none_fields(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
             'get_nvt',
             '''
-            <get_nvts_response status="200" status_text="OK">
-            <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
-                <name>Some name</name>
-                <creation_time>2009-10-26T09:02:32Z</creation_time>
-                <modification_time>2020-05-11T05:36:14Z</modification_time>
-                <category>1</category>
-                <summary>Some summary</summary>
-                <family>Some family</family>
-                <cvss_base>5.0</cvss_base>
-                <qod>
-                    <value>80</value>
-                    <type>remote_banner</type>
-                </qod>
-                <severities score="50">
-                    <severity type="cvss_base_v2">
-                        <origin>CVE-2011-9999</origin>
-                        <date>2009-10-26T09:02:32Z</date>
-                        <score>50</score>
-                        <value>AV:N/AC:M/Au:N/C:N/I:P/A:P</value>
-                    </severity>
-                </severities>
-                <refs>
-                    <ref type="cve" id="CVE-2011-9999"/>
-                    <ref type="bid" id="12345"/>
-                    <ref type="url" id="http://test.test"/>
-                </refs>
-                <tags>cvss_base_vector=vec|summary=sum|insight=ins|
-                    affected=aff|impact=imp|vuldetect=vul
-                </tags>
-                <preference_count>-1</preference_count>
-                <timeout/>
-                <default_timeout/>
-                <solution type="VendorFix" method="">Just update.</solution>
-            </nvt>
+            <get_nvts_response>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.814313">
+                    <name>foo</name>
+                </nvt>
             </get_nvts_response>
             ''',
         )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                scanConfigNvt(id: "1.3.6.1.4.1.25623.1.0.814313") {
+                    id
+                    name
+                    creationTime
+                    modificationTime
+                    category
+                    family
+                    cvssBase
+                    qod {
+                        value
+                    }
+                    score
+                    severities {
+                        date
+                    }
+                    referenceWarning
+                    certReferences{
+                        id
+                        type
+                    }
+                    cveReferences{
+                        id
+                        type
+                    }
+                    bidReferences{
+                        id
+                        type
+                    }
+                    otherReferences{
+                        id
+                        type
+                    }
+                    tags {
+                        cvssBaseVector
+                    }
+                    preferenceCount
+                    preferences {
+                        nvt {
+                            id
+                        }
+                        hrName
+                    }
+                    timeout
+                    defaultTimeout
+                    solution{
+                        type
+                    }
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        nvt = json['data']['scanConfigNvt']
+
+        self.assertEqual(nvt['id'], '1.3.6.1.4.1.25623.1.0.814313')
+        self.assertEqual(nvt['name'], 'foo')
+        self.assertIsNone(nvt['category'])
+        self.assertIsNone(nvt['family'])
+        self.assertIsNone(nvt['cvssBase'])
+        self.assertIsNone(nvt['score'])
+        self.assertIsNone(nvt['qod'])
+        self.assertIsNone(nvt['severities'])
+        self.assertIsNone(nvt['referenceWarning'])
+        self.assertIsNone(nvt['certReferences'])
+        self.assertIsNone(nvt['cveReferences'])
+        self.assertIsNone(nvt['bidReferences'])
+        self.assertIsNone(nvt['otherReferences'])
+        self.assertIsNone(nvt['tags'])
+        self.assertIsNone(nvt['preferenceCount'])
+        self.assertIsNone(nvt['preferences'])
+        self.assertIsNone(nvt['timeout'])
+        self.assertIsNone(nvt['defaultTimeout'])
+        self.assertIsNone(nvt['solution'])
+
+    def test_get_scan_config_nvt(self, mock_gmp: GmpMockFactory):
+        nvt_xml_path = CWD / 'example-scan-config-nvt.xml'
+        nvt_xml_str = nvt_xml_path.read_text()
+
+        mock_gmp.mock_response('get_nvt', nvt_xml_str)
 
         self.login('foo', 'bar')
 
@@ -104,8 +166,20 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
                         type
                         vector
                     }
-                    refWarning
-                    refs{
+                    referenceWarning
+                    certReferences{
+                        id
+                        type
+                    }
+                    cveReferences{
+                        id
+                        type
+                    }
+                    bidReferences{
+                        id
+                        type
+                    }
+                    otherReferences{
                         id
                         type
                     }
@@ -115,7 +189,7 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
                         insight
                         impact
                         affected
-                        vuldetect
+                        detectionMethod
                     }
                     preferenceCount
                     timeout
@@ -159,13 +233,32 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
                 }
             ],
         )
-        self.assertEqual(nvt['refWarning'], None)
+        self.assertEqual(nvt['referenceWarning'], 'database not available')
         self.assertEqual(
-            nvt['refs'],
+            nvt['certReferences'],
             [
-                {"id": "CVE-2011-9999", "type": "cve"},
-                {"id": "12345", "type": "bid"},
+                {"id": "54321", "type": "cert-bund"},
+                {"id": "12345", "type": "dfn-cert"},
+            ],
+        )
+        self.assertEqual(
+            nvt['bidReferences'],
+            [
+                {"id": "BID1337", "type": "bid"},
+                {"id": "BID31337", "type": "bugtraq_id"},
+            ],
+        )
+        self.assertEqual(
+            nvt['otherReferences'],
+            [
                 {"id": "http://test.test", "type": "url"},
+            ],
+        )
+        self.assertEqual(
+            nvt['cveReferences'],
+            [
+                {"id": "CVE-2014-0682", "type": "cve"},
+                {"id": "CVE-2014-0681", "type": "cve_id"},
             ],
         )
         self.assertIsNotNone(nvt['tags'])
@@ -175,7 +268,7 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
         self.assertEqual(tags['insight'], 'ins')
         self.assertEqual(tags['impact'], 'imp')
         self.assertEqual(tags['affected'], 'aff')
-        self.assertEqual(tags['vuldetect'], 'vul')
+        self.assertEqual(tags['detectionMethod'], 'vul')
         self.assertEqual(nvt['preferenceCount'], -1)
         self.assertEqual(nvt['timeout'], None)
         self.assertEqual(nvt['defaultTimeout'], None)

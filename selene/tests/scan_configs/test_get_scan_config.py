@@ -161,7 +161,7 @@ class GetScanConfigTestCase(SeleneTestCase):
                         type
                         value
                         default
-                        alt
+                        alternativeValues
                     }
                     tasks{
                         id
@@ -226,7 +226,7 @@ class GetScanConfigTestCase(SeleneTestCase):
                     "type": "checkbox",
                     "value": "no",
                     "default": "no",
-                    "alt": None,
+                    "alternativeValues": None,
                 },
                 {
                     "name": "nmap timing policy",
@@ -239,7 +239,7 @@ class GetScanConfigTestCase(SeleneTestCase):
                     "type": "radio",
                     "value": "Normal",
                     "default": "Normal",
-                    "alt": ["Paranoid", "Sneaky"],
+                    "alternativeValues": ["Paranoid", "Sneaky"],
                 },
             ],
         )

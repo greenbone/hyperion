@@ -375,8 +375,20 @@ class ReportTestCase(SeleneTestCase):
                         name
                         family
                         cvssBase
-                        refWarning
-                        refs {
+                        referenceWarning
+                        certReferences{
+                            id
+                            type
+                        }
+                        cveReferences{
+                            id
+                            type
+                        }
+                        bidReferences{
+                            id
+                            type
+                        }
+                        otherReferences{
                             id
                             type
                         }
@@ -386,7 +398,7 @@ class ReportTestCase(SeleneTestCase):
                             insight
                             impact
                             affected
-                            vuldetect
+                            detectionMethod
                         }
                         score
                         severities {
@@ -573,15 +585,19 @@ class ReportTestCase(SeleneTestCase):
         self.assertEqual(nvt['family'], 'Web application abuses')
         self.assertEqual(nvt['cvssBase'], 5.0)
         self.assertEqual(nvt['score'], 50)
-        self.assertEqual(nvt['refWarning'], None)
+        self.assertEqual(nvt['referenceWarning'], None)
         self.assertEqual(
-            nvt['refs'],
+            nvt['cveReferences'],
             [
                 {"id": "CVE-1999-0678", "type": "cve"},
+            ],
+        )
+        self.assertEqual(
+            nvt['bidReferences'],
+            [
                 {"id": "318", "type": "bid"},
             ],
         )
-
         self.assertIsNotNone(nvt['severities'])
         self.assertEqual(nvt['severities'][0]['type'], 'cvss_base_v2')
 

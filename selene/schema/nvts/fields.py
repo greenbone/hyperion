@@ -76,20 +76,20 @@ class NvtDefinitionQod(graphene.ObjectType):
 class NvtReference(graphene.ObjectType):
     """Reference of a NVT. """
 
-    ref_id = graphene.String(
+    reference_id = graphene.String(
         name='id', description='ID of the corrosponding reference'
     )
-    ref_type = graphene.String(
+    reference_type = graphene.String(
         name='type',
         description=(
             'Type of the reference, e.g. "cve", "bid", "dfn-cert", "cert-bund"'
         ),
     )
 
-    def resolve_ref_id(root, _info):
+    def resolve_reference_id(root, _info):
         return root.get('id')
 
-    def resolve_ref_type(root, _info):
+    def resolve_reference_type(root, _info):
         return root.get('type')
 
 
@@ -117,8 +117,10 @@ class NvtPreference(graphene.ObjectType):
         description='Human readable name of the preference'
     )
     name = graphene.String(description='Name of the preference')
-    pref_id = graphene.Int(name='id', description='ID of this preference [1..]')
-    pref_type = graphene.String(
+    preference_id = graphene.Int(
+        name='id', description='ID of this preference [1..]'
+    )
+    preference_type = graphene.String(
         name='type',
         description=(
             'The value type of the preference. '
@@ -127,7 +129,7 @@ class NvtPreference(graphene.ObjectType):
     )
     value = graphene.String(description='Current value for this preference')
     default = graphene.String(description='default value for this preference')
-    alt = graphene.List(
+    alternative_values = graphene.List(
         graphene.String,
         description=(
             'alternative value(s) for this preference '
@@ -141,7 +143,7 @@ class NvtPreference(graphene.ObjectType):
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
-    def resolve_pref_type(root, _info):
+    def resolve_preference_type(root, _info):
         return get_text_from_element(root, 'type')
 
     def resolve_value(root, _info):
@@ -150,20 +152,17 @@ class NvtPreference(graphene.ObjectType):
     def resolve_default(root, _info):
         return get_text_from_element(root, 'default')
 
-    def resolve_pref_id(root, _info):
+    def resolve_preference_id(root, _info):
         return get_int_from_element(root, 'id')
 
     def resolve_nvt(root, _info):
         return root.find('nvt')
 
-    def resolve_alt(root, _info):
-        alt_elements = root.findall('alt')
-        alts = []
-        for alt_elem in alt_elements:
-            alts.append(get_text(alt_elem))
-        if not alts:
-            return None
-        return alts
+    def resolve_alternative_values(root, _info):
+        alts = root.findall('alt')
+        if alts is not None and len(alts) > 0:
+            return [get_text(alt) for alt in alts]
+        return None
 
 
 class NvtSolution(graphene.ObjectType):
@@ -189,12 +188,18 @@ class NvtTags(graphene.ObjectType):
     class Meta:
         default_resolver = nvt_tags_resolver
 
-    cvss_base_vector = graphene.String()
-    summary = graphene.String()
-    insight = graphene.String()
-    impact = graphene.String()
-    affected = graphene.String()
-    vuldetect = graphene.String()
+    cvss_base_vector = graphene.String(
+        description='Highest related Cvss Base Vector for this NVT'
+    )
+    summary = graphene.String(description='Summary/description of the NVT')
+    insight = graphene.String(description='Overview of CVEs related to the NVT')
+    impact = graphene.String(
+        description='Impact of the vulnerability for the host system'
+    )
+    affected = graphene.String(description='Affected Software and Version(s)')
+    vuldetect = graphene.String(
+        name='detectionMethod', description='The detection Method of this NVT'
+    )
 
 
 class BaseNvtFamily(graphene.ObjectType):
@@ -241,11 +246,20 @@ class ScanConfigNVT(graphene.ObjectType):
     severities = graphene.List(
         NvtSeverity, description='Severities List to related sec infos'
     )
-    ref_warning = graphene.String(
+    reference_warning = graphene.String(
         description='Warning if the CERT DB is not available'
     )
-    refs = graphene.List(
-        NvtReference, description='References List to related sec infos'
+    other_references = graphene.List(
+        NvtReference, description='Other references List to related sec infos'
+    )
+    cve_references = graphene.List(
+        NvtReference, description='CVE references List to related sec infos'
+    )
+    bid_references = graphene.List(
+        NvtReference, description='Bugtraq references List to related sec infos'
+    )
+    cert_references = graphene.List(
+        NvtReference, description='CERT references List to related sec infos'
     )
     preferences = graphene.List(
         NvtPreference, description='List of preferences for this NVT'
@@ -282,15 +296,47 @@ class ScanConfigNVT(graphene.ObjectType):
         if severities is not None:
             return severities.findall('severity')
 
-    def resolve_ref_warning(root, _info):
+    def resolve_reference_warning(root, _info):
         refs = root.find('refs')
         if refs is not None:
             return get_text_from_element(refs, 'warning')
 
-    def resolve_refs(root, _info):
+    def resolve_other_references(root, _info):
         refs = root.find('refs')
         if refs is not None:
-            return refs.findall('ref')
+            return [
+                ref for ref in refs.findall('ref') if ref.get('type') == 'url'
+            ]
+
+    def resolve_cert_references(root, _info):
+        refs = root.find('refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (
+                    ref.get('type') == 'dfn-cert'
+                    or ref.get('type') == 'cert-bund'
+                )
+            ]
+
+    def resolve_bid_references(root, _info):
+        refs = root.find('refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (ref.get('type') == 'bid' or ref.get('type') == 'bugtraq_id')
+            ]
+
+    def resolve_cve_references(root, _info):
+        refs = root.find('refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (ref.get('type') == 'cve' or ref.get('type') == 'cve_id')
+            ]
 
     def resolve_tags(root, _info):
         return root.find('tags')
@@ -331,11 +377,20 @@ class NVT(EntityObjectType):
     severities = graphene.List(
         NvtSeverity, description='Severities List to related sec infos'
     )
-    ref_warning = graphene.String(
+    reference_warning = graphene.String(
         description='Warning if the CERT DB is not available'
     )
-    refs = graphene.List(
-        NvtReference, description='References List to related sec infos'
+    other_references = graphene.List(
+        NvtReference, description='Other references List to related sec infos'
+    )
+    cve_references = graphene.List(
+        NvtReference, description='CVE references List to related sec infos'
+    )
+    bid_references = graphene.List(
+        NvtReference, description='Bugtraq references List to related sec infos'
+    )
+    cert_references = graphene.List(
+        NvtReference, description='CERT references List to related sec infos'
     )
     preferences = graphene.List(
         NvtPreference, description='List of preferences for this NVT'
@@ -403,12 +458,44 @@ class NVT(EntityObjectType):
         if severities is not None:
             return severities.findall('severity')
 
-    def resolve_refs(root, _info):
+    def resolve_other_references(root, _info):
         refs = root.find('nvt/refs')
         if refs is not None:
-            return refs.findall('ref')
+            return [
+                ref for ref in refs.findall('ref') if ref.get('type') == 'url'
+            ]
 
-    def resolve_ref_warning(root, _info):
+    def resolve_cert_references(root, _info):
+        refs = root.find('nvt/refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (
+                    ref.get('type') == 'dfn-cert'
+                    or ref.get('type') == 'cert-bund'
+                )
+            ]
+
+    def resolve_bid_references(root, _info):
+        refs = root.find('nvt/refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (ref.get('type') == 'bid' or ref.get('type') == 'bugtraq_id')
+            ]
+
+    def resolve_cve_references(root, _info):
+        refs = root.find('nvt/refs')
+        if refs is not None:
+            return [
+                ref
+                for ref in refs.findall('ref')
+                if (ref.get('type') == 'cve' or ref.get('type') == 'cve_id')
+            ]
+
+    def resolve_reference_warning(root, _info):
         refs = root.find('nvt/refs')
         if refs is not None:
             return get_text_from_element(refs, 'warning')

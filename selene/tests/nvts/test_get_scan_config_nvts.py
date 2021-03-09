@@ -15,10 +15,13 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from pathlib import Path
 
 from unittest.mock import patch
 
 from selene.tests import SeleneTestCase, GmpMockFactory
+
+CWD = Path(__file__).absolute().parent
 
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)
@@ -37,71 +40,10 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
         self.assertResponseAuthenticationRequired(response)
 
     def test_get_nvts(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_nvts',
-            '''
-            <get_nvts_response status="200" status_text="OK">
-            <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
-                <name>Some name</name>
-                <creation_time>2009-10-26T09:02:32Z</creation_time>
-                <modification_time>2020-05-11T05:36:14Z</modification_time>
-                <category>1</category>
-                <family>Some family</family>
-                <cvss_base>5.0</cvss_base>
-                <qod>
-                    <value>80</value>
-                    <type>remote_banner</type>
-                </qod>
-                <severities score="50">
-                    <severity type="cvss_base_v2">
-                        <origin>CVE-2011-9999</origin>
-                        <date>2009-10-26T09:02:32Z</date>
-                        <score>50</score>
-                        <value>AV:N/AC:M/Au:N/C:N/I:P/A:P</value>
-                    </severity>
-                </severities>
-                <refs>
-                    <ref type="cve" id="CVE-2011-9999"/>
-                    <ref type="bid" id="12345"/>
-                    <ref type="url" id="http://test.test"/>
-                </refs>
-                <tags>cvss_base_vector=vec|summary=sum|insight=ins|
-                    affected=aff|impact=imp|vuldetect=vul
-                </tags>
-                <preference_count>-1</preference_count>
-                <timeout/>
-                <default_timeout/>
-                <solution type="VendorFix" method="">Just update.</solution>
-                <preferences>
-                    <preference>
-                        <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
-                            <name>Ping Host</name>
-                        </nvt>
-                        <id>13</id>
-                        <hr_name>Log failed nmap calls</hr_name>
-                        <name>Log failed nmap calls</name>
-                        <type>checkbox</type>
-                        <value>no</value>
-                        <default>no</default>
-                    </preference>
-                    <preference>
-                        <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
-                            <name>Ping Host</name>
-                        </nvt>
-                        <id>14</id>
-                        <hr_name>nmap timing policy</hr_name>
-                        <name>nmap timing policy</name>
-                        <type>radio</type>
-                        <value>Normal</value>
-                        <alt>Paranid</alt>
-                        <alt>Sneaky</alt>
-                        <default>Normal</default>
-                    </preference>
-                </preferences>
-            </nvt>
-            </get_nvts_response>
-            ''',
-        )
+        nvt_xml_path = CWD / 'example-scan-config-nvt.xml'
+        nvt_xml_str = nvt_xml_path.read_text()
+
+        mock_gmp.mock_response('get_nvts', nvt_xml_str)
 
         self.login('foo', 'bar')
 
@@ -129,8 +71,20 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                         type
                         vector
                     }
-                    refWarning
-                    refs{
+                    referenceWarning
+                    certReferences{
+                        id
+                        type
+                    }
+                    cveReferences{
+                        id
+                        type
+                    }
+                    bidReferences{
+                        id
+                        type
+                    }
+                    otherReferences{
                         id
                         type
                     }
@@ -140,7 +94,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                         insight
                         impact
                         affected
-                        vuldetect
+                        detectionMethod
                     }
                     preferenceCount
                     timeout
@@ -158,7 +112,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                         name
                         type
                         value
-                        alt
+                        alternativeValues
                         default
                         hrName
                         id
@@ -177,7 +131,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
         self.assertEqual(nvt['creationTime'], '2009-10-26T09:02:32Z')
         self.assertEqual(nvt['modificationTime'], '2020-05-11T05:36:14Z')
         self.assertEqual(nvt['category'], 1)
-        self.assertEqual(nvt['summary'], None)
+        self.assertEqual(nvt['summary'], 'Some summary')
         self.assertEqual(nvt['family'], 'Some family')
         self.assertEqual(nvt['cvssBase'], 5.0)
         self.assertEqual(nvt['score'], 50)
@@ -197,13 +151,32 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                 }
             ],
         )
-        self.assertEqual(nvt['refWarning'], None)
+        self.assertEqual(nvt['referenceWarning'], 'database not available')
         self.assertEqual(
-            nvt['refs'],
+            nvt['certReferences'],
             [
-                {"id": "CVE-2011-9999", "type": "cve"},
-                {"id": "12345", "type": "bid"},
+                {"id": "54321", "type": "cert-bund"},
+                {"id": "12345", "type": "dfn-cert"},
+            ],
+        )
+        self.assertEqual(
+            nvt['bidReferences'],
+            [
+                {"id": "BID1337", "type": "bid"},
+                {"id": "BID31337", "type": "bugtraq_id"},
+            ],
+        )
+        self.assertEqual(
+            nvt['otherReferences'],
+            [
                 {"id": "http://test.test", "type": "url"},
+            ],
+        )
+        self.assertEqual(
+            nvt['cveReferences'],
+            [
+                {"id": "CVE-2014-0682", "type": "cve"},
+                {"id": "CVE-2014-0681", "type": "cve_id"},
             ],
         )
         self.assertIsNotNone(nvt['tags'])
@@ -213,7 +186,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
         self.assertEqual(tags['insight'], 'ins')
         self.assertEqual(tags['impact'], 'imp')
         self.assertEqual(tags['affected'], 'aff')
-        self.assertEqual(tags['vuldetect'], 'vul')
+        self.assertEqual(tags['detectionMethod'], 'vul')
 
         self.assertEqual(nvt['preferenceCount'], -1)
         self.assertEqual(nvt['timeout'], None)
@@ -241,7 +214,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                     "type": "checkbox",
                     "value": "no",
                     "default": "no",
-                    "alt": None,
+                    "alternativeValues": None,
                 },
                 {
                     "name": "nmap timing policy",
@@ -254,7 +227,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
                     "type": "radio",
                     "value": "Normal",
                     "default": "Normal",
-                    "alt": ["Paranid", "Sneaky"],
+                    "alternativeValues": ["Paranid", "Sneaky"],
                 },
             ],
         )

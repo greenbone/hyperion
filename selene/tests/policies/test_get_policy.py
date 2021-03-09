@@ -160,7 +160,7 @@ class GetPolicyTestCase(SeleneTestCase):
                         type
                         value
                         default
-                        alt
+                        alternativeValues
                     }
                     tasks{
                         id
@@ -223,7 +223,7 @@ class GetPolicyTestCase(SeleneTestCase):
                     "type": "checkbox",
                     "value": "no",
                     "default": "no",
-                    "alt": None,
+                    "alternativeValues": None,
                 },
                 {
                     "name": "nmap timing policy",
@@ -236,7 +236,7 @@ class GetPolicyTestCase(SeleneTestCase):
                     "type": "radio",
                     "value": "Normal",
                     "default": "Normal",
-                    "alt": ["Paranoid", "Sneaky"],
+                    "alternativeValues": ["Paranoid", "Sneaky"],
                 },
             ],
         )
