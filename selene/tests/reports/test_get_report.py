@@ -27,15 +27,18 @@ CWD = Path(__file__).absolute().parent
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)
 class ReportTestCase(SeleneTestCase):
+    def setUp(self):
+        self.id = '52704aa8-0576-4a5c-993c-c4d25ca130f5'
+
     def test_require_authentication(self, _mock_gmp: GmpMockFactory):
         response = self.query(
-            '''
-            query {
-                report(id: "05d1edfa-3df8-11ea-9651-7b09b3acce77") {
+            f'''
+            query {{
+                report(id: "{self.id}") {{
                     id
                     name
-                }
-            }
+                }}
+            }}
             '''
         )
 
@@ -44,9 +47,9 @@ class ReportTestCase(SeleneTestCase):
     def test_get_report(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
             'get_report',
-            '''
+            f'''
             <get_report_response>
-                <report id="e501545c-0c4d-47d9-a9f8-28da34c6b958">
+                <report id="{self.id}">
                     <name>a</name>
                 </report>
             </get_report_response>
@@ -56,19 +59,19 @@ class ReportTestCase(SeleneTestCase):
         self.login('foo', 'bar')
 
         response = self.query(
-            '''
-            query {
-                report(id: "e501545c-0c4d-47d9-a9f8-28da34c6b958") {
+            f'''
+            query {{
+                report(id: "{self.id}") {{
                     id
                     name
                     owner
-                }
-            }
+                }}
+            }}
             '''
         )
 
         mock_gmp.gmp_protocol.get_report.assert_called_with(
-            'e501545c-0c4d-47d9-a9f8-28da34c6b958',
+            self.id,
             report_format_id=None,
             delta_report_id=None,
             details=True,
@@ -81,8 +84,140 @@ class ReportTestCase(SeleneTestCase):
         report = json['data']['report']
 
         self.assertEqual(report['name'], 'a')
-        self.assertEqual(report['id'], 'e501545c-0c4d-47d9-a9f8-28da34c6b958')
+        self.assertEqual(report['id'], self.id)
         self.assertIsNone(report['owner'])
+
+    def test_get_report_none_fields(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_report',
+            '''
+            <get_report_response>
+                <report id="52704aa8-0576-4a5c-993c-c4d25ca130f5">
+                    <name/>
+                    <report id="52704aa8-0576-4a5c-993c-c4d25ca130f5">
+                    </report>
+                </report>
+            </get_report_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+        query {
+            report(id: "52704aa8-0576-4a5c-993c-c4d25ca130f5") {
+                id
+                name
+                owner
+                comment
+                creationTime
+                modificationTime
+                inUse
+                writable
+                reportFormat {
+                    id
+                }
+                scanRunStatus
+                closedCves {
+                    counts {
+                        current
+                    }
+                }
+                vulnerabilities {
+                    counts {
+                        current
+                    }
+                }
+                operatingSystems {
+                    counts {
+                        current
+                    }
+                }
+                applications {
+                    counts {
+                        current
+                    }
+                }
+                tlsCertificates {
+                    counts {
+                        current
+                    }
+                }
+                task {
+                    id
+                }
+                timestamp
+                timezone
+                timezoneAbbrev
+                portsCount {
+                    current
+                }
+                ports {
+                    port
+                }
+                resultsCount {
+                    current
+                }
+                results {
+                    name
+                }
+                severity {
+                    total
+                }
+                hostsCount {
+                    current
+                }
+                hosts{
+                    ip
+                }
+                scanStart
+                scanEnd
+                errorCount {
+                    current
+                }
+                errors {
+                    host {
+                        name
+                    }
+                }
+            }
+        }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        nvt = json['data']['report']
+
+        self.assertEqual(nvt['id'], '52704aa8-0576-4a5c-993c-c4d25ca130f5')
+        self.assertIsNone(
+            nvt['name'],
+        )
+        self.assertIsNone(nvt['reportFormat'])
+        self.assertIsNone(nvt['scanRunStatus'])
+        self.assertIsNone(nvt['closedCves'])
+        self.assertIsNone(nvt['vulnerabilities'])
+        self.assertIsNone(nvt['tlsCertificates'])
+        self.assertIsNone(nvt['operatingSystems'])
+        self.assertIsNone(nvt['applications'])
+        self.assertIsNone(nvt['tlsCertificates'])
+        self.assertIsNone(nvt['task'])
+        self.assertIsNone(nvt['timestamp'])
+        self.assertIsNone(nvt['timezone'])
+        self.assertIsNone(nvt['timezoneAbbrev'])
+        self.assertIsNone(nvt['portsCount'])
+        self.assertIsNone(nvt['ports'])
+        self.assertIsNone(nvt['resultsCount'])
+        self.assertIsNone(nvt['results'])
+        self.assertIsNone(nvt['severity'])
+        self.assertIsNone(nvt['hostsCount'])
+        self.assertIsNone(nvt['hosts'])
+        self.assertIsNone(nvt['scanStart'])
+        self.assertIsNone(nvt['scanEnd'])
+        self.assertIsNone(nvt['errors'])
 
     def test_complex_report(self, mock_gmp: GmpMockFactory):
         report_xml_path = CWD / 'example-report-2.xml'
@@ -207,14 +342,12 @@ class ReportTestCase(SeleneTestCase):
                 }
                 scanStart
                 scanEnd
-                errors{
-                    counts {
-                        current
-                    }
-                    errors {
-                        host {
-                            name
-                        }
+                errorCount {
+                    current
+                }
+                errors {
+                    host {
+                        name
                     }
                 }
             }
@@ -280,8 +413,8 @@ class ReportTestCase(SeleneTestCase):
         self.assertEqual(report['severity']['total'], 5.0)
         self.assertEqual(report['severity']['filtered'], 5.0)
 
-        self.assertEqual(report['errors']['counts']['current'], 0)
-        self.assertListEqual(report['errors']['errors'], [])
+        self.assertEqual(report['errorCount']['current'], 0)
+        self.assertIsNone(report['errors'])
 
     def test_report_sub_objects(self, mock_gmp: GmpMockFactory):
         report_xml_path = CWD / 'example-report-2.xml'
@@ -454,11 +587,12 @@ class ReportTestCase(SeleneTestCase):
                 }
                 scanStart
                 scanEnd
-                errors{
-                    errors {
-                        host {
-                            name
-                        }
+                errorCount {
+                    current
+                }
+                errors {
+                    host {
+                        name
                     }
                 }
             }
