@@ -18,11 +18,15 @@
 
 # pylint: disable=line-too-long
 
+from pathlib import Path
+
 from unittest.mock import patch
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.entity import make_test_get_entity
+
+CWD = Path(__file__).absolute().parent
 
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)
@@ -45,85 +49,10 @@ class GetScanConfigTestCase(SeleneTestCase):
         self.assertResponseAuthenticationRequired(response)
 
     def test_get_scan_config(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_config',
-            '''
-            <get_config_response status="200" status_text="OK">
-                <config id="daba56c8-73ec-11df-a475-002264764cea">
-                    <name>foo</name>
-                    <type>0</type>
-                    <usage_type>scan</usage_type>
-                    <predefined>1</predefined>
-                    <trash>0</trash>
-                    <family_count>2<growing>1</growing></family_count>
-                    <nvt_count>3<growing>0</growing></nvt_count>
-                    <type>0</type>
-                    <usage_type>scan</usage_type>
-                    <families>
-                    <family>
-                        <name>Port scanners</name>
-                        <nvt_count>2</nvt_count>
-                        <max_nvt_count>9</max_nvt_count>
-                        <growing>0</growing>
-                    </family>
-                    <family>
-                        <name>Service detection</name>
-                        <nvt_count>1</nvt_count>
-                        <max_nvt_count>240</max_nvt_count>
-                        <growing>0</growing>
-                    </family>
-                    </families>
-                    <max_nvt_count>249</max_nvt_count>
-                    <known_nvt_count>3</known_nvt_count>
-                    <preferences>
-                        <preference>
-                            <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
-                                <name>Ping Host</name>
-                            </nvt>
-                            <id>13</id>
-                            <hr_name>Log failed nmap calls</hr_name>
-                            <name>Log failed nmap calls</name>
-                            <type>checkbox</type>
-                            <value>no</value>
-                            <default>no</default>
-                        </preference>
-                        <preference>
-                            <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
-                                <name>Ping Host</name>
-                            </nvt>
-                            <id>14</id>
-                            <hr_name>nmap timing policy</hr_name>
-                            <name>nmap timing policy</name>
-                            <type>radio</type>
-                            <value>Normal</value>
-                            <alt>Paranoid</alt>
-                            <alt>Sneaky</alt>
-                            <default>Normal</default>
-                        </preference>
-                    </preferences>
-                    <tasks>
-                        <task id="49d082ec-73f5-4b3a-75b5-3b9d9e38d079">
-                            <name>some_name</name>
-                        </task>
-                    </tasks>
-                    <nvt_selectors>
-                        <nvt_selector>
-                            <name>f187d4cf-a157-471c-81a6-74990b5da181</name>
-                            <include>1</include>
-                            <type>2</type>
-                            <family_or_nvt>1.3.6.1.4.1.25623.1.0.100315</family_or_nvt>
-                        </nvt_selector>
-                        <nvt_selector>
-                            <name>f187d4cf-a157-471c-81a6-74990b5da181</name>
-                            <include>1</include>
-                            <type>2</type>
-                            <family_or_nvt>1.3.6.1.4.1.25623.1.0.14259</family_or_nvt>
-                        </nvt_selector>
-                    </nvt_selectors>
-                </config>
-            </get_config_response>
-            ''',
-        )
+        scan_config_xml_path = CWD / 'example-scan-config.xml'
+        scan_config_xml_str = scan_config_xml_path.read_text()
+
+        mock_gmp.mock_response('get_config', scan_config_xml_str)
 
         self.login('foo', 'bar')
 
@@ -150,11 +79,20 @@ class GetScanConfigTestCase(SeleneTestCase):
                         maxNvtCount
                         growing
                     }
-                    preferences{
+                    nvtPreferences{
                         nvt{
                             name
                             id
                         }
+                        hrName
+                        name
+                        id
+                        type
+                        value
+                        default
+                        alternativeValues
+                    }
+                    scannerPreferences{
                         hrName
                         name
                         id
@@ -213,7 +151,7 @@ class GetScanConfigTestCase(SeleneTestCase):
             ],
         )
         self.assertEqual(
-            scan_config['preferences'],
+            scan_config['nvtPreferences'],
             [
                 {
                     "name": "Log failed nmap calls",
@@ -240,6 +178,29 @@ class GetScanConfigTestCase(SeleneTestCase):
                     "value": "Normal",
                     "default": "Normal",
                     "alternativeValues": ["Paranoid", "Sneaky"],
+                },
+            ],
+        )
+        self.assertEqual(
+            scan_config['scannerPreferences'],
+            [
+                {
+                    "name": "auto_enable_dependencies",
+                    "id": None,
+                    "hrName": "auto_enable_dependencies",
+                    "type": None,
+                    "value": "1",
+                    "default": "1",
+                    "alternativeValues": None,
+                },
+                {
+                    "name": "cgi_path",
+                    "id": None,
+                    "hrName": "cgi_path",
+                    "type": None,
+                    "value": "/cgi-bin:/scripts",
+                    "default": "/cgi-bin:/scripts",
+                    "alternativeValues": None,
                 },
             ],
         )
