@@ -22,6 +22,7 @@ import graphene
 
 from selene.schema.resolver import text_resolver, int_resolver
 from selene.schema.base import BaseObjectType
+from selene.schema.entity import EntityUserTags
 from selene.schema.severity import SeverityType
 
 from selene.schema.utils import (
@@ -247,6 +248,8 @@ class Report(graphene.ObjectType):
         DeltaReport, description="The delta report information"
     )
 
+    user_tags = graphene.Field(EntityUserTags)
+
     scan_run_status = graphene.String(description="Scan status of report")
     scan_start = graphene.DateTime()
     scan_end = graphene.DateTime()
@@ -313,6 +316,12 @@ class Report(graphene.ObjectType):
 
     def resolve_in_use(root, _info):
         return get_boolean_from_element(root.outer_report, 'in_use')
+
+    def resolve_user_tags(root, _info):
+        user_tags = root.inner_report.find('user_tags')
+        if user_tags is not None:
+            return user_tags
+        return None
 
     def resolve_delta_report(root, _info):
         delta_report = root.inner_report.find('delta/report')

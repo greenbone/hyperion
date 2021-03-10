@@ -115,10 +115,22 @@ class ReportTestCase(SeleneTestCase):
                 modificationTime
                 inUse
                 writable
+                deltaReport {
+                    id
+                }
                 reportFormat {
                     id
                 }
                 scanRunStatus
+                userTags {
+                    count
+                    tags {
+                        id
+                        name
+                        value
+                        comment
+                    }
+                }
                 closedCves {
                     counts {
                         current
@@ -204,12 +216,14 @@ class ReportTestCase(SeleneTestCase):
         self.assertIsNone(nvt['operatingSystems'])
         self.assertIsNone(nvt['applications'])
         self.assertIsNone(nvt['tlsCertificates'])
+        self.assertIsNone(nvt['deltaReport'])
         self.assertIsNone(nvt['task'])
         self.assertIsNone(nvt['timestamp'])
         self.assertIsNone(nvt['timezone'])
         self.assertIsNone(nvt['timezoneAbbreviation'])
         self.assertIsNone(nvt['portsCount'])
         self.assertIsNone(nvt['ports'])
+        self.assertIsNone(nvt['userTags'])
         self.assertIsNone(nvt['resultsCount'])
         self.assertIsNone(nvt['results'])
         self.assertIsNone(nvt['severity'])
@@ -246,6 +260,15 @@ class ReportTestCase(SeleneTestCase):
                     id
                 }
                 scanRunStatus
+                userTags {
+                    count
+                    tags {
+                        id
+                        name
+                        value
+                        comment
+                    }
+                }
                 closedCves {
                     counts {
                         current
@@ -379,13 +402,19 @@ class ReportTestCase(SeleneTestCase):
         self.assertFalse(report['writable'])
         self.assertIsNotNone(report['reportFormat'])
 
-        # inner report
-
-        # report = report['report']
-
         self.assertEqual(
             report["reportFormat"]['id'], 'a994b278-1f62-11e1-96ac-406186ea4fc5'
         )
+
+        self.assertIsNotNone(report['userTags'])
+        user_tags = report['userTags']
+        self.assertEqual(user_tags['count'], 1)
+        self.assertEqual(
+            user_tags['tags'][0]['id'], '551bd957-0d77-4f57-bc23-e3892e8822e5'
+        )
+        self.assertEqual(user_tags['tags'][0]['name'], 'report:unnamed')
+        self.assertEqual(user_tags['tags'][0]['value'], 'sdss')
+        self.assertEqual(user_tags['tags'][0]['comment'], 'sdfasdf')
 
         self.assertEqual(report['timestamp'], '2021-01-07T12:48:31+01:00')
         self.assertEqual(report['timezone'], 'Europe/Berlin')
