@@ -15,6 +15,7 @@ $ cd hyperion && git log
 
 ## [Unreleased]
 ### Added
+- Support credential download and add fields to Credential [#66](https://github.com/greenbone/hyperion/pull/66)
 - Add `compliance_count` to AuditLastReport [#26](https://github.com/greenbone/hyperion/pull/26)
 - Implement `average_duration` for tasks and audits fields. [#14](https://github.com/greenbone/hyperion/pull/14)
 - Implement new abstract Class for SecInfo BulkExport by IDs. [#24](https://github.com/greenbone/hyperion/pull/24)

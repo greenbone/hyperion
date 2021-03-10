@@ -354,9 +354,223 @@ class GetCredentialTestCase(SeleneTestCase):
         self.assertEqual(target["id"], "a1f478c1-27d0-4d8c-959f-150625186421")
         self.assertEqual(target["name"], "foo")
 
+    def test_get_credential_with_pem(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_credential',
+            '''
+            <get_credentials_response status="200" status_text="OK">
+            <credential id="daba56c8-73ec-11df-a475-002264764cea">
+                <owner>
+                <name>admin</name>
+                </owner>
+                <name>foo</name>
+                <comment>aaaaa</comment>
+                <creation_time>2020-12-16T15:23:59Z</creation_time>
+                <modification_time>2021-03-04T14:41:07Z</modification_time>
+                <writable>1</writable>
+                <in_use>0</in_use>
+                <permissions>
+                <permission>
+                    <name>Everything</name>
+                </permission>
+                </permissions>
+                <allow_insecure>0</allow_insecure>
+                <login/>
+                <type>cc</type>
+                <full_type>client certificate</full_type>
+                <formats>
+                <format>pem</format>
+                </formats>
+                <certificate>-----BEGIN CERTIFICATE-----</certificate>
+                <scanners/>
+                <targets/>
+            </credential>
+            </get_credentials_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                credential (
+                    id: "daba56c8-73ec-11df-a475-002264764cea",
+                    format: "pem",
+                ) {
+                    id
+                    name
+                    allowInsecure
+                    login
+                    type
+                    authAlgorithm
+                    privacyAlgorithm
+                    certificate
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        credential = json['data']['credential']
+
+        self.assertEqual(
+            credential['id'], "daba56c8-73ec-11df-a475-002264764cea"
+        )
+        self.assertEqual(credential['name'], 'foo')
+        self.assertFalse(credential['allowInsecure'])
+        self.assertEqual(credential['type'], 'CLIENT_CERTIFICATE')
+        self.assertIsNone(credential['authAlgorithm'])
+        self.assertIsNone(credential['privacyAlgorithm'])
+        self.assertEqual(
+            credential['certificate'], '-----BEGIN CERTIFICATE-----'
+        )
+
+    def test_get_credential_with_key(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_credential',
+            '''
+            <get_credentials_response status="200" status_text="OK">
+                <credential id="daba56c8-73ec-11df-a475-002264764cea">
+                    <owner>
+                    <name>admin</name>
+                    </owner>
+                    <name>foo</name>
+                    <comment/>
+                    <creation_time>2021-03-09T14:59:26Z</creation_time>
+                    <modification_time>2021-03-09T14:59:26Z</modification_time>
+                    <writable>1</writable>
+                    <in_use>0</in_use>
+                    <permissions>
+                    <permission>
+                        <name>Everything</name>
+                    </permission>
+                    </permissions>
+                    <allow_insecure>0</allow_insecure>
+                    <login/>
+                    <type>pgp</type>
+                    <full_type>pgp</full_type>
+                    <formats/>
+                    <public_key>-----BEGIN PGP PUBLIC KEY BLOCK-----</public_key>
+                    <scanners/>
+                    <targets/>
+                </credential>
+            </get_credentials_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                credential (
+                    id: "daba56c8-73ec-11df-a475-002264764cea",
+                    format: "key",
+                ) {
+                    id
+                    name
+                    allowInsecure
+                    login
+                    type
+                    authAlgorithm
+                    privacyAlgorithm
+                    publicKey
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        credential = json['data']['credential']
+
+        self.assertEqual(
+            credential['id'], "daba56c8-73ec-11df-a475-002264764cea"
+        )
+        self.assertEqual(credential['name'], 'foo')
+        self.assertFalse(credential['allowInsecure'])
+        self.assertEqual(credential['type'], 'PGP_ENCRYPTION_KEY')
+        self.assertIsNone(credential['authAlgorithm'])
+        self.assertIsNone(credential['privacyAlgorithm'])
+        self.assertEqual(
+            credential['publicKey'], '-----BEGIN PGP PUBLIC KEY BLOCK-----'
+        )
+
+    def test_get_credential_with_package(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_credential',
+            '''
+            <get_credentials_response status="200" status_text="OK">
+                <credential id="daba56c8-73ec-11df-a475-002264764cea">
+                    <name>bob</name>
+                    <login>bob</login>
+                    <comment>Bob on the web server.</comment>
+                    <creation_time>2012-11-03T15:41:35+01:00</creation_time>
+                    <modification_time>2012-11-18T13:17:00+01:00</modification_time>
+                    <writable>1</writable>
+                    <in_use>1</in_use>
+                    <type>up</type>
+                    <full_type>username + password</full_type>
+                    <targets>
+                    <target id="1f28d970-17ef-4c69-ba8a-13827059f2b9">
+                        <name>Web server</name>
+                    </target>
+                    </targets>
+                    <package format="deb">ITxhcmNoPgpk...DmvF0AKAAACg==</package>
+                </credential>
+            </get_credentials_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                credential (
+                    id: "daba56c8-73ec-11df-a475-002264764cea",
+                    format: "deb",
+                ) {
+                    id
+                    name
+                    allowInsecure
+                    login
+                    type
+                    authAlgorithm
+                    privacyAlgorithm
+                    credentialPackage
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        credential = json['data']['credential']
+
+        self.assertEqual(
+            credential['id'], "daba56c8-73ec-11df-a475-002264764cea"
+        )
+        self.assertEqual(credential['name'], 'bob')
+        self.assertFalse(credential['allowInsecure'])
+        self.assertEqual(credential['type'], 'USERNAME_PASSWORD')
+        self.assertIsNone(credential['authAlgorithm'])
+        self.assertIsNone(credential['privacyAlgorithm'])
+        self.assertEqual(
+            credential['credentialPackage'], 'ITxhcmNoPgpk...DmvF0AKAAACg=='
+        )
+
 
 class CredentialGetEntityTestCase(SeleneTestCase):
     gmp_name = 'credential'
     test_get_entity = make_test_get_entity(
-        gmp_name, scanners=True, targets=True
+        gmp_name, scanners=True, targets=True, credential_format=None
     )
