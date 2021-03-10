@@ -73,6 +73,14 @@
           </keyword>
         </keywords>
       </filters>
+      <user_tags>
+        <count>1</count>
+        <tag id="551bd957-0d77-4f57-bc23-e3892e8822e5">
+          <name>report:unnamed</name>
+          <value>sdss</value>
+          <comment>sdfasdf</comment>
+        </tag>
+      </user_tags>
       <scan_run_status>Done</scan_run_status>
       <hosts>
         <count>2</count>

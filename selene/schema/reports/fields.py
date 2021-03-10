@@ -22,6 +22,7 @@ import graphene
 
 from selene.schema.resolver import text_resolver, int_resolver
 from selene.schema.base import BaseObjectType
+from selene.schema.entity import EntityUserTags
 from selene.schema.severity import SeverityType
 
 from selene.schema.utils import (
@@ -136,7 +137,7 @@ class DeltaReport(graphene.ObjectType):
         return root.get('id')
 
     def resolve_scan_run_status(root, _info):
-        return get_text(root.find('scan_run_status'))
+        return get_text_from_element(root, 'scan_run_status')
 
     def resolve_timestamp(root, _info):
         return get_datetime_from_element(root, 'timestamp')
@@ -169,7 +170,10 @@ class Error(graphene.ObjectType):
     port = graphene.String()
     description = graphene.String()
     nvt = graphene.Field(ScanConfigNVT)
-    scan_nvt_version = graphene.String()
+    scan_nvt_version = graphene.DateTime(
+        description='Used Version of the NVT for this scan (modification date)'
+    )
+    severity = SeverityType()
 
     def resolve_host(root, _info):
         return root.find('host')
@@ -184,25 +188,10 @@ class Error(graphene.ObjectType):
         return root.find('nvt')
 
     def resolve_scan_nvt_version(root, _info):
-        return get_text_from_element(root, 'scan_nvt_version')
+        return get_datetime_from_element(root, 'scan_nvt_version')
 
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'severity')
-
-
-class ReportErrors(graphene.ObjectType):
-    """Errors object type. Is part of the Report object.
-    Includes a list of errors and the error counts.
-    """
-
-    errors = graphene.List(Error)
-    counts = graphene.Field(CountType, description="Error count")
-
-    def resolve_errors(root, _info):
-        return root.get("errors")
-
-    def resolve_counts(root, _info):
-        return root.get("counts")
 
 
 class ReportModel:
@@ -225,7 +214,7 @@ class Report(graphene.ObjectType):
     Args:
         timestamp (DateTime): Timestamp for this report
         timezone (str): Timezone
-        timezone_abbrev (str)
+        timezone_abbreviation (str)
         port_count (List(TaskAlert)): Port count
         ports (List(Port)): Ports involved in this report
         permissions (List(Permissions)): Permissions for this report
@@ -259,6 +248,8 @@ class Report(graphene.ObjectType):
         DeltaReport, description="The delta report information"
     )
 
+    user_tags = graphene.Field(EntityUserTags)
+
     scan_run_status = graphene.String(description="Scan status of report")
     scan_start = graphene.DateTime()
     scan_end = graphene.DateTime()
@@ -290,13 +281,14 @@ class Report(graphene.ObjectType):
 
     severity = graphene.Field(ReportSeverity)
 
-    errors = graphene.Field(ReportErrors)
+    error_count = graphene.Field(CountType)
+    errors = graphene.List(Error)
 
     permissions = graphene.List(Permission)
 
     timestamp = graphene.DateTime()
     timezone = graphene.String()
-    timezone_abbrev = graphene.String()
+    timezone_abbreviation = graphene.String()
 
     uuid = graphene.UUID(name='id')
     name = graphene.String()
@@ -325,34 +317,51 @@ class Report(graphene.ObjectType):
     def resolve_in_use(root, _info):
         return get_boolean_from_element(root.outer_report, 'in_use')
 
+    def resolve_user_tags(root, _info):
+        user_tags = root.inner_report.find('user_tags')
+        if user_tags is not None:
+            return user_tags
+        return None
+
     def resolve_delta_report(root, _info):
-        delta = root.inner_report.find('delta')
-        if delta is not None:
-            return delta.find('report')
+        delta_report = root.inner_report.find('delta/report')
+        if delta_report is not None:
+            return delta_report
         return None
 
     def resolve_report_format(root, _info):
-        return root.outer_report.find('report_format')
+        report_format = root.outer_report.find('report_format')
+        if report_format is not None:
+            return report_format
+        return None
 
     def resolve_closed_cves(root, _info):
-        return root.inner_report.find('closed_cves')
+        closed_cves = root.inner_report.find('closed_cves')
+        if closed_cves is not None:
+            return closed_cves
+        return None
 
     def resolve_task(root, _info):
-        return root.inner_report.find('task')
+        task = root.inner_report.find('task')
+        if task is not None:
+            return task
+        return None
 
     def resolve_permissions(root, _info):
-        _permissions = root.inner_report.find('permissions')
-        if not _permissions:
-            return None
-        return _permissions.findall('permission')
+        permissions = root.inner_report.find('permissions')
+        if permissions is not None:
+            permissions = permissions.findall('permission')
+            if len(permissions) > 0:
+                return permissions
+        return None
 
     def resolve_scan_run_status(root, _info):
-        return get_text(root.inner_report.find('scan_run_status'))
+        return get_text_from_element(root.inner_report, 'scan_run_status')
 
     def resolve_timezone(root, _info):
         return get_text_from_element(root.inner_report, 'timezone')
 
-    def resolve_timezone_abbrev(root, _info):
+    def resolve_timezone_abbreviation(root, _info):
         return get_text_from_element(root.inner_report, 'timezone_abbrev')
 
     def resolve_timestamp(root, _info):
@@ -383,12 +392,12 @@ class Report(graphene.ObjectType):
         return root.inner_report.find('ports')
 
     def resolve_ports(root, _info):
-        _ports_list = root.inner_report.find('ports')
-        if _ports_list is None or len(_ports_list) == 0:
-            _ports = None
-        else:
-            _ports = _ports_list.findall('port')
-        return _ports
+        ports = root.inner_report.find('ports')
+        if ports is not None:
+            ports = ports.findall('port')
+            if len(ports) > 0:
+                return ports
+        return None
 
     def resolve_hosts_count(root, _info):
         hosts = root.inner_report.find('hosts')
@@ -396,21 +405,31 @@ class Report(graphene.ObjectType):
 
     def resolve_hosts(root, _info):
         hosts = root.inner_report.findall('host')
-        if hosts is not None:
+        if hosts is not None and len(hosts) > 0:
             return hosts
         return None
 
     def resolve_results(root, _info):
-        _results_list = root.inner_report.find('results')
-        if _results_list is None or len(_results_list) == 0:
-            _results = None
-        else:
-            _results = _results_list.findall('result')
-        return _results
+        results = root.inner_report.find('results')
+        if results is not None:
+            results = results.findall('result')
+            if len(results) > 0:
+                return results
+        return None
 
     def resolve_results_count(root, _info):
         return root.inner_report.find('result_count')
 
+    def resolve_error_count(root, _info):
+        errors = root.inner_report.find('errors')
+        if errors is not None:
+            return errors.find('count')
+        return None
+
     def resolve_errors(root, _info):
         errors = root.inner_report.find('errors')
-        return {"counts": errors, "errors": errors.findall('error')}
+        if errors is not None:
+            errors = errors.findall('error')
+            if len(errors) > 0:
+                return errors
+        return None
