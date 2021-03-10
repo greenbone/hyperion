@@ -39,6 +39,101 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
+    def test_get_scan_config_nvt_none_fields(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_nvt',
+            '''
+            <get_nvts_response>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.814313">
+                    <name>foo</name>
+                </nvt>
+            </get_nvts_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                scanConfigNvt(id: "1.3.6.1.4.1.25623.1.0.814313") {
+                    id
+                    name
+                    creationTime
+                    modificationTime
+                    category
+                    family
+                    cvssBase
+                    qod {
+                        value
+                    }
+                    score
+                    severities {
+                        date
+                    }
+                    referenceWarning
+                    certReferences{
+                        id
+                        type
+                    }
+                    cveReferences{
+                        id
+                        type
+                    }
+                    bidReferences{
+                        id
+                        type
+                    }
+                    otherReferences{
+                        id
+                        type
+                    }
+                    tags {
+                        cvssBaseVector
+                    }
+                    preferenceCount
+                    preferences {
+                        nvt {
+                            id
+                        }
+                        hrName
+                    }
+                    timeout
+                    defaultTimeout
+                    solution{
+                        type
+                    }
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        nvt = json['data']['scanConfigNvt']
+
+        self.assertEqual(nvt['id'], '1.3.6.1.4.1.25623.1.0.814313')
+        self.assertEqual(nvt['name'], 'foo')
+        self.assertIsNone(nvt['category'])
+        self.assertIsNone(nvt['family'])
+        self.assertIsNone(nvt['cvssBase'])
+        self.assertIsNone(nvt['score'])
+        self.assertIsNone(nvt['qod'])
+        self.assertIsNone(nvt['severities'])
+        self.assertIsNone(nvt['referenceWarning'])
+        self.assertIsNone(nvt['certReferences'])
+        self.assertIsNone(nvt['cveReferences'])
+        self.assertIsNone(nvt['bidReferences'])
+        self.assertIsNone(nvt['otherReferences'])
+        self.assertIsNone(nvt['tags'])
+        self.assertIsNone(nvt['preferenceCount'])
+        self.assertIsNone(nvt['preferences'])
+        self.assertIsNone(nvt['timeout'])
+        self.assertIsNone(nvt['defaultTimeout'])
+        self.assertIsNone(nvt['solution'])
+
     def test_get_scan_config_nvt(self, mock_gmp: GmpMockFactory):
         nvt_xml_path = CWD / 'example-scan-config-nvt.xml'
         nvt_xml_str = nvt_xml_path.read_text()
