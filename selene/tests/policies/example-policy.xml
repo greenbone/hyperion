@@ -71,6 +71,8 @@
                 <type/>
                 <value>/cgi-bin:/scripts</value>
                 <default>/cgi-bin:/scripts</default>
+                <alt>Paranoid</alt>
+                <alt>Sneaky</alt>
             </preference>
         </preferences>
         <tasks>

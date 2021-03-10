@@ -48,6 +48,82 @@ class GetPolicyTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
+    def test_get_policy_none_fields(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_policy',
+            '''
+            <get_config_response status="200" status_text="OK">
+                <config id="daba56c8-73ec-11df-a475-002264764cea">
+                    <name>foo</name>
+                </config>
+            </get_config_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+               policy (id: "daba56c8-73ec-11df-a475-002264764cea",
+               ) {
+                    name
+                    type
+            	    id
+            	    trash
+                    familyCount
+                    familyGrowing
+                    nvtCount
+                    nvtGrowing
+                    usageType
+                    maxNvtCount
+                    knownNvtCount
+                    predefined
+                    families{
+                        name
+                    }
+                    nvtPreferences{
+                        nvt{
+                            name
+                        }
+                        hrName
+                    }
+                    scannerPreferences{
+                        hrName
+                    }
+                    tasks{
+                        id
+                    }
+                    nvtSelectors{
+                        name
+                    }
+               }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        policy = json['data']['policy']
+
+        self.assertIsNone(policy['type'])
+        self.assertIsNone(policy['trash'])
+        self.assertIsNone(policy['familyCount'])
+        self.assertIsNone(policy['familyGrowing'])
+        self.assertIsNone(policy['nvtCount'])
+        self.assertIsNone(policy['nvtGrowing'])
+        self.assertIsNone(policy['usageType'])
+        self.assertIsNone(policy['maxNvtCount'])
+        self.assertIsNone(policy['knownNvtCount'])
+        self.assertIsNone(policy['predefined'])
+        self.assertIsNone(policy['families'])
+        self.assertIsNone(policy['nvtPreferences'])
+        self.assertIsNone(policy['scannerPreferences'])
+        self.assertIsNone(policy['tasks'])
+        self.assertIsNone(policy['nvtSelectors'])
+
     def test_get_policy(self, mock_gmp: GmpMockFactory):
         policy_xml_path = CWD / 'example-policy.xml'
         policy_xml_str = policy_xml_path.read_text()
@@ -197,7 +273,7 @@ class GetPolicyTestCase(SeleneTestCase):
                     "type": None,
                     "value": "/cgi-bin:/scripts",
                     "default": "/cgi-bin:/scripts",
-                    "alternativeValues": None,
+                    "alternativeValues": ["Paranoid", "Sneaky"],
                 },
             ],
         )

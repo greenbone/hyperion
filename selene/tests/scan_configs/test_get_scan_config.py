@@ -48,6 +48,82 @@ class GetScanConfigTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
+    def test_get_scan_config_none_fields(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_config',
+            '''
+            <get_config_response status="200" status_text="OK">
+                <config id="daba56c8-73ec-11df-a475-002264764cea">
+                    <name>foo</name>
+                </config>
+            </get_config_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+               scanConfig (id: "daba56c8-73ec-11df-a475-002264764cea",
+               ) {
+                    name
+                    type
+            	    id
+            	    trash
+                    familyCount
+                    familyGrowing
+                    nvtCount
+                    nvtGrowing
+                    usageType
+                    maxNvtCount
+                    knownNvtCount
+                    predefined
+                    families{
+                        name
+                    }
+                    nvtPreferences{
+                        nvt{
+                            name
+                        }
+                        hrName
+                    }
+                    scannerPreferences{
+                        hrName
+                    }
+                    tasks{
+                        id
+                    }
+                    nvtSelectors{
+                        name
+                    }
+               }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        scan_config = json['data']['scanConfig']
+
+        self.assertIsNone(scan_config['type'])
+        self.assertIsNone(scan_config['trash'])
+        self.assertIsNone(scan_config['familyCount'])
+        self.assertIsNone(scan_config['familyGrowing'])
+        self.assertIsNone(scan_config['nvtCount'])
+        self.assertIsNone(scan_config['nvtGrowing'])
+        self.assertIsNone(scan_config['usageType'])
+        self.assertIsNone(scan_config['maxNvtCount'])
+        self.assertIsNone(scan_config['knownNvtCount'])
+        self.assertIsNone(scan_config['predefined'])
+        self.assertIsNone(scan_config['families'])
+        self.assertIsNone(scan_config['nvtPreferences'])
+        self.assertIsNone(scan_config['scannerPreferences'])
+        self.assertIsNone(scan_config['tasks'])
+        self.assertIsNone(scan_config['nvtSelectors'])
+
     def test_get_scan_config(self, mock_gmp: GmpMockFactory):
         scan_config_xml_path = CWD / 'example-scan-config.xml'
         scan_config_xml_str = scan_config_xml_path.read_text()
@@ -200,7 +276,7 @@ class GetScanConfigTestCase(SeleneTestCase):
                     "type": None,
                     "value": "/cgi-bin:/scripts",
                     "default": "/cgi-bin:/scripts",
-                    "alternativeValues": None,
+                    "alternativeValues": ["Paranoid", "Sneaky"],
                 },
             ],
         )
