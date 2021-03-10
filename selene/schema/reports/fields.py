@@ -169,7 +169,10 @@ class Error(graphene.ObjectType):
     port = graphene.String()
     description = graphene.String()
     nvt = graphene.Field(ScanConfigNVT)
-    scan_nvt_version = graphene.String()
+    scan_nvt_version = graphene.DateTime(
+        description='Used Version of the NVT for this scan (modification date)'
+    )
+    severity = SeverityType()
 
     def resolve_host(root, _info):
         return root.find('host')
@@ -184,7 +187,7 @@ class Error(graphene.ObjectType):
         return root.find('nvt')
 
     def resolve_scan_nvt_version(root, _info):
-        return get_text_from_element(root, 'scan_nvt_version')
+        return get_datetime_from_element(root, 'scan_nvt_version')
 
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'severity')
@@ -210,7 +213,7 @@ class Report(graphene.ObjectType):
     Args:
         timestamp (DateTime): Timestamp for this report
         timezone (str): Timezone
-        timezone_abbrev (str)
+        timezone_abbreviation (str)
         port_count (List(TaskAlert)): Port count
         ports (List(Port)): Ports involved in this report
         permissions (List(Permissions)): Permissions for this report
@@ -282,7 +285,7 @@ class Report(graphene.ObjectType):
 
     timestamp = graphene.DateTime()
     timezone = graphene.String()
-    timezone_abbrev = graphene.String()
+    timezone_abbreviation = graphene.String()
 
     uuid = graphene.UUID(name='id')
     name = graphene.String()
@@ -349,7 +352,7 @@ class Report(graphene.ObjectType):
     def resolve_timezone(root, _info):
         return get_text_from_element(root.inner_report, 'timezone')
 
-    def resolve_timezone_abbrev(root, _info):
+    def resolve_timezone_abbreviation(root, _info):
         return get_text_from_element(root.inner_report, 'timezone_abbrev')
 
     def resolve_timestamp(root, _info):

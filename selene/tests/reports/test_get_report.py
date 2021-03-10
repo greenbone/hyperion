@@ -149,7 +149,7 @@ class ReportTestCase(SeleneTestCase):
                 }
                 timestamp
                 timezone
-                timezoneAbbrev
+                timezoneAbbreviation
                 portsCount {
                     current
                 }
@@ -207,7 +207,7 @@ class ReportTestCase(SeleneTestCase):
         self.assertIsNone(nvt['task'])
         self.assertIsNone(nvt['timestamp'])
         self.assertIsNone(nvt['timezone'])
-        self.assertIsNone(nvt['timezoneAbbrev'])
+        self.assertIsNone(nvt['timezoneAbbreviation'])
         self.assertIsNone(nvt['portsCount'])
         self.assertIsNone(nvt['ports'])
         self.assertIsNone(nvt['resultsCount'])
@@ -282,7 +282,7 @@ class ReportTestCase(SeleneTestCase):
                 }
                 timestamp
                 timezone
-                timezoneAbbrev
+                timezoneAbbreviation
                 portsCount {
                     current
                 }
@@ -389,7 +389,7 @@ class ReportTestCase(SeleneTestCase):
 
         self.assertEqual(report['timestamp'], '2021-01-07T12:48:31+01:00')
         self.assertEqual(report['timezone'], 'Europe/Berlin')
-        self.assertEqual(report['timezoneAbbrev'], 'CET')
+        self.assertEqual(report['timezoneAbbreviation'], 'CET')
 
         self.assertIsNone(report['scanStart'])
         self.assertIsNone(report['scanEnd'])
@@ -415,6 +415,153 @@ class ReportTestCase(SeleneTestCase):
 
         self.assertEqual(report['errorCount']['current'], 0)
         self.assertIsNone(report['errors'])
+
+    def test_error_report(self, mock_gmp: GmpMockFactory):
+        report_xml_path = CWD / 'example-error-report.xml'
+        report_xml_str = report_xml_path.read_text()
+
+        mock_gmp.mock_response('get_report', report_xml_str)
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+        query {
+            report(
+                id: "ab814d38-e135-4c24-8bd2-339554ff9696"
+            ) {
+                id
+                name
+                owner
+                comment
+                creationTime
+                modificationTime
+                inUse
+                writable
+                results {
+                    name
+                    comment
+                    creationTime
+                    host {
+                        ip
+                        id
+                        hostname
+                    }
+                    port
+                    threat
+                    severity
+                    qod {
+                        value
+                        type
+                    }
+                }
+                severity {
+                    total
+                    filtered
+                }
+                hostsCount {
+                    current
+                }
+                hosts {
+                    ip
+                    id
+                    start
+                    end
+                    ports {
+                        counts {
+                            current
+                        }
+                    }
+                    details {
+                        name
+                        value
+                        source {
+                            type
+                            name
+                            description
+                        }
+                        extra
+                    }
+                }
+                scanStart
+                scanEnd
+                scanRunStatus
+                timestamp
+                timezone
+                timezoneAbbreviation
+                errorCount {
+                    current
+                }
+                errors {
+                    host {
+                        name
+                        id
+                    }
+                    port
+                    description
+                    nvt {
+                        id
+                        name
+                        cvssBase
+                        score
+                    }
+                    scanNvtVersion
+                    severity
+                }
+            }
+        }
+            '''
+        )
+
+        json = response.json()
+        self.assertResponseNoErrors(response)
+
+        mock_gmp.gmp_protocol.get_report.assert_called_with(
+            'ab814d38-e135-4c24-8bd2-339554ff9696',
+            report_format_id=None,
+            delta_report_id=None,
+            details=True,
+        )
+
+        report = json['data']['report']
+
+        self.assertEqual(report['name'], 'foo')
+        self.assertEqual(report['id'], 'ab814d38-e135-4c24-8bd2-339554ff9696')
+        self.assertEqual(report['owner'], 'admin')
+        self.assertIsNone(report['comment'])
+        self.assertEqual(report['creationTime'], '2021-03-09T13:21:35+00:00')
+        self.assertEqual(
+            report['modificationTime'], '2021-03-09T13:21:55+00:00'
+        )
+        self.assertFalse(report['inUse'])
+        self.assertFalse(report['writable'])
+        self.assertIsNone(report['results'])
+
+        self.assertEqual(report['timestamp'], '2021-03-09T13:21:27+00:00')
+        self.assertEqual(report['timezone'], 'Coordinated Universal Time')
+        self.assertEqual(report['timezoneAbbreviation'], 'UTC')
+
+        self.assertEqual(report['scanStart'], '2021-03-09T13:21:35+00:00')
+        self.assertEqual(report['scanEnd'], '2021-03-09T13:21:55+00:00')
+        self.assertEqual(report['scanRunStatus'], "Interrupted")
+
+        self.assertEqual(report['errorCount']['current'], 3)
+        self.assertIsNotNone(report['errors'])
+
+        errors = report['errors']
+        self.assertEqual(
+            errors[0]['host']['id'], '1f6c301a-76e3-4f15-a7e1-3489876e399f'
+        )
+        self.assertEqual(errors[0]['host']['name'], '127.0.0.1')
+        self.assertEqual(errors[0]['description'], 'Scan process Failure')
+        self.assertEqual(errors[0]['nvt']['id'], '12345')
+        self.assertEqual(errors[0]['nvt']['name'], 'foo')
+        self.assertEqual(errors[0]['nvt']['cvssBase'], 2.0)
+        self.assertIsNone(errors[0]['nvt']['score'])
+        self.assertEqual(errors[0]['severity'], -3.0)
+        self.assertEqual(
+            errors[0]['scanNvtVersion'], '2021-03-09T13:21:55+00:00'
+        )
 
     def test_report_sub_objects(self, mock_gmp: GmpMockFactory):
         report_xml_path = CWD / 'example-report-2.xml'
@@ -478,7 +625,7 @@ class ReportTestCase(SeleneTestCase):
                 }
                 timestamp
                 timezone
-                timezoneAbbrev
+                timezoneAbbreviation
                 portsCount {
                     current
                 }
