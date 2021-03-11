@@ -91,7 +91,7 @@ class GetPolicyTestCase(SeleneTestCase):
                     scannerPreferences{
                         hrName
                     }
-                    tasks{
+                    audits{
                         id
                     }
                     nvtSelectors{
@@ -121,7 +121,7 @@ class GetPolicyTestCase(SeleneTestCase):
         self.assertIsNone(policy['families'])
         self.assertIsNone(policy['nvtPreferences'])
         self.assertIsNone(policy['scannerPreferences'])
-        self.assertIsNone(policy['tasks'])
+        self.assertIsNone(policy['audits'])
         self.assertIsNone(policy['nvtSelectors'])
 
     def test_get_policy(self, mock_gmp: GmpMockFactory):
@@ -176,7 +176,7 @@ class GetPolicyTestCase(SeleneTestCase):
                         default
                         alternativeValues
                     }
-                    tasks{
+                    audits{
                         id
                         name
                     }
@@ -278,7 +278,7 @@ class GetPolicyTestCase(SeleneTestCase):
             ],
         )
         self.assertEqual(
-            policy['tasks'],
+            policy['audits'],
             [
                 {
                     "id": "49d082ec-73f5-4b3a-75b5-3b9d9e38d079",

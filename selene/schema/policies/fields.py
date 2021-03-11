@@ -53,13 +53,13 @@ class PolicyFamily(graphene.ObjectType):
         return get_boolean_from_element(root, 'growing')
 
 
-class PolicyTask(graphene.ObjectType):
-    """"Task which is using the policy."""
+class PolicyAudit(graphene.ObjectType):
+    """"Audit which is using the policy."""
 
-    task_id = graphene.String(name='id')
+    audit_id = graphene.String(name='id')
     name = graphene.String()
 
-    def resolve_task_id(root, _info):
+    def resolve_audit_id(root, _info):
         return root.get('id')
 
     def resolve_name(root, _info):
@@ -112,8 +112,8 @@ class Policy(EntityObjectType):
         ScannerPreference,
         description='List of Scanner Preferences for this Policy',
     )
-    tasks = graphene.List(
-        PolicyTask, description='List of Tasks using this Policy'
+    audits = graphene.List(
+        PolicyAudit, description='List of Audits using this Policy'
     )
     nvt_selectors = graphene.List(PolicyNvtSelector)
 
@@ -180,11 +180,11 @@ class Policy(EntityObjectType):
                 ]
         return None
 
-    def resolve_tasks(root, _info):
-        tasks = root.find('tasks')
-        if tasks is None:
+    def resolve_audits(root, _info):
+        audits = root.find('tasks')
+        if audits is None:
             return None
-        return tasks.findall('task')
+        return audits.findall('task')
 
     def resolve_nvt_selectors(root, _info):
         selectors = root.find('nvt_selectors')
