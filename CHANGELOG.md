@@ -45,3 +45,5 @@ $ cd hyperion && git log
 - Added missing fields to `CPE` entity [#39](https://github.com/greenbone/hyperion/pull/39)
 - Fix product rstrip() from NoneType error. [#41](https://github.com/greenbone/hyperion/pull/41)
 - Adding missing field `port` to `override` entity. [#57](https://github.com/greenbone/hyperion/pull/57)
+- Improved `Report` Entity, fixed and tested `ReportError` [65](https://github.com/greenbone/hyperion/pull/65)
+- Split `ScannerPreferences` and `NVTPreferences` in `ScanConfigs` and `Policies` [67](https://github.com/greenbone/hyperion/pull/67)

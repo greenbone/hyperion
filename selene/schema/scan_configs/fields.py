@@ -21,6 +21,7 @@
 import graphene
 
 from selene.schema.utils import (
+    get_text,
     get_text_from_element,
     get_int_from_element,
     get_boolean_from_element,
@@ -29,6 +30,58 @@ from selene.schema.utils import (
 from selene.schema.entity import EntityObjectType
 
 from selene.schema.nvts.fields import NvtPreference
+
+
+class ScannerPreference(graphene.ObjectType):
+    """Scanner preference."""
+
+    hr_name = graphene.String(
+        description='Human readable name of the preference'
+    )
+    name = graphene.String(description='Name of the preference')
+    preference_id = graphene.Int(
+        name='id', description='ID of this preference [1..]'
+    )
+    preference_type = graphene.String(
+        name='type',
+        description=(
+            'The value type of the preference. '
+            'One of ratio, checkbox, entry, password'
+        ),
+    )
+    value = graphene.String(description='Current value for this preference')
+    default = graphene.String(description='default value for this preference')
+    alternative_values = graphene.List(
+        graphene.String,
+        description=(
+            'alternative value(s) for this preference '
+            '(preference type: ratio)'
+        ),
+    )
+
+    def resolve_hr_name(root, _info):
+        return get_text_from_element(root, 'hr_name')
+
+    def resolve_name(root, _info):
+        return get_text_from_element(root, 'name')
+
+    def resolve_preference_type(root, _info):
+        return get_text_from_element(root, 'type')
+
+    def resolve_value(root, _info):
+        return get_text_from_element(root, 'value')
+
+    def resolve_default(root, _info):
+        return get_text_from_element(root, 'default')
+
+    def resolve_preference_id(root, _info):
+        return get_int_from_element(root, 'id')
+
+    def resolve_alternative_values(root, _info):
+        alts = root.findall('alt')
+        if alts is not None and len(alts) > 0:
+            return [get_text(alt) for alt in alts]
+        return None
 
 
 class ScanConfigFamily(graphene.ObjectType):
@@ -101,9 +154,20 @@ class ScanConfig(EntityObjectType):
     known_nvt_count = graphene.Int()
     predefined = graphene.Boolean()
 
-    families = graphene.List(ScanConfigFamily)
-    preferences = graphene.List(NvtPreference)
-    tasks = graphene.List(ScanConfigTask)
+    families = graphene.List(
+        ScanConfigFamily, description='List of NVT Families in this Scan Config'
+    )
+    nvt_preferences = graphene.List(
+        NvtPreference,
+        description='List of NVT Preferences for this Scan Config',
+    )
+    scanner_preferences = graphene.List(
+        ScannerPreference,
+        description='List of Scanner Preferences for this Scan Config',
+    )
+    tasks = graphene.List(
+        ScanConfigTask, description='List of Tasks using this Scan Config'
+    )
     nvt_selectors = graphene.List(ScanConfigNvtSelector)
 
     def resolve_scan_config_type(root, _info):
@@ -144,11 +208,30 @@ class ScanConfig(EntityObjectType):
             return None
         return families.findall('family')
 
-    def resolve_preferences(root, _info):
+    def resolve_nvt_preferences(root, _info):
         preferences = root.find('preferences')
-        if preferences is None:
-            return None
-        return preferences.findall('preference')
+        if preferences is not None:
+            preferences = preferences.findall('preference')
+            if len(preferences) > 0:
+                # Works for now.
+                return [
+                    preference
+                    for preference in preferences
+                    if preference.find('nvt').get('oid') != ''
+                ]
+        return None
+
+    def resolve_scanner_preferences(root, _info):
+        preferences = root.find('preferences')
+        if preferences is not None:
+            preferences = preferences.findall('preference')
+            if len(preferences) > 0:
+                return [
+                    preference
+                    for preference in preferences
+                    if preference.find('nvt').get('oid') == ''
+                ]
+        return None
 
     def resolve_tasks(root, _info):
         tasks = root.find('tasks')

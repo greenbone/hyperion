@@ -1,0 +1,98 @@
+<get_config_response status="200" status_text="OK">
+    <config id="daba56c8-73ec-11df-a475-002264764cea">
+        <name>foo</name>
+        <type>0</type>
+        <usage_type>scan</usage_type>
+        <predefined>1</predefined>
+        <trash>0</trash>
+        <family_count>2<growing>1</growing></family_count>
+        <nvt_count>3<growing>0</growing></nvt_count>
+        <type>0</type>
+        <usage_type>scan</usage_type>
+        <families>
+        <family>
+            <name>Port scanners</name>
+            <nvt_count>2</nvt_count>
+            <max_nvt_count>9</max_nvt_count>
+            <growing>0</growing>
+        </family>
+        <family>
+            <name>Service detection</name>
+            <nvt_count>1</nvt_count>
+            <max_nvt_count>240</max_nvt_count>
+            <growing>0</growing>
+        </family>
+        </families>
+        <max_nvt_count>249</max_nvt_count>
+        <known_nvt_count>3</known_nvt_count>
+        <preferences>
+            <preference>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
+                    <name>Ping Host</name>
+                </nvt>
+                <id>13</id>
+                <hr_name>Log failed nmap calls</hr_name>
+                <name>Log failed nmap calls</name>
+                <type>checkbox</type>
+                <value>no</value>
+                <default>no</default>
+            </preference>
+            <preference>
+                <nvt oid="1.3.6.1.4.1.25623.1.0.100315">
+                    <name>Ping Host</name>
+                </nvt>
+                <id>14</id>
+                <hr_name>nmap timing policy</hr_name>
+                <name>nmap timing policy</name>
+                <type>radio</type>
+                <value>Normal</value>
+                <alt>Paranoid</alt>
+                <alt>Sneaky</alt>
+                <default>Normal</default>
+            </preference>
+            <preference>
+              <nvt oid="">
+                <name/>
+              </nvt>
+              <id/>
+              <hr_name>auto_enable_dependencies</hr_name>
+              <name>auto_enable_dependencies</name>
+              <type/>
+              <value>1</value>
+              <default>1</default>
+            </preference>
+            <preference>
+              <nvt oid="">
+                <name/>
+              </nvt>
+              <id/>
+              <hr_name>cgi_path</hr_name>
+              <name>cgi_path</name>
+              <type/>
+              <value>/cgi-bin:/scripts</value>
+              <default>/cgi-bin:/scripts</default>
+              <alt>Paranoid</alt>
+              <alt>Sneaky</alt>
+            </preference>
+        </preferences>
+        <tasks>
+            <task id="49d082ec-73f5-4b3a-75b5-3b9d9e38d079">
+                <name>some_name</name>
+            </task>
+        </tasks>
+        <nvt_selectors>
+            <nvt_selector>
+                <name>f187d4cf-a157-471c-81a6-74990b5da181</name>
+                <include>1</include>
+                <type>2</type>
+                <family_or_nvt>1.3.6.1.4.1.25623.1.0.100315</family_or_nvt>
+            </nvt_selector>
+            <nvt_selector>
+                <name>f187d4cf-a157-471c-81a6-74990b5da181</name>
+                <include>1</include>
+                <type>2</type>
+                <family_or_nvt>1.3.6.1.4.1.25623.1.0.14259</family_or_nvt>
+            </nvt_selector>
+        </nvt_selectors>
+    </config>
+</get_config_response>

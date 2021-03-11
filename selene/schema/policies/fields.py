@@ -29,6 +29,7 @@ from selene.schema.utils import (
 from selene.schema.entity import EntityObjectType
 
 from selene.schema.nvts.fields import NvtPreference
+from selene.schema.scan_configs.fields import ScannerPreference
 
 
 class PolicyFamily(graphene.ObjectType):
@@ -52,13 +53,13 @@ class PolicyFamily(graphene.ObjectType):
         return get_boolean_from_element(root, 'growing')
 
 
-class PolicyTask(graphene.ObjectType):
-    """"Task which is using the policy."""
+class PolicyAudit(graphene.ObjectType):
+    """"Audit which is using the policy."""
 
-    task_id = graphene.String(name='id')
+    audit_id = graphene.String(name='id')
     name = graphene.String()
 
-    def resolve_task_id(root, _info):
+    def resolve_audit_id(root, _info):
         return root.get('id')
 
     def resolve_name(root, _info):
@@ -101,9 +102,19 @@ class Policy(EntityObjectType):
     known_nvt_count = graphene.Int()
     predefined = graphene.Boolean()
 
-    families = graphene.List(PolicyFamily)
-    preferences = graphene.List(NvtPreference)
-    tasks = graphene.List(PolicyTask)
+    families = graphene.List(
+        PolicyFamily, description='List of NVT Families in this Policy'
+    )
+    nvt_preferences = graphene.List(
+        NvtPreference, description='List of NVT Preferences for this Policy'
+    )
+    scanner_preferences = graphene.List(
+        ScannerPreference,
+        description='List of Scanner Preferences for this Policy',
+    )
+    audits = graphene.List(
+        PolicyAudit, description='List of Audits using this Policy'
+    )
     nvt_selectors = graphene.List(PolicyNvtSelector)
 
     def resolve_policy_type(root, _info):
@@ -144,17 +155,36 @@ class Policy(EntityObjectType):
             return None
         return families.findall('family')
 
-    def resolve_preferences(root, _info):
+    def resolve_nvt_preferences(root, _info):
         preferences = root.find('preferences')
-        if preferences is None:
-            return None
-        return preferences.findall('preference')
+        if preferences is not None:
+            preferences = preferences.findall('preference')
+            if len(preferences) > 0:
+                # Works for now.
+                return [
+                    preference
+                    for preference in preferences
+                    if preference.find('nvt').get('oid') != ''
+                ]
+        return None
 
-    def resolve_tasks(root, _info):
-        tasks = root.find('tasks')
-        if tasks is None:
+    def resolve_scanner_preferences(root, _info):
+        preferences = root.find('preferences')
+        if preferences is not None:
+            preferences = preferences.findall('preference')
+            if len(preferences) > 0:
+                return [
+                    preference
+                    for preference in preferences
+                    if preference.find('nvt').get('oid') == ''
+                ]
+        return None
+
+    def resolve_audits(root, _info):
+        audits = root.find('tasks')
+        if audits is None:
             return None
-        return tasks.findall('task')
+        return audits.findall('task')
 
     def resolve_nvt_selectors(root, _info):
         selectors = root.find('nvt_selectors')
