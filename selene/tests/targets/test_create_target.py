@@ -78,7 +78,7 @@ class CreateTargetTestCase(SeleneTestCase):
                     esxiCredentialId: "{self.esxi_credential_id}",
                     excludeHosts: "1.3.3.7, lorem",
                     aliveTest: "icmp ping",
-                    allowSimultaneousIps: true,
+                    allowSimultaneousIPs: true,
                     reverseLookupUnify: false,
                     portListId: "{self.port_list_id}"
                 }}) {{
