@@ -86,6 +86,7 @@ class ResultsTestCase(SeleneTestCase):
                     id
                     name
                     comment
+                    owner
                     reportId
                     task {
                         id
@@ -118,6 +119,23 @@ class ResultsTestCase(SeleneTestCase):
                         type
                     }
                     description
+                    notes {
+                        id
+                        creationTime
+                        modificationTime
+                        active
+                        text
+                    }
+                    tickets {
+                        id
+                    }
+                    userTags {
+                        count
+                        tags {
+                            id
+                            name
+                        }
+                    }
                 }
             }
             '''
@@ -135,6 +153,7 @@ class ResultsTestCase(SeleneTestCase):
             'Apache Tomcat RCE Vulnerability - April19 (Windows)',
         )
         self.assertIsNone(result['comment'])
+        self.assertEqual(result['owner'], 'jloechte')
         self.assertEqual(result['creationTime'], '2020-06-19T09:31:15+00:00')
         self.assertEqual(
             result['modificationTime'], '2020-06-19T09:31:15+00:00'
@@ -171,3 +190,30 @@ class ResultsTestCase(SeleneTestCase):
             'AV:N/AC:M/Au:N/C:C/I:C/A:C',
         )
         self.assertIsNone(result['description'])
+
+        self.assertIsNotNone(result['notes'])
+        notes = result['notes']
+        self.assertEqual(len(notes), 1)
+
+        note1 = notes[0]
+        self.assertEqual(note1['id'], '330c8602-9a29-4683-8fd0-908ac3c66914')
+        self.assertEqual(note1['creationTime'], '2021-03-12T13:00:32+00:00')
+        self.assertEqual(note1['modificationTime'], '2021-03-12T13:00:32+00:00')
+        self.assertTrue(note1['active'])
+        self.assertEqual(note1['text'], 'test')
+
+        self.assertIsNotNone(result['tickets'])
+        tickets = result['tickets']
+        self.assertEqual(len(tickets), 2)
+        ticket1 = tickets[0]
+        self.assertEqual(ticket1['id'], 'cc9170a3-b374-4675-be17-ba31c4953f88')
+        ticket2 = tickets[1]
+        self.assertEqual(ticket2['id'], '6e93d05c-26b7-42de-8d6e-40afccff831c')
+
+        self.assertIsNotNone(result['userTags'])
+        user_tags = result['userTags']
+        self.assertEqual(user_tags['count'], 1)
+        self.assertEqual(
+            user_tags['tags'][0]['id'], '955e4b08-0a8e-4336-89a9-3c573824db2d'
+        )
+        self.assertEqual(user_tags['tags'][0]['name'], 'result:unnamed')
