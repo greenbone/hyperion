@@ -395,3 +395,62 @@ class CreateTargetTestCase(SeleneTestCase):
             port_range=None,
             asset_hosts_filter="uuid=12345",
         )
+
+    def test_create_target_do_not_allow_simultaneous_ips(
+        self, mock_gmp: GmpMockFactory
+    ):
+
+        mock_gmp.mock_response(
+            'create_target',
+            f'''
+            <create_target_response
+                id="{self.target_id}"
+                status="200"
+                status_text="OK"
+            />
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            f'''
+            mutation {{
+                createTarget(input: {{
+                    name: "bar",
+                    hosts: "127.0.0.1, 192.168.10.130",
+                    allowSimultaneousIPs: false,
+                    portListId: "{self.port_list_id}"
+                }}) {{
+                    id
+                }}
+            }}
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        uuid = json['data']['createTarget']['id']
+
+        self.assertEqual(uuid, str(self.target_id))
+
+        mock_gmp.gmp_protocol.create_target.assert_called_with(
+            "bar",
+            alive_test=None,
+            hosts=['127.0.0.1', '192.168.10.130'],
+            exclude_hosts=None,
+            comment=None,
+            ssh_credential_id=None,
+            ssh_credential_port=None,
+            smb_credential_id=None,
+            snmp_credential_id=None,
+            esxi_credential_id=None,
+            allow_simultaneous_ips=False,
+            reverse_lookup_only=None,
+            reverse_lookup_unify=None,
+            port_list_id=str(self.port_list_id),
+            port_range=None,
+            asset_hosts_filter=None,
+        )
