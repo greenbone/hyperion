@@ -114,7 +114,7 @@ class TargetTestCase(SeleneTestCase):
                         id
                         name
                     }
-                    allowSimultaneousIps
+                    allowSimultaneousIPs
                     reverseLookupOnly
                     reverseLookupUnify
                     aliveTests
@@ -163,7 +163,7 @@ class TargetTestCase(SeleneTestCase):
         )
         self.assertEqual(target['name'], 'foo')
         self.assertEqual(target['aliveTests'], 'Scan Config Default')
-        self.assertEqual(target['allowSimultaneousIps'], True)
+        self.assertEqual(target['allowSimultaneousIPs'], True)
         self.assertEqual(target['reverseLookupOnly'], False)
         self.assertEqual(target['reverseLookupUnify'], False)
         self.assertEqual(target['portRange'], None)
