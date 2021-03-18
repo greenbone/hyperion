@@ -73,7 +73,7 @@ class ModifyTargetTestCase(SeleneTestCase):
                     snmpCredentialId: "{self.snmp_credential_id}",
                     esxiCredentialId: "{self.esxi_credential_id}",
                     aliveTest: "icmp ping",
-                    allowSimultaneousIps: false,
+                    allowSimultaneousIPs: false,
                     reverseLookupUnify: false,
                 }}) {{
                     ok
@@ -207,4 +207,56 @@ class ModifyTargetTestCase(SeleneTestCase):
             reverse_lookup_only=None,
             reverse_lookup_unify=None,
             port_list_id=str(self.port_list_id),
+        )
+
+    def test_modify_target_allow_simultaneous_ips(
+        self, mock_gmp: GmpMockFactory
+    ):
+        mock_gmp.mock_response(
+            'modify_target',
+            '''
+            <modify_target_response status="200" status_text="OK" />
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            f'''
+            mutation {{
+                modifyTarget(input: {{
+                    id: "{self.target_id}",
+                    name: "bar",
+                    allowSimultaneousIPs: true,
+                }}) {{
+                    ok
+                }}
+            }}
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        ok = json['data']['modifyTarget']['ok']
+
+        self.assertEqual(ok, True)
+
+        mock_gmp.gmp_protocol.modify_target.assert_called_with(
+            str(self.target_id),
+            alive_test=None,
+            hosts=None,
+            exclude_hosts=None,
+            comment=None,
+            ssh_credential_id=None,
+            name="bar",
+            ssh_credential_port=None,
+            smb_credential_id=None,
+            snmp_credential_id=None,
+            esxi_credential_id=None,
+            allow_simultaneous_ips=True,
+            reverse_lookup_only=None,
+            reverse_lookup_unify=None,
+            port_list_id=None,
         )

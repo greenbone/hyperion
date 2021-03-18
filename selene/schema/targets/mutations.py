@@ -291,9 +291,10 @@ class ModifyTargetInput(graphene.InputObjectType):
     )
     alive_test = graphene.String(description="Which alive test to use.")
     allow_simultaneous_ips = graphene.Boolean(
+        name="allowSimultaneousIPs",
         description=(
             "Whether to scan multiple IPs of the same host simultaneously."
-        )
+        ),
     )
     reverse_lookup_only = graphene.Boolean(
         description="Whether to scan only hosts that have names."
