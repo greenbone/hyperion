@@ -26,7 +26,6 @@ from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityUserTags
 from selene.schema.resolver import find_resolver
 from selene.schema.utils import (
-    get_boolean_from_element,
     get_text,
     get_datetime_from_element,
     get_int_from_element,
@@ -35,6 +34,7 @@ from selene.schema.utils import (
 )
 from selene.schema.parser import parse_uuid
 
+from selene.schema.notes.fields import Note
 from selene.schema.nvts.fields import ScanConfigNVT
 from selene.schema.tickets.fields import RemediationTicket
 
@@ -48,32 +48,6 @@ class QoD(graphene.ObjectType):
 
     def resolve_type(root, _info):
         return get_text_from_element(root, 'type')
-
-
-class ResultNote(graphene.ObjectType):
-    uuid = graphene.UUID(name='id')
-
-    creation_time = graphene.DateTime()
-    modification_time = graphene.DateTime()
-
-    active = graphene.Boolean()
-
-    text = graphene.String()
-
-    def resolve_uuid(root, _info):
-        return parse_uuid(root.get('id'))
-
-    def resolve_creation_time(root, _info):
-        return get_datetime_from_element(root, 'creation_time')
-
-    def resolve_modification_time(root, _info):
-        return get_datetime_from_element(root, 'modification_time')
-
-    def resolve_active(root, _info):
-        return get_boolean_from_element(root, 'active')
-
-    def resolve_text(root, _info):
-        return get_text_from_element(root, 'text')
 
 
 class ResultHost(graphene.ObjectType):
@@ -144,7 +118,7 @@ class Result(BaseObjectType):
     original_threat = graphene.String()
     original_severity = SeverityType()
 
-    notes = graphene.List(ResultNote)
+    notes = graphene.List(Note)
     tickets = graphene.List(RemediationTicket)
 
     user_tags = graphene.Field(EntityUserTags)
