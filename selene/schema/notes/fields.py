@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Copyright (C) 2019-2020 Greenbone Networks GmbH
+# Copyright (C) 2019-2021 Greenbone Networks GmbH
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 #
@@ -30,10 +30,14 @@ from selene.schema.utils import (
     get_datetime_from_element,
     get_text_from_element,
 )
+from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
 from selene.schema.nvts.fields import ScanConfigNVT as NVT
-from selene.schema.results.queries import Result
 from selene.schema.tasks.fields import Task
+
+
+class NoteResult(BaseObjectType):
+    pass
 
 
 class Note(EntityObjectType):
@@ -52,7 +56,7 @@ class Note(EntityObjectType):
 
     nvt = graphene.Field(NVT)
     task = graphene.Field(Task)
-    result = graphene.Field(Result)
+    result = graphene.Field(NoteResult)
 
     def resolve_name(root, _info):
         raise GraphQLError(
