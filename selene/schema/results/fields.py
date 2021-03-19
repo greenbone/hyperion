@@ -195,7 +195,9 @@ class Result(BaseObjectType):
         return detection.find('result')
 
     def resolve_report_id(root, _info):
-        return parse_uuid(root.find('report').get('id'))
+        report = root.find('report')
+        if report is not None:
+            return parse_uuid(root.find('report').get('id'))
 
     def resolve_task(root, _info):
         return root.find('task')
