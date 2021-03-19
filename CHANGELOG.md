@@ -14,7 +14,10 @@ $ cd hyperion && git log
 ```
 
 ## [Unreleased]
+
 ### Added
+
+- Add `owner`, `detection_result`, `notes`, `tickets` and `user_tags` for result fields [#69](https://github.com/greenbone/hyperion/pull/69)
 - Support credential download and add fields to Credential [#66](https://github.com/greenbone/hyperion/pull/66)
 - Add `compliance_count` to AuditLastReport [#26](https://github.com/greenbone/hyperion/pull/26)
 - Implement `average_duration` for tasks and audits fields. [#14](https://github.com/greenbone/hyperion/pull/14)
@@ -22,10 +25,11 @@ $ cd hyperion && git log
 - Add Bulk Export for NVTs. [#25](https://github.com/greenbone/hyperion/pull/25)
 
 ### Changed
+
 - Explicitly implement audit subobjects [#26](https://github.com/greenbone/hyperion/pull/26)
 - For all NVT related Entities we use `id` instead of `oid` now, so every Entity uses `id` now. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Use `next` instead of `latest` `python-gvm` version for developement. [#15](https://github.com/greenbone/hyperion/pull/15)
-- Removed empty `uuid= ` from `filter_string` in `create_export_by_ids_mutation` [#23](https://github.com/greenbone/hyperion/pull/23) 
+- Removed empty `uuid= ` from `filter_string` in `create_export_by_ids_mutation` [#23](https://github.com/greenbone/hyperion/pull/23)
 - Changed dependency of `xml` to `lxml` [#27](https://github.com/greenbone/hyperion/pull/27)
 - Changed `CVE`s entity so it can parse new-format xml correctly [#29](https://github.com/greenbone/hyperion/pull/29) [#38](https://github.com/greenbone/hyperion/pull/38)
 - Refactored `OvalDefinitions` entity [#30](https://github.com/greenbone/hyperion/pull/30)
@@ -34,8 +38,11 @@ $ cd hyperion && git log
 - Refactored `NVT` entity, removed complexity and redundant fields [#58](https://github.com/greenbone/hyperion/pull/58)[#60](https://github.com/greenbone/hyperion/pull/60)[#64](https://github.com/greenbone/hyperion/pull/64)
 
 ### Deprecated
+
 ### Removed
+
 ### Fixed
+
 - Fixed a problem with NVT `oid` in Notes. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Fixed a problem with NVT `oid` in Overrides. [#16](https://github.com/greenbone/hyperion/pull/16)
 - Now the `name` field in Overrides and Notes can not be queried. It returned the `name` of the `permission`/`owner` because of `.find()`. Notes/Overrides don't have a name field theirself. [#16](https://github.com/greenbone/hyperion/pull/16)
