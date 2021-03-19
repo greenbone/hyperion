@@ -100,53 +100,78 @@ class Result(BaseObjectType):
         name (str): Name of result
         id (UUID): UUID of result
         comment (str): Comment for this result
-        creation_time (DateTime)
-        modification_time (DateTime)
-        report_id (UUID)
-        host (ResultHost)
-        port (str)
-        nvt (NVT)
-        scan_nvt_version (str)
+        description (str): Description of the result
+        owner (str): Owner of the result
+        creation_time (DateTime): Date and time the result was created
+        modification_time (DateTime): Date and time the result was last modified
+        detection_result (DetectionResult): Detection result
+        report_id (UUID): ID of the corresponding report
+        task (ResultTask): Task the result belongs to
+        host (ResultHost): Host the result belongs to
+        port (str): The port on the host
+        nvt (NVT): NVT the result belongs to
+        scan_nvt_version (str): Version of the NVT used in scan
         thread (str)
         severity (str)
-        qod (QOD)
-        original_thread (str)
-        original_severity (str)
+        qod (QOD): The quality of detection (QoD) of the result
+        original_thread (str): Original threat when overriden
+        original_severity (str): Original severity when overriden
+        notes (List(Note)): List of notes on the result
+        tickets (List(RemediationTicket)): List of tickets on the result
+        user_tags (List(EntityUserTag)): Tags attached to the result
 
     """
 
     class Meta:
         default_resolver = find_resolver
 
-    comment = graphene.String()
-    description = graphene.String()
-    owner = graphene.String()
+    comment = graphene.String(description='Comment for this result')
+    description = graphene.String(description='Description of the result')
+    owner = graphene.String(description='Owner of the result')
 
-    creation_time = graphene.DateTime()
-    modification_time = graphene.DateTime()
+    creation_time = graphene.DateTime(
+        description='Date and time the result was created'
+    )
+    modification_time = graphene.DateTime(
+        description='Date and time the result was last modified'
+    )
 
-    detection_result = graphene.Field(DetectionResult)
+    detection_result = graphene.Field(
+        DetectionResult, description='Detection result'
+    )
 
     report_id = graphene.UUID(description="ID of the corresponding report")
-    task = graphene.Field(ResultTask)
-    host = graphene.Field(ResultHost)
-    port = graphene.String()
+    task = graphene.Field(ResultTask, description='Task the result belongs to')
+    host = graphene.Field(ResultHost, description='Host the result belongs to')
+    port = graphene.String(description='The port on the host')
 
-    nvt = graphene.Field(ScanConfigNVT)
+    nvt = graphene.Field(ScanConfigNVT, description='NVT the result belongs to')
 
-    scan_nvt_version = graphene.String()
+    scan_nvt_version = graphene.String(
+        description='Version of the NVT used in scan'
+    )
     threat = graphene.String()
     severity = SeverityType()
 
-    qod = graphene.Field(QoD)
+    qod = graphene.Field(
+        QoD, description='The quality of detection (QoD) of the result'
+    )
 
-    original_threat = graphene.String()
-    original_severity = SeverityType()
+    original_threat = graphene.String(
+        description='Original threat when overriden'
+    )
+    original_severity = SeverityType(
+        description='Original severity when overriden'
+    )
 
-    notes = graphene.List(Note)
-    tickets = graphene.List(RemediationTicket)
+    notes = graphene.List(Note, description='List of notes on the result')
+    tickets = graphene.List(
+        RemediationTicket, description='List of tickets on the result'
+    )
 
-    user_tags = graphene.Field(EntityUserTags)
+    user_tags = graphene.Field(
+        EntityUserTags, description='Tags attached to the result'
+    )
 
     def resolve_comment(root, _info):
         return get_text_from_element(root, 'comment')
