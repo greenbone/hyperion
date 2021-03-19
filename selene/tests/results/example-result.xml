@@ -7,6 +7,28 @@
     <modification_time>2020-06-19T09:31:15Z</modification_time>
     <comment/>
     <creation_time>2020-06-19T09:31:15Z</creation_time>
+    <detection>
+      <result id="9184608a-0b86-42e0-b733-4668feebc1c7">
+        <details>
+          <detail>
+            <name>product</name>
+            <value>cpe:/a:python:python:2.7.16</value>
+          </detail>
+          <detail>
+            <name>location</name>
+            <value>/usr/bin/python, /usr/bin/python2.7</value>
+          </detail>
+          <detail>
+            <name>source_oid</name>
+            <value>CVE-2019-13404</value>
+          </detail>
+          <detail>
+            <name>source_name</name>
+            <value>CVE-2019-13404</value>
+          </detail>
+        </details>
+      </result>
+    </detection>
     <report id="f31d3b1a-4642-44bc-86ea-63ea029d4c63"/>
     <task id="dc9c6b7d-c81d-4e20-acd8-b187b018fa42">
       <name>Offline Scan from 2019-06-27T08:10:13+01:00 38</name>
