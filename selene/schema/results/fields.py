@@ -24,7 +24,7 @@ from selene.schema.severity import SeverityType
 
 from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityUserTags
-from selene.schema.resolver import find_resolver
+from selene.schema.resolver import find_resolver, text_resolver
 from selene.schema.utils import (
     get_text,
     get_datetime_from_element,
@@ -37,6 +37,29 @@ from selene.schema.parser import parse_uuid
 from selene.schema.notes.fields import Note
 from selene.schema.nvts.fields import ScanConfigNVT
 from selene.schema.tickets.fields import RemediationTicket
+
+
+class DetectionResultDetail(graphene.ObjectType):
+    class Meta:
+        default_resolver = text_resolver
+
+    name = graphene.String()
+    value = graphene.String()
+
+
+class DetectionResult(graphene.ObjectType):
+    uuid = graphene.UUID(name='id')
+
+    details = graphene.List(DetectionResultDetail)
+
+    def resolve_uuid(root, _info):
+        return parse_uuid(root.get('id'))
+
+    def resolve_details(root, _info):
+        details = root.find('details')
+        if details is None or len(details) == 0:
+            return None
+        return details.findall('detail')
 
 
 class QoD(graphene.ObjectType):
@@ -102,6 +125,8 @@ class Result(BaseObjectType):
     creation_time = graphene.DateTime()
     modification_time = graphene.DateTime()
 
+    detection_result = graphene.Field(DetectionResult)
+
     report_id = graphene.UUID(description="ID of the corresponding report")
     task = graphene.Field(ResultTask)
     host = graphene.Field(ResultHost)
@@ -137,6 +162,12 @@ class Result(BaseObjectType):
 
     def resolve_modification_time(root, _info):
         return get_datetime_from_element(root, 'modification_time')
+
+    def resolve_detection_result(root, _info):
+        detection = root.find('detection')
+        if detection is None or len(detection) == 0:
+            return None
+        return detection.find('result')
 
     def resolve_report_id(root, _info):
         return parse_uuid(root.find('report').get('id'))
