@@ -86,6 +86,14 @@ class ResultsTestCase(SeleneTestCase):
                     id
                     name
                     comment
+                    owner
+                    detectionResult{
+                        id
+                        details{
+                            name
+                            value
+                        }
+                    }
                     reportId
                     task {
                         id
@@ -118,6 +126,23 @@ class ResultsTestCase(SeleneTestCase):
                         type
                     }
                     description
+                    notes {
+                        id
+                        creationTime
+                        modificationTime
+                        active
+                        text
+                    }
+                    tickets {
+                        id
+                    }
+                    userTags {
+                        count
+                        tags {
+                            id
+                            name
+                        }
+                    }
                 }
             }
             '''
@@ -135,10 +160,24 @@ class ResultsTestCase(SeleneTestCase):
             'Apache Tomcat RCE Vulnerability - April19 (Windows)',
         )
         self.assertIsNone(result['comment'])
+        self.assertEqual(result['owner'], 'jloechte')
         self.assertEqual(result['creationTime'], '2020-06-19T09:31:15+00:00')
         self.assertEqual(
             result['modificationTime'], '2020-06-19T09:31:15+00:00'
         )
+
+        self.assertIsNotNone(result['detectionResult'])
+        detection_result = result['detectionResult']
+        self.assertEqual(
+            detection_result['id'], '9184608a-0b86-42e0-b733-4668feebc1c7'
+        )
+        self.assertIsNotNone(detection_result['details'])
+        details = detection_result['details']
+        self.assertEqual(len(details), 4)
+        detail1 = details[0]
+        self.assertEqual(detail1['name'], 'product')
+        self.assertEqual(detail1['value'], 'cpe:/a:python:python:2.7.16')
+
         self.assertEqual(
             result['reportId'], 'f31d3b1a-4642-44bc-86ea-63ea029d4c63'
         )
@@ -171,3 +210,145 @@ class ResultsTestCase(SeleneTestCase):
             'AV:N/AC:M/Au:N/C:C/I:C/A:C',
         )
         self.assertIsNone(result['description'])
+
+        self.assertIsNotNone(result['notes'])
+        notes = result['notes']
+        self.assertEqual(len(notes), 1)
+
+        note1 = notes[0]
+        self.assertEqual(note1['id'], '330c8602-9a29-4683-8fd0-908ac3c66914')
+        self.assertEqual(note1['creationTime'], '2021-03-12T13:00:32+00:00')
+        self.assertEqual(note1['modificationTime'], '2021-03-12T13:00:32+00:00')
+        self.assertTrue(note1['active'])
+        self.assertEqual(note1['text'], 'test')
+
+        self.assertIsNotNone(result['tickets'])
+        tickets = result['tickets']
+        self.assertEqual(len(tickets), 2)
+        ticket1 = tickets[0]
+        self.assertEqual(ticket1['id'], 'cc9170a3-b374-4675-be17-ba31c4953f88')
+        ticket2 = tickets[1]
+        self.assertEqual(ticket2['id'], '6e93d05c-26b7-42de-8d6e-40afccff831c')
+
+        self.assertIsNotNone(result['userTags'])
+        user_tags = result['userTags']
+        self.assertEqual(user_tags['count'], 1)
+        self.assertEqual(
+            user_tags['tags'][0]['id'], '955e4b08-0a8e-4336-89a9-3c573824db2d'
+        )
+        self.assertEqual(user_tags['tags'][0]['name'], 'result:unnamed')
+
+    def test_get_result_none_fields(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_result',
+            '''
+                <get_results_response>
+                    <result id="1f3261c9-e47c-4a21-b677-826ea92d1d59">
+                        <name>abc</name>
+                </result>
+
+                </get_results_response>
+                ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                result (
+                    id: "1f3261c9-e47c-4a21-b677-826ea92d1d59"
+                ) {
+                    id
+                    name
+                    comment
+                    owner
+                    detectionResult{
+                        id
+                        details{
+                            name
+                            value
+                        }
+                    }
+                    reportId
+                    task {
+                        id
+                        name
+                    }
+                    scanNvtVersion
+                    originalThreat
+                    originalSeverity
+                    creationTime
+                    modificationTime
+                    host {
+                        ip
+                        id
+                        hostname
+                    }
+                    port
+                    nvt {
+                        id
+                        score
+                        severities {
+                            type
+                            score
+                            vector
+                        }
+                    }
+                    threat
+                    severity
+                    qod {
+                        value
+                        type
+                    }
+                    description
+                    notes {
+                        id
+                        creationTime
+                        modificationTime
+                        active
+                        text
+                    }
+                    tickets {
+                        id
+                    }
+                    userTags {
+                        count
+                        tags {
+                            id
+                            name
+                        }
+                    }
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        result = json['data']['result']
+
+        self.assertEqual(result['id'], '1f3261c9-e47c-4a21-b677-826ea92d1d59')
+        self.assertEqual(result['name'], 'abc')
+        self.assertIsNone(result['comment'])
+        self.assertIsNone(result['owner'])
+        self.assertIsNone(result['creationTime'])
+        self.assertIsNone(result['modificationTime'])
+        self.assertIsNone(result['detectionResult'])
+        self.assertIsNone(result['reportId'])
+        self.assertIsNone(result['task'])
+        self.assertIsNone(result['host'])
+        self.assertIsNone(result['port'])
+        self.assertIsNone(result['scanNvtVersion'])
+        self.assertIsNone(result['threat'])
+        self.assertIsNone(result['severity'])
+        self.assertIsNone(result['qod'])
+        self.assertIsNone(result['originalThreat'])
+        self.assertIsNone(result['originalSeverity'])
+        self.assertIsNone(result['nvt'])
+        self.assertIsNone(result['description'])
+        self.assertIsNone(result['notes'])
+        self.assertIsNone(result['tickets'])
+        self.assertIsNone(result['userTags'])

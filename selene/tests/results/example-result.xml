@@ -7,87 +7,149 @@
     <modification_time>2020-06-19T09:31:15Z</modification_time>
     <comment/>
     <creation_time>2020-06-19T09:31:15Z</creation_time>
+    <detection>
+      <result id="9184608a-0b86-42e0-b733-4668feebc1c7">
+        <details>
+          <detail>
+            <name>product</name>
+            <value>cpe:/a:python:python:2.7.16</value>
+          </detail>
+          <detail>
+            <name>location</name>
+            <value>/usr/bin/python, /usr/bin/python2.7</value>
+          </detail>
+          <detail>
+            <name>source_oid</name>
+            <value>CVE-2019-13404</value>
+          </detail>
+          <detail>
+            <name>source_name</name>
+            <value>CVE-2019-13404</value>
+          </detail>
+        </details>
+      </result>
+    </detection>
     <report id="f31d3b1a-4642-44bc-86ea-63ea029d4c63"/>
     <task id="dc9c6b7d-c81d-4e20-acd8-b187b018fa42">
       <name>Offline Scan from 2019-06-27T08:10:13+01:00 38</name>
     </task>
-    <host>0.0.0.0<asset asset_id="2bcc682e-3c91-4f9c-80d6-59949159801f"/><hostname>xyzxy</hostname></host>
-    <port/>
-    <nvt oid="1.3.6.1.4.1.25623.1.0.142265">
-      <type>nvt</type>
-      <name>Apache Tomcat RCE Vulnerability - April19 (Windows)</name>
-      <family>Web application abuses</family>
-      <cvss_base>9.3</cvss_base>
-      <severities score="93">
-        <severity type="cvss_base_v2">
-          <origin>NVDCVE</origin>
-          <date>2019-05-10T11:41:35Z</date>
-          <score>93</score>
-          <value>AV:N/AC:M/Au:N/C:C/I:C/A:C</value>
-        </severity>
-      </severities>
-      <tags>cvss_base_vector=AV:N/AC:M/Au:N/C:C/I:C/A:C|summary=Apache Tomcat is prone to a remote code execution vulnerability due to a bug
-  in the way the JRE passes command line arguments to Windows.|insight=When running on Windows with enableCmdLineArguments enabled, the CGI Servlet
-  is vulnerable to Remote Code Execution due to a bug in the way the JRE passes command line arguments to Windows.
-  The CGI Servlet is disabled by default. The CGI option enableCmdLineArguments is disabled by default in Tomcat.|affected=Apache Tomcat 7.0.0 to 7.0.93, 8.5.0 to 8.5.39 and 9.0.0.M1 to 9.0.17.|impact=|solution=Update to version 7.0.94, 8.5.40, 9.0.19 or later.|vuldetect=Checks if a vulnerable version is present on the target host.|solution_type=VendorFix</tags>
-      <solution type="VendorFix">Update to version 7.0.94, 8.5.40, 9.0.19 or later.</solution>
-      <refs>
-        <ref type="cve" id="CVE-2019-0232"/>
-        <ref type="url" id="http://tomcat.apache.org/security-9.html"/>
-        <ref type="url" id="http://tomcat.apache.org/security-8.html"/>
-        <ref type="url" id="http://tomcat.apache.org/security-7.html"/>
-        <ref type="cert-bund" id="CB-K20/0029"/>
-        <ref type="cert-bund" id="CB-K19/0920"/>
-        <ref type="cert-bund" id="CB-K19/0616"/>
-        <ref type="cert-bund" id="CB-K19/0306"/>
-        <ref type="dfn-cert" id="DFN-CERT-2019-1398"/>
-        <ref type="dfn-cert" id="DFN-CERT-2019-0732"/>
-      </refs>
-    </nvt>
-    <scan_nvt_version/>
-    <threat>High</threat>
-    <severity>9.3</severity>
-    <qod>
-      <value>75</value>
-      <type/>
-    </qod>
-    <description/>
-    <original_threat>High</original_threat>
-    <original_severity>9.3</original_severity>
-  </result>
-  <filters id="">
-    <term>apply_overrides=0 min_qod=70 first=1 rows=10 sort=name</term>
-    <keywords>
-      <keyword>
-        <column>apply_overrides</column>
-        <relation>=</relation>
-        <value>0</value>
-      </keyword>
-      <keyword>
-        <column>min_qod</column>
-        <relation>=</relation>
-        <value>70</value>
-      </keyword>
-      <keyword>
-        <column>first</column>
-        <relation>=</relation>
-        <value>1</value>
-      </keyword>
-      <keyword>
-        <column>rows</column>
-        <relation>=</relation>
-        <value>10</value>
-      </keyword>
-      <keyword>
-        <column>sort</column>
-        <relation>=</relation>
-        <value>name</value>
-      </keyword>
-    </keywords>
-  </filters>
-  <sort>
-    <field>name<order>ascending</order></field>
-  </sort>
-  <results start="1" max="-2"/>
-  <result_count>5644<filtered>1</filtered><page>1</page></result_count>
+    <host>0.0.0.0<asset asset_id="2bcc682e-3c91-4f9c-80d6-59949159801f"/>
+    <hostname>xyzxy</hostname>
+  </host>
+  <port/>
+  <nvt oid="1.3.6.1.4.1.25623.1.0.142265">
+    <type>nvt</type>
+    <name>Apache Tomcat RCE Vulnerability - April19 (Windows)</name>
+    <family>Web application abuses</family>
+    <cvss_base>9.3</cvss_base>
+    <severities score="93">
+      <severity type="cvss_base_v2">
+        <origin>NVDCVE</origin>
+        <date>2019-05-10T11:41:35Z</date>
+        <score>93</score>
+        <value>AV:N/AC:M/Au:N/C:C/I:C/A:C</value>
+      </severity>
+    </severities>
+    <tags>cvss_base_vector=AV:N/AC:M/Au:N/C:C/I:C/A:C|summary=Apache Tomcat is prone to a remote code execution vulnerability due to a bug
+    in the way the JRE passes command line arguments to Windows.|insight=When running on Windows with enableCmdLineArguments enabled, the CGI Servlet
+    is vulnerable to Remote Code Execution due to a bug in the way the JRE passes command line arguments to Windows.
+    The CGI Servlet is disabled by default. The CGI option enableCmdLineArguments is disabled by default in Tomcat.|affected=Apache Tomcat 7.0.0 to 7.0.93, 8.5.0 to 8.5.39 and 9.0.0.M1 to 9.0.17.|impact=|solution=Update to version 7.0.94, 8.5.40, 9.0.19 or later.|vuldetect=Checks if a vulnerable version is present on the target host.|solution_type=VendorFix</tags>
+    <solution type="VendorFix">Update to version 7.0.94, 8.5.40, 9.0.19 or later.</solution>
+    <refs>
+      <ref type="cve" id="CVE-2019-0232"/>
+      <ref type="url" id="http://tomcat.apache.org/security-9.html"/>
+      <ref type="url" id="http://tomcat.apache.org/security-8.html"/>
+      <ref type="url" id="http://tomcat.apache.org/security-7.html"/>
+      <ref type="cert-bund" id="CB-K20/0029"/>
+      <ref type="cert-bund" id="CB-K19/0920"/>
+      <ref type="cert-bund" id="CB-K19/0616"/>
+      <ref type="cert-bund" id="CB-K19/0306"/>
+      <ref type="dfn-cert" id="DFN-CERT-2019-1398"/>
+      <ref type="dfn-cert" id="DFN-CERT-2019-0732"/>
+    </refs>
+  </nvt>
+  <scan_nvt_version/>
+  <threat>High</threat>
+  <severity>9.3</severity>
+  <qod>
+    <value>75</value>
+    <type/>
+  </qod>
+  <description/>
+  <original_threat>High</original_threat>
+  <original_severity>9.3</original_severity>
+  <notes>
+    <note id="330c8602-9a29-4683-8fd0-908ac3c66914">
+      <permissions>
+        <permission>
+          <name>Everything</name>
+        </permission>
+      </permissions>
+      <owner>
+        <name>admin</name>
+      </owner>
+      <nvt oid="1.3.6.1.4.1.25623.1.0.142265">
+        <type>nvt</type>
+        <name>Apache Tomcat RCE Vulnerability - April19 (Windows)</name>
+      </nvt>
+      <creation_time>2021-03-12T13:00:32Z</creation_time>
+      <modification_time>2021-03-12T13:00:32Z</modification_time>
+      <writable>1</writable>
+      <in_use>0</in_use>
+      <active>1</active>
+      <text excerpt="0">test</text>
+      <orphan>0</orphan>
+    </note>
+  </notes>
+  <tickets>
+    <ticket id="cc9170a3-b374-4675-be17-ba31c4953f88"/>
+    <ticket id="6e93d05c-26b7-42de-8d6e-40afccff831c"/>
+  </tickets>
+  <user_tags>
+    <count>1</count>
+    <tag id="955e4b08-0a8e-4336-89a9-3c573824db2d">
+      <name>result:unnamed</name>
+      <value/>
+      <comment>test</comment>
+    </tag>
+  </user_tags>
+</result>
+<filters id="">
+  <term>apply_overrides=0 min_qod=70 first=1 rows=10 sort=name</term>
+  <keywords>
+    <keyword>
+      <column>apply_overrides</column>
+      <relation>=</relation>
+      <value>0</value>
+    </keyword>
+    <keyword>
+      <column>min_qod</column>
+      <relation>=</relation>
+      <value>70</value>
+    </keyword>
+    <keyword>
+      <column>first</column>
+      <relation>=</relation>
+      <value>1</value>
+    </keyword>
+    <keyword>
+      <column>rows</column>
+      <relation>=</relation>
+      <value>10</value>
+    </keyword>
+    <keyword>
+      <column>sort</column>
+      <relation>=</relation>
+      <value>name</value>
+    </keyword>
+  </keywords>
+</filters>
+<sort>
+  <field>name<order>ascending</order>
+  </field>
+</sort>
+<results start="1" max="-2"/>
+<result_count>5644<filtered>1</filtered>
+  <page>1</page>
+</result_count>
 </get_results_response>
