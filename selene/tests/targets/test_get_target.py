@@ -40,7 +40,7 @@ class TargetTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_get_target(self, mock_gmp: GmpMockFactory):
+    def test_get_target_no_tasks(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
             'get_target',
             '''
@@ -181,6 +181,73 @@ class TargetTestCase(SeleneTestCase):
 
         self.assertEqual(task['name'], 'task1')
         self.assertEqual(task['id'], 'ef778231-6b56-480f-8e1e-e89a09bc03bd')
+
+    def test_get_target(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_target',
+            '''
+            <get_target_response>
+                <target id="08b69003-5fc2-4037-a479-93b440211c73">
+                    <name>foo</name>
+                    <comment>bar</comment>
+                    <hosts>192.168.10.90</hosts>
+                    <exclude_hosts>192.168.10.9</exclude_hosts>
+                    <max_hosts>1</max_hosts>
+                    <ssh_credential id="33d0cd82-57c6-11e1-8ed1-4061823cc51a">
+                        <name>baz</name>
+                        <port>42</port>
+                        <trash>0</trash>
+                    </ssh_credential>
+                    <smb_credential id="33d0cd82-57c6-11e1-8ed1-4061823cc51b">
+                        <name>baz</name>
+                        <trash>0</trash>
+                    </smb_credential>
+                    <esxi_credential id="33d0cd82-57c6-11e1-8ed1-4061823cc51c">
+                        <name>qux</name>
+                        <trash>0</trash>
+                    </esxi_credential>
+                    <snmp_credential id="33d0cd82-57c6-11e1-8ed1-4061823cc51d">
+                        <name>quux</name>
+                        <trash>0</trash>
+                    </snmp_credential>
+                    <port_list id="33d0cd82-57c6-11e1-8ed1-406186ea4fc5">
+                        <name>All IANA assigned TCP 2012-02-10</name>
+                        <trash>0</trash>
+                    </port_list>
+                    <allow_simultaneous_ips>1</allow_simultaneous_ips>
+                    <reverse_lookup_only>0</reverse_lookup_only>
+                    <reverse_lookup_unify>0</reverse_lookup_unify>
+                    <alive_tests>Scan Config Default</alive_tests>
+                    <tasks/>
+                </target>
+            </get_target_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                target(id: "08b69003-5fc2-4037-a479-93b440211c73") {
+                    id
+                    name
+                    tasks {
+                        id
+                        name
+                    }
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        tasks = json['data']['target']['tasks']
+
+        self.assertIsNone(tasks)
 
 
 class TargetGetEntityTestCase(SeleneTestCase):
