@@ -83,7 +83,7 @@ class GetTarget(graphene.Field):
     def resolve(_root, info, target_id: UUID):
         gmp = get_gmp(info)
 
-        xml = gmp.get_target(str(target_id))
+        xml = gmp.get_target(str(target_id), tasks=True)
         return xml.find('target')
 
 

@@ -76,6 +76,11 @@ class TargetTestCase(SeleneTestCase):
                     <reverse_lookup_only>0</reverse_lookup_only>
                     <reverse_lookup_unify>0</reverse_lookup_unify>
                     <alive_tests>Scan Config Default</alive_tests>
+                    <tasks>
+                        <task id="ef778231-6b56-480f-8e1e-e89a09bc03bd">
+                            <name>task1</name>
+                        </task>
+                    </tasks>
                 </target>
             </get_target_response>
             ''',
@@ -119,6 +124,10 @@ class TargetTestCase(SeleneTestCase):
                     reverseLookupUnify
                     aliveTests
                     portRange
+                    tasks {
+                        id
+                        name
+                    }
                 }
             }
             '''
@@ -168,7 +177,12 @@ class TargetTestCase(SeleneTestCase):
         self.assertEqual(target['reverseLookupUnify'], False)
         self.assertEqual(target['portRange'], None)
 
+        task = target['tasks'][0]
+
+        self.assertEqual(task['name'], 'task1')
+        self.assertEqual(task['id'], 'ef778231-6b56-480f-8e1e-e89a09bc03bd')
+
 
 class TargetGetEntityTestCase(SeleneTestCase):
     gmp_name = 'target'
-    test_get_entity = make_test_get_entity(gmp_name)
+    test_get_entity = make_test_get_entity(gmp_name, tasks=True)

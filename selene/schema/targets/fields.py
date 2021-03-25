@@ -50,6 +50,10 @@ class TargetSSHCredential(TargetCredential):
         return get_int_from_element(root, 'port')
 
 
+class TargetTask(BaseObjectType):
+    pass
+
+
 class Target(EntityObjectType):
     """Target ObjectType"""
 
@@ -80,6 +84,10 @@ class Target(EntityObjectType):
         )
     )
     port_range = graphene.String()
+    tasks = graphene.List(
+        TargetTask,
+        description="List of tasks that use the target",
+    )
 
     def resolve_hosts(root, _info):
         hosts = get_text_from_element(root, 'hosts')
@@ -125,3 +133,9 @@ class Target(EntityObjectType):
 
     def resolve_port_range(root, _info):
         return get_text_from_element(root, "port_range")
+
+    def resolve_tasks(root, _info):
+        tasks = root.find('tasks')
+        if len(tasks) == 0:
+            return None
+        return tasks.findall('task')
