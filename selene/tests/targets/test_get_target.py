@@ -40,7 +40,7 @@ class TargetTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_get_target_no_tasks(self, mock_gmp: GmpMockFactory):
+    def test_get_target(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
             'get_target',
             '''
@@ -182,7 +182,7 @@ class TargetTestCase(SeleneTestCase):
         self.assertEqual(task['name'], 'task1')
         self.assertEqual(task['id'], 'ef778231-6b56-480f-8e1e-e89a09bc03bd')
 
-    def test_get_target(self, mock_gmp: GmpMockFactory):
+    def test_get_target_no_tasks(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
             'get_target',
             '''
