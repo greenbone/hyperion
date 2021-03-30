@@ -385,6 +385,34 @@ class FilterString(graphene.Scalar):
 class EntityConnectionField(graphene.Field):
     """A graphene field for creating a Relay `Connection` based on an
     entity type
+
+    Used to implement forward and backward pagination. For forward pagination
+    the arguments after and first must be provided and for backward pagination
+    the arguments before and last must be used.
+
+    To use forward pagination, two arguments are required.
+
+    first takes a non‐negative integer.
+    after takes the cursor pointing to a position in a list after that nodes
+    should be returned.
+
+    To enable backward pagination, two arguments are required.
+
+    last takes a non‐negative integer.
+    before takes the cursor pointing to a position in a list before that nodes
+    should be returned.
+
+    Args:
+        filter_string (str, optional): Optional filter string to be
+            used with query.
+        after (str, optional): Show nodes after this cursor. Must be used in
+            conjunction with first argument.
+        before (str, optional): Show nodes before this cursor. Must be used
+            in conjunction with the last argument.
+        first (int, optional): Show first number of nodes using the after
+            cursor.
+        last (int, optional): Show the last number of nodes using the before
+            cursor.
     """
 
     connection_type = None
