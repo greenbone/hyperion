@@ -22,14 +22,15 @@ import graphene
 
 from selene.schema.severity import SeverityType
 
-from selene.schema.base import BaseObjectType
-from selene.schema.entity import EntityUserTags
+from selene.schema.base import BaseObjectType, UuidObjectTypeMixin
+from selene.schema.entity import (
+    SimpleEntityObjectType,
+    UserTagsObjectTypeMixin,
+)
 from selene.schema.resolver import find_resolver, text_resolver
 from selene.schema.utils import (
     get_text,
-    get_datetime_from_element,
     get_int_from_element,
-    get_owner,
     get_text_from_element,
 )
 from selene.schema.parser import parse_uuid
@@ -47,13 +48,8 @@ class DetectionResultDetail(graphene.ObjectType):
     value = graphene.String()
 
 
-class DetectionResult(graphene.ObjectType):
-    uuid = graphene.UUID(name='id')
-
+class DetectionResult(UuidObjectTypeMixin, graphene.ObjectType):
     details = graphene.List(DetectionResultDetail)
-
-    def resolve_uuid(root, _info):
-        return parse_uuid(root.get('id'))
 
     def resolve_details(root, _info):
         details = root.find('details')
@@ -93,48 +89,13 @@ class ResultTask(BaseObjectType):
     pass
 
 
-class Result(BaseObjectType):
-    """Result object type. Is part of the Result object.
-
-    Args:
-        name (str): Name of result
-        id (UUID): UUID of result
-        comment (str): Comment for this result
-        description (str): Description of the result
-        owner (str): Owner of the result
-        creation_time (DateTime): Date and time the result was created
-        modification_time (DateTime): Date and time the result was last modified
-        detection_result (DetectionResult): Detection result
-        report_id (UUID): ID of the corresponding report
-        task (ResultTask): Task the result belongs to
-        host (ResultHost): Host the result belongs to
-        port (str): The port on the host
-        nvt (NVT): NVT the result belongs to
-        scan_nvt_version (str): Version of the NVT used in scan
-        thread (str)
-        severity (str)
-        qod (QOD): The quality of detection (QoD) of the result
-        original_thread (str): Original threat when overriden
-        original_severity (str): Original severity when overriden
-        notes (List(Note)): List of notes on the result
-        tickets (List(RemediationTicket)): List of tickets on the result
-        user_tags (List(EntityUserTag)): Tags attached to the result
-
-    """
+class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
+    """An object type representing a Result entity"""
 
     class Meta:
         default_resolver = find_resolver
 
-    comment = graphene.String(description='Comment for this result')
     description = graphene.String(description='Description of the result')
-    owner = graphene.String(description='Owner of the result')
-
-    creation_time = graphene.DateTime(
-        description='Date and time the result was created'
-    )
-    modification_time = graphene.DateTime(
-        description='Date and time the result was last modified'
-    )
 
     detection_result = graphene.Field(
         DetectionResult, description='Detection result'
@@ -169,24 +130,8 @@ class Result(BaseObjectType):
         RemediationTicket, description='List of tickets on the result'
     )
 
-    user_tags = graphene.Field(
-        EntityUserTags, description='Tags attached to the result'
-    )
-
-    def resolve_comment(root, _info):
-        return get_text_from_element(root, 'comment')
-
     def resolve_description(root, _info):
         return get_text_from_element(root, 'description')
-
-    def resolve_owner(root, _info):
-        return get_owner(root)
-
-    def resolve_creation_time(root, _info):
-        return get_datetime_from_element(root, 'creation_time')
-
-    def resolve_modification_time(root, _info):
-        return get_datetime_from_element(root, 'modification_time')
 
     def resolve_detection_result(root, _info):
         detection = root.find('detection')
