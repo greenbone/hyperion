@@ -39,7 +39,7 @@ from selene.schema.results.fields import Result
 
 
 class GetResult(graphene.Field):
-    """Gets a single report.
+    """Gets a single result.
 
     Args:
         id (UUID): UUID of the result being queried
@@ -54,20 +54,6 @@ class GetResult(graphene.Field):
                     comment
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "result": {
-                        "name": "Some Result",
-                        "comment": "May the 4th",
-                    }
-                }
-            }
-
     """
 
     def __init__(self):
@@ -87,51 +73,7 @@ class GetResult(graphene.Field):
 
 
 class GetResults(EntityConnectionField):
-    """Gets a list of reports with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
-
-    Example:
-
-        .. code-block::
-
-            query {
-                results (filterString: "name~Result rows=4") {
-                    nodes {
-                        id
-                        name
-                    }
-                }
-            }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "results": {
-                        "nodes": [
-                            {
-                                "id": "1fb47870-47ce-4b9f-a8f9-8b4b19624c59",
-                                "name": "Some Result"
-                            },
-                            {
-                                "id": "5d07b6eb-27f9-424a-a206-34babbba7b4d",
-                                "name": "Another Result"
-                            },
-                            {
-                                "id": "3e2dab9d-8abe-4eb6-a3c7-5171738ac520",
-                                "name": "More Result(s)"
-                            }
-                        ]
-                    }
-                }
-            }
-
-    """
+    """Gets a list of results with pagination"""
 
     entity_type = Result
 

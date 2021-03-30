@@ -119,10 +119,10 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
     )
 
     original_threat = graphene.String(
-        description='Original threat when overriden'
+        description='Original threat when overridden'
     )
     original_severity = SeverityType(
-        description='Original severity when overriden'
+        description='Original severity when overridden'
     )
 
     notes = graphene.List(Note, description='List of notes on the result')
