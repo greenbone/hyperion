@@ -35,6 +35,7 @@ from selene.schema.utils import (
 )
 from selene.schema.parser import parse_uuid
 
+from selene.schema.cves.fields import CVE
 from selene.schema.notes.fields import Note
 from selene.schema.nvts.fields import ScanConfigNVT
 from selene.schema.overrides.fields import Override
@@ -66,6 +67,15 @@ class OriginResult(UUIDObjectTypeMixin, graphene.ObjectType):
         if details is None or len(details) == 0:
             return None
         return details.findall('detail')
+
+
+class ResultNVT(ScanConfigNVT):
+    version = graphene.String(description='Version of the NVT used in the scan')
+
+
+class ResultInformation(graphene.Union):
+    class Meta:
+        types = (ResultNVT, CVE)
 
 
 class ResultType(graphene.Enum):
@@ -138,7 +148,11 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
         description='The location on the host where the result is detected'
     )
 
-    nvt = graphene.Field(ScanConfigNVT, description='NVT the result belongs to')
+    information = graphene.Field(
+        ResultInformation,
+        description='Detailed information about the detected result. Currently '
+        'it can be a NVT or CVE',
+    )
 
     scan_nvt_version = graphene.String(
         description='Version of the NVT used in scan'
