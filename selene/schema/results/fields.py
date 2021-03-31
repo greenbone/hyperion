@@ -123,15 +123,13 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
     scan_nvt_version = graphene.String(
         description='Version of the NVT used in scan'
     )
-    threat = graphene.String()
-    severity = SeverityType()
 
     qod = graphene.Field(
         QoD, description='The quality of detection (QoD) of the result'
     )
 
-    original_threat = graphene.String(
-        description='Original threat when overridden'
+    severity = SeverityType(
+        description='Severity with possible applied overrides'
     )
     original_severity = SeverityType(
         description='Original severity when overridden'
@@ -168,14 +166,8 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
     def resolve_scan_nvt_version(root, _info):
         return get_text_from_element(root, 'scan_nvt_version')
 
-    def resolve_threat(root, _info):
-        return get_text_from_element(root, 'threat')
-
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'severity')
-
-    def resolve_original_threat(root, _info):
-        return get_text_from_element(root, 'original_threat')
 
     def resolve_original_severity(root, _info):
         return get_text_from_element(root, 'original_severity')
