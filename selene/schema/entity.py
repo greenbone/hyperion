@@ -70,7 +70,7 @@ class OwnerObjectTypeMixin:
         return get_owner(root)
 
 
-class CommentObjetTypeMixin:
+class CommentObjectTypeMixin:
 
     comment = graphene.String(description='Additional comment about the entity')
 
@@ -122,7 +122,7 @@ class AccessObjectTypeMixin:
 
 class SimpleEntityObjectType(
     OwnerObjectTypeMixin,
-    CommentObjetTypeMixin,
+    CommentObjectTypeMixin,
     CreationModifactionObjectTypeMixin,
     BaseObjectType,
 ):
