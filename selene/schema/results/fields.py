@@ -68,6 +68,11 @@ class OriginResult(UUIDObjectTypeMixin, graphene.ObjectType):
         return details.findall('detail')
 
 
+class ResultType(graphene.Enum):
+    CVE = 'CVE'
+    NVT = 'NVT'
+
+
 class QoD(graphene.ObjectType):
     value = graphene.Int()
     type = graphene.String()
@@ -115,6 +120,13 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
         OriginResult,
         description='Referenced result that provided information for creating '
         'this result',
+    )
+
+    result_type = graphene.Field(
+        ResultType,
+        name='type',
+        description='Type of result. Currently it can be a NVT or CVE based '
+        'result',
     )
 
     report = graphene.Field(
