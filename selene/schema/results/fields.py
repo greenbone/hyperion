@@ -154,10 +154,6 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
         'it can be a NVT or CVE',
     )
 
-    scan_nvt_version = graphene.String(
-        description='Version of the NVT used in scan'
-    )
-
     qod = graphene.Field(
         QoD, description='The quality of detection (QoD) of the result'
     )
