@@ -17,10 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # pylint: disable=no-self-argument, no-member
-
 import graphene
 
-from selene.schema.parser import parse_uuid
+from selene.schema.base import BaseObjectType, NameObjectTypeMixin
 
 from selene.schema.utils import (
     get_owner,
@@ -34,8 +33,8 @@ from selene.schema.tags.fields import Tag
 
 
 class EntityUserTags(graphene.ObjectType):
-    count = graphene.Int()
-    tags = graphene.List(Tag)
+    count = graphene.Int(description='Number of tags')
+    tags = graphene.List(Tag, description='List of tags')
 
     def resolve_count(root, _info):
         return get_int_from_element(root, 'count')
@@ -44,50 +43,18 @@ class EntityUserTags(graphene.ObjectType):
         return root.findall('tag')
 
 
-class EntityPermission(graphene.ObjectType):
-    """Simple permission description."""
-
-    name = graphene.String()
-
-    def resolve_name(root, _info):
-        return get_text_from_element(root, 'name')
+class EntityPermission(NameObjectTypeMixin, graphene.ObjectType):
+    """Simple permission description"""
 
 
-class EntityObjectType(graphene.ObjectType):
+class CreationModifactionObjectTypeMixin:
 
-    uuid = graphene.UUID(name='id')
-
-    owner = graphene.String()
-    name = graphene.String()
-    comment = graphene.String()
-
-    writable = graphene.Boolean()
-    in_use = graphene.Boolean()
-
-    creation_time = graphene.DateTime()
-    modification_time = graphene.DateTime()
-
-    permissions = graphene.List(EntityPermission)
-
-    user_tags = graphene.Field(EntityUserTags)
-
-    def resolve_uuid(root, _info):
-        return parse_uuid(root.get('id'))
-
-    def resolve_owner(root, _info):
-        return get_owner(root)
-
-    def resolve_name(root, _info):
-        return get_text_from_element(root, 'name')
-
-    def resolve_comment(root, _info):
-        return get_text_from_element(root, 'comment')
-
-    def resolve_writable(root, _info):
-        return get_boolean_from_element(root, 'writable')
-
-    def resolve_in_use(root, _info):
-        return get_boolean_from_element(root, 'in_use')
+    creation_time = graphene.DateTime(
+        description='Date and time the entity has been created'
+    )
+    modification_time = graphene.DateTime(
+        description='Date and time the entity was last modified '
+    )
 
     def resolve_creation_time(root, _info):
         return get_datetime_from_element(root, 'creation_time')
@@ -95,11 +62,78 @@ class EntityObjectType(graphene.ObjectType):
     def resolve_modification_time(root, _info):
         return get_datetime_from_element(root, 'modification_time')
 
+
+class OwnerObjectTypeMixin:
+    owner = graphene.String(description='Name of the user owning the entity')
+
+    def resolve_owner(root, _info):
+        return get_owner(root)
+
+
+class CommentObjectTypeMixin:
+
+    comment = graphene.String(description='Additional comment about the entity')
+
+    def resolve_comment(root, _info):
+        return get_text_from_element(root, 'comment')
+
+
+class PermissionObjectTypeMixin:
+
+    permissions = graphene.List(
+        EntityPermission,
+        description='Permissions of the current user on the entity',
+    )
+
     def resolve_permissions(root, _info):
         permissions = root.find('permissions')
         if permissions is None or len(permissions) == 0:
             return None
         return permissions.findall('permission')
 
+
+class UserTagsObjectTypeMixin:
+
+    user_tags = graphene.Field(
+        EntityUserTags, description='Tags connected to the entity by the user'
+    )
+
     def resolve_user_tags(root, _info):
         return root.find('user_tags')
+
+
+class AccessObjectTypeMixin:
+
+    writable = graphene.Boolean(
+        description='False if the current user is not allowed to change the'
+        ' entity'
+    )
+    in_use = graphene.Boolean(
+        description='True if the entity is used elsewhere and can not be'
+        ' modified'
+    )
+
+    def resolve_writable(root, _info):
+        return get_boolean_from_element(root, 'writable')
+
+    def resolve_in_use(root, _info):
+        return get_boolean_from_element(root, 'in_use')
+
+
+class SimpleEntityObjectType(
+    OwnerObjectTypeMixin,
+    CommentObjectTypeMixin,
+    CreationModifactionObjectTypeMixin,
+    BaseObjectType,
+):
+    """A simple Entity object type without permissions, user tags, in use and
+    writeable fields"""
+
+
+class EntityObjectType(
+    UserTagsObjectTypeMixin,
+    PermissionObjectTypeMixin,
+    AccessObjectTypeMixin,
+    SimpleEntityObjectType,
+):
+    """An common object type for Entities"""

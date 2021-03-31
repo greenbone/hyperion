@@ -37,6 +37,7 @@ $ cd hyperion && git log
 - Increased coverage for `OvalDefinitions`, `CertBundAdvisories` and `DFNCertAdvisories` entity [#30](https://github.com/greenbone/hyperion/pull/30)
 - Added the `deprecatedBy` field to `CPEs` [#51](https://github.com/greenbone/hyperion/pull/51)
 - Refactored `NVT` entity, removed complexity and redundant fields [#58](https://github.com/greenbone/hyperion/pull/58)[#60](https://github.com/greenbone/hyperion/pull/60)[#64](https://github.com/greenbone/hyperion/pull/64)
+- Improved GraphQL schema [#83](https://github.com/greenbone/hyperion/pull/83)
 
 ### Deprecated
 

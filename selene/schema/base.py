@@ -24,12 +24,23 @@ from selene.schema.parser import parse_uuid
 from selene.schema.utils import get_text_from_element
 
 
-class BaseObjectType(graphene.ObjectType):
-    uuid = graphene.UUID(name='id')
-    name = graphene.String()
+class NameObjectTypeMixin:
+    name = graphene.String(description='Name of the object')
+
+    def resolve_name(root, _info):
+        return get_text_from_element(root, 'name')
+
+
+class UUIDObjectTypeMixin:
+    uuid = graphene.UUID(
+        name='id', description='Unique identifier of the object'
+    )
 
     def resolve_uuid(root, _info):
         return parse_uuid(root.get('id'))
 
-    def resolve_name(root, _info):
-        return get_text_from_element(root, 'name')
+
+class BaseObjectType(
+    NameObjectTypeMixin, UUIDObjectTypeMixin, graphene.ObjectType
+):
+    """ A base object type resolving an ID and name """
