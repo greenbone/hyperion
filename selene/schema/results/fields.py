@@ -37,6 +37,7 @@ from selene.schema.parser import parse_uuid
 
 from selene.schema.notes.fields import Note
 from selene.schema.nvts.fields import ScanConfigNVT
+from selene.schema.overrides.fields import Override
 from selene.schema.tickets.fields import RemediationTicket
 
 
@@ -137,6 +138,9 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
     )
 
     notes = graphene.List(Note, description='List of notes on the result')
+    overrides = graphene.List(
+        Override, description='List of overrides on the result'
+    )
     tickets = graphene.List(
         RemediationTicket, description='List of tickets on the result'
     )
