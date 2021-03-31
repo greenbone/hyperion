@@ -96,7 +96,7 @@ class ResultHost(graphene.ObjectType):
 
 
 class ResultTask(BaseObjectType):
-    pass
+    """ A task referenced by ID and name """
 
 
 class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
