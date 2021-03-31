@@ -22,7 +22,7 @@ import graphene
 
 from selene.schema.severity import SeverityType
 
-from selene.schema.base import BaseObjectType, UuidObjectTypeMixin
+from selene.schema.base import BaseObjectType, UUIDObjectTypeMixin
 from selene.schema.entity import (
     SimpleEntityObjectType,
     UserTagsObjectTypeMixin,
@@ -48,7 +48,7 @@ class DetectionResultDetail(graphene.ObjectType):
     value = graphene.String()
 
 
-class DetectionResult(UuidObjectTypeMixin, graphene.ObjectType):
+class DetectionResult(UUIDObjectTypeMixin, graphene.ObjectType):
     details = graphene.List(DetectionResultDetail)
 
     def resolve_details(root, _info):

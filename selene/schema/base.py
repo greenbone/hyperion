@@ -31,7 +31,7 @@ class NameObjectTypeMixin:
         return get_text_from_element(root, 'name')
 
 
-class UuidObjectTypeMixin:
+class UUIDObjectTypeMixin:
     uuid = graphene.UUID(
         name='id', description='Unique identifier of the object'
     )
@@ -41,6 +41,6 @@ class UuidObjectTypeMixin:
 
 
 class BaseObjectType(
-    NameObjectTypeMixin, UuidObjectTypeMixin, graphene.ObjectType
+    NameObjectTypeMixin, UUIDObjectTypeMixin, graphene.ObjectType
 ):
     """ A base object type resolving an ID and name """
