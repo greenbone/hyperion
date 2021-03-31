@@ -40,7 +40,9 @@ from selene.schema.nvts.fields import ScanConfigNVT
 from selene.schema.tickets.fields import RemediationTicket
 
 
-class DetectionResultDetail(graphene.ObjectType):
+class OriginResultDetail(graphene.ObjectType):
+    """Details about the origin of a referenced result"""
+
     class Meta:
         default_resolver = text_resolver
 
@@ -48,8 +50,15 @@ class DetectionResultDetail(graphene.ObjectType):
     value = graphene.String()
 
 
-class DetectionResult(UUIDObjectTypeMixin, graphene.ObjectType):
-    details = graphene.List(DetectionResultDetail)
+class OriginResult(UUIDObjectTypeMixin, graphene.ObjectType):
+    """Referenced Result that provides the information for the referencing
+    result.
+
+    For example a Local Security Check (LSC) NVT could reference a NVT that
+    gathered a list of installed packages.
+    """
+
+    details = graphene.List(OriginResultDetail)
 
     def resolve_details(root, _info):
         details = root.find('details')
@@ -97,8 +106,10 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
 
     description = graphene.String(description='Description of the result')
 
-    detection_result = graphene.Field(
-        DetectionResult, description='Detection result'
+    origin_result = graphene.Field(
+        OriginResult,
+        description='Referenced result that provided information for creating '
+        'this result',
     )
 
     report_id = graphene.UUID(description="ID of the corresponding report")
