@@ -76,6 +76,9 @@ class CreateOverrideInput(graphene.InputObjectType):
     hosts = graphene.List(
         graphene.String, description="A list of host addresses"
     )
+    new_severity = graphene.Float(
+        required=True, description="Severity to which should be overridden"
+    )
     port = graphene.String(description="Port to which the override applies")
     result_id = graphene.UUID(
         description="UUID of a result to which override applies"
@@ -107,6 +110,7 @@ class CreateOverride(graphene.Mutation):
             hosts = [str(host) for host in input_object.hosts]
         else:
             hosts = None
+        new_severity = input_object.new_severity
         port = input_object.port
         result_id = (
             str(input_object.result_id)
@@ -127,6 +131,7 @@ class CreateOverride(graphene.Mutation):
             nvt_oid,
             days_active=days_active,
             hosts=hosts,
+            new_severity=new_severity,
             port=port,
             result_id=result_id,
             severity=severity,
@@ -155,6 +160,9 @@ class ModifyOverrideInput(graphene.InputObjectType):
     )
     hosts = graphene.List(
         graphene.String, description="A list of hosts addresses"
+    )
+    new_severity = graphene.Float(
+        required=True, description="Severity to which should be overridden"
     )
     port = graphene.String(description="Port to which the override applies")
     result_id = graphene.UUID(
@@ -187,6 +195,7 @@ class ModifyOverride(graphene.Mutation):
             hosts = [str(host) for host in input_object.hosts]
         else:
             hosts = None
+        new_severity = input_object.new_severity
         port = input_object.port
         result_id = (
             str(input_object.result_id)
@@ -207,6 +216,7 @@ class ModifyOverride(graphene.Mutation):
             text,
             days_active=days_active,
             hosts=hosts,
+            new_severity=new_severity,
             port=port,
             result_id=result_id,
             severity=severity,
