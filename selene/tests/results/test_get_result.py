@@ -87,7 +87,7 @@ class ResultsTestCase(SeleneTestCase):
                     name
                     comment
                     owner
-                    detectionResult{
+                    originResult{
                         id
                         details{
                             name
@@ -166,13 +166,13 @@ class ResultsTestCase(SeleneTestCase):
             result['modificationTime'], '2020-06-19T09:31:15+00:00'
         )
 
-        self.assertIsNotNone(result['detectionResult'])
-        detection_result = result['detectionResult']
+        self.assertIsNotNone(result['originResult'])
+        origin_result = result['originResult']
         self.assertEqual(
-            detection_result['id'], '9184608a-0b86-42e0-b733-4668feebc1c7'
+            origin_result['id'], '9184608a-0b86-42e0-b733-4668feebc1c7'
         )
-        self.assertIsNotNone(detection_result['details'])
-        details = detection_result['details']
+        self.assertIsNotNone(origin_result['details'])
+        details = origin_result['details']
         self.assertEqual(len(details), 4)
         detail1 = details[0]
         self.assertEqual(detail1['name'], 'product')
@@ -263,7 +263,7 @@ class ResultsTestCase(SeleneTestCase):
                     name
                     comment
                     owner
-                    detectionResult{
+                    originResult{
                         id
                         details{
                             name
@@ -336,7 +336,7 @@ class ResultsTestCase(SeleneTestCase):
         self.assertIsNone(result['owner'])
         self.assertIsNone(result['creationTime'])
         self.assertIsNone(result['modificationTime'])
-        self.assertIsNone(result['detectionResult'])
+        self.assertIsNone(result['originResult'])
         self.assertIsNone(result['reportId'])
         self.assertIsNone(result['task'])
         self.assertIsNone(result['host'])
