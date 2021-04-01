@@ -32,11 +32,13 @@ from selene.schema.utils import (
     get_text_from_element,
 )
 
+from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
 from selene.schema.nvts.fields import ScanConfigNVT as NVT
-from selene.schema.results.queries import Result
 from selene.schema.tasks.fields import Task
 
+class OverrideResult(BaseObjectType):
+    pass
 
 class Override(EntityObjectType):
     class Meta:
@@ -60,7 +62,7 @@ class Override(EntityObjectType):
 
     nvt = graphene.Field(NVT)
     task = graphene.Field(Task)
-    result = graphene.Field(Result)
+    result = graphene.Field(OverrideResult)
 
     def resolve_name(root, _info):
         raise GraphQLError(
