@@ -114,7 +114,9 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
     report_id = graphene.UUID(description="ID of the corresponding report")
     task = graphene.Field(ResultTask, description='Task the result belongs to')
     host = graphene.Field(ResultHost, description='Host the result belongs to')
-    port = graphene.String(description='The port on the host')
+    location = graphene.String(
+        description='The location on the host where the result is detected'
+    )
 
     nvt = graphene.Field(ScanConfigNVT, description='NVT the result belongs to')
 
@@ -157,7 +159,7 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
     def resolve_task(root, _info):
         return root.find('task')
 
-    def resolve_port(root, _info):
+    def resolve_location(root, _info):
         return get_text_from_element(root, 'port')
 
     def resolve_scan_nvt_version(root, _info):

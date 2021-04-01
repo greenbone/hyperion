@@ -109,7 +109,7 @@ class ResultsTestCase(SeleneTestCase):
                         id
                         hostname
                     }
-                    port
+                    location
                     nvt {
                         id
                         score
@@ -285,7 +285,7 @@ class ResultsTestCase(SeleneTestCase):
                         id
                         hostname
                     }
-                    port
+                    location
                     nvt {
                         id
                         score
@@ -340,7 +340,7 @@ class ResultsTestCase(SeleneTestCase):
         self.assertIsNone(result['reportId'])
         self.assertIsNone(result['task'])
         self.assertIsNone(result['host'])
-        self.assertIsNone(result['port'])
+        self.assertIsNone(result['location'])
         self.assertIsNone(result['scanNvtVersion'])
         self.assertIsNone(result['threat'])
         self.assertIsNone(result['severity'])
