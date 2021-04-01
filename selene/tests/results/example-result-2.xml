@@ -1,0 +1,57 @@
+<get_results_response status="200" status_text="OK">
+      <result id="2b555c60-e597-4b18-9d24-dac30f61cfa8">
+        <owner>
+          <name>admin</name>
+        </owner>
+        <modification_time>2021-04-07T07:41:47Z</modification_time>
+        <comment/>
+        <creation_time>2021-04-07T07:41:47Z</creation_time>
+        <report id="9699a95d-e556-4af7-83ac-a7b70d90832a"/>
+        <task id="ab9a1470-fc01-4547-9da0-33df6c1aa5d1">
+          <name>Report Container</name>
+        </task>
+        <detection>
+          <result id="2b555c60-e597-4b18-9d24-dac30f61cfa8">
+            <details>
+              <detail>
+                <name>product</name>
+                <value>cpe:/a:nginx:nginx:1.14.2</value>
+              </detail>
+              <detail>
+                <name>location</name>
+                <value>80/tcp</value>
+              </detail>
+              <detail>
+                <name>source_oid</name>
+                <value>CVE-2018-16845</value>
+              </detail>
+              <detail>
+                <name>source_name</name>
+                <value>CVE-2018-16845</value>
+              </detail>
+            </details>
+          </result>
+        </detection>
+        <host>192.168.9.113<asset asset_id="eb357684-6fcf-4d31-a5e0-02abe040caa4"/><hostname/></host>
+        <port/>
+        <nvt oid="CVE-2018-16845">
+          <type>cve</type>
+          <name>CVE-2018-16845</name>
+          <cvss_base>6.1000000000000000</cvss_base>
+          <severities score="61"/>
+          <cpe id=""/>
+          <cve>CVE-2018-16845</cve>
+        </nvt>
+        <scan_nvt_version/>
+        <threat>Medium</threat>
+        <severity>5.8</severity>
+        <score>58</score>
+        <qod>
+          <value>75</value>
+          <type/>
+        </qod>
+        <description>'The host carries the product: cpe:/a:nginx:nginx:1.14.2'</description>
+        <original_threat>Medium</original_threat>
+        <original_severity>5.8</original_severity>
+      </result>
+</get_results_response>

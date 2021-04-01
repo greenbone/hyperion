@@ -67,6 +67,48 @@ class OriginResult(UUIDObjectTypeMixin, graphene.ObjectType):
         return details.findall('detail')
 
 
+class ResultNVT(ScanConfigNVT):
+    version = graphene.String(description='Version of the NVT used in the scan')
+
+
+class ResultCVE(graphene.ObjectType):
+    oid = graphene.String(name='id')
+    name = graphene.String()
+    severity = graphene.Field(SeverityType)
+    score = graphene.Int()
+
+    def resolve_oid(root, _info):
+        return root.get('oid')
+
+    def resolve_name(root, _info):
+        return get_text_from_element(root, 'name')
+
+    def resolve_severity(root, _info):
+        return get_text_from_element(root, 'cvss_base')
+
+    def resolve_score(root, _info):
+        severities = root.find('severities')
+        if severities is not None:
+            return severities.get('score')
+
+
+class ResultInformation(graphene.Union):
+    class Meta:
+        types = (ResultNVT, ResultCVE)
+
+    @classmethod
+    def resolve_type(cls, instance, info):
+        if instance is None:
+            return None
+
+        instance_type = get_text_from_element(instance, 'type')
+
+        if instance_type == 'nvt':
+            return ResultNVT
+        else:
+            return ResultCVE
+
+
 class ResultType(graphene.Enum):
     CVE = 'CVE'
     NVT = 'NVT'
@@ -142,7 +184,11 @@ class Result(
         description='The location on the host where the result is detected'
     )
 
-    nvt = graphene.Field(ScanConfigNVT, description='NVT the result belongs to')
+    information = graphene.Field(
+        ResultInformation,
+        description='Detailed information about the detected result. Currently '
+        'it can be a NVT or CVE',
+    )
 
     scan_nvt_version = graphene.String(
         description='Version of the NVT used in scan'
@@ -202,3 +248,14 @@ class Result(
         if tickets is None or len(tickets) == 0:
             return None
         return tickets.findall('ticket')
+
+    def resolve_information(root, _info):
+        return root.find('nvt')
+
+    def resolve_result_type(root, _info):
+        nvt = root.find('nvt')
+
+        if nvt is not None:
+            return get_text_from_element(nvt, 'type').upper()
+        else:
+            return None
