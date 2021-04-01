@@ -100,7 +100,6 @@ class ResultsTestCase(SeleneTestCase):
                         name
                     }
                     scanNvtVersion
-                    originalThreat
                     originalSeverity
                     creationTime
                     modificationTime
@@ -119,7 +118,6 @@ class ResultsTestCase(SeleneTestCase):
                             vector
                         }
                     }
-                    threat
                     severity
                     qod {
                         value
@@ -194,11 +192,9 @@ class ResultsTestCase(SeleneTestCase):
         )
         self.assertEqual(result['host']['hostname'], 'xyzxy')
         self.assertIsNone(result['scanNvtVersion'])
-        self.assertEqual(result['threat'], 'High')
         self.assertEqual(result['severity'], 9.3)
         self.assertEqual(result['qod']['value'], 75)
         self.assertIsNone(result['qod']['type'])
-        self.assertEqual(result['originalThreat'], 'High')
         self.assertEqual(result['originalSeverity'], 9.3)
         self.assertEqual(result['nvt']['id'], '1.3.6.1.4.1.25623.1.0.142265')
         self.assertEqual(result['nvt']['score'], 93)
@@ -276,7 +272,6 @@ class ResultsTestCase(SeleneTestCase):
                         name
                     }
                     scanNvtVersion
-                    originalThreat
                     originalSeverity
                     creationTime
                     modificationTime
@@ -295,7 +290,6 @@ class ResultsTestCase(SeleneTestCase):
                             vector
                         }
                     }
-                    threat
                     severity
                     qod {
                         value
@@ -342,10 +336,8 @@ class ResultsTestCase(SeleneTestCase):
         self.assertIsNone(result['host'])
         self.assertIsNone(result['location'])
         self.assertIsNone(result['scanNvtVersion'])
-        self.assertIsNone(result['threat'])
         self.assertIsNone(result['severity'])
         self.assertIsNone(result['qod'])
-        self.assertIsNone(result['originalThreat'])
         self.assertIsNone(result['originalSeverity'])
         self.assertIsNone(result['nvt'])
         self.assertIsNone(result['description'])
