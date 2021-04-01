@@ -97,6 +97,10 @@ class ResultTask(BaseObjectType):
     """ A task referenced by ID and name """
 
 
+class ResultReport(UUIDObjectTypeMixin, graphene.ObjectType):
+    """ A report referenced by ID """
+
+
 class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
     """An object type representing a Result entity"""
 
@@ -111,7 +115,9 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
         'this result',
     )
 
-    report_id = graphene.UUID(description="ID of the corresponding report")
+    report = graphene.Field(
+        ResultReport, description='Report the result belongs to'
+    )
     task = graphene.Field(ResultTask, description='Task the result belongs to')
     host = graphene.Field(ResultHost, description='Host the result belongs to')
     location = graphene.String(

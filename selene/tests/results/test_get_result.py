@@ -94,7 +94,9 @@ class ResultsTestCase(SeleneTestCase):
                             value
                         }
                     }
-                    reportId
+                    report {
+                        id
+                    }
                     task {
                         id
                         name
@@ -176,9 +178,8 @@ class ResultsTestCase(SeleneTestCase):
         self.assertEqual(detail1['name'], 'product')
         self.assertEqual(detail1['value'], 'cpe:/a:python:python:2.7.16')
 
-        self.assertEqual(
-            result['reportId'], 'f31d3b1a-4642-44bc-86ea-63ea029d4c63'
-        )
+        report = result['report']
+        self.assertEqual(report['id'], 'f31d3b1a-4642-44bc-86ea-63ea029d4c63')
         self.assertEqual(
             result['task']['id'], 'dc9c6b7d-c81d-4e20-acd8-b187b018fa42'
         )
@@ -266,7 +267,9 @@ class ResultsTestCase(SeleneTestCase):
                             value
                         }
                     }
-                    reportId
+                    report {
+                        id
+                    }
                     task {
                         id
                         name
@@ -331,7 +334,7 @@ class ResultsTestCase(SeleneTestCase):
         self.assertIsNone(result['creationTime'])
         self.assertIsNone(result['modificationTime'])
         self.assertIsNone(result['originResult'])
-        self.assertIsNone(result['reportId'])
+        self.assertIsNone(result['report'])
         self.assertIsNone(result['task'])
         self.assertIsNone(result['host'])
         self.assertIsNone(result['location'])
