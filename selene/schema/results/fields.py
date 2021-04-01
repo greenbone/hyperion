@@ -24,8 +24,9 @@ from selene.schema.severity import SeverityType
 
 from selene.schema.base import BaseObjectType, UUIDObjectTypeMixin
 from selene.schema.entity import (
-    SimpleEntityObjectType,
     UserTagsObjectTypeMixin,
+    CreationModifactionObjectTypeMixin,
+    OwnerObjectTypeMixin,
 )
 from selene.schema.resolver import find_resolver, text_resolver
 from selene.schema.utils import (
@@ -66,6 +67,11 @@ class OriginResult(UUIDObjectTypeMixin, graphene.ObjectType):
         return details.findall('detail')
 
 
+class ResultType(graphene.Enum):
+    CVE = 'CVE'
+    NVT = 'NVT'
+
+
 class QoD(graphene.ObjectType):
     value = graphene.Int()
     type = graphene.String()
@@ -101,7 +107,12 @@ class ResultReport(UUIDObjectTypeMixin, graphene.ObjectType):
     """ A report referenced by ID """
 
 
-class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
+class Result(
+    UserTagsObjectTypeMixin,
+    OwnerObjectTypeMixin,
+    CreationModifactionObjectTypeMixin,
+    BaseObjectType,
+):
     """An object type representing a Result entity"""
 
     class Meta:
@@ -113,6 +124,13 @@ class Result(UserTagsObjectTypeMixin, SimpleEntityObjectType):
         OriginResult,
         description='Referenced result that provided information for creating '
         'this result',
+    )
+
+    result_type = graphene.Field(
+        ResultType,
+        name='type',
+        description='Type of result. Currently it can be a NVT or CVE based '
+        'result',
     )
 
     report = graphene.Field(

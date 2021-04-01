@@ -85,7 +85,6 @@ class ResultsTestCase(SeleneTestCase):
                 ) {
                     id
                     name
-                    comment
                     owner
                     originResult{
                         id
@@ -159,7 +158,6 @@ class ResultsTestCase(SeleneTestCase):
             result['name'],
             'Apache Tomcat RCE Vulnerability - April19 (Windows)',
         )
-        self.assertIsNone(result['comment'])
         self.assertEqual(result['owner'], 'jloechte')
         self.assertEqual(result['creationTime'], '2020-06-19T09:31:15+00:00')
         self.assertEqual(
@@ -258,7 +256,6 @@ class ResultsTestCase(SeleneTestCase):
                 ) {
                     id
                     name
-                    comment
                     owner
                     originResult{
                         id
@@ -329,7 +326,6 @@ class ResultsTestCase(SeleneTestCase):
 
         self.assertEqual(result['id'], '1f3261c9-e47c-4a21-b677-826ea92d1d59')
         self.assertEqual(result['name'], 'abc')
-        self.assertIsNone(result['comment'])
         self.assertIsNone(result['owner'])
         self.assertIsNone(result['creationTime'])
         self.assertIsNone(result['modificationTime'])
