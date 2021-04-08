@@ -41,50 +41,62 @@ class AliveTest(graphene.Enum):
 
 
 class TargetCredential(BaseObjectType):
-    pass
+    """ A Credential referenced by a Target via name and id """
 
 
 class TargetSSHCredential(TargetCredential):
-    port = graphene.Int()
+    port = graphene.Int(description="SSH Port to connect with the credential")
 
     def resolve_port(root, _info):
         return get_int_from_element(root, 'port')
 
 
 class TargetTask(BaseObjectType):
-    pass
+    """ A Task referenced by a Target via name and id """
 
 
 class Target(EntityObjectType):
     """Target ObjectType"""
 
-    hosts = graphene.List(graphene.String)
-    exclude_hosts = graphene.List(graphene.String)
-    max_hosts = graphene.Int()
+    hosts = graphene.List(
+        graphene.String,
+        description="List of IPs, host names or address ranges to scan as a "
+        "target",
+    )
+    exclude_hosts = graphene.List(
+        graphene.String,
+        description="List of IPs, host names or address ranges to exclude while"
+        " scanning",
+    )
+    host_count = graphene.Int(
+        description="Number of hosts to target for a scan"
+    )
 
-    port_list = graphene.Field(PortList)
+    port_list = graphene.Field(
+        PortList, description="Port list to use for the target"
+    )
+
     ssh_credential = graphene.Field(TargetSSHCredential)
     smb_credential = graphene.Field(TargetCredential)
     esxi_credential = graphene.Field(TargetCredential)
     snmp_credential = graphene.Field(TargetCredential)
 
-    alive_tests = graphene.String(description="Which alive test to use.")
+    alive_tests = graphene.String(description="Which alive test to use")
     allow_simultaneous_ips = graphene.Boolean(
         name="allowSimultaneousIPs",
         description=(
-            "Whether to scan multiple IPs of the same host simultaneously."
+            "Whether to scan multiple IPs of the same host simultaneously"
         ),
     )
     reverse_lookup_only = graphene.Boolean(
-        description="Whether to scan only hosts that have names."
+        description="Whether to scan only hosts that have names"
     )
     reverse_lookup_unify = graphene.Boolean(
         description=(
             "Whether to scan only one IP when "
-            "multiple IPs have the same name."
+            "multiple IPs have the same name"
         )
     )
-    port_range = graphene.String()
     tasks = graphene.List(
         TargetTask,
         description="List of tasks that use the target",
@@ -98,7 +110,7 @@ class Target(EntityObjectType):
         exclude_hosts = get_text_from_element(root, 'exclude_hosts')
         return csv_to_list(exclude_hosts)
 
-    def resolve_max_hosts(root, _info):
+    def resolve_host_count(root, _info):
         return get_int_from_element(root, 'max_hosts')
 
     def resolve_port_list(root, _info):
@@ -127,9 +139,6 @@ class Target(EntityObjectType):
 
     def resolve_reverse_lookup_unify(root, _info):
         return get_boolean_from_element(root, "reverse_lookup_unify")
-
-    def resolve_port_range(root, _info):
-        return get_text_from_element(root, "port_range")
 
     def resolve_tasks(root, _info):
         tasks = root.find('tasks')
