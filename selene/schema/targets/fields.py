@@ -41,49 +41,60 @@ class AliveTest(graphene.Enum):
 
 
 class TargetCredential(BaseObjectType):
-    pass
+    """ A Credential referenced by a Target via name and id """
 
 
 class TargetSSHCredential(TargetCredential):
-    port = graphene.Int()
+    port = graphene.Int(description="SSH Port to connect with the credential")
 
     def resolve_port(root, _info):
         return get_int_from_element(root, 'port')
 
 
 class TargetTask(BaseObjectType):
-    pass
+    """ A Task referenced by a Target via name and id """
 
 
 class Target(EntityObjectType):
     """Target ObjectType"""
 
-    hosts = graphene.List(graphene.String)
-    exclude_hosts = graphene.List(graphene.String)
+    hosts = graphene.List(
+        graphene.String,
+        description="List of IPs, host names or address ranges to scan as a "
+        "target",
+    )
+    exclude_hosts = graphene.List(
+        graphene.String,
+        description="List of IPs, host names or address ranges to exclude while"
+        " scanning",
+    )
     host_count = graphene.Int(
         description="Number of hosts to target for a scan"
     )
 
-    port_list = graphene.Field(PortList)
+    port_list = graphene.Field(
+        PortList, description="Port list to use for the target"
+    )
+
     ssh_credential = graphene.Field(TargetSSHCredential)
     smb_credential = graphene.Field(TargetCredential)
     esxi_credential = graphene.Field(TargetCredential)
     snmp_credential = graphene.Field(TargetCredential)
 
-    alive_tests = graphene.String(description="Which alive test to use.")
+    alive_tests = graphene.String(description="Which alive test to use")
     allow_simultaneous_ips = graphene.Boolean(
         name="allowSimultaneousIPs",
         description=(
-            "Whether to scan multiple IPs of the same host simultaneously."
+            "Whether to scan multiple IPs of the same host simultaneously"
         ),
     )
     reverse_lookup_only = graphene.Boolean(
-        description="Whether to scan only hosts that have names."
+        description="Whether to scan only hosts that have names"
     )
     reverse_lookup_unify = graphene.Boolean(
         description=(
             "Whether to scan only one IP when "
-            "multiple IPs have the same name."
+            "multiple IPs have the same name"
         )
     )
     tasks = graphene.List(
