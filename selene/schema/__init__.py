@@ -60,9 +60,15 @@ from selene.schema.authentication import (
     RenewSessionMutation,
 )
 
-from selene.schema.auth_methods.mutations import ModifyAuth
+from selene.schema.authentication_methods.mutations import (
+    ModifyLDAPAuthenticationSettings,
+    ModifyRADIUSAuthenticationSettings,
+)
 
-from selene.schema.auth_methods.queries import DescribeAuth
+from selene.schema.authentication_methods.queries import (
+    GetLDAPAuthenticationSettings,
+    GetRADIUSAuthenticationSettings,
+)
 
 from selene.schema.capabilities import GetCapabilities
 
@@ -523,7 +529,12 @@ class Mutations(ObjectType):
     start_audit = StartAudit.Field()
     stop_audit = StopAudit.Field()
     # Authentication configuration
-    modify_auth = ModifyAuth.Field()
+    modify_ldap_authentication_settings = (
+        ModifyLDAPAuthenticationSettings.Field()
+    )
+    modify_radius_authentication_settings = (
+        ModifyRADIUSAuthenticationSettings.Field()
+    )
     # Cert Bund Advisories
     export_cert_bund_advisories_by_filter = (
         ExportCertBundAdvisoriesByFilter.Field()
@@ -785,7 +796,6 @@ class Query(ObjectType):
     alerts = GetAlerts()
     audit = GetAudit()
     audits = GetAudits()
-    auth = DescribeAuth()
     capabilities = GetCapabilities()
     cert_bund_advisory = GetCertBundAdvisory()
     cert_bund_advisories = GetCertBundAdvisories()
@@ -804,10 +814,12 @@ class Query(ObjectType):
     filters = GetFilters()
     host = GetHost()
     hosts = GetHosts()
+    ldap_authentication_settings = GetLDAPAuthenticationSettings()
     note = GetNote()
     notes = GetNotes()
     nvt = GetNVT()
     nvts = GetNVTs()
+    radius_authentication_settings = GetRADIUSAuthenticationSettings()
     scan_config_nvt = GetScanConfigNvt()
     scan_config_nvts = GetScanConfigNvts()
     nvt_families = GetNvtFamilies()
