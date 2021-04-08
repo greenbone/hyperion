@@ -17,7 +17,7 @@
 
 import graphene
 
-from selene.schema.resolver import find_resolver, text_resolver
+from selene.schema.resolver import find_resolver
 
 from selene.schema.utils import get_text_from_element
 
@@ -29,30 +29,17 @@ class FeedType(graphene.Enum):
     SCAP = 'scap'
 
 
-class FeedSyncNotAvailable(graphene.ObjectType):
-    class Meta:
-        default_resolver = text_resolver
-
-    error = graphene.String()
-
-
-class FeedCurrentlySyncing(graphene.ObjectType):
-    class Meta:
-        default_resolver = text_resolver
-
-    timestamp = graphene.String()
-
-
 class Feed(graphene.ObjectType):
     class Meta:
         default_resolver = find_resolver
 
+    currently_syncing = graphene.Boolean(
+        name='True if the feed is currently syncing'
+    )
+    description = graphene.String()
     feed_type = FeedType(name='type')
     name = graphene.String()
     version = graphene.String()
-    description = graphene.String()
-    sync_not_available = graphene.Field(FeedSyncNotAvailable)
-    currently_syncing = graphene.Field(FeedCurrentlySyncing)
 
     @staticmethod
     def resolve_name(root, _info):
@@ -68,13 +55,13 @@ class Feed(graphene.ObjectType):
 
     @staticmethod
     def resolve_feed_type(root, _info):
-        text = get_text_from_element(root, 'type').upper()
+        text = get_text_from_element(root, 'type')
 
-        if text == 'CERT':
-            return FeedType.CERT
-        elif text == 'GVMD_DATA':
-            return FeedType.GVMD_DATA
-        elif text == 'NVT':
-            return FeedType.NVT
-        elif text == 'SCAP':
-            return FeedType.SCAP
+        if not text:
+            return None
+
+        return FeedType[text.upper()]
+
+    @staticmethod
+    def resolve_currently_syncing(root, _info):
+        return False if root.find('currently_syncing') is None else True
