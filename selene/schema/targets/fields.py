@@ -60,7 +60,9 @@ class Target(EntityObjectType):
 
     hosts = graphene.List(graphene.String)
     exclude_hosts = graphene.List(graphene.String)
-    max_hosts = graphene.Int()
+    host_count = graphene.Int(
+        description="Number of hosts to target for a scan"
+    )
 
     port_list = graphene.Field(PortList)
     ssh_credential = graphene.Field(TargetSSHCredential)
@@ -97,7 +99,7 @@ class Target(EntityObjectType):
         exclude_hosts = get_text_from_element(root, 'exclude_hosts')
         return csv_to_list(exclude_hosts)
 
-    def resolve_max_hosts(root, _info):
+    def resolve_host_count(root, _info):
         return get_int_from_element(root, 'max_hosts')
 
     def resolve_port_list(root, _info):
