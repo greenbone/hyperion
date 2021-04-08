@@ -27,6 +27,7 @@ from selene.schema.resolver import find_resolver
 
 
 from selene.schema.utils import (
+    csv_to_list,
     get_boolean_from_element,
     get_datetime_from_element,
     get_text_from_element,
@@ -82,9 +83,7 @@ class Override(EntityObjectType):
 
     def resolve_hosts(root, _info):
         hosts = get_text_from_element(root, 'hosts')
-        if hosts is None:
-            return []
-        return [host.strip() for host in hosts.split(',')]
+        return csv_to_list(hosts)
 
     def resolve_port(root, _info):
         return get_text_from_element(root, 'port')

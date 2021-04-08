@@ -17,7 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Optional, Callable
+from typing import Optional, Callable, List
 from xml.etree import ElementTree
 
 from django.http import HttpRequest
@@ -120,3 +120,10 @@ def require_authentication(resolver) -> Callable:
         return resolver(self, info, *args, **kwargs)
 
     return resolve
+
+
+def csv_to_list(csv_list: str) -> List[str]:
+    if not csv_list:
+        return []
+
+    return [value.strip() for value in csv_list.split(',')]
