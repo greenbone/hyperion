@@ -84,7 +84,6 @@ class Target(EntityObjectType):
             "multiple IPs have the same name."
         )
     )
-    port_range = graphene.String()
     tasks = graphene.List(
         TargetTask,
         description="List of tasks that use the target",
@@ -127,9 +126,6 @@ class Target(EntityObjectType):
 
     def resolve_reverse_lookup_unify(root, _info):
         return get_boolean_from_element(root, "reverse_lookup_unify")
-
-    def resolve_port_range(root, _info):
-        return get_text_from_element(root, "port_range")
 
     def resolve_tasks(root, _info):
         tasks = root.find('tasks')
