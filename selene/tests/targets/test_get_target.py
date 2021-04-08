@@ -96,7 +96,7 @@ class TargetTestCase(SeleneTestCase):
                     name
                     comment
                     hosts
-                    maxHosts
+                    hostCount
                     excludeHosts
                     sshCredential {
                         id
@@ -123,7 +123,6 @@ class TargetTestCase(SeleneTestCase):
                     reverseLookupOnly
                     reverseLookupUnify
                     aliveTests
-                    portRange
                     tasks {
                         id
                         name
@@ -142,7 +141,7 @@ class TargetTestCase(SeleneTestCase):
         self.assertEqual(target['id'], '08b69003-5fc2-4037-a479-93b440211c73')
         self.assertEqual(target['hosts'], ['192.168.10.90'])
         self.assertEqual(target['excludeHosts'], ['192.168.10.9'])
-        self.assertEqual(target['maxHosts'], 1)
+        self.assertEqual(target['hostCount'], 1)
         self.assertEqual(
             target['sshCredential']['id'],
             '33d0cd82-57c6-11e1-8ed1-4061823cc51a',
@@ -175,7 +174,6 @@ class TargetTestCase(SeleneTestCase):
         self.assertEqual(target['allowSimultaneousIPs'], True)
         self.assertEqual(target['reverseLookupOnly'], False)
         self.assertEqual(target['reverseLookupUnify'], False)
-        self.assertEqual(target['portRange'], None)
 
         task = target['tasks'][0]
 
