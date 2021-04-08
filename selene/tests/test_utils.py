@@ -24,6 +24,7 @@ from lxml import etree as et
 from lxml.etree import Element
 
 from selene.schema.utils import (
+    csv_to_list,
     has_id,
     get_owner,
     get_text,
@@ -272,3 +273,17 @@ class GetSubelementTestCase(TestCase):
 
         self.assertIsNotNone(subelement)
         self.assertEqual(subelement.tag, 'bar')
+
+
+class CsvToListTestCase(TestCase):
+    def test_none(self):
+        self.assertEqual(csv_to_list(None), [])
+
+    def test_one_element(self):
+        self.assertEqual(csv_to_list('foo'), ['foo'])
+
+    def test_converting_list(self):
+        csv = "foo ,bar,lorem, ipsum , dolor"
+        self.assertEqual(
+            csv_to_list(csv), ['foo', 'bar', 'lorem', 'ipsum', 'dolor']
+        )

@@ -28,6 +28,7 @@ from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
 from selene.schema.port_list.fields import PortList
 from selene.schema.utils import (
+    csv_to_list,
     get_int_from_element,
     get_text_from_element,
     get_boolean_from_element,
@@ -91,15 +92,11 @@ class Target(EntityObjectType):
 
     def resolve_hosts(root, _info):
         hosts = get_text_from_element(root, 'hosts')
-        if hosts is None:
-            return []
-        return hosts.split(',')
+        return csv_to_list(hosts)
 
     def resolve_exclude_hosts(root, _info):
-        ehosts = get_text_from_element(root, 'exclude_hosts')
-        if ehosts is None:
-            return []
-        return ehosts.split(',')
+        exclude_hosts = get_text_from_element(root, 'exclude_hosts')
+        return csv_to_list(exclude_hosts)
 
     def resolve_max_hosts(root, _info):
         return get_int_from_element(root, 'max_hosts')
