@@ -50,7 +50,7 @@
           <value>75</value>
           <type/>
         </qod>
-        <description>'The host carries the product: cpe:/a:nginx:nginx:1.14.2'</description>
+        <description>The host carries the product: cpe:/a:nginx:nginx:1.14.2</description>
         <original_threat>Medium</original_threat>
         <original_severity>5.8</original_severity>
       </result>

@@ -19,6 +19,7 @@
 # pylint: disable=no-self-argument, no-member
 
 import graphene
+from lxml import etree
 
 from selene.schema.severity import SeverityType
 
@@ -70,6 +71,9 @@ class OriginResult(UUIDObjectTypeMixin, graphene.ObjectType):
 class ResultNVT(ScanConfigNVT):
     version = graphene.String(description='Version of the NVT used in the scan')
 
+    def resolve_version(root, _info):
+        return get_text_from_element(root, 'version')
+
 
 class ResultCVE(graphene.ObjectType):
     oid = graphene.String(name='id')
@@ -98,12 +102,13 @@ class ResultInformation(graphene.Union):
 
     @classmethod
     def resolve_type(cls, instance, info):
+
         if instance is None:
             return None
 
-        instance_type = get_text_from_element(instance, 'type')
+        info_type = get_text_from_element(instance, 'type')
 
-        if instance_type == 'nvt':
+        if info_type == 'nvt':
             return ResultNVT
         else:
             return ResultCVE
@@ -190,9 +195,6 @@ class Result(
         'it can be a NVT or CVE',
     )
 
-    scan_nvt_version = graphene.String(
-        description='Version of the NVT used in scan'
-    )
     severity = SeverityType()
 
     qod = graphene.Field(
@@ -228,9 +230,6 @@ class Result(
     def resolve_location(root, _info):
         return get_text_from_element(root, 'port')
 
-    def resolve_scan_nvt_version(root, _info):
-        return get_text_from_element(root, 'scan_nvt_version')
-
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'severity')
 
@@ -250,7 +249,17 @@ class Result(
         return tickets.findall('ticket')
 
     def resolve_information(root, _info):
-        return root.find('nvt')
+        result_info = root.find('nvt')
+        info_type = get_text_from_element(result_info, 'type')
+
+        scan_run_version = get_text_from_element(root, 'scan_run_version')
+
+        if info_type == 'nvt':
+            version_element = etree.Element('version')
+            version_element.text = scan_run_version
+            result_info.append(version_element)
+
+        return result_info
 
     def resolve_result_type(root, _info):
         nvt = root.find('nvt')

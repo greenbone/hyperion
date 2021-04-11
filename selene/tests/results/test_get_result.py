@@ -101,7 +101,6 @@ class ResultsTestCase(SeleneTestCase):
                         id
                         name
                     }
-                    scanNvtVersion
                     originalSeverity
                     creationTime
                     modificationTime
@@ -116,6 +115,7 @@ class ResultsTestCase(SeleneTestCase):
                         ... on ResultNVT{
                             id
                             score
+                            version
                             severities {
                                 type
                                 score
@@ -195,7 +195,6 @@ class ResultsTestCase(SeleneTestCase):
             result['host']['id'], '2bcc682e-3c91-4f9c-80d6-59949159801f'
         )
         self.assertEqual(result['host']['hostname'], 'xyzxy')
-        self.assertIsNone(result['scanNvtVersion'])
         self.assertEqual(result['severity'], 9.3)
         self.assertEqual(result['qod']['value'], 75)
         self.assertIsNone(result['qod']['type'])
@@ -203,6 +202,7 @@ class ResultsTestCase(SeleneTestCase):
         self.assertEqual(
             result['information']['id'], '1.3.6.1.4.1.25623.1.0.142265'
         )
+        self.assertIsNone(result['information']['version'])
         self.assertEqual(result['information']['score'], 93)
         severities = result['information']['severities']
         self.assertEqual(severities[0]['type'], 'cvss_base_v2')
@@ -271,7 +271,6 @@ class ResultsTestCase(SeleneTestCase):
                         id
                         name
                     }
-                    scanNvtVersion
                     originalSeverity
                     creationTime
                     modificationTime
@@ -358,7 +357,6 @@ class ResultsTestCase(SeleneTestCase):
             result['host']['id'], 'eb357684-6fcf-4d31-a5e0-02abe040caa4'
         )
         self.assertIsNone(result['host']['hostname'])
-        self.assertIsNone(result['scanNvtVersion'])
         self.assertEqual(result['severity'], 5.8)
         self.assertEqual(result['qod']['value'], 75)
         self.assertIsNone(result['qod']['type'])
@@ -413,7 +411,6 @@ class ResultsTestCase(SeleneTestCase):
                         id
                         name
                     }
-                    scanNvtVersion
                     originalSeverity
                     creationTime
                     modificationTime
@@ -427,6 +424,7 @@ class ResultsTestCase(SeleneTestCase):
                         __typename
                         ... on ResultNVT{
                             id
+                            version
                             score
                             severities {
                                 type
@@ -479,7 +477,6 @@ class ResultsTestCase(SeleneTestCase):
         self.assertIsNone(result['task'])
         self.assertIsNone(result['host'])
         self.assertIsNone(result['location'])
-        self.assertIsNone(result['scanNvtVersion'])
         self.assertIsNone(result['severity'])
         self.assertIsNone(result['qod'])
         self.assertIsNone(result['originalSeverity'])
