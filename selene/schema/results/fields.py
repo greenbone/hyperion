@@ -34,6 +34,8 @@ from selene.schema.utils import (
     get_text,
     get_int_from_element,
     get_text_from_element,
+    get_boolean_from_element,
+    get_datetime_from_element,
 )
 from selene.schema.parser import parse_uuid
 
@@ -154,6 +156,33 @@ class ResultReport(UUIDObjectTypeMixin, graphene.ObjectType):
     """ A report referenced by ID """
 
 
+# Override imports Result; importing Override will cause
+# circular imports. Also, gsa does not need all fields
+class ResultOverride(
+    graphene.ObjectType, UUIDObjectTypeMixin, CreationModifactionObjectTypeMixin
+):
+    active = graphene.Boolean()
+    severity = SeverityType()
+    new_severity = SeverityType()
+    text = graphene.String()
+    end_time = graphene.DateTime()
+
+    def resolve_active(root, _info):
+        return get_boolean_from_element(root, 'active')
+
+    def resolve_severity(root, _info):
+        return get_text_from_element(root, 'severity')
+
+    def resolve_new_severity(root, _info):
+        return get_text_from_element(root, 'new_severity')
+
+    def resolve_text(root, _info):
+        return get_text_from_element(root, 'text')
+
+    def resolve_end_time(root, _info):
+        return get_datetime_from_element(root, 'end_time')
+
+
 class Result(
     UserTagsObjectTypeMixin,
     OwnerObjectTypeMixin,
@@ -206,6 +235,9 @@ class Result(
     )
 
     notes = graphene.List(Note, description='List of notes on the result')
+    overrides = graphene.List(
+        ResultOverride, description='List of overrides on the result'
+    )
     tickets = graphene.List(
         RemediationTicket, description='List of tickets on the result'
     )
@@ -241,6 +273,12 @@ class Result(
         if notes is None or len(notes) == 0:
             return None
         return notes.findall('note')
+
+    def resolve_overrides(root, _info):
+        overrides = root.find('overrides')
+        if overrides is None or len(overrides) == 0:
+            return None
+        return overrides.findall('override')
 
     def resolve_tickets(root, _info):
         tickets = root.find('tickets')

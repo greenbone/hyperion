@@ -87,6 +87,16 @@ class ResultsTestCase(SeleneTestCase):
                     name
                     owner
                     type
+                    overrides{
+                        id
+                        active
+                        creationTime
+                        modificationTime
+                        text
+                        endTime
+                        severity
+                        newSeverity
+                    }
                     originResult{
                         id
                         details{
@@ -224,6 +234,24 @@ class ResultsTestCase(SeleneTestCase):
         self.assertTrue(note1['active'])
         self.assertEqual(note1['text'], 'test')
 
+        self.assertIsNotNone(result['overrides'])
+        overrides = result['overrides']
+        self.assertEqual(len(overrides), 1)
+
+        override1 = overrides[0]
+        self.assertEqual(
+            override1['id'], '6f1249cd-6c48-43e5-bf4f-2a11cb28fbbd'
+        )
+        self.assertEqual(override1['creationTime'], '2021-04-11T11:30:46+00:00')
+        self.assertEqual(
+            override1['modificationTime'], '2021-04-11T11:30:46+00:00'
+        )
+        self.assertTrue(override1['active'])
+        self.assertEqual(override1['text'], 'hello world')
+        self.assertEqual(override1['severity'], 6.4)
+        self.assertEqual(override1['newSeverity'], 4.3)
+        self.assertIsNone(override1['endTime'])
+
         self.assertIsNotNone(result['tickets'])
         tickets = result['tickets']
         self.assertEqual(len(tickets), 2)
@@ -272,6 +300,16 @@ class ResultsTestCase(SeleneTestCase):
                         name
                     }
                     originalSeverity
+                    overrides{
+                        id
+                        active
+                        creationTime
+                        modificationTime
+                        text
+                        endTime
+                        severity
+                        newSeverity
+                    }
                     creationTime
                     modificationTime
                     host {
@@ -370,6 +408,7 @@ class ResultsTestCase(SeleneTestCase):
         )
 
         self.assertIsNone(result['notes'])
+        self.assertIsNone(result['overrides'])
         self.assertIsNone(result['tickets'])
         self.assertIsNone(result['userTags'])
 
@@ -403,6 +442,16 @@ class ResultsTestCase(SeleneTestCase):
                             name
                             value
                         }
+                    }
+                    overrides{
+                        id
+                        active
+                        creationTime
+                        modificationTime
+                        text
+                        endTime
+                        severity
+                        newSeverity
                     }
                     report {
                         id
@@ -483,5 +532,6 @@ class ResultsTestCase(SeleneTestCase):
         self.assertIsNone(result['information'])
         self.assertIsNone(result['description'])
         self.assertIsNone(result['notes'])
+        self.assertIsNone(result['overrides'])
         self.assertIsNone(result['tickets'])
         self.assertIsNone(result['userTags'])
