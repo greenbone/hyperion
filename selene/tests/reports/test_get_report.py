@@ -320,15 +320,13 @@ class ReportTestCase(SeleneTestCase):
                 }
                 results {
                     name
-                    comment
                     creationTime
                     host {
                         ip
                         id
                         hostname
                     }
-                    port
-                    threat
+                    location
                     severity
                     qod {
                         value
@@ -469,15 +467,13 @@ class ReportTestCase(SeleneTestCase):
                 writable
                 results {
                     name
-                    comment
                     creationTime
                     host {
                         ip
                         id
                         hostname
                     }
-                    port
-                    threat
+                    location
                     severity
                     qod {
                         value
@@ -669,9 +665,6 @@ class ReportTestCase(SeleneTestCase):
                 }
                 results {
                     name
-                    comment
-                    scanNvtVersion
-                    originalThreat
                     originalSeverity
                     creationTime
                     host {
@@ -679,8 +672,11 @@ class ReportTestCase(SeleneTestCase):
                         id
                         hostname
                     }
-                    port
-                    nvt {
+                    location
+                    information {
+                        __typename
+                        ... on ResultNVT{
+                        id
                         name
                         family
                         cvssBase
@@ -715,8 +711,14 @@ class ReportTestCase(SeleneTestCase):
                             score
                             vector
                         }
+                        }
+                        ... on ResultCVE{
+                            id
+                            name
+                            severity
+                            score
+                        }
                     }
-                    threat
                     severity
                     qod {
                         value
@@ -864,12 +866,8 @@ class ReportTestCase(SeleneTestCase):
         result0 = results[0]
 
         self.assertEqual(result0['name'], '/doc directory browsable')
-        self.assertIsNone(result0['comment'])
 
-        self.assertIsNone(result0['scanNvtVersion'])
-        self.assertEqual(result0['originalThreat'], 'Medium')
         self.assertEqual(result0['originalSeverity'], 5.0)
-        self.assertEqual(result0['threat'], 'Medium')
         self.assertEqual(result0['severity'], 5.0)
 
         self.assertIsNotNone(result0['qod'])
@@ -887,9 +885,9 @@ class ReportTestCase(SeleneTestCase):
         self.assertEqual(rhost['hostname'], 'host1.example.com')
         self.assertEqual(rhost['id'], '1533f9fe-6c82-4388-a0cd-6f947af87314')
 
-        self.assertIsNotNone(result0['nvt'])
+        self.assertIsNotNone(result0['information'])
 
-        nvt = result0['nvt']
+        nvt = result0['information']
 
         self.assertEqual(nvt['name'], '/doc directory browsable')
         self.assertEqual(nvt['family'], 'Web application abuses')
@@ -950,7 +948,6 @@ class ReportTestCase(SeleneTestCase):
                             id
                             hostname
                         }
-                        threat
                         severity
                     }
                 }

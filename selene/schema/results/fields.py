@@ -71,6 +71,9 @@ class OriginResult(UUIDObjectTypeMixin, graphene.ObjectType):
 
 
 class ResultNVT(ScanConfigNVT):
+    class Meta:
+        default_resolver = text_resolver
+
     version = graphene.String(description='Version of the NVT used in the scan')
 
     def resolve_version(root, _info):
@@ -104,10 +107,6 @@ class ResultInformation(graphene.Union):
 
     @classmethod
     def resolve_type(cls, instance, info):
-
-        if instance is None:
-            return None
-
         info_type = get_text_from_element(instance, 'type')
 
         if info_type == 'nvt':
