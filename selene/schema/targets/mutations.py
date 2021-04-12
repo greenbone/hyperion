@@ -405,25 +405,17 @@ class ModifyTarget(graphene.Mutation):
 
 
 class DeleteTarget(graphene.Mutation):
-    """Deletes a target
-
-    Args:
-        id (UUID): UUID of target to delete.
-
-    Returns:
-        ok (Boolean)
-    """
+    """Deletes a target"""
 
     class Arguments:
         target_id = graphene.UUID(required=True, name='id')
-        ultimate = graphene.Boolean(name='ultimate')
 
     ok = graphene.Boolean()
 
     @require_authentication
-    def mutate(root, info, target_id, ultimate):
+    def mutate(_root, info, target_id):
         gmp = get_gmp(info)
-        gmp.delete_target(str(target_id), ultimate=ultimate)
+        gmp.delete_target(str(target_id))
         return DeleteTarget(ok=True)
 
 
