@@ -16,13 +16,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
+# pylint: disable=no-self-argument
 
 import graphene
-
-from graphql import GraphQLError
-
-from gvm.protocols.next import get_alive_test_from_string
 
 from selene.schema.entities import (
     create_delete_by_ids_mutation,
@@ -31,6 +27,8 @@ from selene.schema.entities import (
     create_export_by_filter_mutation,
 )
 
+from selene.schema.targets.fields import AliveTest
+
 from selene.schema.utils import (
     require_authentication,
     get_gmp,
@@ -38,89 +36,55 @@ from selene.schema.utils import (
 
 
 class CreateTargetInput(graphene.InputObjectType):
-    """Input object for createTarget
-
-    Args:
-        name (str): Name of the target.
-        hosts (str, optional): String of comma-separated host addresses to scan
-        exclude_hosts (str, optional): String of comma-separated hosts addresses
-            to exclude from scan.
-        comment (str, optional): Comment for the target.
-        ssh_credential_id (UUID, optional): UUID of a ssh credential
-            to use on target.
-        ssh_credential_port(int, optional): The port to use for ssh credential.
-        smb_credential_id (UUID, optional): UUID of a smb credential to use on
-            target.
-        snmp_credential_id (UUID, optional): UUID of a snmp credential to use
-            on target.
-        esxi_credential_id (UUID, optional): UUID of a esxi credential to use
-            on target.
-        alive_test (str, optional): Which alive test to use.
-        allow_simultaneous_ips (bool, optional): Whether to scan multiple
-            IPs of the same host simultaneously.
-        reverse_lookup_only (bool, optional): Whether to scan only hosts that
-            have names.
-        reverse_lookup_unify (bool, optional): Whether to scan only one IP
-            when multiple IPs have the same name.
-        port_list_id (UUID): UUID of the port list to use on target.
-        port_range (str, optional): Comma separated list of port ranges for the
-            target (allowing whitespace)
-        hosts_filter (str, optional): Filter to select target host from
-            assets hosts
-    """
+    """Input object for createTarget"""
 
     name = graphene.String(required=True, description="Target name.")
-    hosts = graphene.String(
-        description="String of comma-separated hosts addresses to scan."
+    hosts = graphene.List(
+        graphene.String,
+        required=True,
+        description="List of hosts to scan",
     )
-    exclude_hosts = graphene.String(
-        description=(
-            "String of comma-separated hosts addresses to exclude from scan."
-        )
+    exclude_hosts = graphene.List(
+        graphene.String, description="List of hosts to exclude from scan"
     )
-    comment = graphene.String(description="Comment for the target.")
+    port_list_id = graphene.UUID(
+        required=True, description="UUID of the port list to use on target"
+    )
+    comment = graphene.String(description="Comment for the target")
     ssh_credential_id = graphene.UUID(
-        description="UUID of a ssh credential to use on target."
+        description="UUID of a ssh credential to use on target"
     )
     ssh_credential_port = graphene.Int(
-        description="The port to use for ssh credential."
+        description="The port to use for ssh credential"
     )
     smb_credential_id = graphene.UUID(
-        description="UUID of a smb credential to use on target."
+        description="UUID of a smb credential to use on target"
     )
     snmp_credential_id = graphene.UUID(
-        description="UUID of a snmp credential to use on target."
+        description="UUID of a snmp credential to use on target"
     )
     esxi_credential_id = graphene.UUID(
-        description="UUID of a esxi credential to use on target."
+        description="UUID of a esxi credential to use on target"
     )
-    alive_test = graphene.String(description="Which alive test to use.")
+    alive_test = graphene.Field(
+        AliveTest,
+        description="Which alive test to use",
+        required=True,
+    )
     allow_simultaneous_ips = graphene.Boolean(
         name="allowSimultaneousIPs",
         description=(
-            "Whether to scan multiple IPs of the same host simultaneously."
+            "Whether to scan multiple IPs of the same host simultaneously"
         ),
     )
     reverse_lookup_only = graphene.Boolean(
-        description="Whether to scan only hosts that have names."
+        description="Whether to scan only hosts that have names"
     )
     reverse_lookup_unify = graphene.Boolean(
         description=(
             "Whether to scan only one IP when "
-            "multiple IPs have the same name."
+            "multiple IPs have the same name"
         )
-    )
-    port_list_id = graphene.UUID(
-        description="UUID of the port list to use on target."
-    )
-    port_range = graphene.String(
-        description=(
-            "Comma separated list of port ranges for "
-            "the target (allowing whitespace)"
-        )
-    )
-    hosts_filter = graphene.String(
-        description="Filter to select target host from assets hosts."
     )
 
 
@@ -137,30 +101,14 @@ class CreateTarget(graphene.Mutation):
     target_id = graphene.UUID(name='id')
 
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         name = input_object.name
         comment = input_object.comment
 
-        if (
-            input_object.alive_test is not None
-            and input_object.alive_test.lower() != 'scan config default'
-        ):
-            # must be lower case to work; gsa sends lower case
-            alive_test = get_alive_test_from_string(input_object.alive_test)
-        else:
-            alive_test = None
+        alive_test = AliveTest.get(input_object.alive_test)
 
-        if input_object.hosts is not None:
-            hosts = [host.strip() for host in input_object.hosts.split(',')]
-        else:
-            hosts = None
-
-        if input_object.exclude_hosts is not None:
-            exclude_hosts = [
-                host.strip() for host in input_object.exclude_hosts.split(',')
-            ]
-        else:
-            exclude_hosts = None
+        hosts = input_object.hosts
+        exclude_hosts = input_object.exclude_hosts
 
         if input_object.ssh_credential_id is not None:
             ssh_credential_id = str(input_object.ssh_credential_id)
@@ -190,20 +138,7 @@ class CreateTarget(graphene.Mutation):
 
         reverse_lookup_unify = input_object.reverse_lookup_unify
 
-        if (
-            input_object.port_list_id is None
-            and input_object.port_range is None
-        ):
-            raise GraphQLError(
-                "PortListID or PortRange field required."
-            ) from None
-
-        if input_object.port_list_id is not None:
-            port_list_id = str(input_object.port_list_id)
-        else:
-            port_list_id = None
-
-        asset_hosts_filter = input_object.hosts_filter
+        port_list_id = str(input_object.port_list_id)
 
         gmp = get_gmp(info)
 
@@ -222,91 +157,61 @@ class CreateTarget(graphene.Mutation):
             reverse_lookup_only=reverse_lookup_only,
             reverse_lookup_unify=reverse_lookup_unify,
             port_list_id=port_list_id,
-            port_range=input_object.port_range,
-            asset_hosts_filter=asset_hosts_filter,
         )
 
         return CreateTarget(target_id=resp.get('id'))
 
 
 class ModifyTargetInput(graphene.InputObjectType):
-    """Input object for modifyTarget
-
-    Args:
-        id (UUID) – ID of target to modify.
-        name (str, optional): Name of the target.
-        hosts (str, optional): String of comma-separated
-            hosts addresses to scan.
-        exclude_hosts (str, optional): String of comma-separated
-            of hosts addresses to exclude from scan.
-        comment (str, optional): Comment for the target.
-        ssh_credential_id (UUID, optional): UUID of a ssh credential
-            to use on target.
-        ssh_credential_port(int, optional): The port to use for ssh credential.
-        smb_credential_id (UUID, optional): UUID of a smb credential to use on
-            target.
-        snmp_credential_id (UUID, optional): UUID of a snmp credential to use
-            on target.
-        esxi_credential_id (UUID, optional): UUID of a esxi credential to use
-            on target.
-        alive_test (str, optional): Which alive test to use.
-        allow_simultaneous_ips (bool, optional): Whether to scan multiple
-            IPs of the same host simultaneously.
-        reverse_lookup_only (bool, optional): Whether to scan only hosts that
-            have names.
-        reverse_lookup_unify (bool, optional): Whether to scan only one IP
-            when multiple IPs have the same name.
-        port_list_id (UUID, optional): UUID of the port list to use on target.
-        port_range (str, optional): Comma separated list of port ranges for the
-            target (allowing whitespace)
-    """
+    """Input object for modifyTarget"""
 
     target_id = graphene.UUID(
-        required=True, description="ID of target to modify.", name='id'
+        required=True, description="ID of target to modify", name='id'
     )
-    name = graphene.String(description="Target name.")
-    hosts = graphene.String(
-        description="String of comma-separated hosts addresses to scan."
+    name = graphene.String(description="Target name")
+    hosts = graphene.List(
+        graphene.String,
+        description="List of hosts to scan",
     )
-    exclude_hosts = graphene.String(
-        description=(
-            "String of comma-separated hosts " "addresses to exclude from scan."
-        )
+    exclude_hosts = graphene.List(
+        graphene.String, description="List of hosts to exclude from scan"
     )
-    comment = graphene.String(description="Comment for the target.")
+    comment = graphene.String(description="Comment for the target")
     ssh_credential_id = graphene.UUID(
-        description="UUID of a ssh credential to use on target."
+        description="UUID of a ssh credential to use on target"
     )
     ssh_credential_port = graphene.Int(
-        description="The port to use for ssh credential."
+        description="The port to use for ssh credential"
     )
     smb_credential_id = graphene.UUID(
-        description="UUID of a smb credential to use on target."
+        description="UUID of a smb credential to use on target"
     )
     snmp_credential_id = graphene.UUID(
-        description="UUID of a snmp credential to use on target."
+        description="UUID of a snmp credential to use on target"
     )
     esxi_credential_id = graphene.UUID(
-        description="UUID of a esxi credential to use on target."
+        description="UUID of a esxi credential to use on target"
     )
-    alive_test = graphene.String(description="Which alive test to use.")
+    alive_test = graphene.Field(
+        AliveTest, description="Which alive test to use"
+    )
     allow_simultaneous_ips = graphene.Boolean(
         name="allowSimultaneousIPs",
         description=(
-            "Whether to scan multiple IPs of the same host simultaneously."
+            "Whether to scan multiple IPs of the same host simultaneously"
         ),
     )
     reverse_lookup_only = graphene.Boolean(
-        description="Whether to scan only hosts that have names."
+        description="Whether to scan only hosts that have names"
     )
     reverse_lookup_unify = graphene.Boolean(
         description=(
             "Whether to scan only one IP when "
-            "multiple IPs have the same name."
+            "multiple IPs have the same name"
         )
     )
     port_list_id = graphene.UUID(
-        description="UUID of the port list to use on target."
+        description="UUID of the port list to use on target"
     )
 
 
@@ -323,28 +228,23 @@ class ModifyTarget(graphene.Mutation):
     ok = graphene.Boolean()
 
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         target_id = str(input_object.target_id)
         name = input_object.name
         comment = input_object.comment
 
-        if (
-            input_object.alive_test is not None
-            and input_object.alive_test.lower() != 'scan config default'
-        ):
-            alive_test = get_alive_test_from_string(input_object.alive_test)
+        if input_object.alive_test is not None:
+            alive_test = AliveTest.get(input_object.alive_test)
         else:
             alive_test = None
 
         if input_object.hosts is not None:
-            hosts = [host.strip() for host in input_object.hosts.split(',')]
+            hosts = input_object.hosts
         else:
             hosts = None
 
-        if input_object.exclude_hosts is not None:
-            exclude_hosts = [
-                host.strip() for host in input_object.exclude_hosts.split(',')
-            ]
+        if input_object.exclude_hosts:
+            exclude_hosts = input_object.exclude_hosts
         else:
             exclude_hosts = None
 
@@ -420,45 +320,15 @@ class DeleteTarget(graphene.Mutation):
 
 
 class CloneTarget(graphene.Mutation):
-    """Clone a target
-
-    Args:
-        id (UUID): UUID of target to clone.
-
-    Example:
-
-        .. code-block::
-
-            mutation {
-                cloneTarget(
-                    id: "b992601e-e0df-4078-b4b1-39e04f92f4cc",
-                ) {
-                    id
-                }
-            }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "cloneTarget": {
-                    "id": "a569f3df-0f8d-4001-aeef-08cdee0cdf49"
-                    }
-                }
-            }
-    """
+    """Clone a target"""
 
     class Arguments:
         target_id = graphene.UUID(required=True, name='id')
 
-    # it is really awkward to reuse the same variable
-    # name here, but it seems working ...?!
-    target_id = graphene.UUID(name='id')
+    target_id = graphene.UUID(name='id', description='UUID of the new target')
 
     @require_authentication
-    def mutate(root, info, target_id):
+    def mutate(_root, info, target_id):
         gmp = get_gmp(info)
         elem = gmp.clone_target(str(target_id))
         return CloneTarget(target_id=elem.get('id'))
@@ -489,36 +359,7 @@ DeleteByIdsClass = create_delete_by_ids_mutation(entity_name='target')
 
 
 class DeleteTargetsByIds(DeleteByIdsClass):
-    """Deletes a list of targets
-
-    Args:
-        ids (List(UUID)): List of UUIDs of targets to delete.
-        ultimate (bool, optional): Whether to remove entirely, or to the
-            trashcan.
-
-    Returns:
-        ok (Boolean)
-
-    Example
-
-        mutation {
-            deleteTargetsByIds(
-                ids: ["5f8e7b31-35ea-4b43-9797-6d77f058906b"],
-                ultimate: false)
-            {
-                ok
-            }
-        }
-
-        Response
-        {
-            "data": {
-                "deleteTargetByIds": {
-                    "ok": true
-                }
-            }
-        }
-    """
+    """Deletes a list of targets"""
 
 
 DeleteByFilterClass = create_delete_by_filter_mutation(entity_name='target')
@@ -526,14 +367,6 @@ DeleteByFilterClass = create_delete_by_filter_mutation(entity_name='target')
 
 class DeleteTargetsByFilter(DeleteByFilterClass):
     """Deletes a filtered list of targets
-
-    Args:
-        filterString (str): Filter string for target list to delete.
-        ultimate (bool, optional): Whether to remove entirely, or to the
-            trashcan.
-
-    Returns:
-        ok (Boolean)
 
     Example
 
