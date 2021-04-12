@@ -81,7 +81,7 @@ class Target(EntityObjectType):
     esxi_credential = graphene.Field(TargetCredential)
     snmp_credential = graphene.Field(TargetCredential)
 
-    alive_tests = graphene.Field(
+    alive_test = graphene.Field(
         AliveTest, description="Which alive test to use"
     )
     allow_simultaneous_ips = graphene.Boolean(
@@ -130,7 +130,7 @@ class Target(EntityObjectType):
     def resolve_snmp_credential(root, _info):
         return root.find('snmp_credential')
 
-    def resolve_alive_tests(root, _info):
+    def resolve_alive_test(root, _info):
         return get_text_from_element(root, 'alive_tests')
 
     def resolve_allow_simultaneous_ips(root, _info):
