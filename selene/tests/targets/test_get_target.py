@@ -170,7 +170,7 @@ class TargetTestCase(SeleneTestCase):
             target['portList']['name'], 'All IANA assigned TCP 2012-02-10'
         )
         self.assertEqual(target['name'], 'foo')
-        self.assertEqual(target['aliveTests'], 'Scan Config Default')
+        self.assertEqual(target['aliveTests'], 'SCAN_CONFIG_DEFAULT')
         self.assertEqual(target['allowSimultaneousIPs'], True)
         self.assertEqual(target['reverseLookupOnly'], False)
         self.assertEqual(target['reverseLookupUnify'], False)

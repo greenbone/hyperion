@@ -81,7 +81,9 @@ class Target(EntityObjectType):
     esxi_credential = graphene.Field(TargetCredential)
     snmp_credential = graphene.Field(TargetCredential)
 
-    alive_tests = graphene.String(description="Which alive test to use")
+    alive_tests = graphene.Field(
+        AliveTest, description="Which alive test to use"
+    )
     allow_simultaneous_ips = graphene.Boolean(
         name="allowSimultaneousIPs",
         description=(
