@@ -157,8 +157,9 @@ class GetPortLists(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
+        # details are required for port ranges
         xml: XmlElement = gmp.get_port_lists(
-            filter=filter_string.filter_string, details=False
+            filter=filter_string.filter_string, details=True
         )
 
         port_list_elements = xml.findall('port_list')
