@@ -45,7 +45,9 @@ class PortRange(graphene.ObjectType):
     uuid = graphene.UUID(name='id')
     start = graphene.Int()
     end = graphene.Int()
-    protocol_type = graphene.String()
+    port_range_type = graphene.Field(
+        PortRangeType, name='type', description='Type of the port range'
+    )
 
     def resolve_uuid(root, _info):
         return parse_uuid(root.get('id'))
@@ -56,8 +58,12 @@ class PortRange(graphene.ObjectType):
     def resolve_end(root, _info):
         return get_int_from_element(root, 'end')
 
-    def resolve_protocol_type(root, _info):
-        return get_text_from_element(root, 'type')
+    def resolve_port_range_type(root, _info):
+        type_string: str = get_text_from_element(root, 'type')
+        if not type_string:
+            return None
+
+        return type_string.upper()
 
 
 class PortCount(graphene.ObjectType):
