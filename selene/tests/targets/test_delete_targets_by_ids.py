@@ -31,8 +31,7 @@ class DeleteTargetByIdsTestCase(SeleneTestCase):
             mutation {
                 deleteTargetsByIds(
                     ids: ["a1438fb2-ab2c-4f4a-ad6b-de97005256e8",
-                          "b1438fb2-ab2c-4f4a-ad6b-de97005256e8"],
-                    ultimate: false)
+                          "b1438fb2-ab2c-4f4a-ad6b-de97005256e8"])
                 {
                    ok
                 }
@@ -63,8 +62,7 @@ class DeleteTargetByIdsTestCase(SeleneTestCase):
         response = self.query(
             f'''
             mutation {{
-                deleteTargetsByIds(ids: ["{id1}", "{id2}"],
-                    ultimate:true)
+                deleteTargetsByIds(ids: ["{id1}", "{id2}"])
                 {{
                     ok
                 }}
@@ -82,13 +80,9 @@ class DeleteTargetByIdsTestCase(SeleneTestCase):
             filter=f'uuid={id1} uuid={id2} '
         )
 
-        mock_gmp.gmp_protocol.delete_target.assert_any_call(
-            target_id=str(id1), ultimate=True
-        )
+        mock_gmp.gmp_protocol.delete_target.assert_any_call(target_id=str(id1))
 
-        mock_gmp.gmp_protocol.delete_target.assert_any_call(
-            target_id=str(id2), ultimate=True
-        )
+        mock_gmp.gmp_protocol.delete_target.assert_any_call(target_id=str(id2))
 
     def test_delete_target_by_ids_invalid(self, mock_gmp: GmpMockFactory):
         self.login('foo', 'bar')
@@ -110,8 +104,7 @@ class DeleteTargetByIdsTestCase(SeleneTestCase):
         response = self.query(
             f'''
             mutation {{
-                deleteTargetsByIds(ids: ["{id1}", "{id2}"],
-                    ultimate:true)
+                deleteTargetsByIds(ids: ["{id1}", "{id2}"])
                 {{
                     ok
                 }}

@@ -19,7 +19,7 @@
 from uuid import uuid4
 from unittest.mock import patch
 
-from gvm.protocols.next import get_alive_test_from_string
+from selene.schema.targets.fields import AliveTest
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
@@ -40,7 +40,9 @@ class CreateTargetTestCase(SeleneTestCase):
             mutation {{
                 createTarget(input: {{
                     name: "foo",
+                    hosts: ["127.0.0.1"],
                     portListId: "{self.port_list_id}"
+                    aliveTest: ICMP_PING,
                 }}) {{
                     id
                 }}
@@ -70,14 +72,14 @@ class CreateTargetTestCase(SeleneTestCase):
             mutation {{
                 createTarget(input: {{
                     name: "bar",
-                    hosts: "127.0.0.1, 192.168.10.130",
+                    hosts: ["127.0.0.1", "192.168.10.130"],
                     sshCredentialId: "{self.ssh_credential_id}",
                     sshCredentialPort: 33,
                     smbCredentialId: "{self.smb_credential_id}",
                     snmpCredentialId: "{self.snmp_credential_id}",
                     esxiCredentialId: "{self.esxi_credential_id}",
-                    excludeHosts: "1.3.3.7, lorem",
-                    aliveTest: "icmp ping",
+                    excludeHosts: ["1.3.3.7", "lorem"],
+                    aliveTest: ICMP_PING,
                     allowSimultaneousIPs: true,
                     reverseLookupUnify: false,
                     portListId: "{self.port_list_id}"
@@ -98,7 +100,7 @@ class CreateTargetTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.create_target.assert_called_with(
             "bar",
-            alive_test=get_alive_test_from_string('icmp ping'),
+            alive_test=AliveTest.ICMP_PING,  # pylint: disable=no-member
             hosts=['127.0.0.1', '192.168.10.130'],
             exclude_hosts=['1.3.3.7', 'lorem'],
             comment=None,
@@ -111,63 +113,6 @@ class CreateTargetTestCase(SeleneTestCase):
             reverse_lookup_only=None,
             reverse_lookup_unify=False,
             port_list_id=str(self.port_list_id),
-            port_range=None,
-            asset_hosts_filter=None,
-        )
-
-    def test_nullify_config_default_alive_test(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'create_target',
-            f'''
-            <create_target_response
-                id="{self.target_id}"
-                status="200"
-                status_text="OK"
-            />
-            ''',
-        )
-
-        self.login('foo', 'bar')
-
-        response = self.query(
-            f'''
-            mutation {{
-                createTarget(input: {{
-                    name: "bar",
-                    aliveTest: "scan config default",
-                    portListId: "{self.port_list_id}"
-                }}) {{
-                    id
-                }}
-            }}
-            '''
-        )
-
-        json = response.json()
-
-        self.assertResponseNoErrors(response)
-
-        uuid = json['data']['createTarget']['id']
-
-        self.assertEqual(uuid, str(self.target_id))
-
-        mock_gmp.gmp_protocol.create_target.assert_called_with(
-            "bar",
-            alive_test=None,
-            hosts=None,
-            exclude_hosts=None,
-            comment=None,
-            ssh_credential_id=None,
-            ssh_credential_port=None,
-            smb_credential_id=None,
-            snmp_credential_id=None,
-            esxi_credential_id=None,
-            allow_simultaneous_ips=None,
-            reverse_lookup_only=None,
-            reverse_lookup_unify=None,
-            port_list_id=str(self.port_list_id),
-            port_range=None,
-            asset_hosts_filter=None,
         )
 
     def test_nullify_ssh_cred_port(self, mock_gmp: GmpMockFactory):
@@ -189,8 +134,10 @@ class CreateTargetTestCase(SeleneTestCase):
             mutation {{
                 createTarget(input: {{
                     name: "bar",
+                    hosts: ["127.0.0.1"],
                     sshCredentialPort: 22,
                     portListId: "{self.port_list_id}"
+                    aliveTest: ICMP_PING,
                 }}) {{
                     id
                 }}
@@ -208,8 +155,8 @@ class CreateTargetTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.create_target.assert_called_with(
             "bar",
-            alive_test=None,
-            hosts=None,
+            alive_test=AliveTest.ICMP_PING,  # pylint: disable=no-member
+            hosts=["127.0.0.1"],
             exclude_hosts=None,
             comment=None,
             ssh_credential_id=None,
@@ -221,13 +168,9 @@ class CreateTargetTestCase(SeleneTestCase):
             reverse_lookup_only=None,
             reverse_lookup_unify=None,
             port_list_id=str(self.port_list_id),
-            port_range=None,
-            asset_hosts_filter=None,
         )
 
-    def test_create_target_missing_portrange_and_id(
-        self, mock_gmp: GmpMockFactory
-    ):
+    def test_create_target_missing_port_list_id(self, mock_gmp: GmpMockFactory):
 
         mock_gmp.mock_response(
             'create_target',
@@ -248,14 +191,14 @@ class CreateTargetTestCase(SeleneTestCase):
                 mutation {{
                     createTarget(input: {{
                         name: "bar",
-                        hosts: "127.0.0.1, 192.168.10.130",
+                        hosts: ["127.0.0.1", "192.168.10.130"],
                         sshCredentialId: "{self.ssh_credential_id}",
                         sshCredentialPort: 33,
                         smbCredentialId: "{self.smb_credential_id}",
                         snmpCredentialId: "{self.snmp_credential_id}",
                         esxiCredentialId: "{self.esxi_credential_id}",
-                        excludeHosts: "1.3.3.7, lorem",
-                        aliveTest: "icmp ping",
+                        excludeHosts: ["1.3.3.7", "lorem"],
+                        aliveTest: ICMP_PING,
                         reverseLookupUnify: false,
                     }}) {{
                         id
@@ -264,137 +207,7 @@ class CreateTargetTestCase(SeleneTestCase):
                 '''
         )
 
-        self.assertResponseHasErrorMessage(
-            response, 'PortListID or PortRange field required.'
-        )
-
-    def test_create_target_portrange(self, mock_gmp: GmpMockFactory):
-
-        mock_gmp.mock_response(
-            'create_target',
-            f'''
-            <create_target_response
-                id="{self.target_id}"
-                status="200"
-                status_text="OK"
-            />
-            ''',
-        )
-
-        self.login('foo', 'bar')
-
-        response = self.query(
-            f'''
-            mutation {{
-                createTarget(input: {{
-                    name: "bar",
-                    hosts: "127.0.0.1, 192.168.10.130",
-                    sshCredentialId: "{self.ssh_credential_id}",
-                    sshCredentialPort: 33,
-                    smbCredentialId: "{self.smb_credential_id}",
-                    snmpCredentialId: "{self.snmp_credential_id}",
-                    esxiCredentialId: "{self.esxi_credential_id}",
-                    excludeHosts: "1.3.3.7, lorem",
-                    aliveTest: "icmp ping",
-                    reverseLookupUnify: false,
-                    portRange: "T: 1, 3-4, 7-10"
-                }}) {{
-                    id
-                }}
-            }}
-            '''
-        )
-
-        json = response.json()
-
-        self.assertResponseNoErrors(response)
-
-        uuid = json['data']['createTarget']['id']
-
-        self.assertEqual(uuid, str(self.target_id))
-
-        mock_gmp.gmp_protocol.create_target.assert_called_with(
-            "bar",
-            alive_test=get_alive_test_from_string('icmp ping'),
-            hosts=['127.0.0.1', '192.168.10.130'],
-            exclude_hosts=['1.3.3.7', 'lorem'],
-            comment=None,
-            ssh_credential_id=str(self.ssh_credential_id),
-            ssh_credential_port=33,
-            smb_credential_id=str(self.smb_credential_id),
-            snmp_credential_id=str(self.snmp_credential_id),
-            esxi_credential_id=str(self.esxi_credential_id),  #
-            allow_simultaneous_ips=None,
-            reverse_lookup_only=None,
-            reverse_lookup_unify=False,
-            port_list_id=None,
-            port_range="T: 1, 3-4, 7-10",
-            asset_hosts_filter=None,
-        )
-
-    def test_create_target_with_hosts_filter(self, mock_gmp: GmpMockFactory):
-
-        mock_gmp.mock_response(
-            'create_target',
-            f'''
-            <create_target_response
-                id="{self.target_id}"
-                status="200"
-                status_text="OK"
-            />
-            ''',
-        )
-
-        self.login('foo', 'bar')
-
-        response = self.query(
-            f'''
-            mutation {{
-                createTarget(input: {{
-                    name: "bar",
-                    sshCredentialId: "{self.ssh_credential_id}",
-                    sshCredentialPort: 33,
-                    smbCredentialId: "{self.smb_credential_id}",
-                    snmpCredentialId: "{self.snmp_credential_id}",
-                    esxiCredentialId: "{self.esxi_credential_id}",
-                    excludeHosts: "1.3.3.7, lorem",
-                    aliveTest: "icmp ping",
-                    reverseLookupUnify: false,
-                    portListId: "{self.port_list_id}"
-                    hostsFilter: "uuid=12345",
-                }}) {{
-                    id
-                }}
-            }}
-            '''
-        )
-
-        json = response.json()
-
-        self.assertResponseNoErrors(response)
-
-        uuid = json['data']['createTarget']['id']
-
-        self.assertEqual(uuid, str(self.target_id))
-
-        mock_gmp.gmp_protocol.create_target.assert_called_with(
-            "bar",
-            alive_test=get_alive_test_from_string('icmp ping'),
-            hosts=None,
-            exclude_hosts=['1.3.3.7', 'lorem'],
-            comment=None,
-            ssh_credential_id=str(self.ssh_credential_id),
-            ssh_credential_port=33,
-            smb_credential_id=str(self.smb_credential_id),
-            snmp_credential_id=str(self.snmp_credential_id),
-            esxi_credential_id=str(self.esxi_credential_id),
-            allow_simultaneous_ips=None,
-            reverse_lookup_only=None,
-            reverse_lookup_unify=False,
-            port_list_id=str(self.port_list_id),
-            port_range=None,
-            asset_hosts_filter="uuid=12345",
-        )
+        self.assertResponseHasErrors(response)
 
     def test_create_target_do_not_allow_simultaneous_ips(
         self, mock_gmp: GmpMockFactory
@@ -418,7 +231,8 @@ class CreateTargetTestCase(SeleneTestCase):
             mutation {{
                 createTarget(input: {{
                     name: "bar",
-                    hosts: "127.0.0.1, 192.168.10.130",
+                    hosts: ["127.0.0.1", "192.168.10.130"],
+                    aliveTest: ICMP_PING,
                     allowSimultaneousIPs: false,
                     portListId: "{self.port_list_id}"
                 }}) {{
@@ -438,7 +252,7 @@ class CreateTargetTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.create_target.assert_called_with(
             "bar",
-            alive_test=None,
+            alive_test=AliveTest.ICMP_PING,  # pylint: disable=no-member
             hosts=['127.0.0.1', '192.168.10.130'],
             exclude_hosts=None,
             comment=None,
@@ -451,6 +265,4 @@ class CreateTargetTestCase(SeleneTestCase):
             reverse_lookup_only=None,
             reverse_lookup_unify=None,
             port_list_id=str(self.port_list_id),
-            port_range=None,
-            asset_hosts_filter=None,
         )

@@ -45,9 +45,7 @@ class DeleteTargetByFilterTestCase(SeleneTestCase):
         response = self.query(
             '''
             mutation {
-                deleteTargetsByFilter(
-                    filterString:"name~Clone",
-                    ultimate: false)
+                deleteTargetsByFilter(filterString:"name~Clone")
                 {
                    ok
                 }
@@ -65,9 +63,7 @@ class DeleteTargetByFilterTestCase(SeleneTestCase):
         response = self.query(
             '''
             mutation {
-                deleteTargetsByFilter(
-                    filterString:"name~Clone",
-                    ultimate: false)
+                deleteTargetsByFilter(filterString:"name~Clone")
                 {
                    ok
                 }

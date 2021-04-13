@@ -74,7 +74,11 @@ class GetTarget(graphene.Field):
     def __init__(self):
         super().__init__(
             Target,
-            target_id=graphene.UUID(required=True, name='id'),
+            target_id=graphene.UUID(
+                required=True,
+                name='id',
+                description='Target ID to request details for',
+            ),
             resolver=self.resolve,
         )
 
