@@ -39,10 +39,16 @@ USER_SETTING_LOCALE = "6765549a-934e-11e3-b358-406186ea4fc5"
 
 
 class CurrentUser(graphene.ObjectType):
+    """ Login information for the current user """
 
-    session_timeout = graphene.DateTime()
-    username = graphene.String()
-    is_authenticated = graphene.Boolean()
+    session_timeout = graphene.DateTime(
+        description='End of the current session. '
+        'None if the user is not logged in'
+    )
+    username = graphene.String(description='Username of the logged in used')
+    is_authenticated = graphene.Boolean(
+        description='True if the current user is logged in'
+    )
 
     @staticmethod
     def resolve_session_timeout(_root, info: ResolveInfo):
@@ -69,9 +75,15 @@ class CurrentUser(graphene.ObjectType):
 
 
 class LoginMutation(graphene.Mutation):
+    """Login a user"""
+
     class Arguments:
-        username = graphene.String(required=True)
-        password = graphene.String(required=True)
+        username = graphene.String(
+            required=True, description='Name of the user'
+        )
+        password = graphene.String(
+            required=True, description='Password for the user'
+        )
 
     ok = graphene.Field(graphene.Boolean, description='Will always be true')
     timezone = graphene.Field(
@@ -114,8 +126,9 @@ class LoginMutation(graphene.Mutation):
 
 
 class LogoutMutation(graphene.Mutation):
+    """ Logout the current user """
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(description='Always true if no error occurred')
 
     @staticmethod
     def mutate(_root, info: ResolveInfo):
@@ -129,7 +142,9 @@ class RenewSessionMutation(graphene.Mutation):
     Renew the session of the current logged in user
     """
 
-    current_user = graphene.Field(CurrentUser)
+    current_user = graphene.Field(
+        CurrentUser, description='Session information of the current user'
+    )
 
     @staticmethod
     @require_authentication
