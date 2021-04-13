@@ -89,14 +89,14 @@ class CreateTargetInput(graphene.InputObjectType):
 
 
 class CreateTarget(graphene.Mutation):
-    """Creates a target
-
-    Args:
-        input (CreateTargetInput): Input object for CreateTarget.
-    """
+    """Create a target"""
 
     class Arguments:
-        input_object = CreateTargetInput(required=True, name='input')
+        input_object = CreateTargetInput(
+            required=True,
+            name='input',
+            description='Input ObjectType for creating a new target',
+        )
 
     target_id = graphene.UUID(name='id')
 
@@ -216,14 +216,14 @@ class ModifyTargetInput(graphene.InputObjectType):
 
 
 class ModifyTarget(graphene.Mutation):
-    """Modifies a target
-
-    Args:
-        input (ModifyTargetInput): Input object for ModifyTarget.
-    """
+    """Modify a target"""
 
     class Arguments:
-        input_object = ModifyTargetInput(required=True, name='input')
+        input_object = ModifyTargetInput(
+            required=True,
+            name='input',
+            description='Input ObjectType to modify a target',
+        )
 
     ok = graphene.Boolean()
 
@@ -305,10 +305,14 @@ class ModifyTarget(graphene.Mutation):
 
 
 class DeleteTarget(graphene.Mutation):
-    """Deletes a target"""
+    """Delete a target"""
 
     class Arguments:
-        target_id = graphene.UUID(required=True, name='id')
+        target_id = graphene.UUID(
+            required=True,
+            name='id',
+            description='ID of the target to be deleted',
+        )
 
     ok = graphene.Boolean()
 
@@ -323,7 +327,11 @@ class CloneTarget(graphene.Mutation):
     """Clone a target"""
 
     class Arguments:
-        target_id = graphene.UUID(required=True, name='id')
+        target_id = graphene.UUID(
+            required=True,
+            name='id',
+            description="ID of the target to be cloned",
+        )
 
     target_id = graphene.UUID(name='id', description='UUID of the new target')
 
@@ -359,22 +367,19 @@ DeleteByIdsClass = create_delete_by_ids_mutation(entity_name='target')
 
 
 class DeleteTargetsByIds(DeleteByIdsClass):
-    """Deletes a list of targets"""
+    """Delete a list of targets"""
 
 
 DeleteByFilterClass = create_delete_by_filter_mutation(entity_name='target')
 
 
 class DeleteTargetsByFilter(DeleteByFilterClass):
-    """Deletes a filtered list of targets
+    """Delete a filtered list of targets
 
     Example
 
         mutation {
-            deleteTargetsByFilter(
-                filterString:"name~Clone",
-                ultimate: false)
-            {
+            deleteTargetsByFilter(filterString:"name~Clone") {
                 ok
             }
         }
