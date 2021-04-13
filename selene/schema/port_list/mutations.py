@@ -236,14 +236,12 @@ class ModifyPortList(graphene.Mutation):
 
         name = input_object.name
         comment = input_object.comment
-        # port_range = ','.join(input_object.port_range)
 
         gmp = get_gmp(info)
 
         gmp.modify_port_list(
             port_list_id=str(input_object.port_list_id),
             name=name,
-            # port_range=port_range, #not supported by python-gvm now ...
             comment=comment,
         )
         return ModifyPortList(ok=True)
