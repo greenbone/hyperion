@@ -163,7 +163,12 @@ class CreatePortListInput(graphene.InputObjectType):
     """
 
     name = graphene.String(required=True, description="PortList name.")
-    port_range = graphene.List(graphene.String, required=True)
+    port_ranges = graphene.List(
+        graphene.String,
+        required=True,
+        description="List of port ranges specifications like "
+        "'T: 1-999' or 'U: 1000-1999'",
+    )
     comment = graphene.String(description="PortList comment.")
 
 
@@ -185,7 +190,7 @@ class CreatePortList(graphene.Mutation):
 
         name = input_object.name
         comment = input_object.comment
-        port_range = ','.join(input_object.port_range)
+        port_range = ','.join(input_object.port_ranges)
 
         gmp = get_gmp(info)
 
