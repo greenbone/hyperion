@@ -122,12 +122,12 @@ class ResultType(graphene.Enum):
 
 class QoD(graphene.ObjectType):
     value = graphene.Int()
-    type = graphene.String()
+    qod_type = graphene.String(name="type")
 
     def resolve_value(root, _info):
         return get_int_from_element(root, 'value')
 
-    def resolve_type(root, _info):
+    def resolve_qod_type(root, _info):
         return get_text_from_element(root, 'type')
 
 
