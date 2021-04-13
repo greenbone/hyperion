@@ -109,7 +109,7 @@ class PortList(EntityObjectType):
 
     def resolve_port_ranges(root, _info):
         port_ranges = root.find('port_ranges')
-        if len(port_ranges) == 0:
+        if port_ranges is None or len(port_ranges) == 0:
             return None
         return port_ranges.findall('port_range')
 
