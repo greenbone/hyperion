@@ -29,6 +29,8 @@ from selene.schema.entities import (
     create_export_by_filter_mutation,
 )
 
+from selene.schema.severity import SeverityType
+
 
 class CloneOverride(graphene.Mutation):
     """Clones an override
@@ -83,8 +85,10 @@ class CreateOverrideInput(graphene.InputObjectType):
     hosts = graphene.List(
         graphene.String, description="A list of host addresses"
     )
-    new_severity = graphene.Float(
-        required=True, description="Severity to which should be overridden"
+    new_severity = graphene.Field(
+        SeverityType,
+        required=True,
+        description="Severity to which should be overridden",
     )
     port = graphene.String(description="Port to which the override applies")
     result_id = graphene.UUID(
@@ -168,8 +172,10 @@ class ModifyOverrideInput(graphene.InputObjectType):
     hosts = graphene.List(
         graphene.String, description="A list of hosts addresses"
     )
-    new_severity = graphene.Float(
-        required=True, description="Severity to which should be overridden"
+    new_severity = graphene.Field(
+        SeverityType,
+        required=True,
+        description="Severity to which should be overridden",
     )
     port = graphene.String(description="Port to which the override applies")
     result_id = graphene.UUID(
