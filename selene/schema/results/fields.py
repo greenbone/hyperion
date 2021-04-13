@@ -86,20 +86,16 @@ class ResultNVT(ScanConfigNVT):
 class ResultCVE(graphene.ObjectType):
     """CVE to which result applies."""
 
-    oid = graphene.String(name='id')
-    severity = graphene.Field(SeverityType)
-    score = graphene.Int()
+    oid = graphene.String(name='id', description='ID of the CVE')
+    severity = graphene.Field(
+        SeverityType, description='Severity of the CVE result.'
+    )
 
     def resolve_oid(root, _info):
         return root.get('oid')
 
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'cvss_base')
-
-    def resolve_score(root, _info):
-        severities = root.find('severities')
-        if severities is not None:
-            return severities.get('score')
 
 
 class ResultInformation(graphene.Union):

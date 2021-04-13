@@ -715,7 +715,6 @@ class ReportTestCase(SeleneTestCase):
                         ... on ResultCVE{
                             id
                             severity
-                            score
                         }
                     }
                     severity

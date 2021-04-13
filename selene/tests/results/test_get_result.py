@@ -323,7 +323,6 @@ class ResultsTestCase(SeleneTestCase):
                         ... on ResultCVE{
                             id
                             severity
-                            score
                         }
                     }
                     severity
@@ -399,7 +398,6 @@ class ResultsTestCase(SeleneTestCase):
         self.assertIsNone(result['qod']['type'])
         self.assertEqual(result['originalSeverity'], 5.8)
         self.assertEqual(result['information']['id'], 'CVE-2018-16845')
-        self.assertEqual(result['information']['score'], 61)
         self.assertEqual(result['information']['severity'], 6.1)
         self.assertEqual(
             result['description'],
