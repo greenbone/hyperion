@@ -72,6 +72,7 @@ class OriginResult(UUIDObjectTypeMixin, graphene.ObjectType):
 
 class ResultNVT(ScanConfigNVT):
     class Meta:
+        # default resolver is not inherited. Must be declared
         default_resolver = text_resolver
 
     version = graphene.String(description='Version of the NVT used in the scan')
@@ -82,15 +83,11 @@ class ResultNVT(ScanConfigNVT):
 
 class ResultCVE(graphene.ObjectType):
     oid = graphene.String(name='id')
-    name = graphene.String()
     severity = graphene.Field(SeverityType)
     score = graphene.Int()
 
     def resolve_oid(root, _info):
         return root.get('oid')
-
-    def resolve_name(root, _info):
-        return get_text_from_element(root, 'name')
 
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'cvss_base')
@@ -182,7 +179,7 @@ class ResultOverride(
         return get_datetime_from_element(root, 'end_time')
 
 
-class Result(
+class Result(  # changed mixin to remove comment mixin
     UserTagsObjectTypeMixin,
     OwnerObjectTypeMixin,
     CreationModifactionObjectTypeMixin,
@@ -289,11 +286,13 @@ class Result(
         result_info = root.find('nvt')
         info_type = get_text_from_element(result_info, 'type')
 
-        scan_run_version = get_text_from_element(root, 'scan_run_version')
+        scan_nvt_version = get_text_from_element(root, 'scan_nvt_version')
 
         if info_type == 'nvt':
+            # append scan_nvt_version as version element
+            # to nvt result type for parsing
             version_element = etree.Element('version')
-            version_element.text = scan_run_version
+            version_element.text = scan_nvt_version
             result_info.append(version_element)
 
         return result_info
@@ -303,5 +302,4 @@ class Result(
 
         if nvt is not None:
             return get_text_from_element(nvt, 'type').upper()
-        else:
-            return None
+        return None

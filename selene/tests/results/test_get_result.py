@@ -322,7 +322,6 @@ class ResultsTestCase(SeleneTestCase):
                         __typename
                         ... on ResultCVE{
                             id
-                            name
                             severity
                             score
                         }
