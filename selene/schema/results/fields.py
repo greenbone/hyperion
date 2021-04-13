@@ -71,6 +71,8 @@ class OriginResult(UUIDObjectTypeMixin, graphene.ObjectType):
 
 
 class ResultNVT(ScanConfigNVT):
+    """NVT to which result applies."""
+
     class Meta:
         # default resolver is not inherited. Must be declared
         default_resolver = text_resolver
@@ -82,6 +84,8 @@ class ResultNVT(ScanConfigNVT):
 
 
 class ResultCVE(graphene.ObjectType):
+    """CVE to which result applies."""
+
     oid = graphene.String(name='id')
     severity = graphene.Field(SeverityType)
     score = graphene.Int()
@@ -99,6 +103,8 @@ class ResultCVE(graphene.ObjectType):
 
 
 class ResultInformation(graphene.Union):
+    """NVT or CVE to which the result applies."""
+
     class Meta:
         types = (ResultNVT, ResultCVE)
 
@@ -118,8 +124,8 @@ class ResultType(graphene.Enum):
 
 
 class QoD(graphene.ObjectType):
-    value = graphene.Int()
-    qod_type = graphene.String(name="type")
+    value = graphene.Int(description='The numeric QoD value.')
+    qod_type = graphene.String(name="type", description='The QoD type.')
 
     def resolve_value(root, _info):
         return get_int_from_element(root, 'value')
@@ -129,9 +135,16 @@ class QoD(graphene.ObjectType):
 
 
 class ResultHost(graphene.ObjectType):
-    ip = graphene.String()
-    asset_id = graphene.UUID(name="id")
-    hostname = graphene.String()
+    ip = graphene.String(description='The host the result applies to.')
+    asset_id = graphene.UUID(
+        name="id", description='ID of asset linked to host.'
+    )
+    hostname = graphene.String(
+        description=(
+            'If available, the hostname the result was created for, '
+            'else the one from host details.'
+        )
+    )
 
     def resolve_ip(root, _info):
         return get_text(root)
@@ -157,11 +170,19 @@ class ResultReport(UUIDObjectTypeMixin, graphene.ObjectType):
 class ResultOverride(
     graphene.ObjectType, UUIDObjectTypeMixin, CreationModifactionObjectTypeMixin
 ):
-    active = graphene.Boolean()
-    severity = SeverityType()
-    new_severity = SeverityType()
-    text = graphene.String()
-    end_time = graphene.DateTime()
+    active = graphene.Boolean(description='Whether the Override is active')
+    severity = graphene.Field(
+        SeverityType,
+        description='Minimum severity of results the Override applies to',
+    )
+    new_severity = graphene.Field(
+        SeverityType,
+        description='Severity level results are changed to by the Override',
+    )
+    text = graphene.String(description='Text of the Override')
+    end_time = graphene.DateTime(
+        description='Override end time in case of limit, else empty.'
+    )
 
     def resolve_active(root, _info):
         return get_boolean_from_element(root, 'active')
