@@ -27,7 +27,9 @@ class OverrideTestCase(SeleneTestCase):
         response = self.query(
             '''
             mutation {
-                createOverride (input: {text: "Test Override",
+                createOverride (input: {
+                                    text: "Test Override",
+                                    newSeverity: 5.0,
                                     nvtOid: "1.3.6.1.4.1.25623.1.0.112826"}) {
                     id
                 }
@@ -59,6 +61,7 @@ class OverrideTestCase(SeleneTestCase):
                                       "74555f56-6d00-47c2-b229-54bdf8c3fe9e",
                                     port: "general/tcp",
                                     severity: 0.0,
+                                    newSeverity: 5.0,
                                     taskId:
                                       "c05a764c-bea6-4555-b24e-fbd9c741501c"}) {
                     id
@@ -82,6 +85,7 @@ class OverrideTestCase(SeleneTestCase):
             port="general/tcp",
             result_id="74555f56-6d00-47c2-b229-54bdf8c3fe9e",
             severity=0.0,
+            new_severity=5.0,
             task_id="c05a764c-bea6-4555-b24e-fbd9c741501c",
         )
 
@@ -99,7 +103,9 @@ class OverrideTestCase(SeleneTestCase):
         response = self.query(
             '''
             mutation {
-                createOverride (input: {text: "Test Override",
+                createOverride (input: {
+                                    text: "Test Override",
+                                    newSeverity: 5.0,
                                     nvtOid: "1.3.6.1.4.1.25623.1.0.112826"}) {
                     id
                 }
@@ -118,6 +124,7 @@ class OverrideTestCase(SeleneTestCase):
             "1.3.6.1.4.1.25623.1.0.112826",
             days_active=None,
             hosts=None,
+            new_severity=5.0,
             port=None,
             result_id=None,
             severity=None,
