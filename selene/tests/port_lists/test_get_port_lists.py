@@ -145,7 +145,7 @@ class PortListTestCase(SeleneTestCase):
                             id
                             start
                             end
-                            protocolType
+                            type
                         }
                         targets {
                             id
@@ -194,13 +194,13 @@ class PortListTestCase(SeleneTestCase):
         )
         self.assertEqual(port_ranges1[0]['start'], 1)
         self.assertEqual(port_ranges1[0]['end'], 3)
-        self.assertEqual(port_ranges1[0]['protocolType'], 'tcp')
+        self.assertEqual(port_ranges1[0]['type'], 'TCP')
         self.assertEqual(
             port_ranges1[1]['id'], '6390a473-86b3-4583-b4b9-e7e3b2a55355'
         )
         self.assertEqual(port_ranges1[1]['start'], 5)
         self.assertEqual(port_ranges1[1]['end'], 5)
-        self.assertEqual(port_ranges1[1]['protocolType'], 'udp')
+        self.assertEqual(port_ranges1[1]['type'], 'UDP')
 
         port_list_counts1 = port_list1['portCount']
         self.assertEqual(port_list_counts1['all'], 42)
@@ -233,13 +233,13 @@ class PortListTestCase(SeleneTestCase):
         )
         self.assertEqual(port_ranges2[0]['start'], 1)
         self.assertEqual(port_ranges2[0]['end'], 3)
-        self.assertEqual(port_ranges2[0]['protocolType'], 'tcp')
+        self.assertEqual(port_ranges2[0]['type'], 'TCP')
         self.assertEqual(
             port_ranges2[1]['id'], '6390a473-86b3-4583-b4b9-e7e3b2a55351'
         )
         self.assertEqual(port_ranges2[1]['start'], 5)
         self.assertEqual(port_ranges2[1]['end'], 5)
-        self.assertEqual(port_ranges2[1]['protocolType'], 'udp')
+        self.assertEqual(port_ranges2[1]['type'], 'UDP')
 
         port_list_counts2 = port_list2['portCount']
         self.assertEqual(port_list_counts2['all'], 42)
