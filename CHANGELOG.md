@@ -18,6 +18,7 @@ $ cd hyperion && git log
 ### Added
 
 - Add csv_to_list function [#96](https://github.com/greenbone/hyperion/pull/96)
+- Add `new_severity` to override mutations [#85](https://github.com/greenbone/hyperion/pull/85)
 - Query for target tasks in single query [#78](https://github.com/greenbone/hyperion/pull/78)
 - Add `owner`, `detection_result`, `notes`, `tickets` and `user_tags` for result fields [#69](https://github.com/greenbone/hyperion/pull/69)
 - Support credential download and add fields to Credential [#66](https://github.com/greenbone/hyperion/pull/66)
