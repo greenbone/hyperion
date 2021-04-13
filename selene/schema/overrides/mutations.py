@@ -61,7 +61,14 @@ class CreateOverrideInput(graphene.InputObjectType):
 
     Args:
         text (str): Text of the new override
-        nvt (NVT): The NVT of the override
+        nvt_oid (str): The NVT of the override
+        days_active (int): Days override will be active. -1 on always, 0 off
+        hosts (str): A list of host addresses
+        new_severity (float): Severity to which should be overridden
+        port (str): Port to which the override applies
+        result_id (UUID): ID of a result to which override applies
+        severity (float): Severity to which override applies
+        task_id (UUID): ID of a task to which override applies
     """
 
     text = graphene.String(
