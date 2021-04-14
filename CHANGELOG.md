@@ -29,7 +29,7 @@ $ cd hyperion && git log
 ### Changed
 
 - Revisit result object type [#92](https://github.com/greenbone/hyperion/pull/92)
-- Revisit target object type [#97](https://github.com/greenbone/hyperion/pull/97)
+- Revisit target object type, queries and mutations [#97](https://github.com/greenbone/hyperion/pull/97), [106](https://github.com/greenbone/hyperion/pull/106)
 - Explicitly implement audit subobjects [#26](https://github.com/greenbone/hyperion/pull/26)
 - For all NVT related Entities we use `id` instead of `oid` now, so every Entity uses `id` now. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Use `next` instead of `latest` `python-gvm` version for developement. [#15](https://github.com/greenbone/hyperion/pull/15)
