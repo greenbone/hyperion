@@ -78,6 +78,33 @@
   <description/>
   <original_threat>High</original_threat>
   <original_severity>9.3</original_severity>
+  <overrides>
+    <override id="6f1249cd-6c48-43e5-bf4f-2a11cb28fbbd">
+      <permissions>
+        <permission>
+          <name>Everything</name>
+        </permission>
+      </permissions>
+      <owner>
+        <name>admin</name>
+      </owner>
+      <nvt oid="1.3.6.1.4.1.25623.1.0.80111">
+        <name>Check for Backdoor in UnrealIRCd</name>
+        <type>nvt</type>
+      </nvt>
+      <creation_time>2021-04-11T11:30:46Z</creation_time>
+      <modification_time>2021-04-11T11:30:46Z</modification_time>
+      <writable>1</writable>
+      <in_use>0</in_use>
+      <active>1</active>
+      <text excerpt="0">hello world</text>
+      <threat>Alarm</threat>
+      <severity>6.4</severity>
+      <new_threat>Medium</new_threat>
+      <new_severity>4.3</new_severity>
+      <orphan>0</orphan>
+    </override>
+  </overrides>
   <notes>
     <note id="330c8602-9a29-4683-8fd0-908ac3c66914">
       <permissions>
