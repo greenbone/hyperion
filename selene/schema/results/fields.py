@@ -32,7 +32,6 @@ from selene.schema.entity import (
 from selene.schema.resolver import find_resolver, text_resolver
 from selene.schema.utils import (
     get_text,
-    get_int_from_element,
     get_text_from_element,
     get_boolean_from_element,
     get_datetime_from_element,
@@ -40,7 +39,7 @@ from selene.schema.utils import (
 from selene.schema.parser import parse_uuid
 
 from selene.schema.notes.fields import Note
-from selene.schema.nvts.fields import ScanConfigNVT
+from selene.schema.nvts.fields import QoD, ScanConfigNVT
 from selene.schema.tickets.fields import RemediationTicket
 
 
@@ -117,17 +116,6 @@ class ResultInformation(graphene.Union):
 class ResultType(graphene.Enum):
     CVE = 'CVE'
     NVT = 'NVT'
-
-
-class QoD(graphene.ObjectType):
-    value = graphene.Int(description='The numeric QoD value.')
-    qod_type = graphene.String(name="type", description='The QoD type.')
-
-    def resolve_value(root, _info):
-        return get_int_from_element(root, 'value')
-
-    def resolve_qod_type(root, _info):
-        return get_text_from_element(root, 'type')
 
 
 class ResultHost(graphene.ObjectType):
