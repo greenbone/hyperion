@@ -32,7 +32,7 @@ $ cd hyperion && git log
 - Revisit target object type, queries and mutations [#97](https://github.com/greenbone/hyperion/pull/97), [106](https://github.com/greenbone/hyperion/pull/106)
 - Explicitly implement audit subobjects [#26](https://github.com/greenbone/hyperion/pull/26)
 - For all NVT related Entities we use `id` instead of `oid` now, so every Entity uses `id` now. [#15](https://github.com/greenbone/hyperion/pull/15)
-- Use `next` instead of `latest` `python-gvm` version for developement. [#15](https://github.com/greenbone/hyperion/pull/15)
+- Use `next` instead of `latest` `python-gvm` version for development. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Removed empty `uuid= ` from `filter_string` in `create_export_by_ids_mutation` [#23](https://github.com/greenbone/hyperion/pull/23)
 - Changed dependency of `xml` to `lxml` [#27](https://github.com/greenbone/hyperion/pull/27)
 - Changed `CVE`s entity so it can parse new-format xml correctly [#29](https://github.com/greenbone/hyperion/pull/29) [#38](https://github.com/greenbone/hyperion/pull/38)

@@ -128,7 +128,7 @@ class NvtSeverity(graphene.ObjectType):
     score = graphene.Int()
     severity_type = graphene.String(name='type')
     vector = graphene.String(
-        description='The CVSS Vector resposible for the Score.'
+        description='The CVSS Vector responsible for the Score.'
     )
 
     def resolve_date(root, _info):
@@ -151,7 +151,7 @@ class NvtReference(graphene.ObjectType):
     """Reference of a NVT. """
 
     reference_id = graphene.String(
-        name='id', description='ID of the corrosponding reference'
+        name='id', description='ID of the corresponding reference'
     )
     reference_type = graphene.String(
         name='type',
