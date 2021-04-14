@@ -69,7 +69,7 @@ class ResultsTestCase(SeleneTestCase):
         self.assertEqual(result['name'], 'abc')
         self.assertEqual(result['id'], '1f3261c9-e47c-4a21-b677-826ea92d1d59')
 
-    def test_get_full_result(self, mock_gmp: GmpMockFactory):
+    def test_get_full_result_nvt_type(self, mock_gmp: GmpMockFactory):
         result_xml_path = CWD / 'example-result.xml'
         result_xml_str = result_xml_path.read_text()
 
@@ -85,22 +85,32 @@ class ResultsTestCase(SeleneTestCase):
                 ) {
                     id
                     name
-                    comment
                     owner
-                    detectionResult{
+                    type
+                    overrides{
+                        id
+                        active
+                        creationTime
+                        modificationTime
+                        text
+                        endTime
+                        severity
+                        newSeverity
+                    }
+                    originResult{
                         id
                         details{
                             name
                             value
                         }
                     }
-                    reportId
+                    report {
+                        id
+                    }
                     task {
                         id
                         name
                     }
-                    scanNvtVersion
-                    originalThreat
                     originalSeverity
                     creationTime
                     modificationTime
@@ -109,17 +119,20 @@ class ResultsTestCase(SeleneTestCase):
                         id
                         hostname
                     }
-                    port
-                    nvt {
-                        id
-                        score
-                        severities {
-                            type
+                    location
+                    information {
+                        __typename
+                        ... on ResultNVT{
+                            id
                             score
-                            vector
+                            version
+                            severities {
+                                type
+                                score
+                                vector
+                            }
                         }
                     }
-                    threat
                     severity
                     qod {
                         value
@@ -159,28 +172,27 @@ class ResultsTestCase(SeleneTestCase):
             result['name'],
             'Apache Tomcat RCE Vulnerability - April19 (Windows)',
         )
-        self.assertIsNone(result['comment'])
         self.assertEqual(result['owner'], 'jloechte')
+        self.assertEqual(result['type'], 'NVT')
         self.assertEqual(result['creationTime'], '2020-06-19T09:31:15+00:00')
         self.assertEqual(
             result['modificationTime'], '2020-06-19T09:31:15+00:00'
         )
 
-        self.assertIsNotNone(result['detectionResult'])
-        detection_result = result['detectionResult']
+        self.assertIsNotNone(result['originResult'])
+        origin_result = result['originResult']
         self.assertEqual(
-            detection_result['id'], '9184608a-0b86-42e0-b733-4668feebc1c7'
+            origin_result['id'], '9184608a-0b86-42e0-b733-4668feebc1c7'
         )
-        self.assertIsNotNone(detection_result['details'])
-        details = detection_result['details']
+        self.assertIsNotNone(origin_result['details'])
+        details = origin_result['details']
         self.assertEqual(len(details), 4)
         detail1 = details[0]
         self.assertEqual(detail1['name'], 'product')
         self.assertEqual(detail1['value'], 'cpe:/a:python:python:2.7.16')
 
-        self.assertEqual(
-            result['reportId'], 'f31d3b1a-4642-44bc-86ea-63ea029d4c63'
-        )
+        report = result['report']
+        self.assertEqual(report['id'], 'f31d3b1a-4642-44bc-86ea-63ea029d4c63')
         self.assertEqual(
             result['task']['id'], 'dc9c6b7d-c81d-4e20-acd8-b187b018fa42'
         )
@@ -193,16 +205,16 @@ class ResultsTestCase(SeleneTestCase):
             result['host']['id'], '2bcc682e-3c91-4f9c-80d6-59949159801f'
         )
         self.assertEqual(result['host']['hostname'], 'xyzxy')
-        self.assertIsNone(result['scanNvtVersion'])
-        self.assertEqual(result['threat'], 'High')
         self.assertEqual(result['severity'], 9.3)
         self.assertEqual(result['qod']['value'], 75)
         self.assertIsNone(result['qod']['type'])
-        self.assertEqual(result['originalThreat'], 'High')
         self.assertEqual(result['originalSeverity'], 9.3)
-        self.assertEqual(result['nvt']['id'], '1.3.6.1.4.1.25623.1.0.142265')
-        self.assertEqual(result['nvt']['score'], 93)
-        severities = result['nvt']['severities']
+        self.assertEqual(
+            result['information']['id'], '1.3.6.1.4.1.25623.1.0.142265'
+        )
+        self.assertIsNone(result['information']['version'])
+        self.assertEqual(result['information']['score'], 93)
+        severities = result['information']['severities']
         self.assertEqual(severities[0]['type'], 'cvss_base_v2')
         self.assertEqual(severities[0]['score'], 93)
         self.assertEqual(
@@ -222,6 +234,24 @@ class ResultsTestCase(SeleneTestCase):
         self.assertTrue(note1['active'])
         self.assertEqual(note1['text'], 'test')
 
+        self.assertIsNotNone(result['overrides'])
+        overrides = result['overrides']
+        self.assertEqual(len(overrides), 1)
+
+        override1 = overrides[0]
+        self.assertEqual(
+            override1['id'], '6f1249cd-6c48-43e5-bf4f-2a11cb28fbbd'
+        )
+        self.assertEqual(override1['creationTime'], '2021-04-11T11:30:46+00:00')
+        self.assertEqual(
+            override1['modificationTime'], '2021-04-11T11:30:46+00:00'
+        )
+        self.assertTrue(override1['active'])
+        self.assertEqual(override1['text'], 'hello world')
+        self.assertEqual(override1['severity'], 6.4)
+        self.assertEqual(override1['newSeverity'], 4.3)
+        self.assertIsNone(override1['endTime'])
+
         self.assertIsNotNone(result['tickets'])
         tickets = result['tickets']
         self.assertEqual(len(tickets), 2)
@@ -237,6 +267,147 @@ class ResultsTestCase(SeleneTestCase):
             user_tags['tags'][0]['id'], '955e4b08-0a8e-4336-89a9-3c573824db2d'
         )
         self.assertEqual(user_tags['tags'][0]['name'], 'result:unnamed')
+
+    def test_get_full_result_cve_type(self, mock_gmp: GmpMockFactory):
+        result_xml_path = CWD / 'example-result-2.xml'
+        result_xml_str = result_xml_path.read_text()
+
+        mock_gmp.mock_response('get_result', result_xml_str)
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                result (
+                    id: "2b555c60-e597-4b18-9d24-dac30f61cfa8"
+                ) {
+                    id
+                    name
+                    owner
+                    originResult{
+                        id
+                        details{
+                            name
+                            value
+                        }
+                    }
+                    report {
+                        id
+                    }
+                    task {
+                        id
+                        name
+                    }
+                    originalSeverity
+                    overrides{
+                        id
+                        active
+                        creationTime
+                        modificationTime
+                        text
+                        endTime
+                        severity
+                        newSeverity
+                    }
+                    creationTime
+                    modificationTime
+                    host {
+                        ip
+                        id
+                        hostname
+                    }
+                    location
+                    information {
+                        __typename
+                        ... on ResultCVE{
+                            id
+                            severity
+                        }
+                    }
+                    severity
+                    qod {
+                        value
+                        type
+                    }
+                    description
+                    notes {
+                        id
+                        creationTime
+                        modificationTime
+                        active
+                        text
+                    }
+                    tickets {
+                        id
+                    }
+                    userTags {
+                        count
+                        tags {
+                            id
+                            name
+                        }
+                    }
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        result = json['data']['result']
+
+        self.assertEqual(result['id'], '2b555c60-e597-4b18-9d24-dac30f61cfa8')
+        self.assertIsNone(result['name'])
+        self.assertEqual(result['owner'], 'admin')
+        self.assertEqual(result['creationTime'], '2021-04-07T07:41:47+00:00')
+        self.assertEqual(
+            result['modificationTime'], '2021-04-07T07:41:47+00:00'
+        )
+
+        self.assertIsNotNone(result['originResult'])
+        origin_result = result['originResult']
+        self.assertEqual(
+            origin_result['id'], '2b555c60-e597-4b18-9d24-dac30f61cfa8'
+        )
+        self.assertIsNotNone(origin_result['details'])
+        details = origin_result['details']
+        self.assertEqual(len(details), 4)
+        detail1 = details[0]
+        self.assertEqual(detail1['name'], 'product')
+        self.assertEqual(detail1['value'], 'cpe:/a:nginx:nginx:1.14.2')
+
+        report = result['report']
+        self.assertEqual(report['id'], '9699a95d-e556-4af7-83ac-a7b70d90832a')
+        self.assertEqual(
+            result['task']['id'], 'ab9a1470-fc01-4547-9da0-33df6c1aa5d1'
+        )
+        self.assertEqual(
+            result['task']['name'],
+            'Report Container',
+        )
+        self.assertEqual(result['host']['ip'], '192.168.9.113')
+        self.assertEqual(
+            result['host']['id'], 'eb357684-6fcf-4d31-a5e0-02abe040caa4'
+        )
+        self.assertIsNone(result['host']['hostname'])
+        self.assertEqual(result['severity'], 5.8)
+        self.assertEqual(result['qod']['value'], 75)
+        self.assertIsNone(result['qod']['type'])
+        self.assertEqual(result['originalSeverity'], 5.8)
+        self.assertEqual(result['information']['id'], 'CVE-2018-16845')
+        self.assertEqual(result['information']['severity'], 6.1)
+        self.assertEqual(
+            result['description'],
+            'The host carries the product: cpe:/a:nginx:nginx:1.14.2',
+        )
+
+        self.assertIsNone(result['notes'])
+        self.assertIsNone(result['overrides'])
+        self.assertIsNone(result['tickets'])
+        self.assertIsNone(result['userTags'])
 
     def test_get_result_none_fields(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
@@ -261,22 +432,31 @@ class ResultsTestCase(SeleneTestCase):
                 ) {
                     id
                     name
-                    comment
                     owner
-                    detectionResult{
+                    originResult{
                         id
                         details{
                             name
                             value
                         }
                     }
-                    reportId
+                    overrides{
+                        id
+                        active
+                        creationTime
+                        modificationTime
+                        text
+                        endTime
+                        severity
+                        newSeverity
+                    }
+                    report {
+                        id
+                    }
                     task {
                         id
                         name
                     }
-                    scanNvtVersion
-                    originalThreat
                     originalSeverity
                     creationTime
                     modificationTime
@@ -285,17 +465,20 @@ class ResultsTestCase(SeleneTestCase):
                         id
                         hostname
                     }
-                    port
-                    nvt {
-                        id
-                        score
-                        severities {
-                            type
+                    location
+                    information {
+                        __typename
+                        ... on ResultNVT{
+                            id
+                            version
                             score
-                            vector
+                            severities {
+                                type
+                                score
+                                vector
+                            }
                         }
                     }
-                    threat
                     severity
                     qod {
                         value
@@ -332,23 +515,20 @@ class ResultsTestCase(SeleneTestCase):
 
         self.assertEqual(result['id'], '1f3261c9-e47c-4a21-b677-826ea92d1d59')
         self.assertEqual(result['name'], 'abc')
-        self.assertIsNone(result['comment'])
         self.assertIsNone(result['owner'])
         self.assertIsNone(result['creationTime'])
         self.assertIsNone(result['modificationTime'])
-        self.assertIsNone(result['detectionResult'])
-        self.assertIsNone(result['reportId'])
+        self.assertIsNone(result['originResult'])
+        self.assertIsNone(result['report'])
         self.assertIsNone(result['task'])
         self.assertIsNone(result['host'])
-        self.assertIsNone(result['port'])
-        self.assertIsNone(result['scanNvtVersion'])
-        self.assertIsNone(result['threat'])
+        self.assertIsNone(result['location'])
         self.assertIsNone(result['severity'])
         self.assertIsNone(result['qod'])
-        self.assertIsNone(result['originalThreat'])
         self.assertIsNone(result['originalSeverity'])
-        self.assertIsNone(result['nvt'])
+        self.assertIsNone(result['information'])
         self.assertIsNone(result['description'])
         self.assertIsNone(result['notes'])
+        self.assertIsNone(result['overrides'])
         self.assertIsNone(result['tickets'])
         self.assertIsNone(result['userTags'])
