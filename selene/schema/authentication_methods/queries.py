@@ -35,22 +35,24 @@ class CaCertificate(CACertificateMixin, graphene.ObjectType):
     certificate = graphene.String(
         description='Base64 encoded data of the CA certificate'
     )
+    time_status = graphene.String(
+        description=(
+            'Whether the certificate is valid, ' 'expired or not active yet.'
+        ),
+    )
 
     def resolve_certificate(root: XmlElement, _info):
         return get_text_from_element(root, "value")
 
-    def resolve_info(root: XmlElement, _info):
-        return root.find("certificate_info")
-
-    def resolve_time_status(root: XmlElement, _into):
+    def resolve_time_status(root: XmlElement, _info):
         cert_info = root.find('certificate_info')
         return get_text_from_element(cert_info, 'time_status')
 
-    def resolve_md5_fingerprint(root: XmlElement, _into):
+    def resolve_md5_fingerprint(root: XmlElement, _info):
         cert_info = root.find('certificate_info')
         return get_text_from_element(cert_info, 'md5_fingerprint')
 
-    def resolve_issuer(root: XmlElement, _into):
+    def resolve_issuer(root: XmlElement, _info):
         cert_info = root.find('certificate_info')
         return get_text_from_element(cert_info, 'issuer')
 
@@ -68,10 +70,15 @@ class LDAPAuthenticationSettings(graphene.ObjectType):
 
     auth_dn = graphene.String()
     ca_certificate = graphene.Field(
-        CaCertificate, name="CA certificate used to connect to the LDAP server"
+        CaCertificate,
+        description="CA certificate used to connect to the LDAP server",
     )
-    host = graphene.String(name="Hostname or IP address of the LDAP server")
-    enable = graphene.Boolean(name="True if the LDAP authentication is in use")
+    host = graphene.String(
+        description="Hostname or IP address of the LDAP server"
+    )
+    enabled = graphene.Boolean(
+        description="True if the LDAP authentication is in use"
+    )
 
     def resolve_auth_dn(group: XmlElement, _info):
         for setting in group:
@@ -98,7 +105,7 @@ class LDAPAuthenticationSettings(graphene.ObjectType):
         for setting in group:
             key = setting.find('key').text
             if key == 'cacert':
-                return group
+                return setting
         return None
 
 
@@ -115,18 +122,24 @@ class GetLDAPAuthenticationSettings(graphene.Field):
         gmp = get_gmp(info)
 
         xml: XmlElement = gmp.describe_auth()
-        return xml.xpath("group[@name='method:ldap_connect']")
+        ldap_group = xml.xpath("group[@name='method:ldap_connect']")
+
+        if ldap_group:  # xml.xpath returns an array
+            return ldap_group[0]
+        return None
 
 
 class RADIUSAuthenticationSettings(graphene.ObjectType):
     # pylint: disable=not-an-iterable
 
-    enable = graphene.Boolean(
-        name="True if the RADIUS authentication is in use"
+    enabled = graphene.Boolean(
+        description="True if the RADIUS authentication is in use"
     )
-    host = graphene.String(name="Hostname or IP address for the RADIUS server")
+    host = graphene.String(
+        description="Hostname or IP address for the RADIUS server"
+    )
     secret_key = graphene.String(
-        name="Secret key used for connecting to the RADIUS server"
+        description="Secret key used for connecting to the RADIUS server"
     )
 
     def resolve_enabled(group: XmlElement, _info):
@@ -164,4 +177,8 @@ class GetRADIUSAuthenticationSettings(graphene.Field):
         gmp = get_gmp(info)
 
         xml: XmlElement = gmp.describe_auth()
-        return xml.xpath("group[@name='method:radius_connect']")
+        radius_group = xml.xpath("group[@name='method:radius_connect']")
+
+        if radius_group:  # xml.xpath returns an array
+            return radius_group[0]
+        return None

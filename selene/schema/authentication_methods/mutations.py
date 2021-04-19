@@ -31,15 +31,15 @@ def _to_bool(value: bool) -> str:
 class ModifyLDAPAuthenticationSettings(graphene.Mutation):
     class Arguments:
         auth_dn = graphene.String(
-            name='DN used for authentication',
+            description='DN used for authentication',
             required=True,
         )
-        certificate = graphene.String(name='Content of a .cert file')
+        certificate = graphene.String(description='Content of a .cert file')
         enable = graphene.Boolean(
-            name='True to enable the LDAP authentication', required=True
+            description='True to enable the LDAP authentication', required=True
         )
         host = graphene.String(
-            name='Hostname or IP of the LDAP server', required=True
+            description='Hostname or IP of the LDAP server', required=True
         )
 
     ok = graphene.Boolean()
@@ -68,16 +68,16 @@ class ModifyLDAPAuthenticationSettings(graphene.Mutation):
 class ModifyRADIUSAuthenticationSettings(graphene.Mutation):
     class Arguments:
         enable = graphene.Boolean(
-            name='True to enable the RADIUS authentication',
+            description='True to enable the RADIUS authentication',
             required=True,
         )
         host = graphene.String(
-            name='Hostname or IP of the RADIUS server',
+            description='Hostname or IP of the RADIUS server',
             required=True,
         )
         secret_key = graphene.String(
             required=True,
-            name="Secret key used for connecting to the RADIUS server",
+            description="Secret key used for connecting to the RADIUS server",
         )
 
     ok = graphene.Boolean()
@@ -93,6 +93,6 @@ class ModifyRADIUSAuthenticationSettings(graphene.Mutation):
             'radiuskey': secret_key,
         }
 
-        gmp.modify_auth("method:ldap_connect", settings)
+        gmp.modify_auth("method:radius_connect", settings)
 
         return ModifyLDAPAuthenticationSettings(ok=True)

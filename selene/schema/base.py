@@ -49,22 +49,26 @@ class BaseObjectType(
 class CACertificateMixin:
 
     md5_fingerprint = graphene.String(
-        name="md5 fingerprint of the CA certificate"
+        description="md5 fingerprint of the CA certificate"
     )
 
-    issuer = graphene.String(name="Issuer identification of the CA certificate")
+    issuer = graphene.String(
+        description="Issuer identification of the CA certificate"
+    )
 
     activation_time = graphene.DateTime(
-        name="Datetime when the CA certificate is active and considered valid"
+        description=(
+            "Datetime when the CA certificate is active and considered valid"
+        )
     )
     expiration_time = graphene.DateTime(
-        name="Datetime when the CA certificate will expire"
+        description="Datetime when the CA certificate will expire"
     )
 
-    def resolve_md5_fingerprint(root, _into):
+    def resolve_md5_fingerprint(root, _info):
         return get_text_from_element(root, 'md5_fingerprint')
 
-    def resolve_issuer(root, _into):
+    def resolve_issuer(root, _info):
         return get_text_from_element(root, 'issuer')
 
     def resolve_activation_time(root, _info):
