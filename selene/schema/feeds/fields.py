@@ -34,7 +34,7 @@ class Feed(graphene.ObjectType):
         default_resolver = find_resolver
 
     currently_syncing = graphene.Boolean(
-        name='True if the feed is currently syncing'
+        description='True if the feed is currently syncing'
     )
     description = graphene.String()
     feed_type = FeedType(name='type')
