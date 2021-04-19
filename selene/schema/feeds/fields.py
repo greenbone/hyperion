@@ -36,10 +36,13 @@ class Feed(graphene.ObjectType):
     currently_syncing = graphene.Boolean(
         description='True if the feed is currently syncing'
     )
-    description = graphene.String()
-    feed_type = FeedType(name='type')
-    name = graphene.String()
-    version = graphene.String()
+    description = graphene.String(description='A description of the feed.')
+    feed_type = FeedType(
+        name='type',
+        description='The type of feed: NVT, CERT, SCAP or GVMD_DATA.',
+    )
+    name = graphene.String(description='The name of the feed.')
+    version = graphene.String(description='The version of the feed.')
 
     @staticmethod
     def resolve_name(root, _info):
