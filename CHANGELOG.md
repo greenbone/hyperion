@@ -29,6 +29,7 @@ $ cd hyperion && git log
 
 ### Changed
 
+- Revisit feed status object types [#95](https://github.com/greenbone/hyperion/pull/95)
 - Introduce QoDType enum and use common QoD class for NVT and Result [#109](https://github.com/greenbone/hyperion/pull/109)
 - Revisit result object type [#92](https://github.com/greenbone/hyperion/pull/92)
 - Revisit target object type, queries and mutations [#97](https://github.com/greenbone/hyperion/pull/97), [106](https://github.com/greenbone/hyperion/pull/106)

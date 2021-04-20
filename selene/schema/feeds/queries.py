@@ -35,12 +35,7 @@ class GetFeed(graphene.Field):
                 version
                 description
                 type
-                syncNotAvailable {
-                    error
-                }
-                currentlySyncing {
-                    timestamp
-                }
+                currentlySyncing
             }
         }
 
@@ -55,10 +50,7 @@ class GetFeed(graphene.Field):
                 "version": "202010220502\n",
                 "description": "This script synchronizes [...]",
                 "type": "NVT",
-                "syncNotAvailable": null,
-                "currentlySyncing": {
-                    "timestamp": "Mon Nov 16 14:32:26 2020"
-                }
+                "currentlySyncing": True,
             }
         }
     }
