@@ -29,6 +29,8 @@ from selene.schema.entities import (
     create_export_by_filter_mutation,
 )
 
+from selene.schema.severity import SeverityType
+
 
 class CloneOverride(graphene.Mutation):
     """Clones an override
@@ -61,7 +63,14 @@ class CreateOverrideInput(graphene.InputObjectType):
 
     Args:
         text (str): Text of the new override
-        nvt (NVT): The NVT of the override
+        nvt_oid (str): The NVT of the override
+        days_active (int): Days override will be active. -1 on always, 0 off
+        hosts (str): A list of host addresses
+        new_severity (float): Severity to which should be overridden
+        port (str): Port to which the override applies
+        result_id (UUID): ID of a result to which override applies
+        severity (float): Severity to which override applies
+        task_id (UUID): ID of a task to which override applies
     """
 
     text = graphene.String(
@@ -75,6 +84,11 @@ class CreateOverrideInput(graphene.InputObjectType):
     )
     hosts = graphene.List(
         graphene.String, description="A list of host addresses"
+    )
+    new_severity = graphene.Field(
+        SeverityType,
+        required=True,
+        description="Severity to which should be overridden",
     )
     port = graphene.String(description="Port to which the override applies")
     result_id = graphene.UUID(
@@ -107,6 +121,7 @@ class CreateOverride(graphene.Mutation):
             hosts = [str(host) for host in input_object.hosts]
         else:
             hosts = None
+        new_severity = input_object.new_severity
         port = input_object.port
         result_id = (
             str(input_object.result_id)
@@ -127,6 +142,7 @@ class CreateOverride(graphene.Mutation):
             nvt_oid,
             days_active=days_active,
             hosts=hosts,
+            new_severity=new_severity,
             port=port,
             result_id=result_id,
             severity=severity,
@@ -155,6 +171,11 @@ class ModifyOverrideInput(graphene.InputObjectType):
     )
     hosts = graphene.List(
         graphene.String, description="A list of hosts addresses"
+    )
+    new_severity = graphene.Field(
+        SeverityType,
+        required=True,
+        description="Severity to which should be overridden",
     )
     port = graphene.String(description="Port to which the override applies")
     result_id = graphene.UUID(
@@ -187,6 +208,7 @@ class ModifyOverride(graphene.Mutation):
             hosts = [str(host) for host in input_object.hosts]
         else:
             hosts = None
+        new_severity = input_object.new_severity
         port = input_object.port
         result_id = (
             str(input_object.result_id)
@@ -207,6 +229,7 @@ class ModifyOverride(graphene.Mutation):
             text,
             days_active=days_active,
             hosts=hosts,
+            new_severity=new_severity,
             port=port,
             result_id=result_id,
             severity=severity,
