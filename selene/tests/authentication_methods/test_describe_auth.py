@@ -33,8 +33,8 @@ class AuthTestCase(SeleneTestCase):
         response = self.query(
             '''
             query {
-                auth {
-                    name
+                ldapAuthenticationSettings {
+                    authDn
                 }
             }
             '''
@@ -42,7 +42,7 @@ class AuthTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_describe_auth(self, mock_gmp: GmpMockFactory):
+    def test_describe_auth_ldap(self, mock_gmp: GmpMockFactory):
         """
         Test query
         """
@@ -55,12 +55,18 @@ class AuthTestCase(SeleneTestCase):
 
         response = self.query(
             '''
-            query DescribeAuth {
-                auth {
-                    name
-                    authConfSettings {
-                        key
-                        value
+            query {
+                ldapAuthenticationSettings {
+                    authDn
+                    enable
+                    host
+                    caCertificate {
+                        md5Fingerprint
+                        issuer
+                        activationTime
+                        expirationTime
+                        certificate
+                        timeStatus
                     }
                 }
             }
@@ -73,18 +79,62 @@ class AuthTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.describe_auth.assert_called_with()
 
-        # Query should return a list of 3 methods
-        auth_list = json['data']['auth']
-        self.assertEqual(len(auth_list), 3)
+        ldap_settings = json['data']['ldapAuthenticationSettings']
+
+        self.assertEqual(ldap_settings['authDn'], 'userid=%s,dc=example,dc=org')
+        self.assertEqual(ldap_settings['enable'], True)
+        self.assertEqual(ldap_settings['host'], '127.0.0.1')
+
+        ca_certificate = ldap_settings['caCertificate']
+
         self.assertEqual(
-            auth_list[0],
-            {
-                "name": "method:file",
-                "authConfSettings": [
-                    {"key": "enable", "value": "true"},
-                    {"key": "order", "value": "1"},
-                ],
-            },
+            ca_certificate['md5Fingerprint'],
+            'a4:dd:68:50:9c:7b:ff:b5:ca:46:ee:ac:0a:14:a3:fd',
         )
-        self.assertEqual(auth_list[1]['name'], 'method:ldap_connect')
-        self.assertEqual(auth_list[2]['name'], 'method:radius_connect')
+        self.assertEqual(ca_certificate['issuer'], 'C=AU,ST=Some-State,O=Rando')
+        self.assertEqual(
+            ca_certificate['activationTime'], '2021-04-01T13:56:33+00:00'
+        )
+        self.assertEqual(
+            ca_certificate['expirationTime'], '2026-03-31T13:56:33+00:00'
+        )
+        self.assertEqual(
+            ca_certificate['certificate'],
+            '-----BEGIN CERTIFICATE-----MIIDazCCAlOgA-----END CERTIFICATE-----',
+        )
+        self.assertEqual(ca_certificate['timeStatus'], 'valid')
+
+    def test_describe_auth_radius(self, mock_gmp: GmpMockFactory):
+        """
+        Test query
+        """
+        auth_xml_path = CWD / 'example-describe-auth.xml'
+        auth_xml_str = auth_xml_path.read_text()
+
+        mock_gmp.mock_response('describe_auth', auth_xml_str)
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                radiusAuthenticationSettings {
+                    enable
+                    host
+                    secretKey
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        mock_gmp.gmp_protocol.describe_auth.assert_called_with()
+
+        radius_settings = json['data']['radiusAuthenticationSettings']
+
+        self.assertEqual(radius_settings['enable'], False)
+        self.assertEqual(radius_settings['secretKey'], 'testing123')
+        self.assertEqual(radius_settings['host'], '127.0.0.1')
