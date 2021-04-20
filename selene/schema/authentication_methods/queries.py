@@ -76,7 +76,7 @@ class LDAPAuthenticationSettings(graphene.ObjectType):
     host = graphene.String(
         description="Hostname or IP address of the LDAP server"
     )
-    enabled = graphene.Boolean(
+    enable = graphene.Boolean(
         description="True if the LDAP authentication is in use"
     )
 
@@ -87,7 +87,7 @@ class LDAPAuthenticationSettings(graphene.ObjectType):
                 return setting.find('value').text
         return None
 
-    def resolve_enabled(group: XmlElement, _info):
+    def resolve_enable(group: XmlElement, _info):
         for setting in group:
             key = setting.find('key').text
             if key == 'enable':
@@ -132,7 +132,7 @@ class GetLDAPAuthenticationSettings(graphene.Field):
 class RADIUSAuthenticationSettings(graphene.ObjectType):
     # pylint: disable=not-an-iterable
 
-    enabled = graphene.Boolean(
+    enable = graphene.Boolean(
         description="True if the RADIUS authentication is in use"
     )
     host = graphene.String(
@@ -142,7 +142,7 @@ class RADIUSAuthenticationSettings(graphene.ObjectType):
         description="Secret key used for connecting to the RADIUS server"
     )
 
-    def resolve_enabled(group: XmlElement, _info):
+    def resolve_enable(group: XmlElement, _info):
         for setting in group:
             key = setting.find('key').text
             if key == 'enable':
