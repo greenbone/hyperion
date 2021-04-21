@@ -37,15 +37,7 @@ from selene.schema.utils import (
 
 
 class CreatePortRangeInput(graphene.InputObjectType):
-    """Input object for createPortRange.
-
-    Args:
-        port_list_id (UUID): UUID of the port list to which to add the range
-        start (int): The first port in the range
-        end (int): The last port in the range
-        port_range_type (PortRangeType): The type of the ports: TCP, UDP
-        comment (str, optional): Comment for the port range
-    """
+    """Input object for createPortRange"""
 
     port_list_id = graphene.UUID(
         required=True,
@@ -55,24 +47,27 @@ class CreatePortRangeInput(graphene.InputObjectType):
         required=True, description="The first port in the range"
     )
     end = graphene.Int(required=True, description="The last port in the range")
-    port_range_type = PortRangeType(
-        required=True, description="The type of the ports: TCP, UDP"
+    port_range_type = graphene.Field(
+        PortRangeType,
+        required=True,
+        description="The type of the ports: TCP, UDP",
     )
     comment = graphene.String(description="Comment for the port range")
 
 
 class CreatePortRange(graphene.Mutation):
-    """Creates a new port range. Call with createPortRange.
-
-    Args:
-        input (CreatePortRangeInput): Input object for CreatePortRange
-
-    """
+    """Creates a new port range. Call with createPortRange"""
 
     class Arguments:
-        input_object = CreatePortRangeInput(required=True, name='input')
+        input_object = CreatePortRangeInput(
+            required=True,
+            name='input',
+            description="Input ObjectType for creating a port range",
+        )
 
-    port_range_id = graphene.UUID(name='id')
+    port_range_id = graphene.UUID(
+        name='id', description="ID of the created port range"
+    )
 
     @require_authentication
     def mutate(root, info, input_object):
@@ -89,14 +84,7 @@ class CreatePortRange(graphene.Mutation):
 
 
 class DeletePortRange(graphene.Mutation):
-    """Deletes a port range
-
-    Args:
-        id (UUID): UUID of port range to delete.
-
-    Returns:
-        ok (Boolean)
-    """
+    """Delete a port range"""
 
     class Arguments:
         port_range_id = graphene.UUID(required=True, name='id')
@@ -111,10 +99,7 @@ class DeletePortRange(graphene.Mutation):
 
 
 class ClonePortList(graphene.Mutation):
-    """Clone a port_list
-
-    Args:
-        id (UUID): UUID of port_list to clone.
+    """Clone a port list
 
     Example:
 
@@ -142,9 +127,13 @@ class ClonePortList(graphene.Mutation):
     """
 
     class Arguments:
-        port_list_id = graphene.UUID(required=True, name='id')
+        port_list_id = graphene.UUID(
+            required=True, name='id', description="ID of the port list to clone"
+        )
 
-    port_list_id = graphene.UUID(name='id')
+    port_list_id = graphene.UUID(
+        name='id', description="ID of the new port list"
+    )
 
     @require_authentication
     def mutate(root, info, port_list_id):
@@ -154,38 +143,38 @@ class ClonePortList(graphene.Mutation):
 
 
 class CreatePortListInput(graphene.InputObjectType):
-    """Input object for createPortList.
+    """Input object for createPortList"""
 
-    Args:
-        name (str): The name of the port_list.
-        comment (str, optional): The comment on the port_list.
-        port_range (list): Port range list, array of string port ranges
-    """
-
-    name = graphene.String(required=True, description="PortList name.")
-    port_range = graphene.List(graphene.String, required=True)
+    name = graphene.String(required=True, description="Name of the port list")
+    port_ranges = graphene.List(
+        graphene.String,
+        required=True,
+        description="List of port ranges specifications like "
+        "'T: 1-999' or 'U: 1000-1999'",
+    )
     comment = graphene.String(description="PortList comment.")
 
 
 class CreatePortList(graphene.Mutation):
-    """Creates a new port_list. Call with createPortList.
-
-    Args:
-        input (CreatePortListInput): Input object for CreatePortList
-
-    """
+    """Create a new port list"""
 
     class Arguments:
-        input_object = CreatePortListInput(required=True, name='input')
+        input_object = CreatePortListInput(
+            required=True,
+            name='input',
+            description="Input ObjectType to create a port list",
+        )
 
-    port_list_id = graphene.UUID(name='id')
+    port_list_id = graphene.UUID(
+        name='id', description="ID of the new port list"
+    )
 
     @require_authentication
     def mutate(root, info, input_object):
 
         name = input_object.name
         comment = input_object.comment
-        port_range = ','.join(input_object.port_range)
+        port_range = ','.join(input_object.port_ranges)
 
         gmp = get_gmp(info)
 
@@ -198,47 +187,38 @@ class CreatePortList(graphene.Mutation):
 
 
 class ModifyPortListInput(graphene.InputObjectType):
-    """Input object for createPortList.
+    """Input object for modifyPortList"""
 
-    Args:
-        port_list_id (UUID): The port_list to modify
-        name (str): The name of the port_list.
-        comment (str, optional): The comment on the port_list.
-        port_range (list): Port range list, array of string port ranges
-    """
-
-    port_list_id = graphene.UUID(name='id', required=True)
-    name = graphene.String(description="PortList name.")
-    port_range = graphene.List(graphene.String)
-    comment = graphene.String(description="PortList comment.")
+    port_list_id = graphene.UUID(
+        name='id', required=True, description="ID of to be modified port list"
+    )
+    name = graphene.String(description="Port list name")
+    comment = graphene.String(description="Port list comment")
 
 
 class ModifyPortList(graphene.Mutation):
-    """Modifys a new port_list. Call with createPortList.
-
-    Args:
-        input (ModifyPortListInput): Input object for ModifyPortList
-
-    """
+    """Modify a port list"""
 
     class Arguments:
-        input_object = ModifyPortListInput(required=True, name='input')
+        input_object = ModifyPortListInput(
+            required=True,
+            name='input',
+            description='Input ObjectType for modifying a port list',
+        )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(description="True if no error occurred")
 
     @require_authentication
     def mutate(root, info, input_object):
 
         name = input_object.name
         comment = input_object.comment
-        # port_range = ','.join(input_object.port_range)
 
         gmp = get_gmp(info)
 
         gmp.modify_port_list(
             port_list_id=str(input_object.port_list_id),
             name=name,
-            # port_range=port_range, #not supported by python-gvm now ...
             comment=comment,
         )
         return ModifyPortList(ok=True)
@@ -272,22 +252,12 @@ DeleteByIdsClass = create_delete_by_ids_mutation(entity_name='port_list')
 
 
 class DeletePortListsByIds(DeleteByIdsClass):
-    """Deletes a list of port_lists
-
-    Args:
-        ids (List(UUID)): List of UUIDs of port_lists to delete.
-        ultimate (bool, optional): Whether to remove entirely, or to the
-            trashcan.
-
-    Returns:
-        ok (Boolean)
+    """Delete a list of port lists
 
     Example
 
         mutation {
-            deletePortListsByIds(
-                ids: ["5f8e7b31-35ea-4b43-9797-6d77f058906b"],
-                ultimate: false)
+            deletePortListsByIds(ids: ["5f8e7b31-35ea-4b43-9797-6d77f058906b"])
             {
                 ok
             }
@@ -308,22 +278,12 @@ DeleteByFilterClass = create_delete_by_filter_mutation(entity_name='port_list')
 
 
 class DeletePortListsByFilter(DeleteByFilterClass):
-    """Deletes a filtered list of port_lists
-
-    Args:
-        filterString (str): Filter string for port_list list to delete.
-        ultimate (bool, optional): Whether to remove entirely, or to the
-            trashcan.
-
-    Returns:
-        ok (Boolean)
+    """Delete a filtered list of port lists
 
     Example
 
         mutation {
-            deletePortListByFilter(
-                filterString:"name~Clone",
-                ultimate: false)
+            deletePortListByFilter(filterString:"name~Clone")
             {
                 ok
             }

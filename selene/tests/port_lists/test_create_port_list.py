@@ -31,7 +31,7 @@ class CreatePortListTestCase(SeleneTestCase):
             mutation {
                 createPortList(input: {
                     name: "bar",
-                    portRange: ["22","80","8000"],
+                    portRanges: ["22","80","8000"],
                     comment: "port range",
                 }) {
                     id
@@ -60,7 +60,7 @@ class CreatePortListTestCase(SeleneTestCase):
             mutation {
                 createPortList(input: {
                     name: "bar",
-                    portRange: ["22","80","8000"],
+                    portRanges: ["22","80","8000"],
                     comment: "port range",
                 }) {
                     id

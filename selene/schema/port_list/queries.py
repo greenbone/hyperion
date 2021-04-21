@@ -41,10 +41,7 @@ from selene.schema.utils import (
 
 
 class GetPortList(graphene.Field):
-    """Gets a single portlist.
-
-    Args:
-        id (UUID): UUID of the portlist being queried
+    """Get a single portlist
 
     Example:
 
@@ -56,7 +53,9 @@ class GetPortList(graphene.Field):
                     name
                     portRanges [
                         {
-                            protocolType
+                           start
+                           end
+                           type
                         }
                     ]
                 }
@@ -73,7 +72,7 @@ class GetPortList(graphene.Field):
                         "name": "All IANA assigned TCP and UDP",
                         "portRanges": [
                             {
-                                "protocolType": "tcp",
+                                "type": TCP,
                             }
                         ]
                     }
@@ -85,25 +84,23 @@ class GetPortList(graphene.Field):
     def __init__(self):
         super().__init__(
             PortList,
-            port_list_id=graphene.UUID(required=True, name='id'),
+            port_list_id=graphene.UUID(
+                required=True, name='id', description="ID of the port list"
+            ),
             resolver=self.resolve,
         )
 
     @staticmethod
     @require_authentication
-    def resolve(_root, info, port_list_id: UUID):
+    def resolve(_root, info: ResolveInfo, port_list_id: UUID):
         gmp = get_gmp(info)
 
-        xml = gmp.get_port_list(str(port_list_id))
+        xml: XmlElement = gmp.get_port_list(str(port_list_id))
         return xml.find('port_list')
 
 
 class GetPortLists(EntityConnectionField):
-    """Gets a list of portlists with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
+    """Get a list of port lists with pagination
 
     Example:
 
@@ -160,8 +157,9 @@ class GetPortLists(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
+        # details are required for port ranges
         xml: XmlElement = gmp.get_port_lists(
-            filter=filter_string.filter_string, details=False
+            filter=filter_string.filter_string, details=True
         )
 
         port_list_elements = xml.findall('port_list')
