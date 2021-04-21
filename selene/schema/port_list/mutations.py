@@ -187,7 +187,7 @@ class CreatePortList(graphene.Mutation):
 
 
 class ModifyPortListInput(graphene.InputObjectType):
-    """Input object for createPortList"""
+    """Input object for modifyPortList"""
 
     port_list_id = graphene.UUID(
         name='id', required=True, description="ID of to be modified port list"
@@ -252,7 +252,7 @@ DeleteByIdsClass = create_delete_by_ids_mutation(entity_name='port_list')
 
 
 class DeletePortListsByIds(DeleteByIdsClass):
-    """Delete a list of port_lists
+    """Delete a list of port lists
 
     Example
 
