@@ -33,6 +33,93 @@ from selene.schema.entity import EntityObjectType
 from selene.schema.resolver import text_resolver, nvt_tags_resolver
 
 
+class QoDType(graphene.Enum):
+    """Type of the Quality of Detection
+
+    Describes how a vulnerability has been discovered
+    """
+
+    # 100 %
+    # The detection happened via an exploit and is therefore fully verified.
+    EXPLOIT = 'exploit'
+
+    # 99 %
+    # Remote active checks (code execution, traversal attack, SQL injection
+    # etc.) in which the response clearly shows the presence of the
+    # vulnerability.
+    REMOTE_VULNERABILITY = 'remote_vul'
+
+    # 98 %
+    # Remote active checks (code execution, traversal attack, SQL injection
+    # etc.) in which the response clearly shows the presence of the vulnerable
+    # application.
+    REMOTE_APP = 'remote_app'
+
+    # 97 %
+    # Authenticated package-based checks for Linux(oid) systems.
+    PACKAGE = 'package'
+
+    # 97 %
+    # Authenticated registry based checks for Windows systems.
+    REGISTRY = 'registry'
+
+    # 95 %
+    # Remote active checks (code execution, traversal attack, SQL injection
+    # etc.) in which the response shows the likely presence of the vulnerable
+    # application or of the vulnerability. “Likely” means that only rare
+    # circumstances are possible in which the detection would be wrong.
+    REMOTE_ACTIVE = 'remote_active'
+
+    # 80 %
+    # Remote banner check of applications that offer patch level in version.
+    # Many proprietary products do so.
+    REMOTE_BANNER = 'remote_banner'
+
+    # 80 %
+    # Authenticated executable version checks for Linux(oid) or Windows systems
+    # where applications offer patch level in version.
+    EXECUTABLE_VERSION = 'executable_version'
+
+    # 70 %
+    # Remote checks that do some analysis but which are not always fully
+    # reliable.
+    REMOTE_ANALYSIS = 'remote_analysis'
+
+    # 50 %
+    # Remote checks in which intermediate systems such as firewalls might
+    # pretend correct detection so that it is actually not clear whether the
+    # application itself answered. For example, this can happen for non-TLS
+    # connections.
+    REMOTE_PROBE = 'remote_probe'
+
+    # 30 %
+    # Remote banner checks of applications that do not offer patch level in
+    # version identification. For example, this is the case for many open source
+    # products due to backport patches.
+    REMOTE_BANNER_UNRELIABLE = 'remote_banner_unreliable'
+
+    # 30 %
+    # Authenticated executable version checks for Linux(oid) systems where
+    # applications do not offer patch level in version identification.
+    EXECUTABLE_VERSION_UNRELIABLE = 'executable_version_unreliable'
+
+    # 1 %
+    # General note on potential vulnerability without finding any present
+    # application.
+    GENERAL_NOTE = 'general_note'
+
+
+class QoD(graphene.ObjectType):
+    value = graphene.Int(description='The numeric QoD value.')
+    qod_type = graphene.Field(QoDType, name="type", description='The QoD type.')
+
+    def resolve_value(root, _info):
+        return get_int_from_element(root, 'value')
+
+    def resolve_qod_type(root, _info):
+        return get_text_from_element(root, 'type')
+
+
 class NvtSeverity(graphene.ObjectType):
     """Severity info item of an NVT. """
 
@@ -41,7 +128,7 @@ class NvtSeverity(graphene.ObjectType):
     score = graphene.Int()
     severity_type = graphene.String(name='type')
     vector = graphene.String(
-        description='The CVSS Vector resposible for the Score.'
+        description='The CVSS Vector responsible for the Score.'
     )
 
     def resolve_date(root, _info):
@@ -60,24 +147,11 @@ class NvtSeverity(graphene.ObjectType):
         return get_text_from_element(root, 'value')
 
 
-class NvtDefinitionQod(graphene.ObjectType):
-    """QOD of a NVT."""
-
-    value = graphene.Int()
-    qod_type = graphene.String(name='type')
-
-    def resolve_value(root, _info):
-        return get_int_from_element(root, 'value')
-
-    def resolve_qod_type(root, _info):
-        return get_text_from_element(root, 'type')
-
-
 class NvtReference(graphene.ObjectType):
     """Reference of a NVT. """
 
     reference_id = graphene.String(
-        name='id', description='ID of the corrosponding reference'
+        name='id', description='ID of the corresponding reference'
     )
     reference_type = graphene.String(
         name='type',
@@ -240,9 +314,7 @@ class ScanConfigNVT(graphene.ObjectType):
     timeout = graphene.Int()
     default_timeout = graphene.Int()
 
-    qod = graphene.Field(
-        NvtDefinitionQod, description='Quality of detection for this NVT'
-    )
+    qod = graphene.Field(QoD, description='Quality of detection for this NVT')
     severities = graphene.List(
         NvtSeverity, description='Severities List to related sec infos'
     )
@@ -371,9 +443,7 @@ class NVT(EntityObjectType):
     timeout = graphene.Int()
     default_timeout = graphene.Int()
 
-    qod = graphene.Field(
-        NvtDefinitionQod, description='Quality of detection for this NVT'
-    )
+    qod = graphene.Field(QoD, description='Quality of detection for this NVT')
     severities = graphene.List(
         NvtSeverity, description='Severities List to related sec infos'
     )
