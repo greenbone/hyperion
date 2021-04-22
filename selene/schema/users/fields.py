@@ -77,7 +77,7 @@ class User(EntityObjectType):
 
     def resolve_group_list(root, _info):
         groups = root.find("groups")
-        if not groups or groups is None:
+        if groups is None:
             return None
         return groups.findall("group")
 
