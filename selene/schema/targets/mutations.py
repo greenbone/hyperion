@@ -162,6 +162,38 @@ class CreateTarget(graphene.Mutation):
         return CreateTarget(target_id=resp.get('id'))
 
 
+class ModifySSHTargetCredentialInput(graphene.InputObjectType):
+    ssh_id = graphene.UUID(
+        name="id", description="UUID of a ssh credential to use on target"
+    )
+    port = graphene.Int(description="The port to use for ssh credential")
+
+
+class ModifyTargetCredentialInput(graphene.InputObjectType):
+    credential_id = graphene.UUID(
+        name="id", description="UUID of a credential to use on target"
+    )
+
+
+class ModifyTargetCredentialsInput(graphene.InputObjectType):
+    ssh = graphene.Field(
+        ModifySSHTargetCredentialInput,
+        description="SSH credential to use on target",
+    )
+    smb = graphene.Field(
+        ModifyTargetCredentialInput,
+        description="SMB credential to use on target",
+    )
+    snmp = graphene.Field(
+        ModifyTargetCredentialInput,
+        description="SNMP credential to use on target",
+    )
+    esxi = graphene.Field(
+        ModifyTargetCredentialInput,
+        description="ESXi credential to use on target",
+    )
+
+
 class ModifyTargetInput(graphene.InputObjectType):
     """Input object for modifyTarget"""
 
@@ -177,20 +209,9 @@ class ModifyTargetInput(graphene.InputObjectType):
         graphene.String, description="List of hosts to exclude from scan"
     )
     comment = graphene.String(description="Comment for the target")
-    ssh_credential_id = graphene.UUID(
-        description="UUID of a ssh credential to use on target"
-    )
-    ssh_credential_port = graphene.Int(
-        description="The port to use for ssh credential"
-    )
-    smb_credential_id = graphene.UUID(
-        description="UUID of a smb credential to use on target"
-    )
-    snmp_credential_id = graphene.UUID(
-        description="UUID of a snmp credential to use on target"
-    )
-    esxi_credential_id = graphene.UUID(
-        description="UUID of a esxi credential to use on target"
+    credentials = graphene.Field(
+        ModifyTargetCredentialsInput,
+        description="Credentials to set on the target",
     )
     alive_test = graphene.Field(
         AliveTest, description="Which alive test to use"
@@ -248,25 +269,41 @@ class ModifyTarget(graphene.Mutation):
         else:
             exclude_hosts = None
 
-        if input_object.ssh_credential_id is not None:
-            ssh_credential_id = str(input_object.ssh_credential_id)
-            ssh_credential_port = input_object.ssh_credential_port
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.ssh is not None
+        ):
+            ssh_credential_id = str(input_object.credentials.ssh.ssh_id)
+            ssh_credential_port = input_object.credentials.ssh.port
         else:
             ssh_credential_id = None
             ssh_credential_port = None
 
-        if input_object.smb_credential_id is not None:
-            smb_credential_id = str(input_object.smb_credential_id)
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.smb is not None
+        ):
+            smb_credential_id = str(input_object.credentials.smb.credential_id)
         else:
             smb_credential_id = None
 
-        if input_object.snmp_credential_id is not None:
-            snmp_credential_id = str(input_object.snmp_credential_id)
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.snmp is not None
+        ):
+            snmp_credential_id = str(
+                input_object.credentials.snmp.credential_id
+            )
         else:
             snmp_credential_id = None
 
-        if input_object.esxi_credential_id is not None:
-            esxi_credential_id = str(input_object.esxi_credential_id)
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.esxi is not None
+        ):
+            esxi_credential_id = str(
+                input_object.credentials.esxi.credential_id
+            )
         else:
             esxi_credential_id = None
 
