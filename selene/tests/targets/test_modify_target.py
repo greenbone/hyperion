@@ -66,11 +66,22 @@ class ModifyTargetTestCase(SeleneTestCase):
                     id: "{self.target_id}",
                     name: "bar",
                     hosts: ["127.0.0.1", "192.168.10.130"],
-                    sshCredentialId: "{self.ssh_credential_id}",
-                    sshCredentialPort: 33,
-                    smbCredentialId: "{self.smb_credential_id}",
-                    snmpCredentialId: "{self.snmp_credential_id}",
-                    esxiCredentialId: "{self.esxi_credential_id}",
+                    credentials: {{
+                        ssh: {{
+                            id: "{self.ssh_credential_id}",
+                            port: 33,
+                        }},
+                        smb: {{
+                            id: "{self.smb_credential_id}",
+                        }},
+                        snmp: {{
+                            id: "{self.snmp_credential_id}",
+                        }}
+                        esxi: {{
+                            id: "{self.esxi_credential_id}",
+                        }},
+
+                    }},
                     aliveTest: ICMP_PING,
                     allowSimultaneousIPs: false,
                     reverseLookupUnify: false,
@@ -173,7 +184,6 @@ class ModifyTargetTestCase(SeleneTestCase):
                 modifyTarget(input: {{
                     id: "{self.target_id}",
                     name: "bar",
-                    sshCredentialPort: 22,
                     portListId: "{str(self.port_list_id)}"
                 }}) {{
                     ok
