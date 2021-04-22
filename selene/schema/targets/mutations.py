@@ -20,6 +20,8 @@
 
 import graphene
 
+from selene.errors import InvalidRequest
+
 from selene.schema.entities import (
     create_delete_by_ids_mutation,
     create_delete_by_filter_mutation,
@@ -137,6 +139,14 @@ class CreateTarget(graphene.Mutation):
             input_object.credentials is not None
             and input_object.credentials.ssh is not None
         ):
+            if (
+                input_object.credentials.ssh.port
+                and not input_object.credentials.ssh.ssh_id
+            ):
+                raise InvalidRequest(
+                    "Setting a SSH credential port requires a SSH credential id"
+                )
+
             ssh_credential_id = str(input_object.credentials.ssh.ssh_id)
             ssh_credential_port = input_object.credentials.ssh.port
         else:
@@ -280,6 +290,14 @@ class ModifyTarget(graphene.Mutation):
             input_object.credentials is not None
             and input_object.credentials.ssh is not None
         ):
+            if (
+                input_object.credentials.ssh.port
+                and not input_object.credentials.ssh.ssh_id
+            ):
+                raise InvalidRequest(
+                    "Setting a SSH credential port requires a SSH credential id"
+                )
+
             ssh_credential_id = str(input_object.credentials.ssh.ssh_id)
             ssh_credential_port = input_object.credentials.ssh.port
         else:
