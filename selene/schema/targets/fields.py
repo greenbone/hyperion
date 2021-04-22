@@ -55,6 +55,36 @@ class TargetTask(BaseObjectType):
     """ A Task referenced by a Target via name and id """
 
 
+class TargetCredentials(graphene.ObjectType):
+    """ Credentials of a Target to be used in a scan"""
+
+    ssh = graphene.Field(
+        TargetSSHCredential,
+        description="Credential to be used for login via SSH",
+    )
+    smb = graphene.Field(
+        TargetCredential, description="Credential to be used for SMB logins"
+    )
+    esxi = graphene.Field(
+        TargetCredential, description="Credential for login into ESXi servers"
+    )
+    snmp = graphene.Field(
+        TargetCredential, description="Credential to be used for SNMP logins"
+    )
+
+    def resolve_ssh(root, _info):
+        return root.find('ssh_credential')
+
+    def resolve_smb(root, _info):
+        return root.find('smb_credential')
+
+    def resolve_esxi(root, _info):
+        return root.find('esxi_credential')
+
+    def resolve_snmp(root, _info):
+        return root.find('snmp_credential')
+
+
 class Target(EntityObjectType):
     """Target ObjectType"""
 
@@ -75,11 +105,6 @@ class Target(EntityObjectType):
     port_list = graphene.Field(
         PortList, description="Port list to use for the target"
     )
-
-    ssh_credential = graphene.Field(TargetSSHCredential)
-    smb_credential = graphene.Field(TargetCredential)
-    esxi_credential = graphene.Field(TargetCredential)
-    snmp_credential = graphene.Field(TargetCredential)
 
     alive_test = graphene.Field(
         AliveTest, description="Which alive test to use"
@@ -104,9 +129,16 @@ class Target(EntityObjectType):
         description="List of tasks that use the target",
     )
 
+    credentials = graphene.Field(
+        TargetCredentials, description="Credentials to use for the scan target"
+    )
+
     def resolve_hosts(root, _info):
         hosts = get_text_from_element(root, 'hosts')
         return csv_to_list(hosts)
+
+    def resolve_credentials(root, _info):
+        return root
 
     def resolve_exclude_hosts(root, _info):
         exclude_hosts = get_text_from_element(root, 'exclude_hosts')
@@ -117,18 +149,6 @@ class Target(EntityObjectType):
 
     def resolve_port_list(root, _info):
         return root.find("port_list")
-
-    def resolve_ssh_credential(root, _info):
-        return root.find('ssh_credential')
-
-    def resolve_smb_credential(root, _info):
-        return root.find('smb_credential')
-
-    def resolve_esxi_credential(root, _info):
-        return root.find('esxi_credential')
-
-    def resolve_snmp_credential(root, _info):
-        return root.find('snmp_credential')
 
     def resolve_alive_test(root, _info):
         return get_text_from_element(root, 'alive_tests')
