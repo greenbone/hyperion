@@ -118,7 +118,7 @@ class ModifyTargetTestCase(SeleneTestCase):
             port_list_id=None,
         )
 
-    def test_nullify_config_default_alive_test(self, mock_gmp: GmpMockFactory):
+    def test_modify_target_alive_test(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
             'modify_target',
             '''
