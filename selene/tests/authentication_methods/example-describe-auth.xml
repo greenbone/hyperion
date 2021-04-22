@@ -13,7 +13,7 @@
   <group name="method:ldap_connect">
     <auth_conf_setting>
       <key>enable</key>
-      <value>false</value>
+      <value>true</value>
     </auth_conf_setting>
     <auth_conf_setting>
       <key>order</key>
@@ -30,6 +30,17 @@
     <auth_conf_setting>
       <key>allow-plaintext</key>
       <value>0</value>
+    </auth_conf_setting>
+    <auth_conf_setting>
+      <key>cacert</key>
+      <value>-----BEGIN CERTIFICATE-----MIIDazCCAlOgA-----END CERTIFICATE-----</value>
+      <certificate_info>
+        <time_status>valid</time_status>
+        <activation_time>2021-04-01T13:56:33Z</activation_time>
+        <expiration_time>2026-03-31T13:56:33Z</expiration_time>
+        <md5_fingerprint>a4:dd:68:50:9c:7b:ff:b5:ca:46:ee:ac:0a:14:a3:fd</md5_fingerprint>
+        <issuer>C=AU,ST=Some-State,O=Rando</issuer>
+      </certificate_info>
     </auth_conf_setting>
   </group>
   <group name="method:radius_connect">
