@@ -30,6 +30,14 @@ from selene.schema.utils import get_text_from_element
 class SeverityType(graphene.Scalar):
     """
     A scalar type representing a severity between 0 and 10
+
+    Additionally the following values are defined:
+
+     -1.0: False positive severity constant
+     -2.0: Debug message severity constant
+     -3.0: Error message severity constant
+    -98.0: Constant for undefined severity (for ranges)
+    -99.0: Constant for missing or invalid severity
     """
 
     @staticmethod

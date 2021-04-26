@@ -34,7 +34,6 @@ class ModifyPortListTestCase(SeleneTestCase):
                 modifyPortList(input: {{
                     id: "{port_list_id}"
                     name: "bar"
-                    portRange: ["22","80","8000"]
                     comment: "port range"
                 }}) {{
                     ok
@@ -64,7 +63,6 @@ class ModifyPortListTestCase(SeleneTestCase):
                 modifyPortList(input: {{
                     id: "{port_list_id}"
                     name: "bar"
-                    portRange: ["22","80","8000"]
                     comment: "port range"
                 }}) {{
                     ok

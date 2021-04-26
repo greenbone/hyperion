@@ -51,7 +51,6 @@ class DeleteTargetTestCase(SeleneTestCase):
             mutation {
                 deleteTarget(
                     id: "e1438fb2-ab2c-4f4a-ad6b-de97005256e8",
-                    ultimate: true
                 ) {
                     ok
                 }

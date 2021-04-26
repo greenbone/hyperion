@@ -18,6 +18,7 @@ $ cd hyperion && git log
 ### Added
 
 - Add csv_to_list function [#96](https://github.com/greenbone/hyperion/pull/96)
+- Add `new_severity` to override mutations [#85](https://github.com/greenbone/hyperion/pull/85)
 - Query for target tasks in single query [#78](https://github.com/greenbone/hyperion/pull/78)
 - Add `owner`, `detection_result`, `notes`, `tickets` and `user_tags` for result fields [#69](https://github.com/greenbone/hyperion/pull/69)
 - Support credential download and add fields to Credential [#66](https://github.com/greenbone/hyperion/pull/66)
@@ -28,10 +29,15 @@ $ cd hyperion && git log
 
 ### Changed
 
-- Revisit target object type [#97](https://github.com/greenbone/hyperion/pull/97)
+- Revisit authentication methods [#93](https://github.com/greenbone/hyperion/pull/93)
+- Revisit port list object type, queries and mutations [#108](https://github.com/greenbone/hyperion/pull/108)
+- Revisit feed status object types [#95](https://github.com/greenbone/hyperion/pull/95)
+- Introduce QoDType enum and use common QoD class for NVT and Result [#109](https://github.com/greenbone/hyperion/pull/109)
+- Revisit result object type [#92](https://github.com/greenbone/hyperion/pull/92)
+- Revisit target object type, queries and mutations [#97](https://github.com/greenbone/hyperion/pull/97), [106](https://github.com/greenbone/hyperion/pull/106)
 - Explicitly implement audit subobjects [#26](https://github.com/greenbone/hyperion/pull/26)
 - For all NVT related Entities we use `id` instead of `oid` now, so every Entity uses `id` now. [#15](https://github.com/greenbone/hyperion/pull/15)
-- Use `next` instead of `latest` `python-gvm` version for developement. [#15](https://github.com/greenbone/hyperion/pull/15)
+- Use `next` instead of `latest` `python-gvm` version for development. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Removed empty `uuid= ` from `filter_string` in `create_export_by_ids_mutation` [#23](https://github.com/greenbone/hyperion/pull/23)
 - Changed dependency of `xml` to `lxml` [#27](https://github.com/greenbone/hyperion/pull/27)
 - Changed `CVE`s entity so it can parse new-format xml correctly [#29](https://github.com/greenbone/hyperion/pull/29) [#38](https://github.com/greenbone/hyperion/pull/38)

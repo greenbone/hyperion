@@ -274,7 +274,7 @@ class NVTTestCase(SeleneTestCase):
         self.assertEqual(nvt['score'], 49)
         self.assertEqual(
             nvt['qod'],
-            {"value": 80, "type": "remote_banner"},
+            {"value": 80, "type": "REMOTE_BANNER"},
         )
         self.assertEqual(
             nvt['severities'],

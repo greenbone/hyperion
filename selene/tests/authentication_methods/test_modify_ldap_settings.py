@@ -29,10 +29,12 @@ class ModifyAuthTestCase(SeleneTestCase):
         response = self.query(
             '''
             mutation {
-                modifyAuth(
-                    groupName: "method:ldap_connect",
-                    authConfSettings: [{key: "enable", value: "false"}]
-                ) {
+                modifyLdapAuthenticationSettings(
+                    authDn: "hello",
+                    enable: true,
+                    host: "localhost",
+                    certificate: "-----BEGIN CERTIFICATE-----"
+                    ) {
                     ok
                 }
             }
@@ -41,7 +43,7 @@ class ModifyAuthTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_modify_auth(self, mock_gmp: GmpMockFactory):
+    def test_modify_ldap_settings(self, mock_gmp: GmpMockFactory):
         """
         Test a correct mutation query to modify a authentication setting
         """
@@ -54,11 +56,13 @@ class ModifyAuthTestCase(SeleneTestCase):
 
         response = self.query(
             '''
-            mutation ModifyAuth {
-                modifyAuth(
-                    groupName: "method:ldap_connect",
-                    authConfSettings: [{key: "enable", value: "false"}]
-                ) {
+            mutation {
+                modifyLdapAuthenticationSettings(
+                    authDn: "hello",
+                    enable: true,
+                    host: "localhost",
+                    certificate: "-----BEGIN CERTIFICATE-----"
+                    ) {
                     ok
                 }
             }
@@ -69,48 +73,14 @@ class ModifyAuthTestCase(SeleneTestCase):
 
         self.assertResponseNoErrors(response)
 
-        self.assertTrue(json['data']['modifyAuth']['ok'])
+        self.assertTrue(json['data']['modifyLdapAuthenticationSettings']['ok'])
 
         mock_gmp.gmp_protocol.modify_auth.assert_called_with(
-            'method:ldap_connect', {'enable': 'false'}
+            'method:ldap_connect',
+            {
+                'enable': 'true',
+                'authdn': 'hello',
+                'ldaphost': 'localhost',
+                'cacert': '-----BEGIN CERTIFICATE-----',
+            },
         )
-
-    def test_modify_auth_without_group_name(self, _mock_gmp: GmpMockFactory):
-        """
-        Test a mutation query where the groupName is missing.
-        """
-        self.login('foo', 'bar')
-
-        response = self.query(
-            '''
-            mutation ModifyAuth {
-                modifyAuth(
-                    authConfSettings: [{key: "enable", value: "false"}]
-                ) {
-                    ok
-                }
-            }
-            '''
-        )
-
-        self.assertResponseHasErrors(response)
-
-    def test_modify_auth_without_settings(self, _mock_gmp: GmpMockFactory):
-        """
-        Test a mutation query where the authConfSettings are missing.
-        """
-        self.login('foo', 'bar')
-
-        response = self.query(
-            '''
-            mutation ModifyAuth {
-                modifyAuth(
-                    groupName: "method:ldap_connect"
-                ) {
-                    ok
-                }
-            }
-            '''
-        )
-
-        self.assertResponseHasErrors(response)

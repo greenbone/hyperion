@@ -66,12 +66,7 @@ class GetFeedTestCase(SeleneTestCase):
                     name
                     version
                     description
-                    currentlySyncing {
-                        timestamp
-                    }
-                    syncNotAvailable {
-                        error
-                    }
+                    currentlySyncing
                 }
             }
             '''
@@ -89,62 +84,4 @@ class GetFeedTestCase(SeleneTestCase):
             feed['description'],
             'This script synchronizes [...]',
         )
-        self.assertEqual(feed['currentlySyncing']['timestamp'], '202011151700')
-        self.assertEqual(feed['syncNotAvailable'], None)
-
-    def test_get_feed_unavailable(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_feed',
-            '''
-            <get_feeds_response status="200" status_text="OK">
-                <feed>
-                    <type>NVT</type>
-                    <name>Greenbone Security Feed</name>
-                    <version>202010220502</version>
-                    <description>This script synchronizes [...]</description>
-                    <sync_not_available>
-                        <error>The rsync binary could not be found.</error>
-                    </sync_not_available>
-                </feed>
-            </get_feeds_response>
-            ''',
-        )
-
-        self.login('foo', 'bar')
-
-        response = self.query(
-            '''
-            query {
-                feed (feedType: NVT) {
-                    type
-                    name
-                    version
-                    description
-                    currentlySyncing {
-                        timestamp
-                    }
-                    syncNotAvailable {
-                        error
-                    }
-                }
-            }
-            '''
-        )
-
-        json = response.json()
-
-        self.assertResponseNoErrors(response)
-
-        feed = json['data']['feed']
-        self.assertEqual(feed['type'], 'NVT')
-        self.assertEqual(feed['name'], 'Greenbone Security Feed')
-        self.assertEqual(feed['version'], '202010220502')
-        self.assertEqual(
-            feed['description'],
-            'This script synchronizes [...]',
-        )
-        self.assertEqual(feed['currentlySyncing'], None)
-        self.assertEqual(
-            feed['syncNotAvailable']['error'],
-            'The rsync binary could not be found.',
-        )
+        self.assertEqual(feed['currentlySyncing'], True)

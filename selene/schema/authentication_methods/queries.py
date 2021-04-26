@@ -16,7 +16,14 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# pylint: disable=no-self-argument, no-member
+
 import graphene
+
+from selene.schema.authentication_methods.fields import (
+    LDAPAuthenticationSettings,
+    RADIUSAuthenticationSettings,
+)
 
 from selene.schema.utils import (
     get_gmp,
@@ -24,40 +31,11 @@ from selene.schema.utils import (
     XmlElement,
 )
 
-from selene.schema.auth_methods.fields import AuthMethodGroup
 
-
-class DescribeAuth(graphene.List):
-    """Describes authentication methods.
-
-    Example:
-
-        .. code-block::
-
-            query {
-                auth {
-                    name
-                    authConfSettings {
-                        key
-                        value
-                    }
-                }
-            }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-
-                }
-            }
-    """
-
+class GetLDAPAuthenticationSettings(graphene.Field):
     def __init__(self):
         super().__init__(
-            AuthMethodGroup,
+            LDAPAuthenticationSettings,
             resolver=self.resolve,
         )
 
@@ -67,4 +45,28 @@ class DescribeAuth(graphene.List):
         gmp = get_gmp(info)
 
         xml: XmlElement = gmp.describe_auth()
-        return xml.findall('group')
+        ldap_group = xml.xpath("group[@name='method:ldap_connect']")
+
+        if ldap_group:  # xml.xpath returns an array
+            return ldap_group[0]
+        return None
+
+
+class GetRADIUSAuthenticationSettings(graphene.Field):
+    def __init__(self):
+        super().__init__(
+            RADIUSAuthenticationSettings,
+            resolver=self.resolve,
+        )
+
+    @staticmethod
+    @require_authentication
+    def resolve(_root, info):
+        gmp = get_gmp(info)
+
+        xml: XmlElement = gmp.describe_auth()
+        radius_group = xml.xpath("group[@name='method:radius_connect']")
+
+        if radius_group:  # xml.xpath returns an array
+            return radius_group[0]
+        return None

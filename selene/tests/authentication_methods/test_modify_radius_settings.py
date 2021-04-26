@@ -15,26 +15,26 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from pathlib import Path
-
 from unittest.mock import patch
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
-CWD = Path(__file__).absolute().parent
-
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)
-class AuthTestCase(SeleneTestCase):
+class ModifyAuthTestCase(SeleneTestCase):
     def test_require_authentication(self, _mock_gmp: GmpMockFactory):
         """
         Test the authentication requirement
         """
         response = self.query(
             '''
-            query {
-                auth {
-                    name
+            mutation {
+                modifyRadiusAuthenticationSettings (
+                    enable: false,
+                    host: "192.168.0.1",
+                    secretKey: "qwer1234"
+                    ) {
+                    ok
                 }
             }
             '''
@@ -42,26 +42,26 @@ class AuthTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_describe_auth(self, mock_gmp: GmpMockFactory):
+    def test_modify_radius_settings(self, mock_gmp: GmpMockFactory):
         """
-        Test query
+        Test a correct mutation query to modify a authentication setting
         """
-        auth_xml_path = CWD / 'example-describe-auth.xml'
-        auth_xml_str = auth_xml_path.read_text()
-
-        mock_gmp.mock_response('describe_auth', auth_xml_str)
+        mock_gmp.mock_response(
+            'modify_auth',
+            '<modify_auth_response status="200" status_text="OK"/>',
+        )
 
         self.login('foo', 'bar')
 
         response = self.query(
             '''
-            query DescribeAuth {
-                auth {
-                    name
-                    authConfSettings {
-                        key
-                        value
-                    }
+            mutation {
+                modifyRadiusAuthenticationSettings (
+                    enable: false,
+                    host: "192.168.0.1",
+                    secretKey: "qwer1234"
+                    ) {
+                    ok
                 }
             }
             '''
@@ -71,20 +71,15 @@ class AuthTestCase(SeleneTestCase):
 
         self.assertResponseNoErrors(response)
 
-        mock_gmp.gmp_protocol.describe_auth.assert_called_with()
+        self.assertTrue(
+            json['data']['modifyRadiusAuthenticationSettings']['ok']
+        )
 
-        # Query should return a list of 3 methods
-        auth_list = json['data']['auth']
-        self.assertEqual(len(auth_list), 3)
-        self.assertEqual(
-            auth_list[0],
+        mock_gmp.gmp_protocol.modify_auth.assert_called_with(
+            'method:radius_connect',
             {
-                "name": "method:file",
-                "authConfSettings": [
-                    {"key": "enable", "value": "true"},
-                    {"key": "order", "value": "1"},
-                ],
+                'enable': 'false',
+                'radiushost': '192.168.0.1',
+                'radiuskey': 'qwer1234',
             },
         )
-        self.assertEqual(auth_list[1]['name'], 'method:ldap_connect')
-        self.assertEqual(auth_list[2]['name'], 'method:radius_connect')

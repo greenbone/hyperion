@@ -15,12 +15,11 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.next import get_alive_test_from_string
+from selene.schema.targets.fields import AliveTest
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
@@ -66,13 +65,13 @@ class ModifyTargetTestCase(SeleneTestCase):
                 modifyTarget(input: {{
                     id: "{self.target_id}",
                     name: "bar",
-                    hosts: "127.0.0.1, 192.168.10.130",
+                    hosts: ["127.0.0.1", "192.168.10.130"],
                     sshCredentialId: "{self.ssh_credential_id}",
                     sshCredentialPort: 33,
                     smbCredentialId: "{self.smb_credential_id}",
                     snmpCredentialId: "{self.snmp_credential_id}",
                     esxiCredentialId: "{self.esxi_credential_id}",
-                    aliveTest: "icmp ping",
+                    aliveTest: ICMP_PING,
                     allowSimultaneousIPs: false,
                     reverseLookupUnify: false,
                 }}) {{
@@ -92,7 +91,7 @@ class ModifyTargetTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.modify_target.assert_called_with(
             str(self.target_id),
-            alive_test=get_alive_test_from_string('icmp ping'),
+            alive_test=AliveTest.ICMP_PING,  # pylint: disable=no-member
             hosts=['127.0.0.1', '192.168.10.130'],
             exclude_hosts=None,
             comment=None,
@@ -124,7 +123,7 @@ class ModifyTargetTestCase(SeleneTestCase):
                 modifyTarget(input: {{
                     id: "{self.target_id}",
                     name: "bar",
-                    aliveTest: "scan config default",
+                    aliveTest: SCAN_CONFIG_DEFAULT,
                 }}) {{
                     ok
                 }}
@@ -142,7 +141,7 @@ class ModifyTargetTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.modify_target.assert_called_with(
             str(self.target_id),
-            alive_test=None,
+            alive_test=AliveTest.SCAN_CONFIG_DEFAULT,  # pylint: disable=no-member
             hosts=None,
             exclude_hosts=None,
             comment=None,
