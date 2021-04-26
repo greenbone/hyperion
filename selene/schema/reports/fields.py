@@ -209,7 +209,7 @@ class ReportModel:
 class Report(graphene.ObjectType):
     """
     The Report object type. It can be accessed with getReport()
-    and getReports(). It contains some general Report informations
+    and getReports(). It contains some general Report information
 
     Args:
         timestamp (DateTime): Timestamp for this report
@@ -225,7 +225,7 @@ class Report(graphene.ObjectType):
         scan_start (DateTime)
         scan_end (DateTime)
         error_count (int): Error count
-        errors = (List(Error)): Errors occured
+        errors = (List(Error)): Errors occurred
         report_format (str): Format from this report
     """
 
