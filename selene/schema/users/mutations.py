@@ -346,7 +346,7 @@ class ModifyUserInput(graphene.InputObjectType):
         name (str, optional): The name of the user.
         comment (str, optional): The comment on the user.
         password (str, optional): Password of the user. Auth Sources need to
-            be set with seperately if needed.
+            be set with separately if needed.
         role_ids (List(UUID)): A list of role UUIDs for the user.
         group_ids (List(UUID)): A list of group UUIDs for the user.
         hosts (List(str)): A list of hosts for the user.

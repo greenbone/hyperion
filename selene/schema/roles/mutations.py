@@ -152,7 +152,7 @@ class ModifyRoleInput(graphene.InputObjectType):
     Args:
         role_id (str): UUID of role to modify.
         comment (str, optional): Name of role.
-        name (str, optinal): Comment on role.
+        name (str, optional): Comment on role.
         users (List[str], optional): List of user names.
     """
 
