@@ -142,11 +142,11 @@ class ResultHost(graphene.ObjectType):
 
 
 class ResultTask(BaseObjectType):
-    """ A task referenced by ID and name """
+    """A task referenced by ID and name"""
 
 
 class ResultReport(UUIDObjectTypeMixin, graphene.ObjectType):
-    """ A report referenced by ID """
+    """A report referenced by ID"""
 
 
 # Override imports Result; importing Override will cause

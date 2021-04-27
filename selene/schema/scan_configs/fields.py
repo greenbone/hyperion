@@ -106,7 +106,7 @@ class ScanConfigFamily(graphene.ObjectType):
 
 
 class ScanConfigTask(graphene.ObjectType):
-    """"Task which is using the scan config."""
+    """ "Task which is using the scan config."""
 
     task_id = graphene.String(name='id')
     name = graphene.String()

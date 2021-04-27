@@ -53,7 +53,7 @@ class TaskReportsCounts(graphene.ObjectType):
 
 
 class LastReport(graphene.ObjectType):
-    """ The last report of a task for a finished scan """
+    """The last report of a task for a finished scan"""
 
     uuid = graphene.String(name='id')
     severity = SeverityType()
@@ -85,7 +85,7 @@ class LastReport(graphene.ObjectType):
 
 
 class CurrentReport(graphene.ObjectType):
-    """ The current report of a task is only available during a running scan"""
+    """The current report of a task is only available during a running scan"""
 
     uuid = graphene.String(name='id')
     scan_start = graphene.DateTime()

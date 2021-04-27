@@ -121,7 +121,7 @@ class QoD(graphene.ObjectType):
 
 
 class NvtSeverity(graphene.ObjectType):
-    """Severity info item of an NVT. """
+    """Severity info item of an NVT."""
 
     date = graphene.DateTime()
     origin = graphene.String()
@@ -148,7 +148,7 @@ class NvtSeverity(graphene.ObjectType):
 
 
 class NvtReference(graphene.ObjectType):
-    """Reference of a NVT. """
+    """Reference of a NVT."""
 
     reference_id = graphene.String(
         name='id', description='ID of the corresponding reference'
@@ -168,7 +168,7 @@ class NvtReference(graphene.ObjectType):
 
 
 class NvtPreferenceNvt(graphene.ObjectType):
-    """"NVT to which the NVT preference applies."""
+    """ "NVT to which the NVT preference applies."""
 
     oid = graphene.String(name='id')
     name = graphene.String()

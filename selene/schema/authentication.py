@@ -39,7 +39,7 @@ USER_SETTING_LOCALE = "6765549a-934e-11e3-b358-406186ea4fc5"
 
 
 class CurrentUser(graphene.ObjectType):
-    """ Login information for the current user """
+    """Login information for the current user"""
 
     session_timeout = graphene.DateTime(
         description='End of the current session. '
@@ -126,7 +126,7 @@ class LoginMutation(graphene.Mutation):
 
 
 class LogoutMutation(graphene.Mutation):
-    """ Logout the current user """
+    """Logout the current user"""
 
     ok = graphene.Boolean(description='Always true if no error occurred')
 
