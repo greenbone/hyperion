@@ -20,6 +20,8 @@
 
 import graphene
 
+from selene.errors import InvalidRequest
+
 from selene.schema.entities import (
     create_delete_by_ids_mutation,
     create_delete_by_filter_mutation,
@@ -33,6 +35,38 @@ from selene.schema.utils import (
     require_authentication,
     get_gmp,
 )
+
+
+class SSHTargetCredentialInput(graphene.InputObjectType):
+    ssh_id = graphene.UUID(
+        name="id", description="UUID of a ssh credential to use on target"
+    )
+    port = graphene.Int(description="The port to use for ssh credential")
+
+
+class TargetCredentialInput(graphene.InputObjectType):
+    credential_id = graphene.UUID(
+        name="id", description="UUID of a credential to use on target"
+    )
+
+
+class TargetCredentialsInput(graphene.InputObjectType):
+    ssh = graphene.Field(
+        SSHTargetCredentialInput,
+        description="SSH credential to use on target",
+    )
+    smb = graphene.Field(
+        TargetCredentialInput,
+        description="SMB credential to use on target",
+    )
+    snmp = graphene.Field(
+        TargetCredentialInput,
+        description="SNMP credential to use on target",
+    )
+    esxi = graphene.Field(
+        TargetCredentialInput,
+        description="ESXi credential to use on target",
+    )
 
 
 class CreateTargetInput(graphene.InputObjectType):
@@ -51,17 +85,8 @@ class CreateTargetInput(graphene.InputObjectType):
         required=True, description="UUID of the port list to use on target"
     )
     comment = graphene.String(description="Comment for the target")
-    ssh_credential_id = graphene.UUID(
-        description="UUID of a ssh credential to use on target"
-    )
-    ssh_credential_port = graphene.Int(
-        description="The port to use for ssh credential"
-    )
-    smb_credential_id = graphene.UUID(
-        description="UUID of a smb credential to use on target"
-    )
-    snmp_credential_id = graphene.UUID(
-        description="UUID of a snmp credential to use on target"
+    credentials = graphene.Field(
+        TargetCredentialsInput, description="Credentials to use for the target"
     )
     esxi_credential_id = graphene.UUID(
         description="UUID of a esxi credential to use on target"
@@ -110,25 +135,49 @@ class CreateTarget(graphene.Mutation):
         hosts = input_object.hosts
         exclude_hosts = input_object.exclude_hosts
 
-        if input_object.ssh_credential_id is not None:
-            ssh_credential_id = str(input_object.ssh_credential_id)
-            ssh_credential_port = input_object.ssh_credential_port
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.ssh is not None
+        ):
+            if (
+                input_object.credentials.ssh.port
+                and not input_object.credentials.ssh.ssh_id
+            ):
+                raise InvalidRequest(
+                    "Setting a SSH credential port requires a SSH credential id"
+                )
+
+            ssh_credential_id = str(input_object.credentials.ssh.ssh_id)
+            ssh_credential_port = input_object.credentials.ssh.port
         else:
             ssh_credential_id = None
             ssh_credential_port = None
 
-        if input_object.smb_credential_id is not None:
-            smb_credential_id = str(input_object.smb_credential_id)
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.smb is not None
+        ):
+            smb_credential_id = str(input_object.credentials.smb.credential_id)
         else:
             smb_credential_id = None
 
-        if input_object.snmp_credential_id is not None:
-            snmp_credential_id = str(input_object.snmp_credential_id)
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.snmp is not None
+        ):
+            snmp_credential_id = str(
+                input_object.credentials.snmp.credential_id
+            )
         else:
             snmp_credential_id = None
 
-        if input_object.esxi_credential_id is not None:
-            esxi_credential_id = str(input_object.esxi_credential_id)
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.esxi is not None
+        ):
+            esxi_credential_id = str(
+                input_object.credentials.esxi.credential_id
+            )
         else:
             esxi_credential_id = None
 
@@ -177,20 +226,9 @@ class ModifyTargetInput(graphene.InputObjectType):
         graphene.String, description="List of hosts to exclude from scan"
     )
     comment = graphene.String(description="Comment for the target")
-    ssh_credential_id = graphene.UUID(
-        description="UUID of a ssh credential to use on target"
-    )
-    ssh_credential_port = graphene.Int(
-        description="The port to use for ssh credential"
-    )
-    smb_credential_id = graphene.UUID(
-        description="UUID of a smb credential to use on target"
-    )
-    snmp_credential_id = graphene.UUID(
-        description="UUID of a snmp credential to use on target"
-    )
-    esxi_credential_id = graphene.UUID(
-        description="UUID of a esxi credential to use on target"
+    credentials = graphene.Field(
+        TargetCredentialsInput,
+        description="Credentials to set on the target",
     )
     alive_test = graphene.Field(
         AliveTest, description="Which alive test to use"
@@ -248,25 +286,49 @@ class ModifyTarget(graphene.Mutation):
         else:
             exclude_hosts = None
 
-        if input_object.ssh_credential_id is not None:
-            ssh_credential_id = str(input_object.ssh_credential_id)
-            ssh_credential_port = input_object.ssh_credential_port
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.ssh is not None
+        ):
+            if (
+                input_object.credentials.ssh.port
+                and not input_object.credentials.ssh.ssh_id
+            ):
+                raise InvalidRequest(
+                    "Setting a SSH credential port requires a SSH credential id"
+                )
+
+            ssh_credential_id = str(input_object.credentials.ssh.ssh_id)
+            ssh_credential_port = input_object.credentials.ssh.port
         else:
             ssh_credential_id = None
             ssh_credential_port = None
 
-        if input_object.smb_credential_id is not None:
-            smb_credential_id = str(input_object.smb_credential_id)
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.smb is not None
+        ):
+            smb_credential_id = str(input_object.credentials.smb.credential_id)
         else:
             smb_credential_id = None
 
-        if input_object.snmp_credential_id is not None:
-            snmp_credential_id = str(input_object.snmp_credential_id)
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.snmp is not None
+        ):
+            snmp_credential_id = str(
+                input_object.credentials.snmp.credential_id
+            )
         else:
             snmp_credential_id = None
 
-        if input_object.esxi_credential_id is not None:
-            esxi_credential_id = str(input_object.esxi_credential_id)
+        if (
+            input_object.credentials is not None
+            and input_object.credentials.esxi is not None
+        ):
+            esxi_credential_id = str(
+                input_object.credentials.esxi.credential_id
+            )
         else:
             esxi_credential_id = None
 

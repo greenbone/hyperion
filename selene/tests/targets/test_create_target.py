@@ -73,11 +73,21 @@ class CreateTargetTestCase(SeleneTestCase):
                 createTarget(input: {{
                     name: "bar",
                     hosts: ["127.0.0.1", "192.168.10.130"],
-                    sshCredentialId: "{self.ssh_credential_id}",
-                    sshCredentialPort: 33,
-                    smbCredentialId: "{self.smb_credential_id}",
-                    snmpCredentialId: "{self.snmp_credential_id}",
-                    esxiCredentialId: "{self.esxi_credential_id}",
+                    credentials: {{
+                        ssh: {{
+                            id: "{self.ssh_credential_id}",
+                            port: 33,
+                        }}
+                        smb: {{
+                            id: "{self.smb_credential_id}",
+                        }}
+                        snmp: {{
+                            id: "{self.snmp_credential_id}",
+                        }}
+                        esxi: {{
+                            id: "{self.esxi_credential_id}",
+                        }}
+                    }}
                     excludeHosts: ["1.3.3.7", "lorem"],
                     aliveTest: ICMP_PING,
                     allowSimultaneousIPs: true,
@@ -115,7 +125,9 @@ class CreateTargetTestCase(SeleneTestCase):
             port_list_id=str(self.port_list_id),
         )
 
-    def test_nullify_ssh_cred_port(self, mock_gmp: GmpMockFactory):
+    def test_ssh_credential_port_without_credential_id(
+        self, mock_gmp: GmpMockFactory
+    ):
         mock_gmp.mock_response(
             'create_target',
             f'''
@@ -135,7 +147,11 @@ class CreateTargetTestCase(SeleneTestCase):
                 createTarget(input: {{
                     name: "bar",
                     hosts: ["127.0.0.1"],
-                    sshCredentialPort: 22,
+                    credentials: {{
+                        ssh: {{
+                            port: 22,
+                        }}
+                    }}
                     portListId: "{self.port_list_id}"
                     aliveTest: ICMP_PING,
                 }}) {{
@@ -145,29 +161,9 @@ class CreateTargetTestCase(SeleneTestCase):
             '''
         )
 
-        json = response.json()
-
-        self.assertResponseNoErrors(response)
-
-        uuid = json['data']['createTarget']['id']
-
-        self.assertEqual(uuid, str(self.target_id))
-
-        mock_gmp.gmp_protocol.create_target.assert_called_with(
-            "bar",
-            alive_test=AliveTest.ICMP_PING,  # pylint: disable=no-member
-            hosts=["127.0.0.1"],
-            exclude_hosts=None,
-            comment=None,
-            ssh_credential_id=None,
-            ssh_credential_port=None,
-            smb_credential_id=None,
-            snmp_credential_id=None,
-            esxi_credential_id=None,
-            allow_simultaneous_ips=None,
-            reverse_lookup_only=None,
-            reverse_lookup_unify=None,
-            port_list_id=str(self.port_list_id),
+        self.assertResponseHasErrorMessage(
+            response,
+            "Setting a SSH credential port requires a SSH credential id",
         )
 
     def test_create_target_missing_port_list_id(self, mock_gmp: GmpMockFactory):
@@ -192,11 +188,21 @@ class CreateTargetTestCase(SeleneTestCase):
                     createTarget(input: {{
                         name: "bar",
                         hosts: ["127.0.0.1", "192.168.10.130"],
-                        sshCredentialId: "{self.ssh_credential_id}",
-                        sshCredentialPort: 33,
-                        smbCredentialId: "{self.smb_credential_id}",
-                        snmpCredentialId: "{self.snmp_credential_id}",
-                        esxiCredentialId: "{self.esxi_credential_id}",
+                        credentials: {{
+                            ssh: {{
+                                id: "{self.ssh_credential_id}",
+                                port: 33,
+                            }}
+                            smb: {{
+                                id: "{self.smb_credential_id}",
+                            }}
+                            snmp: {{
+                                id: "{self.snmp_credential_id}",
+                            }}
+                            esxi: {{
+                                id: "{self.esxi_credential_id}",
+                            }}
+                        }}
                         excludeHosts: ["1.3.3.7", "lorem"],
                         aliveTest: ICMP_PING,
                         reverseLookupUnify: false,
