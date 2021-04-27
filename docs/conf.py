@@ -89,5 +89,21 @@ html_sidebars = {
     ]
 }
 
-subprocess.run(["poetry", "run", "python", "../manage.py", "graphql_schema", "--schema", "selene.schema.schema", "--out", "schema.json"])
-graphdoc = subprocess.run(["graphdoc", "-s", "schema.json", "-f", "-o", "_build/html/schema"])
+subprocess.run(
+    [
+        "poetry",
+        "run",
+        "python",
+        "../manage.py",
+        "graphql_schema",
+        "--schema",
+        "selene.schema.schema",
+        "--out",
+        "_build/schema.json",
+    ],
+    check=False,
+)
+graphdoc = subprocess.run(
+    ["graphdoc", "-s", "_build/schema.json", "-f", "-o", "_build/html/schema"],
+    check=False,
+)
