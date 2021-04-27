@@ -46,6 +46,7 @@ $ cd hyperion && git log
 - Added the `deprecatedBy` field to `CPEs` [#51](https://github.com/greenbone/hyperion/pull/51)
 - Refactored `NVT` entity, removed complexity and redundant fields [#58](https://github.com/greenbone/hyperion/pull/58)[#60](https://github.com/greenbone/hyperion/pull/60)[#64](https://github.com/greenbone/hyperion/pull/64)
 - Improved GraphQL schema [#83](https://github.com/greenbone/hyperion/pull/83)
+- Using graphdoc (JS) for Schema documentation [#110](https://github.com/greenbone/hyperion/pull/110)
 
 ### Deprecated
 
