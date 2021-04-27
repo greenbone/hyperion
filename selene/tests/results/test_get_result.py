@@ -217,10 +217,7 @@ class ResultsTestCase(SeleneTestCase):
         severities = result['information']['severities']
         self.assertEqual(severities[0]['type'], 'cvss_base_v2')
         self.assertEqual(severities[0]['score'], 93)
-        self.assertEqual(
-            severities[0]['vector'],
-            'AV:N/AC:M/Au:N/C:C/I:C/A:C',
-        )
+        self.assertEqual(severities[0]['vector'], 'AV:N/AC:M/Au:N/C:C/I:C/A:C')
         self.assertIsNone(result['description'])
 
         self.assertIsNotNone(result['notes'])
@@ -384,10 +381,7 @@ class ResultsTestCase(SeleneTestCase):
         self.assertEqual(
             result['task']['id'], 'ab9a1470-fc01-4547-9da0-33df6c1aa5d1'
         )
-        self.assertEqual(
-            result['task']['name'],
-            'Report Container',
-        )
+        self.assertEqual(result['task']['name'], 'Report Container')
         self.assertEqual(result['host']['ip'], '192.168.9.113')
         self.assertEqual(
             result['host']['id'], 'eb357684-6fcf-4d31-a5e0-02abe040caa4'

@@ -75,16 +75,12 @@ class CreateScannerInput(graphene.InputObjectType):
     name = graphene.String(required=True, description="Scanner name.")
     comment = graphene.String(description="Scanner comment.")
     scanner_type = ScannerType(
-        name="type",
-        required=True,
-        description="Scanner type.",
+        name="type", required=True, description="Scanner type."
     )
     host = graphene.String(required=True, description="Scanner host or path.")
     port = graphene.Int(description="Scanner port.")
     credential_id = graphene.UUID(
-        required=True,
-        description=("UUID of credential."),
-        name="credentialId",
+        required=True, description=("UUID of credential."), name="credentialId"
     )
     ca_pub = graphene.String(description="CA public key.")
 
@@ -156,8 +152,7 @@ class ModifyScannerInput(graphene.InputObjectType):
     host = graphene.String(description="Scanner host or path.")
     port = graphene.Int(description="Scanner port.")
     credential_id = graphene.UUID(
-        description=("UUID of credential."),
-        name="credentialId",
+        description=("UUID of credential."), name="credentialId"
     )
     ca_pub = graphene.String(description="CA public key.")
 

@@ -42,9 +42,7 @@ class CloneNote(graphene.Mutation):
 
     class Arguments:
         copy_id = graphene.UUID(
-            required=True,
-            name='id',
-            description='UUID of the note to clone.',
+            required=True, name='id', description='UUID of the note to clone.'
         )
 
     note_id = graphene.UUID(name='id')
@@ -69,7 +67,7 @@ class CreateNoteInput(graphene.InputObjectType):
         required=True, description='OID of the nvt to which note applies'
     )
     days_active = graphene.Int(
-        description="Days note will be active. -1 on always, 0 off",
+        description="Days note will be active. -1 on always, 0 off"
     )
     hosts = graphene.List(
         graphene.String, description="A list of hosts addresses"
@@ -141,13 +139,11 @@ class ModifyNoteInput(graphene.InputObjectType):
     """
 
     note_id = graphene.UUID(
-        required=True,
-        name='id',
-        description='UUID of the note to modify',
+        required=True, name='id', description='UUID of the note to modify'
     )
     text = graphene.String(description='Text of the note')
     days_active = graphene.Int(
-        description="Days note will be active. -1 on always, 0 off",
+        description="Days note will be active. -1 on always, 0 off"
     )
     hosts = graphene.List(
         graphene.String, description="A list of hosts addresses"

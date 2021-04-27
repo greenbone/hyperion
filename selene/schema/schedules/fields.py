@@ -22,9 +22,7 @@ import graphene
 
 from selene.schema.resolver import find_resolver
 
-from selene.schema.utils import (
-    get_text_from_element,
-)
+from selene.schema.utils import get_text_from_element
 
 from selene.schema.tasks.fields import Task
 from selene.schema.entity import EntityObjectType

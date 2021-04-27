@@ -33,11 +33,7 @@ from selene.schema.relay import (
     get_filter_string_for_pagination,
 )
 
-from selene.schema.utils import (
-    get_gmp,
-    require_authentication,
-    XmlElement,
-)
+from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
 class GetCVE(graphene.Field):
@@ -151,8 +147,7 @@ class GetCVEs(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_info_list(
-            filter=filter_string.filter_string,
-            info_type=GvmInfoType.CVE,
+            filter=filter_string.filter_string, info_type=GvmInfoType.CVE
         )
 
         requested = None

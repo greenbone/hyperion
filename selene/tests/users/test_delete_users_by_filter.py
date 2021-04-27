@@ -201,9 +201,7 @@ class DeleteUsersByFilterTestCase(SeleneTestCase):
         ok = json['data']['deleteUsersByFilter']['ok']
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.get_users.assert_called_with(
-            filter="name~foobar",
-        )
+        mock_gmp.gmp_protocol.get_users.assert_called_with(filter="name~foobar")
 
         mock_gmp.gmp_protocol.delete_user.assert_called_with(
             user_id=f'{self.id2}',

@@ -313,8 +313,5 @@ class PolicyGetEntityTestCase(SeleneTestCase):
     gmp_cmd = 'get_policy'
     selene_name = 'policy'
     test_get_entity = make_test_get_entity(
-        gmp_name,
-        selene_name=selene_name,
-        gmp_cmd=gmp_cmd,
-        audits=True,
+        gmp_name, selene_name=selene_name, gmp_cmd=gmp_cmd, audits=True
     )

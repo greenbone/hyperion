@@ -20,9 +20,7 @@
 
 import graphene
 
-from gvm.protocols.next import (
-    AliveTest as GvmAliveTest,
-)
+from gvm.protocols.next import AliveTest as GvmAliveTest
 
 from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
@@ -41,7 +39,7 @@ class AliveTest(graphene.Enum):
 
 
 class TargetCredential(BaseObjectType):
-    """ A Credential referenced by a Target via name and id """
+    """A Credential referenced by a Target via name and id"""
 
 
 class TargetSSHCredential(TargetCredential):
@@ -52,7 +50,7 @@ class TargetSSHCredential(TargetCredential):
 
 
 class TargetTask(BaseObjectType):
-    """ A Task referenced by a Target via name and id """
+    """A Task referenced by a Target via name and id"""
 
 
 class Target(EntityObjectType):
@@ -100,8 +98,7 @@ class Target(EntityObjectType):
         )
     )
     tasks = graphene.List(
-        TargetTask,
-        description="List of tasks that use the target",
+        TargetTask, description="List of tasks that use the target"
     )
 
     def resolve_hosts(root, _info):

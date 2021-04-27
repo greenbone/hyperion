@@ -81,10 +81,7 @@ class CPETestCase(SeleneTestCase):
 
         cpe = json['data']['cpe']
 
-        self.assertEqual(
-            cpe['id'],
-            'cpe:/a:foo:bar',
-        )
+        self.assertEqual(cpe['id'], 'cpe:/a:foo:bar')
         self.assertEqual(cpe['name'], 'foo')
         self.assertIsNone(cpe['owner'])
 
@@ -132,10 +129,7 @@ class CPETestCase(SeleneTestCase):
 
         cpe = json['data']['cpe']
 
-        self.assertEqual(
-            cpe['id'],
-            'cpe:/a:foo:bar',
-        )
+        self.assertEqual(cpe['id'], 'cpe:/a:foo:bar')
         self.assertEqual(cpe['name'], 'foo')
         self.assertIsNone(cpe['updateTime'])
         self.assertIsNone(cpe['title'])
@@ -184,18 +178,9 @@ class CPETestCase(SeleneTestCase):
 
         cpe = json['data']['cpe']
 
-        self.assertEqual(
-            cpe['name'],
-            'cpe:/a:foo:bar',
-        )
-        self.assertEqual(
-            cpe['id'],
-            'cpe:/a:foo:bar',
-        )
-        self.assertEqual(
-            cpe['title'],
-            'Foo bar baz',
-        )
+        self.assertEqual(cpe['name'], 'cpe:/a:foo:bar')
+        self.assertEqual(cpe['id'], 'cpe:/a:foo:bar')
+        self.assertEqual(cpe['title'], 'Foo bar baz')
         self.assertEqual(cpe['nvdId'], '289692')
         self.assertEqual(cpe['status'], 'FINAL')
         self.assertEqual(cpe['score'], 54)
@@ -212,7 +197,5 @@ class CPEGetEntityTestCase(SeleneTestCase):
     gmp_name = 'info'
     selene_name = 'cpe'
     test_get_entity = make_test_get_entity(
-        gmp_name,
-        selene_name=selene_name,
-        info_type=GvmInfoType.CPE,
+        gmp_name, selene_name=selene_name, info_type=GvmInfoType.CPE
     )

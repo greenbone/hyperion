@@ -75,8 +75,5 @@ class CreateTLSCertificateTestCase(SeleneTestCase):
         self.assertEqual(uuid, str(tls_certificate_id))
 
         mock_gmp.gmp_protocol.create_tls_certificate.assert_called_with(
-            "foo",
-            certificate="bar",
-            comment="bar",
-            trust=None,
+            "foo", certificate="bar", comment="bar", trust=None
         )

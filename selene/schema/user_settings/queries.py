@@ -21,10 +21,7 @@
 import graphene
 
 from selene.schema.user_settings.fields import UserSetting
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 
 class GetUserSetting(graphene.Field):

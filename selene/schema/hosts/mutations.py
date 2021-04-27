@@ -59,10 +59,7 @@ class CreateHost(graphene.Mutation):
     def mutate(root, info, input_object):
         gmp = get_gmp(info)
 
-        resp = gmp.create_host(
-            input_object.name,
-            comment=input_object.comment,
-        )
+        resp = gmp.create_host(input_object.name, comment=input_object.comment)
 
         return CreateHost(host_id=resp.get('id'))
 
@@ -251,9 +248,6 @@ class ModifyHost(graphene.Mutation):
 
         gmp = get_gmp(info)
 
-        gmp.modify_asset(
-            host_id,
-            comment=comment,
-        )
+        gmp.modify_asset(host_id, comment=comment)
 
         return ModifyHost(ok=True)

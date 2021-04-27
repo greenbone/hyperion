@@ -22,10 +22,7 @@ import graphene
 
 from selene.schema.entity import EntityObjectType
 from selene.schema.severity import SeverityType
-from selene.schema.utils import (
-    get_datetime_from_element,
-    get_text_from_element,
-)
+from selene.schema.utils import get_datetime_from_element, get_text_from_element
 
 
 class CVSSv2Vector(graphene.ObjectType):

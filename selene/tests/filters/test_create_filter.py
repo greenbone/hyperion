@@ -116,8 +116,5 @@ class FilterTestCase(SeleneTestCase):
         filter_id = json['data']['createFilter']['id']
         self.assertEqual(filter_id, 'e1438fb2-ab2c-4f4a-ad6b-de97005256e8')
         mock_gmp.gmp_protocol.create_filter.assert_called_with(
-            name="lol",
-            term=None,
-            filter_type=None,
-            comment=None,
+            name="lol", term=None, filter_type=None, comment=None
         )

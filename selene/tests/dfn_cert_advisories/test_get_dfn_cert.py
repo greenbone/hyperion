@@ -79,10 +79,7 @@ class DFNCertAdvisoryTestCase(SeleneTestCase):
 
         dfn_cert_advisory = json['data']['dfnCertAdvisory']
 
-        self.assertEqual(
-            dfn_cert_advisory['id'],
-            'DFN-CERT-2008-0644',
-        )
+        self.assertEqual(dfn_cert_advisory['id'], 'DFN-CERT-2008-0644')
         self.assertEqual(dfn_cert_advisory['name'], 'foo')
         self.assertIsNone(dfn_cert_advisory['owner'])
 
@@ -127,10 +124,7 @@ class DFNCertAdvisoryTestCase(SeleneTestCase):
 
         dfn_cert_advisory = json['data']['dfnCertAdvisory']
 
-        self.assertEqual(
-            dfn_cert_advisory['id'],
-            'DFN-CERT-2008-0644',
-        )
+        self.assertEqual(dfn_cert_advisory['id'], 'DFN-CERT-2008-0644')
         self.assertEqual(dfn_cert_advisory['name'], 'foo')
         self.assertIsNone(dfn_cert_advisory['title'])
         self.assertIsNone(dfn_cert_advisory['summary'])
@@ -178,14 +172,8 @@ class DFNCertAdvisoryTestCase(SeleneTestCase):
 
         dfn_cert_advisory = json['data']['dfnCertAdvisory']
 
-        self.assertEqual(
-            dfn_cert_advisory['name'],
-            'DFN-CERT-2008-0644',
-        )
-        self.assertEqual(
-            dfn_cert_advisory['id'],
-            'DFN-CERT-2008-0644',
-        )
+        self.assertEqual(dfn_cert_advisory['name'], 'DFN-CERT-2008-0644')
+        self.assertEqual(dfn_cert_advisory['id'], 'DFN-CERT-2008-0644')
         self.assertEqual(
             dfn_cert_advisory['title'],
             'Schwachstelle im HP Software Update (Windows)',
@@ -216,7 +204,5 @@ class DFNCertAdvisoryGetEntityTestCase(SeleneTestCase):
     gmp_name = 'info'
     selene_name = 'dfnCertAdvisory'
     test_get_entity = make_test_get_entity(
-        gmp_name,
-        selene_name=selene_name,
-        info_type=GvmInfoType.DFN_CERT_ADV,
+        gmp_name, selene_name=selene_name, info_type=GvmInfoType.DFN_CERT_ADV
     )

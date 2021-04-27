@@ -68,16 +68,10 @@ class ImportReportFormat(graphene.Mutation):
     report_format_id = graphene.UUID(name='id')
 
     @require_authentication
-    def mutate(
-        root,
-        info,
-        report_format: str,
-    ):
+    def mutate(root, info, report_format: str):
         gmp = get_gmp(info)
 
-        resp = gmp.import_report_format(
-            report_format=report_format,
-        )
+        resp = gmp.import_report_format(report_format=report_format)
         return ImportReportFormat(report_format_id=resp.get('id'))
 
 

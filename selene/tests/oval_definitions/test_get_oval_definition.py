@@ -271,8 +271,7 @@ class OvalDefinitionTestCase(SeleneTestCase):
         oval_definition = json['data']['ovalDefinition']
 
         self.assertEqual(
-            oval_definition['name'],
-            'oval:org.mitre.oval:def:29480',
+            oval_definition['name'], 'oval:org.mitre.oval:def:29480'
         )
         self.assertEqual(
             oval_definition['id'],
@@ -282,10 +281,7 @@ class OvalDefinitionTestCase(SeleneTestCase):
             oval_definition['title'],
             'Adobe Reader and Acrobat 7.0.8 and earlier allows user-assisted remote attackers to execute code (CVE-2006-5857)',
         )
-        self.assertEqual(
-            oval_definition['description'],
-            'short text',
-        )
+        self.assertEqual(oval_definition['description'], 'short text')
         self.assertEqual(oval_definition['score'], 93)
         self.assertEqual(oval_definition['cveRefs'], 1)
         self.assertEqual(oval_definition['deprecated'], False)
@@ -338,9 +334,7 @@ class OvalDefinitionTestCase(SeleneTestCase):
 
         criteria = oval_definition['criteria']
         self.assertEqual(criteria['operator'], 'OR')
-        self.assertIsNone(
-            criteria['comment'],
-        )
+        self.assertIsNone(criteria['comment'])
         self.assertIsNone(criteria['criterion'])
         self.assertIsNone(criteria['extendDefinition'])
 
@@ -377,7 +371,5 @@ class OvalDefinitionGetEntityTestCase(SeleneTestCase):
     gmp_name = 'info'
     selene_name = 'ovalDefinition'
     test_get_entity = make_test_get_entity(
-        gmp_name,
-        selene_name=selene_name,
-        info_type=GvmInfoType.OVALDEF,
+        gmp_name, selene_name=selene_name, info_type=GvmInfoType.OVALDEF
     )

@@ -35,7 +35,7 @@ class CaCertificate(CACertificateMixin, graphene.ObjectType):
     time_status = graphene.String(
         description=(
             'Whether the certificate is valid, ' 'expired or not active yet.'
-        ),
+        )
     )
 
     def resolve_certificate(root: XmlElement, _info):

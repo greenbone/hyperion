@@ -302,7 +302,5 @@ class CertBundAdvisoryGetEntityTestCase(SeleneTestCase):
     gmp_name = 'info'
     selene_name = 'certBundAdvisory'
     test_get_entity = make_test_get_entity(
-        gmp_name,
-        selene_name=selene_name,
-        info_type=GvmInfoType.CERT_BUND_ADV,
+        gmp_name, selene_name=selene_name, info_type=GvmInfoType.CERT_BUND_ADV
     )

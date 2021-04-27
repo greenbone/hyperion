@@ -159,10 +159,7 @@ class NVTsPaginationTestCase(SeleneTestCase):
         info_type=GvmInfoType.NVT,
     )
     test_counts = make_test_counts(
-        entity_name,
-        selene_name=selene_name,
-        gmp_cmd=gmp_cmd,
-        no_plural=True,
+        entity_name, selene_name=selene_name, gmp_cmd=gmp_cmd, no_plural=True
     )
     test_page_info = make_test_page_info(
         entity_name,

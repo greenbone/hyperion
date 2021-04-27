@@ -80,8 +80,5 @@ class GetFeedTestCase(SeleneTestCase):
         self.assertEqual(feed['type'], 'NVT')
         self.assertEqual(feed['name'], 'Greenbone Security Feed')
         self.assertEqual(feed['version'], '202010220502')
-        self.assertEqual(
-            feed['description'],
-            'This script synchronizes [...]',
-        )
+        self.assertEqual(feed['description'], 'This script synchronizes [...]')
         self.assertEqual(feed['currentlySyncing'], True)

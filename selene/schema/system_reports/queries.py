@@ -19,10 +19,7 @@
 import graphene
 
 from selene.schema.system_reports.fields import SystemReport
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 
 class GetSystemReport(graphene.Field):
@@ -86,8 +83,7 @@ class GetSystemReport(graphene.Field):
         super().__init__(
             SystemReport,
             name=graphene.String(
-                required=True,
-                description='Name of the system report to get.',
+                required=True, description='Name of the system report to get.'
             ),
             sensor_id=graphene.UUID(
                 description='Optional scanner ID of a sensor to collect'

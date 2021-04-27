@@ -29,10 +29,7 @@ from selene.schema.entities import (
 
 from selene.schema.targets.fields import AliveTest
 
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 
 class CreateTargetInput(graphene.InputObjectType):
@@ -40,9 +37,7 @@ class CreateTargetInput(graphene.InputObjectType):
 
     name = graphene.String(required=True, description="Target name.")
     hosts = graphene.List(
-        graphene.String,
-        required=True,
-        description="List of hosts to scan",
+        graphene.String, required=True, description="List of hosts to scan"
     )
     exclude_hosts = graphene.List(
         graphene.String, description="List of hosts to exclude from scan"
@@ -67,9 +62,7 @@ class CreateTargetInput(graphene.InputObjectType):
         description="UUID of a esxi credential to use on target"
     )
     alive_test = graphene.Field(
-        AliveTest,
-        description="Which alive test to use",
-        required=True,
+        AliveTest, description="Which alive test to use", required=True
     )
     allow_simultaneous_ips = graphene.Boolean(
         name="allowSimultaneousIPs",
@@ -169,10 +162,7 @@ class ModifyTargetInput(graphene.InputObjectType):
         required=True, description="ID of target to modify", name='id'
     )
     name = graphene.String(description="Target name")
-    hosts = graphene.List(
-        graphene.String,
-        description="List of hosts to scan",
-    )
+    hosts = graphene.List(graphene.String, description="List of hosts to scan")
     exclude_hosts = graphene.List(
         graphene.String, description="List of hosts to exclude from scan"
     )

@@ -74,6 +74,5 @@ class CreateHostTestCase(SeleneTestCase):
         self.assertEqual(uuid, str(host_id))
 
         mock_gmp.gmp_protocol.create_host.assert_called_with(
-            "foo",
-            comment="bar",
+            "foo", comment="bar"
         )

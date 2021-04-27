@@ -99,9 +99,7 @@ ALERT_METHODS = {
         'vfire_session_type',
     ],
     'Syslog': ['submethod'],
-    'Start Task': [
-        'start_task_task',
-    ],
+    'Start Task': ['start_task_task'],
     'Sourcefire Connector': [
         'defense_center_ip',
         'defense_center_port',

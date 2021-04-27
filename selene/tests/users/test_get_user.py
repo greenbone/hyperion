@@ -204,8 +204,7 @@ class GetUserTestCase(SeleneTestCase):
         )
         self.assertEqual(user["hostsAllow"], 0)
         self.assertEqual(
-            user["ifaceList"],
-            ["some-interface1", "some-interface2"],
+            user["ifaceList"], ["some-interface1", "some-interface2"]
         )
         self.assertEqual(user["ifacesAllow"], 0)
         self.assertEqual(user["sources"], ["file", "another source"])
