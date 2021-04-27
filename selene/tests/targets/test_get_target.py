@@ -98,22 +98,24 @@ class TargetTestCase(SeleneTestCase):
                     hosts
                     hostCount
                     excludeHosts
-                    sshCredential {
-                        id
-                        name
-                        port
-                    }
-                    smbCredential {
-                        id
-                        name
-                    }
-                    esxiCredential {
-                        id
-                        name
-                    }
-                    snmpCredential {
-                        id
-                        name
+                    credentials {
+                        ssh {
+                            id
+                            name
+                            port
+                        }
+                        smb {
+                            id
+                            name
+                        }
+                        esxi {
+                            id
+                            name
+                        }
+                        snmp {
+                            id
+                            name
+                        }
                     }
                     portList {
                         id
@@ -143,26 +145,26 @@ class TargetTestCase(SeleneTestCase):
         self.assertEqual(target['excludeHosts'], ['192.168.10.9'])
         self.assertEqual(target['hostCount'], 1)
         self.assertEqual(
-            target['sshCredential']['id'],
+            target['credentials']['ssh']['id'],
             '33d0cd82-57c6-11e1-8ed1-4061823cc51a',
         )
-        self.assertEqual(target['sshCredential']['name'], 'baz')
-        self.assertEqual(target['sshCredential']['port'], 42)
+        self.assertEqual(target['credentials']['ssh']['name'], 'baz')
+        self.assertEqual(target['credentials']['ssh']['port'], 42)
         self.assertEqual(
-            target['smbCredential']['id'],
+            target['credentials']['smb']['id'],
             '33d0cd82-57c6-11e1-8ed1-4061823cc51b',
         )
-        self.assertEqual(target['smbCredential']['name'], 'baz')
+        self.assertEqual(target['credentials']['smb']['name'], 'baz')
         self.assertEqual(
-            target['esxiCredential']['id'],
+            target['credentials']['esxi']['id'],
             '33d0cd82-57c6-11e1-8ed1-4061823cc51c',
         )
-        self.assertEqual(target['esxiCredential']['name'], 'qux')
+        self.assertEqual(target['credentials']['esxi']['name'], 'qux')
         self.assertEqual(
-            target['snmpCredential']['id'],
+            target['credentials']['snmp']['id'],
             '33d0cd82-57c6-11e1-8ed1-4061823cc51d',
         )
-        self.assertEqual(target['snmpCredential']['name'], 'quux')
+        self.assertEqual(target['credentials']['snmp']['name'], 'quux')
         self.assertEqual(
             target['portList']['id'], '33d0cd82-57c6-11e1-8ed1-406186ea4fc5'
         )

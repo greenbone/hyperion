@@ -34,6 +34,7 @@ class ErrorCode(AutoName):
     UNKNOWN = auto()
     AUTHENTICATION_REQUIRED = auto()
     AUTHENTICATION_FAILED = auto()
+    INVALID_REQUEST = auto()
 
     def __str__(self):
         if isinstance(self.value, str):
@@ -53,3 +54,7 @@ class AuthenticationRequired(SeleneError):
 
 class AuthenticationFailed(SeleneError):
     errorCode = ErrorCode.AUTHENTICATION_FAILED
+
+
+class InvalidRequest(SeleneError):
+    errorCode = ErrorCode.INVALID_REQUEST

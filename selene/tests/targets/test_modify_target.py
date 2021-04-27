@@ -66,11 +66,22 @@ class ModifyTargetTestCase(SeleneTestCase):
                     id: "{self.target_id}",
                     name: "bar",
                     hosts: ["127.0.0.1", "192.168.10.130"],
-                    sshCredentialId: "{self.ssh_credential_id}",
-                    sshCredentialPort: 33,
-                    smbCredentialId: "{self.smb_credential_id}",
-                    snmpCredentialId: "{self.snmp_credential_id}",
-                    esxiCredentialId: "{self.esxi_credential_id}",
+                    credentials: {{
+                        ssh: {{
+                            id: "{self.ssh_credential_id}",
+                            port: 33,
+                        }},
+                        smb: {{
+                            id: "{self.smb_credential_id}",
+                        }},
+                        snmp: {{
+                            id: "{self.snmp_credential_id}",
+                        }}
+                        esxi: {{
+                            id: "{self.esxi_credential_id}",
+                        }},
+
+                    }},
                     aliveTest: ICMP_PING,
                     allowSimultaneousIPs: false,
                     reverseLookupUnify: false,
@@ -107,7 +118,7 @@ class ModifyTargetTestCase(SeleneTestCase):
             port_list_id=None,
         )
 
-    def test_nullify_config_default_alive_test(self, mock_gmp: GmpMockFactory):
+    def test_modify_target_alive_test(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
             'modify_target',
             '''
@@ -173,7 +184,6 @@ class ModifyTargetTestCase(SeleneTestCase):
                 modifyTarget(input: {{
                     id: "{self.target_id}",
                     name: "bar",
-                    sshCredentialPort: 22,
                     portListId: "{str(self.port_list_id)}"
                 }}) {{
                     ok
@@ -258,4 +268,46 @@ class ModifyTargetTestCase(SeleneTestCase):
             reverse_lookup_only=None,
             reverse_lookup_unify=None,
             port_list_id=None,
+        )
+
+    def test_ssh_credential_port_without_credential_id(
+        self, mock_gmp: GmpMockFactory
+    ):
+        mock_gmp.mock_response(
+            'modify_target',
+            f'''
+            <modify_target_response
+                id="{self.target_id}"
+                status="200"
+                status_text="OK"
+            />
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            f'''
+            mutation {{
+                modifyTarget(input: {{
+                    id: "{self.target_id}",
+                    name: "bar",
+                    hosts: ["127.0.0.1"],
+                    credentials: {{
+                        ssh: {{
+                            port: 22,
+                        }}
+                    }}
+                    portListId: "{self.port_list_id}"
+                    aliveTest: ICMP_PING,
+                }}) {{
+                   ok
+                }}
+            }}
+            '''
+        )
+
+        self.assertResponseHasErrorMessage(
+            response,
+            "Setting a SSH credential port requires a SSH credential id",
         )
