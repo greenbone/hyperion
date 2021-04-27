@@ -65,6 +65,4 @@ class CloneAlertTestCase(SeleneTestCase):
 
         self.assertResponseNoErrors(response)
 
-        mock_gmp.gmp_protocol.test_alert.assert_called_with(
-            str(self.alert_id),
-        )
+        mock_gmp.gmp_protocol.test_alert.assert_called_with(str(self.alert_id))

@@ -21,10 +21,7 @@
 
 import graphene
 
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 from selene.schema.entities import (
     create_export_by_ids_mutation,

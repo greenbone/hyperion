@@ -25,19 +25,14 @@ import graphene
 
 from gvm.protocols.gmpv214.gmpv214 import UserAuthType as GvmUserAuthType
 
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 from selene.schema.entities import (
     create_export_by_ids_mutation,
     create_export_by_filter_mutation,
 )
 
-from selene.schema.utils import (
-    get_text_from_element,
-)
+from selene.schema.utils import get_text_from_element
 
 
 class CloneUser(graphene.Mutation):
@@ -368,17 +363,11 @@ class ModifyUserInput(graphene.InputObjectType):
     """
 
     user_id = graphene.UUID(
-        required=True,
-        description="UUID of the user to be modified.",
-        name='id',
+        required=True, description="UUID of the user to be modified.", name='id'
     )
-    name = graphene.String(
-        description="The name for the user.",
-    )
+    name = graphene.String(description="The name for the user.")
     comment = graphene.String(description="The comment for the user.")
-    password = graphene.String(
-        description="The password for the user.",
-    )
+    password = graphene.String(description="The password for the user.")
     role_ids = graphene.List(
         graphene.UUID, description="A list of role UUIDs for the user."
     )
@@ -736,9 +725,7 @@ class ExportUsersByIds(ExportByIdsClass):
     pass
 
 
-ExportByFilterClass = create_export_by_filter_mutation(
-    entity_name='user',
-)
+ExportByFilterClass = create_export_by_filter_mutation(entity_name='user')
 
 
 class ExportUsersByFilter(ExportByFilterClass):

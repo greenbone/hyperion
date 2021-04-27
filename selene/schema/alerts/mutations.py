@@ -52,10 +52,7 @@ from selene.schema.entities import (
 
 from selene.schema.severity import SeverityType
 
-from selene.schema.utils import (
-    get_gmp,
-    require_authentication,
-)
+from selene.schema.utils import get_gmp, require_authentication
 
 
 class ConditionData(graphene.InputObjectType):
@@ -279,12 +276,12 @@ class ModifyAlertInput(graphene.InputObjectType):
     alert_id = graphene.UUID(required=True, name='id')
     name = graphene.String(description="Name of the new alert")
     event = AlertEvent(
-        description="The event that must be satisfied for the alert to occur",
+        description="The event that must be satisfied for the alert to occur"
     )
     condition = AlertCondition(
         description=(
             "The condition that must be satisfied" "for the alert to occur"
-        ),
+        )
     )
     method = AlertMethod(description="The method by which the user is alerted")
     event_data = EventData(description="Data that defines the event")
@@ -373,9 +370,7 @@ class CloneAlert(graphene.Mutation):
 
     class Arguments:
         copy_id = graphene.UUID(
-            required=True,
-            name='id',
-            description='UUID of the alert to clone.',
+            required=True, name='id', description='UUID of the alert to clone.'
         )
 
     alert_id = graphene.UUID(name='id')
@@ -399,9 +394,7 @@ class TestAlert(graphene.Mutation):
 
     class Arguments:
         alert_id = graphene.UUID(
-            required=True,
-            name='id',
-            description='UUID of the alert to test.',
+            required=True, name='id', description='UUID of the alert to test.'
         )
 
     ok = graphene.Boolean()

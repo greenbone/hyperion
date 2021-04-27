@@ -219,10 +219,7 @@ class CVETestCase(SeleneTestCase):
 
         self.assertEqual(cve['name'], 'CVE-2020-2222')
         self.assertEqual(cve['id'], 'CVE-2020-2222')
-        self.assertEqual(
-            cve['description'],
-            'bar baz boing',
-        )
+        self.assertEqual(cve['description'], 'bar baz boing')
         self.assertIsNotNone(cve['cvssV2Vector'])
 
         cvss_v2_vector = cve['cvssV2Vector']
@@ -250,18 +247,14 @@ class CVETestCase(SeleneTestCase):
             'CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N',
         )
         self.assertEqual(
-            cve['cvssVector'],
-            'CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N',
+            cve['cvssVector'], 'CVSS:3.1/AV:N/AC:L/PR:L/UI:R/S:C/C:L/I:L/A:N'
         )
 
         self.assertEqual(cve['score'], 54)
 
         self.assertEqual(
             cve['products'],
-            [
-                'cpe:/a:foo:bar:2.235.1:',
-                'cpe:/a:foo:bar:2.244.1:',
-            ],
+            ['cpe:/a:foo:bar:2.235.1:', 'cpe:/a:foo:bar:2.244.1:'],
         )
 
         self.assertIsNotNone(cve['nvtRefs'])
@@ -285,7 +278,5 @@ class CVEGetEntityTestCase(SeleneTestCase):
     gmp_name = 'info'
     selene_name = 'cve'
     test_get_entity = make_test_get_entity(
-        gmp_name,
-        selene_name=selene_name,
-        info_type=GvmInfoType.CVE,
+        gmp_name, selene_name=selene_name, info_type=GvmInfoType.CVE
     )

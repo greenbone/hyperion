@@ -38,11 +38,7 @@ from selene.schema.relay import (
     get_filter_string_for_pagination,
 )
 
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-    XmlElement,
-)
+from selene.schema.utils import require_authentication, get_gmp, XmlElement
 
 
 class GetScanConfigNvt(graphene.Field):
@@ -231,9 +227,7 @@ class GetNvtFamilies(graphene.List):
 
     def __init__(self):
         super().__init__(
-            NvtFamily,
-            sort_order=graphene.String(),
-            resolver=self.resolve,
+            NvtFamily, sort_order=graphene.String(), resolver=self.resolve
         )
 
     @staticmethod
@@ -366,12 +360,7 @@ class GetPreferences(graphene.List):
 
     @staticmethod
     @require_authentication
-    def resolve(
-        _root,
-        info,
-        nvt_oid: str = None,
-        config_id: str = None,
-    ):
+    def resolve(_root, info, nvt_oid: str = None, config_id: str = None):
         gmp = get_gmp(info)
 
         if config_id is not None:
@@ -493,8 +482,7 @@ class GetNVTs(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_info_list(
-            filter=filter_string.filter_string,
-            info_type=GvmInfoType.NVT,
+            filter=filter_string.filter_string, info_type=GvmInfoType.NVT
         )
 
         requested = None

@@ -135,10 +135,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
         self.assertEqual(nvt['family'], 'Some family')
         self.assertEqual(nvt['cvssBase'], 5.0)
         self.assertEqual(nvt['score'], 50)
-        self.assertEqual(
-            nvt['qod'],
-            {"value": 80, "type": "REMOTE_BANNER"},
-        )
+        self.assertEqual(nvt['qod'], {"value": 80, "type": "REMOTE_BANNER"})
         self.assertEqual(
             nvt['severities'],
             [
@@ -167,10 +164,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
             ],
         )
         self.assertEqual(
-            nvt['otherReferences'],
-            [
-                {"id": "http://test.test", "type": "url"},
-            ],
+            nvt['otherReferences'], [{"id": "http://test.test", "type": "url"}]
         )
         self.assertEqual(
             nvt['cveReferences'],
@@ -193,11 +187,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
         self.assertEqual(nvt['defaultTimeout'], None)
         self.assertEqual(
             nvt['solution'],
-            {
-                "type": "VendorFix",
-                "method": "",
-                "description": "Just update.",
-            },
+            {"type": "VendorFix", "method": "", "description": "Just update."},
         )
 
         self.assertEqual(

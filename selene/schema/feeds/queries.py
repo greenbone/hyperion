@@ -60,9 +60,7 @@ class GetFeed(graphene.Field):
 
     def __init__(self):
         super().__init__(
-            Feed,
-            feed_type=FeedType(required=True),
-            resolver=self.resolve,
+            Feed, feed_type=FeedType(required=True), resolver=self.resolve
         )
 
     @staticmethod

@@ -117,10 +117,7 @@ class ModifyUserTestCase(SeleneTestCase):
         self.assertResponseAuthenticationRequired(response)
 
     def test_modify_user_set_name(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_user',
-            self.get_users_response,
-        )
+        mock_gmp.mock_response('get_user', self.get_users_response)
 
         self.login('foo', 'bar')
 
@@ -150,10 +147,7 @@ class ModifyUserTestCase(SeleneTestCase):
         mock_gmp.gmp_protocol.modify_user.assert_called_once()
 
     def test_modify_user_set_comment(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_user',
-            self.get_users_response,
-        )
+        mock_gmp.mock_response('get_user', self.get_users_response)
 
         self.login('foo', 'bar')
 
@@ -183,10 +177,7 @@ class ModifyUserTestCase(SeleneTestCase):
         mock_gmp.gmp_protocol.modify_user.assert_called_once()
 
     def test_modify_user_set_hosts(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_user',
-            self.get_users_response,
-        )
+        mock_gmp.mock_response('get_user', self.get_users_response)
 
         self.login('foo', 'bar')
 
@@ -216,10 +207,7 @@ class ModifyUserTestCase(SeleneTestCase):
         mock_gmp.gmp_protocol.modify_user.assert_called_once()
 
     def test_modify_user_set_ifaces(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_user',
-            self.get_users_response,
-        )
+        mock_gmp.mock_response('get_user', self.get_users_response)
 
         self.login('foo', 'bar')
 
@@ -249,10 +237,7 @@ class ModifyUserTestCase(SeleneTestCase):
         mock_gmp.gmp_protocol.modify_user.assert_called_once()
 
     def test_modify_user_set_password(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_user',
-            self.get_users_response,
-        )
+        mock_gmp.mock_response('get_user', self.get_users_response)
 
         self.login('foo', 'bar')
 
@@ -282,10 +267,7 @@ class ModifyUserTestCase(SeleneTestCase):
         mock_gmp.gmp_protocol.modify_user.assert_called_once()
 
     def test_modify_user_set_auth_src(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_user',
-            self.get_users_response,
-        )
+        mock_gmp.mock_response('get_user', self.get_users_response)
 
         self.login('foo', 'bar')
 
@@ -315,10 +297,7 @@ class ModifyUserTestCase(SeleneTestCase):
         mock_gmp.gmp_protocol.modify_user.assert_called_once()
 
     def test_modify_user_set_ifaces_allow(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_user',
-            self.get_users_response,
-        )
+        mock_gmp.mock_response('get_user', self.get_users_response)
 
         self.login('foo', 'bar')
 
@@ -348,10 +327,7 @@ class ModifyUserTestCase(SeleneTestCase):
         mock_gmp.gmp_protocol.modify_user.assert_called_once()
 
     def test_modify_user_set_hosts_allow(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_user',
-            self.get_users_response,
-        )
+        mock_gmp.mock_response('get_user', self.get_users_response)
 
         self.login('foo', 'bar')
 
@@ -381,10 +357,7 @@ class ModifyUserTestCase(SeleneTestCase):
         mock_gmp.gmp_protocol.modify_user.assert_called_once()
 
     def test_modify_user_set_roles(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_user',
-            self.get_users_response,
-        )
+        mock_gmp.mock_response('get_user', self.get_users_response)
 
         self.login('foo', 'bar')
 
@@ -415,10 +388,7 @@ class ModifyUserTestCase(SeleneTestCase):
         mock_gmp.gmp_protocol.modify_user.assert_called_once()
 
     def test_modify_user_set_groups(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response(
-            'get_user',
-            self.get_users_response,
-        )
+        mock_gmp.mock_response('get_user', self.get_users_response)
 
         self.login('foo', 'bar')
 

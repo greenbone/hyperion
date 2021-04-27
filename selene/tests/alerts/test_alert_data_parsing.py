@@ -30,20 +30,10 @@ from selene.tests import SeleneTestCase
 
 class AlertDataTestCase(SeleneTestCase):
     def test_append_data_value(self):
-        data = {
-            'abc': 'foo',
-            'def': 'bar',
-        }
+        data = {'abc': 'foo', 'def': 'bar'}
         append_data_value(data, 'ghi', None)
         append_data_value(data, 'jkl', 'baz')
-        self.assertEqual(
-            data,
-            {
-                'abc': 'foo',
-                'def': 'bar',
-                'jkl': 'baz',
-            },
-        )
+        self.assertEqual(data, {'abc': 'foo', 'def': 'bar', 'jkl': 'baz'})
 
     def test_append_alert_condition_data(self):
         # We pull it from schema and make a ConditionData
@@ -91,11 +81,7 @@ class AlertDataTestCase(SeleneTestCase):
     def test_append_alert_event_data(self):
         event_data_type = schema.get_type('EventData')
         event_data = event_data_type.create_container(
-            {
-                'feed_event': 'new',
-                'status': None,
-                'secinfo_type': 'nvt',
-            }
+            {'feed_event': 'new', 'status': None, 'secinfo_type': 'nvt'}
         )
         with_status = event_data_type.create_container({'status': 'Done'})
         empty_data = event_data_type.create_container({})

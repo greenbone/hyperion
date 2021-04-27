@@ -29,10 +29,7 @@ from selene.schema.parser import parse_uuid
 
 from selene.schema.entity import EntityObjectType, EntityPermission
 
-from selene.schema.utils import (
-    get_boolean_from_element,
-    get_text_from_element,
-)
+from selene.schema.utils import get_boolean_from_element, get_text_from_element
 
 # Needed for gmp command in CreatePermission mutation
 class PermissionEntityType(graphene.Enum):

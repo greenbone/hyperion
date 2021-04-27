@@ -79,7 +79,7 @@ class OvalDefinitionHistory(graphene.ObjectType):
 
 
 class OvalDefinitionCriteria(graphene.ObjectType):
-    """ Recursive Criteria definition for OvalDefinitions ... """
+    """Recursive Criteria definition for OvalDefinitions ..."""
 
     operator = graphene.String()
     comment = graphene.String()

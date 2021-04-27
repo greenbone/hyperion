@@ -22,10 +22,7 @@ import graphene
 
 from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
-from selene.schema.utils import (
-    get_text,
-    get_text_from_element,
-)
+from selene.schema.utils import get_text, get_text_from_element
 from selene.schema.resolver import text_resolver, boolean_resolver
 
 

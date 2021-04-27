@@ -158,8 +158,7 @@ class TLSCertificatesPaginationTestCase(SeleneTestCase):
     entity_name = 'tls_certificate'
     selene_name = 'tlsCertificate'
     test_pagination_with_after_and_first = make_test_after_first(
-        entity_name,
-        selene_name=selene_name,
+        entity_name, selene_name=selene_name
     )
     test_counts = make_test_counts(entity_name, selene_name=selene_name)
     test_page_info = make_test_page_info(
@@ -167,12 +166,10 @@ class TLSCertificatesPaginationTestCase(SeleneTestCase):
     )
     test_edges = make_test_edges(entity_name, selene_name=selene_name)
     test_pagination_with_before_and_last = make_test_before_last(
-        entity_name,
-        selene_name=selene_name,
+        entity_name, selene_name=selene_name
     )
     test_after_first_before_last = make_test_after_first_before_last(
-        entity_name,
-        selene_name=selene_name,
+        entity_name, selene_name=selene_name
     )
 
 

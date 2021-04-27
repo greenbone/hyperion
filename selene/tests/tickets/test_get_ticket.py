@@ -135,10 +135,7 @@ class TicketTestCase(SeleneTestCase):
         ticket = json['data']['ticket']
 
         self.assertEqual(ticket['id'], 'cda26919-dbc2-439a-aa64-ce0ada728dd0')
-        self.assertEqual(
-            ticket['name'],
-            "what_ever",
-        )
+        self.assertEqual(ticket['name'], "what_ever")
         self.assertEqual(ticket['comment'], 'weeee')
         self.assertEqual(ticket['host'], '172.16.20.120')
         self.assertEqual(
@@ -147,8 +144,7 @@ class TicketTestCase(SeleneTestCase):
         self.assertEqual(ticket['assignedTo']['name'], 'glurp')
         self.assertEqual(ticket['nvtOid'], '1.3.6.1.4.1.25623.1.0.100494')
         self.assertEqual(
-            ticket['task']['id'],
-            'dc9c6b7d-c81d-4e20-acd8-b187b018fa42',
+            ticket['task']['id'], 'dc9c6b7d-c81d-4e20-acd8-b187b018fa42'
         )
         self.assertEqual(ticket['openNote'], 'opened')
         self.assertEqual(ticket['openTime'], '2020-10-07T02:54:44+00:00')

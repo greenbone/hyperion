@@ -30,10 +30,7 @@ from selene.schema.entities import (
 
 from selene.schema.port_list.fields import PortRangeType
 
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 
 class CreatePortRangeInput(graphene.InputObjectType):
@@ -179,9 +176,7 @@ class CreatePortList(graphene.Mutation):
         gmp = get_gmp(info)
 
         resp = gmp.create_port_list(
-            name=name,
-            port_range=port_range,
-            comment=comment,
+            name=name, port_range=port_range, comment=comment
         )
         return CreatePortList(port_list_id=resp.get('id'))
 

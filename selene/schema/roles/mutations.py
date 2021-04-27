@@ -20,10 +20,7 @@
 
 import graphene
 
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 from selene.schema.entities import (
     create_export_by_ids_mutation,
@@ -255,9 +252,7 @@ class DeleteRolesByIds(DeleteByIdsClass):
     """Deletes a list of roles"""
 
 
-DeleteByFilterClass = create_delete_by_filter_mutation(
-    entity_name='role',
-)
+DeleteByFilterClass = create_delete_by_filter_mutation(entity_name='role')
 
 
 class DeleteRolesByFilter(DeleteByFilterClass):
@@ -271,9 +266,7 @@ class ExportRolesByIds(ExportByIdsClass):
     pass
 
 
-ExportByFilterClass = create_export_by_filter_mutation(
-    entity_name='role',
-)
+ExportByFilterClass = create_export_by_filter_mutation(entity_name='role')
 
 
 class ExportRolesByFilter(ExportByFilterClass):

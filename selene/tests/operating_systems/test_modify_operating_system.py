@@ -75,6 +75,5 @@ class ModifyOperatingSystemTestCase(SeleneTestCase):
         self.assertEqual(ok, True)
 
         mock_gmp.gmp_protocol.modify_asset.assert_called_with(
-            asset_id=str(operating_system_id),
-            comment="bar",
+            asset_id=str(operating_system_id), comment="bar"
         )

@@ -80,7 +80,7 @@ class ExportTLSCertificatesByIdsTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, tls_certificates_xml)
         mock_gmp.gmp_protocol.get_tls_certificates.assert_called_with(
-            filter=f'uuid={self.id1} uuid={self.id2} ',
+            filter=f'uuid={self.id1} uuid={self.id2} '
         )
 
     def test_export_empty_tls_certificate_ids_array(

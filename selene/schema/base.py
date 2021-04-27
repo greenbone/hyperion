@@ -43,7 +43,7 @@ class UUIDObjectTypeMixin:
 class BaseObjectType(
     NameObjectTypeMixin, UUIDObjectTypeMixin, graphene.ObjectType
 ):
-    """ A base object type resolving an ID and name """
+    """A base object type resolving an ID and name"""
 
 
 class CACertificateMixin:

@@ -444,5 +444,5 @@ class EntityConnectionField(graphene.Field):
 
     @staticmethod
     def resolve_entities(*args, **kwargs) -> Entities:
-        """ Implementation should return an Entities instance"""
+        """Implementation should return an Entities instance"""
         raise NotImplementedError()

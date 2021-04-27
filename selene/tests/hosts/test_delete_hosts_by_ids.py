@@ -81,8 +81,7 @@ class DeleteHostsByIdsTestCase(SeleneTestCase):
         self.assertTrue(ok)
 
         mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} ',
-            asset_type=GvmAssetType.HOST,
+            filter=f'uuid={id1} uuid={id2} ', asset_type=GvmAssetType.HOST
         )
 
         mock_gmp.gmp_protocol.delete_asset.assert_any_call(asset_id=str(id1))
@@ -127,6 +126,5 @@ class DeleteHostsByIdsTestCase(SeleneTestCase):
         self.assertFalse(ok)
 
         mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} ',
-            asset_type=GvmAssetType.HOST,
+            filter=f'uuid={id1} uuid={id2} ', asset_type=GvmAssetType.HOST
         )

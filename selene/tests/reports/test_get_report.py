@@ -71,10 +71,7 @@ class ReportTestCase(SeleneTestCase):
         )
 
         mock_gmp.gmp_protocol.get_report.assert_called_with(
-            self.id,
-            report_format_id=None,
-            delta_report_id=None,
-            details=True,
+            self.id, report_format_id=None, delta_report_id=None, details=True
         )
 
         json = response.json()
@@ -205,9 +202,7 @@ class ReportTestCase(SeleneTestCase):
         nvt = json['data']['report']
 
         self.assertEqual(nvt['id'], '52704aa8-0576-4a5c-993c-c4d25ca130f5')
-        self.assertIsNone(
-            nvt['name'],
-        )
+        self.assertIsNone(nvt['name'])
         self.assertIsNone(nvt['reportFormat'])
         self.assertIsNone(nvt['scanRunStatus'])
         self.assertIsNone(nvt['closedCves'])
@@ -893,17 +888,9 @@ class ReportTestCase(SeleneTestCase):
         self.assertEqual(nvt['score'], 50)
         self.assertEqual(nvt['referenceWarning'], None)
         self.assertEqual(
-            nvt['cveReferences'],
-            [
-                {"id": "CVE-1999-0678", "type": "cve"},
-            ],
+            nvt['cveReferences'], [{"id": "CVE-1999-0678", "type": "cve"}]
         )
-        self.assertEqual(
-            nvt['bidReferences'],
-            [
-                {"id": "318", "type": "bid"},
-            ],
-        )
+        self.assertEqual(nvt['bidReferences'], [{"id": "318", "type": "bid"}])
         self.assertIsNotNone(nvt['severities'])
         self.assertEqual(nvt['severities'][0]['type'], 'cvss_base_v2')
 

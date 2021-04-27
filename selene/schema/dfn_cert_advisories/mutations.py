@@ -30,7 +30,7 @@ from selene.schema.entities import (
 #   schema: ExportByIds, ExportByIds.'
 
 ExportByIdsClass = create_export_secinfos_by_ids_mutation(
-    info_type=GvmInfoType.DFN_CERT_ADV,
+    info_type=GvmInfoType.DFN_CERT_ADV
 )
 
 

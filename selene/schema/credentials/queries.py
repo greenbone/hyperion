@@ -34,11 +34,7 @@ from selene.schema.relay import (
     get_filter_string_for_pagination,
 )
 
-from selene.schema.utils import (
-    get_gmp,
-    require_authentication,
-    XmlElement,
-)
+from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
 class GetCredential(graphene.Field):

@@ -33,10 +33,7 @@ from selene.schema.entities import (
     create_delete_by_ids_mutation,
     create_delete_by_filter_mutation,
 )
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 
 class CloneCredential(graphene.Mutation):

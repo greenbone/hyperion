@@ -69,8 +69,7 @@ class SystemReportTestCase(SeleneTestCase):
         Test getting a system report with default values.
         """
         mock_gmp.mock_response(
-            'get_system_reports',
-            self.make_mock_response('86400', '', ''),
+            'get_system_reports', self.make_mock_response('86400', '', '')
         )
 
         self.login('foo', 'bar')
@@ -123,9 +122,7 @@ class SystemReportTestCase(SeleneTestCase):
         mock_gmp.mock_response(
             'get_system_reports',
             self.make_mock_response(
-                '',
-                '2020-11-18T12:30:00Z',
-                '2020-11-18T18:30:00Z',
+                '', '2020-11-18T12:30:00Z', '2020-11-18T18:30:00Z'
             ),
         )
 
@@ -181,12 +178,7 @@ class SystemReportTestCase(SeleneTestCase):
         Test getting a system report with a duration.
         """
         mock_gmp.mock_response(
-            'get_system_reports',
-            self.make_mock_response(
-                '3600',
-                '',
-                '',
-            ),
+            'get_system_reports', self.make_mock_response('3600', '', '')
         )
 
         self.login('foo', 'bar')

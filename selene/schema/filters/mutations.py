@@ -51,9 +51,7 @@ class CloneFilter(graphene.Mutation):
 
     class Arguments:
         copy_id = graphene.UUID(
-            required=True,
-            name='id',
-            description='UUID of the filter to clone.',
+            required=True, name='id', description='UUID of the filter to clone.'
         )
 
     filter_id = graphene.UUID(name='id')
@@ -75,10 +73,7 @@ class CreateFilterInput(graphene.InputObjectType):
         entity_type (FilterType): The entity type applied to the filter
     """
 
-    name = graphene.String(
-        required=True,
-        description=("Name of the filter."),
-    )
+    name = graphene.String(required=True, description=("Name of the filter."))
     comment = graphene.String(description="Comment for the filter.")
     term = graphene.String(description='The filter term.')
     entity_type = graphene.Field(
@@ -239,9 +234,7 @@ class ModifyFilterInput(graphene.InputObjectType):
     filter_id = graphene.UUID(
         required=True, description="UUID of filter to modify.", name='id'
     )
-    name = graphene.String(
-        description=("Name of the filter."),
-    )
+    name = graphene.String(description=("Name of the filter."))
     comment = graphene.String(description="Comment for the filter.")
     term = graphene.String(description='The filter term.')
     entity_type = graphene.Field(

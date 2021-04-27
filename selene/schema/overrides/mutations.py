@@ -80,7 +80,7 @@ class CreateOverrideInput(graphene.InputObjectType):
         required=True, description='OID of the nvt to which override applies'
     )
     days_active = graphene.Int(
-        description="Days override will be active. -1 on always, 0 off",
+        description="Days override will be active. -1 on always, 0 off"
     )
     hosts = graphene.List(
         graphene.String, description="A list of host addresses"
@@ -161,13 +161,11 @@ class ModifyOverrideInput(graphene.InputObjectType):
     """
 
     override_id = graphene.UUID(
-        required=True,
-        name='id',
-        description='UUID of the override to modify',
+        required=True, name='id', description='UUID of the override to modify'
     )
     text = graphene.String(description='Text of the override')
     days_active = graphene.Int(
-        description="Days override will be active. -1 on always, 0 off",
+        description="Days override will be active. -1 on always, 0 off"
     )
     hosts = graphene.List(
         graphene.String, description="A list of hosts addresses"

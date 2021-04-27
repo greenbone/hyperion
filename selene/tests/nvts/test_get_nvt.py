@@ -272,10 +272,7 @@ class NVTTestCase(SeleneTestCase):
         self.assertEqual(nvt['family'], 'Some family')
         self.assertEqual(nvt['cvssBase'], 4.9)
         self.assertEqual(nvt['score'], 49)
-        self.assertEqual(
-            nvt['qod'],
-            {"value": 80, "type": "REMOTE_BANNER"},
-        )
+        self.assertEqual(nvt['qod'], {"value": 80, "type": "REMOTE_BANNER"})
         self.assertEqual(
             nvt['severities'],
             [
@@ -304,10 +301,7 @@ class NVTTestCase(SeleneTestCase):
             ],
         )
         self.assertEqual(
-            nvt['otherReferences'],
-            [
-                {"id": "http://test.test", "type": "url"},
-            ],
+            nvt['otherReferences'], [{"id": "http://test.test", "type": "url"}]
         )
         self.assertEqual(
             nvt['cveReferences'],
@@ -329,11 +323,7 @@ class NVTTestCase(SeleneTestCase):
         self.assertEqual(nvt['defaultTimeout'], None)
         self.assertEqual(
             nvt['solution'],
-            {
-                "type": "WillNotFix",
-                "method": "",
-                "description": "Sorry.",
-            },
+            {"type": "WillNotFix", "method": "", "description": "Sorry."},
         )
         self.assertIsNotNone(nvt['preferences'])
         preferences = nvt['preferences']
@@ -364,7 +354,5 @@ class NVTGetEntityTestCase(SeleneTestCase):
     gmp_name = 'info'
     selene_name = 'nvt'
     test_get_entity = make_test_get_entity(
-        gmp_name,
-        selene_name=selene_name,
-        info_type=GvmInfoType.NVT,
+        gmp_name, selene_name=selene_name, info_type=GvmInfoType.NVT
     )

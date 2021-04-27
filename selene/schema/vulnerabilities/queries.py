@@ -34,11 +34,7 @@ from selene.schema.relay import (
 
 from selene.schema.vulnerabilities.fields import Vulnerability
 
-from selene.schema.utils import (
-    get_gmp,
-    require_authentication,
-    XmlElement,
-)
+from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
 class GetVulnerability(graphene.Field):

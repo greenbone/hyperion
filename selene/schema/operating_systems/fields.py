@@ -21,10 +21,7 @@
 import graphene
 
 from selene.schema.base import BaseObjectType
-from selene.schema.utils import (
-    get_int_from_element,
-    get_text_from_element,
-)
+from selene.schema.utils import get_int_from_element, get_text_from_element
 from selene.schema.parser import parse_uuid
 from selene.schema.severity import SeverityType
 from selene.schema.entity import EntityObjectType
