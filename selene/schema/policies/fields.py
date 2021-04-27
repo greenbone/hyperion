@@ -54,7 +54,7 @@ class PolicyFamily(graphene.ObjectType):
 
 
 class PolicyAudit(graphene.ObjectType):
-    """"Audit which is using the policy."""
+    """ "Audit which is using the policy."""
 
     audit_id = graphene.String(name='id')
     name = graphene.String()

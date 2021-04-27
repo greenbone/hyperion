@@ -34,11 +34,7 @@ from selene.schema.relay import (
     get_filter_string_for_pagination,
 )
 
-from selene.schema.utils import (
-    get_gmp,
-    require_authentication,
-    XmlElement,
-)
+from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
 class GetTLSCertificate(graphene.Field):
@@ -152,7 +148,7 @@ class GetTLSCertificates(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_tls_certificates(
-            filter=filter_string.filter_string,
+            filter=filter_string.filter_string
         )
 
         tls_certificate_elements = xml.findall('tls_certificate')

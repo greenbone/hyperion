@@ -18,10 +18,7 @@
 
 import graphene
 
-from selene.schema.utils import (
-    get_gmp,
-    require_authentication,
-)
+from selene.schema.utils import get_gmp, require_authentication
 
 
 class ModifyUserSetting(graphene.Mutation):

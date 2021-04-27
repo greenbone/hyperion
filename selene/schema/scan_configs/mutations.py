@@ -21,10 +21,7 @@
 
 import graphene
 
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 from selene.schema.entities import (
     create_export_by_ids_mutation,
@@ -563,8 +560,7 @@ class NvtFamilyInput(graphene.InputObjectType):
     """
 
     name = graphene.String(
-        required=True,
-        description="Name of the NVT family to select",
+        required=True, description="Name of the NVT family to select"
     )
     growing = graphene.Boolean(
         required=True,
@@ -763,10 +759,7 @@ class ModifyScanConfigSetNvtPreference(graphene.Mutation):
 
         gmp = get_gmp(info)
         gmp.modify_config_set_nvt_preference(
-            config_id=config_id,
-            name=name,
-            nvt_oid=nvt_oid,
-            value=value,
+            config_id=config_id, name=name, nvt_oid=nvt_oid, value=value
         )
 
         return ModifyScanConfigSetNvtPreference(ok=True)
@@ -874,8 +867,7 @@ class ModifyScanConfigSetScannerPreferenceInput(graphene.InputObjectType):
         required=True, description="ID of scan config to modify.", name='id'
     )
     name = graphene.String(
-        required=True,
-        description="Name of the scanner preference to change.",
+        required=True, description="Name of the scanner preference to change."
     )
     value = graphene.String(
         description="New value for the preference."
@@ -936,9 +928,7 @@ class ModifyScanConfigSetScannerPreference(graphene.Mutation):
 
         gmp = get_gmp(info)
         gmp.modify_config_set_scanner_preference(
-            config_id=config_id,
-            name=name,
-            value=value,
+            config_id=config_id, name=name, value=value
         )
 
         return ModifyScanConfigSetScannerPreference(ok=True)

@@ -39,8 +39,7 @@ class CreateTLSCertificateInput(graphene.InputObjectType):
     """
 
     name = graphene.String(
-        required=True,
-        description=("Name of tls certificate."),
+        required=True, description=("Name of tls certificate.")
     )
     certificate = graphene.String(
         required=True,

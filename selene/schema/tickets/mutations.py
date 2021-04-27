@@ -27,10 +27,7 @@ from selene.schema.entities import (
     create_delete_by_filter_mutation,
 )
 
-from selene.schema.utils import (
-    get_gmp,
-    require_authentication,
-)
+from selene.schema.utils import get_gmp, require_authentication
 from selene.schema.tickets.fields import TicketStatus
 
 
@@ -99,8 +96,7 @@ class CreateTicketInput(graphene.InputObjectType):
     note = graphene.String(required=True, description="Ticket note.")
     comment = graphene.String(description="Ticket comment.")
     result_id = graphene.UUID(
-        required=True,
-        description=("UUID of result for the ticket."),
+        required=True, description=("UUID of result for the ticket.")
     )
     assigned_to_user_id = graphene.UUID(
         required=True, description="UUID of assigned user."

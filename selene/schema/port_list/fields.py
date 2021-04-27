@@ -19,9 +19,7 @@
 # pylint: disable=no-self-argument, no-member
 
 import graphene
-from gvm.protocols.next import (
-    PortRangeType as GvmPortRangeType,
-)
+from gvm.protocols.next import PortRangeType as GvmPortRangeType
 
 from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
@@ -30,21 +28,18 @@ from selene.schema.parser import parse_uuid
 
 from selene.schema.resolver import find_resolver
 
-from selene.schema.utils import (
-    get_text_from_element,
-    get_int_from_element,
-)
+from selene.schema.utils import get_text_from_element, get_int_from_element
 
 
 class PortRangeType(graphene.Enum):
-    """ PortRange type. Either TCP or UDP """
+    """PortRange type. Either TCP or UDP"""
 
     class Meta:
         enum = GvmPortRangeType
 
 
 class PortRange(graphene.ObjectType):
-    """ A range of ports in a port list """
+    """A range of ports in a port list"""
 
     uuid = graphene.UUID(name='id', description='ID of the port range')
     start = graphene.Int(description='Starting port of the range')
@@ -71,7 +66,7 @@ class PortRange(graphene.ObjectType):
 
 
 class PortCount(graphene.ObjectType):
-    """ Aggregation of ports counts """
+    """Aggregation of ports counts"""
 
     count_all = graphene.Int(
         name='all', description='Total number of ports'
@@ -90,11 +85,11 @@ class PortCount(graphene.ObjectType):
 
 
 class PortListTarget(BaseObjectType):
-    """ A target referenced by a PortList """
+    """A target referenced by a PortList"""
 
 
 class PortList(EntityObjectType):
-    """ A list of ports to scan """
+    """A list of ports to scan"""
 
     class Meta:
         default_resolver = find_resolver

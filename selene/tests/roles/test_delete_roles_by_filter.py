@@ -112,8 +112,6 @@ class DeleteRolesByFilterTestCase(SeleneTestCase):
         ok = json['data']['deleteRolesByFilter']['ok']
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.get_roles.assert_called_with(
-            filter="name~User",
-        )
+        mock_gmp.gmp_protocol.get_roles.assert_called_with(filter="name~User")
 
         mock_gmp.gmp_protocol.delete_role.assert_called_with(f'{self.id2}')

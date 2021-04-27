@@ -31,10 +31,7 @@ from selene.schema.aggregates.fields import (
     SortOrder,
 )
 
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 
 class GetAggregateSortInput(graphene.InputObjectType):
@@ -122,11 +119,7 @@ class GetAggregate(graphene.Field):
 
     @staticmethod
     @require_authentication
-    def resolve(
-        _root,
-        info,
-        input_object: GetAggregateInput,
-    ):
+    def resolve(_root, info, input_object: GetAggregateInput):
         gmp = get_gmp(info)
 
         data_type_enum = (

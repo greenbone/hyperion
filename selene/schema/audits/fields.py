@@ -63,7 +63,7 @@ class AuditComplianceCount(graphene.ObjectType):
 
 
 class AuditLastReport(graphene.ObjectType):
-    """ The last report of an audit for a finished scan """
+    """The last report of an audit for a finished scan"""
 
     uuid = graphene.String(name='id')
     severity = SeverityType()
@@ -71,8 +71,7 @@ class AuditLastReport(graphene.ObjectType):
     scan_end = graphene.DateTime()
     timestamp = graphene.DateTime()
     compliance_count = graphene.Field(
-        AuditComplianceCount,
-        description='Compliance status for this audit',
+        AuditComplianceCount, description='Compliance status for this audit'
     )
 
     def resolve_compliance_count(root, _info):

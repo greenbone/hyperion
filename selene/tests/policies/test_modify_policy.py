@@ -77,8 +77,7 @@ class ModifyPolicySetNameTestCase(SeleneTestCase):
         self.assertEqual(ok, True)
 
         mock_gmp.gmp_protocol.modify_policy_set_name.assert_called_with(
-            policy_id=str(self.id1),
-            name=self.name,
+            policy_id=str(self.id1), name=self.name
         )
 
 
@@ -136,8 +135,7 @@ class ModifyPolicySetCommentTestCase(SeleneTestCase):
         self.assertEqual(ok, True)
 
         mock_gmp.gmp_protocol.modify_policy_set_comment.assert_called_with(
-            policy_id=str(self.id1),
-            comment=self.comment1,
+            policy_id=str(self.id1), comment=self.comment1
         )
 
 
@@ -332,9 +330,7 @@ class ModifyPolicySetNvtSelectionTestCase(SeleneTestCase):
 
         # pylint: disable=line-too-long
         mock_gmp.gmp_protocol.modify_policy_set_nvt_selection.assert_called_with(
-            policy_id=str(self.id1),
-            family=self.family,
-            nvt_oids=[self.nvt_oid],
+            policy_id=str(self.id1), family=self.family, nvt_oids=[self.nvt_oid]
         )
 
 
@@ -398,7 +394,5 @@ class ModifyPolicySetScannerPreferenceTestCase(SeleneTestCase):
 
         # pylint: disable=line-too-long
         mock_gmp.gmp_protocol.modify_policy_set_scanner_preference.assert_called_with(
-            policy_id=str(self.id1),
-            name=self.name,
-            value=self.value,
+            policy_id=str(self.id1), name=self.name, value=self.value
         )

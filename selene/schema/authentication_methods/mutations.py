@@ -18,10 +18,7 @@
 
 import graphene
 
-from selene.schema.utils import (
-    get_gmp,
-    require_authentication,
-)
+from selene.schema.utils import get_gmp, require_authentication
 
 
 def _to_bool(value: bool) -> str:
@@ -31,8 +28,7 @@ def _to_bool(value: bool) -> str:
 class ModifyLDAPAuthenticationSettings(graphene.Mutation):
     class Arguments:
         auth_dn = graphene.String(
-            description='DN used for authentication',
-            required=True,
+            description='DN used for authentication', required=True
         )
         certificate = graphene.String(description='Content of a .cert file')
         enable = graphene.Boolean(
@@ -72,8 +68,7 @@ class ModifyRADIUSAuthenticationSettings(graphene.Mutation):
             required=True,
         )
         host = graphene.String(
-            description='Hostname or IP of the RADIUS server',
-            required=True,
+            description='Hostname or IP of the RADIUS server', required=True
         )
         secret_key = graphene.String(
             required=True,

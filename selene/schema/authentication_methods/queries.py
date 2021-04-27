@@ -25,19 +25,12 @@ from selene.schema.authentication_methods.fields import (
     RADIUSAuthenticationSettings,
 )
 
-from selene.schema.utils import (
-    get_gmp,
-    require_authentication,
-    XmlElement,
-)
+from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
 class GetLDAPAuthenticationSettings(graphene.Field):
     def __init__(self):
-        super().__init__(
-            LDAPAuthenticationSettings,
-            resolver=self.resolve,
-        )
+        super().__init__(LDAPAuthenticationSettings, resolver=self.resolve)
 
     @staticmethod
     @require_authentication
@@ -54,10 +47,7 @@ class GetLDAPAuthenticationSettings(graphene.Field):
 
 class GetRADIUSAuthenticationSettings(graphene.Field):
     def __init__(self):
-        super().__init__(
-            RADIUSAuthenticationSettings,
-            resolver=self.resolve,
-        )
+        super().__init__(RADIUSAuthenticationSettings, resolver=self.resolve)
 
     @staticmethod
     @require_authentication

@@ -34,11 +34,7 @@ from selene.schema.relay import (
 
 from selene.schema.schedules.fields import Schedule
 
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-    XmlElement,
-)
+from selene.schema.utils import require_authentication, get_gmp, XmlElement
 
 
 class GetSchedule(graphene.Field):

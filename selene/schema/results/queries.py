@@ -30,11 +30,7 @@ from selene.schema.relay import (
     Entities,
     get_filter_string_for_pagination,
 )
-from selene.schema.utils import (
-    get_gmp,
-    require_authentication,
-    XmlElement,
-)
+from selene.schema.utils import get_gmp, require_authentication, XmlElement
 from selene.schema.results.fields import Result
 
 

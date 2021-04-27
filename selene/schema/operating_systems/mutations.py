@@ -217,9 +217,6 @@ class ModifyOperatingSystem(graphene.Mutation):
 
         gmp = get_gmp(info)
 
-        gmp.modify_asset(
-            operating_system_id,
-            comment=comment,
-        )
+        gmp.modify_asset(operating_system_id, comment=comment)
 
         return ModifyOperatingSystem(ok=True)

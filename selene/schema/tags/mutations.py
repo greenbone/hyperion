@@ -44,9 +44,7 @@ class CloneTag(graphene.Mutation):
 
     class Arguments:
         copy_id = graphene.UUID(
-            required=True,
-            name='id',
-            description='UUID of the tag to clone.',
+            required=True, name='id', description='UUID of the tag to clone.'
         )
 
     tag_id = graphene.UUID(name='id')

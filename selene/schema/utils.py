@@ -46,7 +46,7 @@ def has_id(element: XmlElement) -> bool:
 
 
 def get_subelement(element: XmlElement, name: str) -> Optional[str]:
-    """ Return a sub-element of element if available or None """
+    """Return a sub-element of element if available or None"""
     if element is None:
         return None
 

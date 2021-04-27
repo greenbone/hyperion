@@ -32,11 +32,7 @@ from selene.schema.relay import (
     get_filter_string_for_pagination,
 )
 from selene.schema.targets.fields import Target
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-    XmlElement,
-)
+from selene.schema.utils import require_authentication, get_gmp, XmlElement
 
 
 class GetTarget(graphene.Field):

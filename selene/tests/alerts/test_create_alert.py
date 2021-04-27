@@ -20,11 +20,7 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.next import (
-    AlertCondition,
-    AlertEvent,
-    AlertMethod,
-)
+from gvm.protocols.next import AlertCondition, AlertEvent, AlertMethod
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 

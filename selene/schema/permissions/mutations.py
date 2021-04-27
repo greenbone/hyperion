@@ -25,10 +25,7 @@ from selene.schema.permissions.fields import (
     PermissionSubjectType,
 )
 
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 from selene.schema.entities import (
     create_export_by_ids_mutation,
@@ -310,9 +307,7 @@ class ExportPermissionsByIds(ExportByIdsClass):
     pass
 
 
-ExportByFilterClass = create_export_by_filter_mutation(
-    entity_name='permission',
-)
+ExportByFilterClass = create_export_by_filter_mutation(entity_name='permission')
 
 
 class ExportPermissionsByFilter(ExportByFilterClass):
@@ -326,9 +321,7 @@ class DeletePermissionsByIds(DeleteByIdsClass):
     """Deletes a list of permissions"""
 
 
-DeleteByFilterClass = create_delete_by_filter_mutation(
-    entity_name='permission',
-)
+DeleteByFilterClass = create_delete_by_filter_mutation(entity_name='permission')
 
 
 class DeletePermissionsByFilter(DeleteByFilterClass):

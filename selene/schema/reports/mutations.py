@@ -28,10 +28,7 @@ from selene.schema.entities import (
     create_delete_by_ids_mutation,
     create_delete_by_filter_mutation,
 )
-from selene.schema.utils import (
-    get_gmp,
-    require_authentication,
-)
+from selene.schema.utils import get_gmp, require_authentication
 
 
 class DeleteReport(graphene.Mutation):
@@ -111,18 +108,12 @@ class ImportReport(graphene.Mutation):
 
     @require_authentication
     def mutate(
-        root,
-        info,
-        report: str,
-        task_id: str = UUID,
-        in_assets: bool = None,
+        root, info, report: str, task_id: str = UUID, in_assets: bool = None
     ):
         gmp = get_gmp(info)
 
         resp = gmp.import_report(
-            report,
-            task_id=str(task_id),
-            in_assets=in_assets,
+            report, task_id=str(task_id), in_assets=in_assets
         )
         return ImportReport(report_id=resp.get('id'))
 

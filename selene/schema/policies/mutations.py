@@ -21,10 +21,7 @@
 
 import graphene
 
-from selene.schema.utils import (
-    require_authentication,
-    get_gmp,
-)
+from selene.schema.utils import require_authentication, get_gmp
 
 from selene.schema.entities import (
     create_export_by_ids_mutation,
@@ -658,10 +655,7 @@ class ModifyPolicySetNvtPreference(graphene.Mutation):
 
         gmp = get_gmp(info)
         gmp.modify_policy_set_nvt_preference(
-            policy_id=policy_id,
-            name=name,
-            nvt_oid=nvt_oid,
-            value=value,
+            policy_id=policy_id, name=name, nvt_oid=nvt_oid, value=value
         )
 
         return ModifyPolicySetNvtPreference(ok=True)
@@ -769,8 +763,7 @@ class ModifyPolicySetScannerPreferenceInput(graphene.InputObjectType):
         required=True, description="ID of policy to modify.", name='id'
     )
     name = graphene.String(
-        required=True,
-        description="Name of the scanner preference to change.",
+        required=True, description="Name of the scanner preference to change."
     )
     value = graphene.String(
         description="New value for the preference."
@@ -831,9 +824,7 @@ class ModifyPolicySetScannerPreference(graphene.Mutation):
 
         gmp = get_gmp(info)
         gmp.modify_policy_set_scanner_preference(
-            policy_id=policy_id,
-            name=name,
-            value=value,
+            policy_id=policy_id, name=name, value=value
         )
 
         return ModifyPolicySetScannerPreference(ok=True)

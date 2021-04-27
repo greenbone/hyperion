@@ -20,10 +20,7 @@ from graphene import ObjectType, String, Schema, Field
 
 from selene.schema.aggregates.queries import GetAggregate
 
-from selene.schema.alerts.queries import (
-    GetAlert,
-    GetAlerts,
-)
+from selene.schema.alerts.queries import GetAlert, GetAlerts
 
 from selene.schema.alerts.mutations import (
     CloneAlert,
@@ -82,10 +79,7 @@ from selene.schema.cert_bund_advisories.mutations import (
     ExportCertBundAdvisoriesByIds,
 )
 
-from selene.schema.credentials.queries import (
-    GetCredentials,
-    GetCredential,
-)
+from selene.schema.credentials.queries import GetCredentials, GetCredential
 
 from selene.schema.credentials.mutations import (
     CloneCredential,
@@ -99,17 +93,11 @@ from selene.schema.credentials.mutations import (
 
 from selene.schema.cves.queries import GetCVE, GetCVEs
 
-from selene.schema.cves.mutations import (
-    ExportCVEsByFilter,
-    ExportCVEsByIds,
-)
+from selene.schema.cves.mutations import ExportCVEsByFilter, ExportCVEsByIds
 
 from selene.schema.cpes.queries import GetCPE, GetCPEs
 
-from selene.schema.cpes.mutations import (
-    ExportCPEsByFilter,
-    ExportCPEsByIds,
-)
+from selene.schema.cpes.mutations import ExportCPEsByFilter, ExportCPEsByIds
 
 from selene.schema.dfn_cert_advisories.queries import (
     GetDFNCertAdvisories,
@@ -178,10 +166,7 @@ from selene.schema.oval_definitions.mutations import (
 
 from selene.schema.permissions.queries import GetPermissions, GetPermission
 
-from selene.schema.scanners.queries import (
-    GetScanner,
-    GetScanners,
-)
+from selene.schema.scanners.queries import GetScanner, GetScanners
 from selene.schema.scanners.mutations import (
     CloneScanner,
     CreateScanner,
@@ -194,10 +179,7 @@ from selene.schema.scanners.mutations import (
     VerifyScanner,
 )
 
-from selene.schema.scan_configs.queries import (
-    GetScanConfig,
-    GetScanConfigs,
-)
+from selene.schema.scan_configs.queries import GetScanConfig, GetScanConfigs
 
 from selene.schema.scan_configs.mutations import (
     CreateScanConfig,
@@ -222,10 +204,7 @@ from selene.schema.system_reports.queries import (
     GetSystemReports,
 )
 
-from selene.schema.targets.queries import (
-    GetTarget,
-    GetTargets,
-)
+from selene.schema.targets.queries import GetTarget, GetTargets
 
 from selene.schema.targets.mutations import (
     DeleteTarget,
@@ -238,10 +217,7 @@ from selene.schema.targets.mutations import (
     ExportTargetsByIds,
 )
 
-from selene.schema.tags.queries import (
-    GetTags,
-    GetTag,
-)
+from selene.schema.tags.queries import GetTags, GetTag
 
 from selene.schema.tags.mutations import (
     CloneTag,
@@ -308,10 +284,7 @@ from selene.schema.nvts.queries import (
     GetPreferences,
 )
 
-from selene.schema.nvts.mutations import (
-    ExportNVTsByFilter,
-    ExportNVTsByIds,
-)
+from selene.schema.nvts.mutations import ExportNVTsByFilter, ExportNVTsByIds
 
 from selene.schema.overrides.queries import GetOverrides, GetOverride
 
@@ -336,10 +309,7 @@ from selene.schema.permissions.mutations import (
     ModifyPermission,
 )
 
-from selene.schema.policies.queries import (
-    GetPolicy,
-    GetPolicies,
-)
+from selene.schema.policies.queries import GetPolicy, GetPolicies
 
 from selene.schema.policies.mutations import (
     CreatePolicy,
@@ -358,10 +328,7 @@ from selene.schema.policies.mutations import (
     ModifyPolicySetScannerPreference,
 )
 
-from selene.schema.port_list.queries import (
-    GetPortList,
-    GetPortLists,
-)
+from selene.schema.port_list.queries import GetPortList, GetPortLists
 
 from selene.schema.port_list.mutations import (
     ClonePortList,
@@ -375,10 +342,7 @@ from selene.schema.port_list.mutations import (
     ModifyPortList,
 )
 
-from selene.schema.reports.queries import (
-    GetReport,
-    GetReports,
-)
+from selene.schema.reports.queries import GetReport, GetReports
 
 from selene.schema.reports.mutations import (
     DeleteReport,
@@ -413,15 +377,9 @@ from selene.schema.roles.mutations import (
     ModifyRole,
 )
 
-from selene.schema.roles.queries import (
-    GetRole,
-    GetRoles,
-)
+from selene.schema.roles.queries import GetRole, GetRoles
 
-from selene.schema.schedules.queries import (
-    GetSchedule,
-    GetSchedules,
-)
+from selene.schema.schedules.queries import GetSchedule, GetSchedules
 
 from selene.schema.schedules.mutations import (
     CloneSchedule,
@@ -463,10 +421,7 @@ from selene.schema.tls_certificates.mutations import (
     ExportTLSCertificatesByIds,
     ModifyTLSCertificate,
 )
-from selene.schema.users.queries import (
-    GetUser,
-    GetUsers,
-)
+from selene.schema.users.queries import GetUser, GetUsers
 
 from selene.schema.users.mutations import (
     CloneUser,

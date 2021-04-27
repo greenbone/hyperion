@@ -36,11 +36,7 @@ else:
 
 # Application definition
 
-INSTALLED_APPS = [
-    'django.contrib.staticfiles',
-    'graphene_django',
-    'selene',
-]
+INSTALLED_APPS = ['django.contrib.staticfiles', 'graphene_django', 'selene']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

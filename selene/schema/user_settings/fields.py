@@ -20,9 +20,7 @@
 
 import graphene
 
-from selene.schema.utils import (
-    get_text_from_element,
-)
+from selene.schema.utils import get_text_from_element
 
 
 class UserSetting(graphene.ObjectType):
