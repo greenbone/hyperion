@@ -20,9 +20,10 @@ from django.urls import path
 
 from django.views.generic.base import RedirectView
 
-from selene.views import main
+from selene.views import main, GraphqlDocView
 
 urlpatterns = [  # pylint: disable=invalid-name
     path('', RedirectView.as_view(pattern_name='selene-graphql')),
     path('graphql/', main(), name='selene-graphql'),
+    path('docs/', GraphqlDocView.as_view(), name='selene-graphql-docs'),
 ]

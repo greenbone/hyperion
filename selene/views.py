@@ -18,11 +18,14 @@
 
 from typing import Dict, Tuple
 
+import graphdoc
+
 from graphene_django.views import GraphQLView
 from graphql.error import GraphQLError
 
 from django.conf import settings
 from django.http import HttpResponse
+from django.views import View
 
 from gvm.connections import UnixSocketConnection
 from gvm.errors import GvmError, GvmResponseError, GvmClientError
@@ -119,3 +122,9 @@ class SeleneView(GraphQLView):
 
 def main():
     return SeleneView.as_view(graphiql=True, schema=schema)
+
+
+class GraphqlDocView(View):
+    def get(self, _request):
+        html = graphdoc.to_doc(schema)
+        return HttpResponse(html, content_type='text/html')
