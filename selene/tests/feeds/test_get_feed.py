@@ -226,3 +226,26 @@ class GetFeedTestCase(SeleneTestCase):
             'This script synchronizes [...]',
         )
         self.assertEqual(feed['currentlySyncing'], True)
+
+    def test_unknown_feed_type(self, _mock_gmp: GmpMockFactory):
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                feed (feedType: FOO) {
+                    type
+                    name
+                    version
+                    description
+                    currentlySyncing
+                }
+            }
+            '''
+        )
+
+        self.assertResponseHasErrorMessage(
+            response,
+            'Argument "feedType" has invalid value FOO.\n'
+            'Expected type "FeedType", found FOO.',
+        )
