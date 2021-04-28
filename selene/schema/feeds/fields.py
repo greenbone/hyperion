@@ -65,7 +65,7 @@ class Feed(graphene.ObjectType):
         if not text:
             return None
 
-        return FeedType[text.upper()]
+        return FeedType[text]
 
     @staticmethod
     def resolve_currently_syncing(root, _info):
