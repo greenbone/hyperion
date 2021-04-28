@@ -1,26 +1,19 @@
-.. hyperion documentation master file, created by
-   sphinx-quickstart on Tue Feb 25 13:43:15 2020.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+hyperion: GraphQL API for the Greenbone Vulnerability Manager (GVM)
+===================================================================
 
-Welcome to hyperion's documentation!
-====================================
+This section shows GraphQL usage examples for querying and mutations.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    user_guide
 
-API Docs
---------
+Selene Schema API Documentation
+-------------------------------
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+Detailed information about the GraphQL schema of Selene.
 
-   api/schema
-   api/task
+* `Schema <schema/index.html>`_
 
 Indices and tables
 ==================

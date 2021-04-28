@@ -54,6 +54,8 @@ $ cd hyperion && git log
 
 ### Removed
 
+- Remove our sphinx extension for documenting the GraphQL schema [#123](https://github.com/greenbone/hyperion/pull/123)
+
 ### Fixed
 
 - Fixed a problem with NVT `oid` in Notes. [#15](https://github.com/greenbone/hyperion/pull/15)
