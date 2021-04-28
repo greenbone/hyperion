@@ -38,7 +38,7 @@ class GetFeedTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_get_feed(self, mock_gmp: GmpMockFactory):
+    def test_get_nvt_feed(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
             'get_feed',
             '''
@@ -81,4 +81,148 @@ class GetFeedTestCase(SeleneTestCase):
         self.assertEqual(feed['name'], 'Greenbone Security Feed')
         self.assertEqual(feed['version'], '202010220502')
         self.assertEqual(feed['description'], 'This script synchronizes [...]')
+        self.assertEqual(feed['currentlySyncing'], True)
+
+    def test_get_cert_feed(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_feed',
+            '''
+            <get_feeds_response status="200" status_text="OK">
+                <feed>
+                    <type>CERT</type>
+                    <name>Greenbone CERT Feed</name>
+                    <version>202010220502</version>
+                    <description>This script synchronizes [...]</description>
+                    <currently_syncing>
+                        <timestamp>202011151700</timestamp>
+                    </currently_syncing>
+                </feed>
+            </get_feeds_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                feed (feedType: CERT) {
+                    type
+                    name
+                    version
+                    description
+                    currentlySyncing
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        feed = json['data']['feed']
+        self.assertEqual(feed['type'], 'CERT')
+        self.assertEqual(feed['name'], 'Greenbone CERT Feed')
+        self.assertEqual(feed['version'], '202010220502')
+        self.assertEqual(
+            feed['description'],
+            'This script synchronizes [...]',
+        )
+        self.assertEqual(feed['currentlySyncing'], True)
+
+    def test_get_scap_feed(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_feed',
+            '''
+            <get_feeds_response status="200" status_text="OK">
+                <feed>
+                    <type>SCAP</type>
+                    <name>Greenbone SCAP Feed</name>
+                    <version>202010220502</version>
+                    <description>This script synchronizes [...]</description>
+                    <currently_syncing>
+                        <timestamp>202011151700</timestamp>
+                    </currently_syncing>
+                </feed>
+            </get_feeds_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                feed (feedType: SCAP) {
+                    type
+                    name
+                    version
+                    description
+                    currentlySyncing
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        feed = json['data']['feed']
+        self.assertEqual(feed['type'], 'SCAP')
+        self.assertEqual(feed['name'], 'Greenbone SCAP Feed')
+        self.assertEqual(feed['version'], '202010220502')
+        self.assertEqual(
+            feed['description'],
+            'This script synchronizes [...]',
+        )
+        self.assertEqual(feed['currentlySyncing'], True)
+
+    def test_get_gvmd_data_feed(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response(
+            'get_feed',
+            '''
+            <get_feeds_response status="200" status_text="OK">
+                <feed>
+                    <type>GVMD_DATA</type>
+                    <name>Greenbone gvmd Data Feed</name>
+                    <version>202010220502</version>
+                    <description>This script synchronizes [...]</description>
+                    <currently_syncing>
+                        <timestamp>202011151700</timestamp>
+                    </currently_syncing>
+                </feed>
+            </get_feeds_response>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            '''
+            query {
+                feed (feedType: GVMD_DATA) {
+                    type
+                    name
+                    version
+                    description
+                    currentlySyncing
+                }
+            }
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        feed = json['data']['feed']
+        self.assertEqual(feed['type'], 'GVMD_DATA')
+        self.assertEqual(feed['name'], 'Greenbone gvmd Data Feed')
+        self.assertEqual(feed['version'], '202010220502')
+        self.assertEqual(
+            feed['description'],
+            'This script synchronizes [...]',
+        )
         self.assertEqual(feed['currentlySyncing'], True)
