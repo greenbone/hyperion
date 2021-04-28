@@ -17,8 +17,6 @@
 
 import graphene
 
-from gvm.protocols.next import FeedType as GmpFeedType
-
 from selene.schema.feeds.fields import Feed, FeedType
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
@@ -68,12 +66,7 @@ class GetFeed(graphene.Field):
     def resolve(_root, info, feed_type: str):
         gmp = get_gmp(info)
 
-        if feed_type == FeedType.CERT:
-            gmp_feed_type = GmpFeedType.CERT
-        elif feed_type == FeedType.SCAP:
-            gmp_feed_type = GmpFeedType.SCAP
-        elif feed_type == FeedType.NVT:
-            gmp_feed_type = GmpFeedType.NVT
+        gmp_feed_type = FeedType.get(feed_type)
 
         xml = gmp.get_feed(gmp_feed_type)
         return xml.find('feed')
