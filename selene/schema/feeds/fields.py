@@ -17,16 +17,18 @@
 
 import graphene
 
+from gvm.protocols.next import FeedType as GmpFeedType
+
 from selene.schema.resolver import find_resolver
 
 from selene.schema.utils import get_text_from_element
 
 
 class FeedType(graphene.Enum):
-    CERT = 'cert'
-    GVMD_DATA = 'gvmd_data'
-    NVT = 'nvt'
-    SCAP = 'scap'
+    """Enum for feed types"""
+
+    class Meta:
+        enum = GmpFeedType
 
 
 class Feed(graphene.ObjectType):
@@ -63,7 +65,7 @@ class Feed(graphene.ObjectType):
         if not text:
             return None
 
-        return FeedType[text.upper()]
+        return FeedType[text]
 
     @staticmethod
     def resolve_currently_syncing(root, _info):

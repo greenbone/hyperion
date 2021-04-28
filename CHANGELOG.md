@@ -31,7 +31,7 @@ $ cd hyperion && git log
 
 - Revisit authentication methods [#93](https://github.com/greenbone/hyperion/pull/93)
 - Revisit port list object type, queries and mutations [#108](https://github.com/greenbone/hyperion/pull/108)
-- Revisit feed status object types [#95](https://github.com/greenbone/hyperion/pull/95)
+- Revisit feed status object types [#95](https://github.com/greenbone/hyperion/pull/95), [#122](https://github.com/greenbone/hyperion/pull/122)
 - Introduce QoDType enum and use common QoD class for NVT and Result [#109](https://github.com/greenbone/hyperion/pull/109)
 - Revisit result object type [#92](https://github.com/greenbone/hyperion/pull/92)
 - Revisit target object type, queries and mutations 
