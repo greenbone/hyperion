@@ -15,13 +15,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import graphene
-
+from selene.schema.base import ListQuery, SingleObjectQuery
 from selene.schema.feeds.fields import Feed, FeedType
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetFeed(graphene.Field):
+class GetFeed(SingleObjectQuery):
     """Gets a single feed
 
     Example:
@@ -56,10 +55,10 @@ class GetFeed(graphene.Field):
 
     """
 
-    def __init__(self):
-        super().__init__(
-            Feed, feed_type=FeedType(required=True), resolver=self.resolve
-        )
+    object_type = Feed
+    kwargs = {
+        'feed_type': FeedType(required=True, description="Requested Feed type")
+    }
 
     @staticmethod
     @require_authentication
@@ -72,7 +71,7 @@ class GetFeed(graphene.Field):
         return xml.find('feed')
 
 
-class GetFeeds(graphene.List):
+class GetFeeds(ListQuery):
     """Gets a list of all feeds
 
     Args:
@@ -124,8 +123,7 @@ class GetFeeds(graphene.List):
 
     """
 
-    def __init__(self):
-        super().__init__(Feed, resolver=self.resolve)
+    object_type = Feed
 
     @staticmethod
     @require_authentication
