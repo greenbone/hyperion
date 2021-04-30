@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 from uuid import UUID
 
 import graphene
@@ -52,8 +50,9 @@ class DeleteScanner(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, scanner_id):
+    def mutate(_root, info, scanner_id):
         gmp = get_gmp(info)
         gmp.delete_scanner(str(scanner_id))
         return DeleteScanner(ok=True)
@@ -98,8 +97,9 @@ class CreateScanner(graphene.Mutation):
 
     scanner_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         name = input_object.name
         comment = input_object.comment
@@ -110,6 +110,7 @@ class CreateScanner(graphene.Mutation):
             port = input_object.port
         else:
             port = 9391
+        # pylint:disable=no-member
         if scanner_type == ScannerType.OSP_SCANNER_TYPE:
             ca_pub = input_object.ca_pub
         else:
@@ -170,8 +171,9 @@ class ModifyScanner(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         scanner_id = str(input_object.scanner_id)
         name = input_object.name
@@ -183,6 +185,7 @@ class ModifyScanner(graphene.Mutation):
             port = input_object.port
         else:
             port = 9391
+        # pylint:disable=no-member
         if scanner_type == ScannerType.OSP_SCANNER_TYPE:
             ca_pub = input_object.ca_pub
         else:
@@ -207,6 +210,7 @@ class ModifyScanner(graphene.Mutation):
 class VerifyScannerType(graphene.ObjectType):
     version = graphene.String()
 
+    @staticmethod
     def resolve_version(root, _info):
         return get_text_from_element(root, 'version')
 
@@ -247,8 +251,9 @@ class CloneScanner(graphene.Mutation):
 
     scanner_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, scanner_id):
+    def mutate(_root, info, scanner_id):
         gmp = get_gmp(info)
         elem = gmp.clone_scanner(str(scanner_id))
         return CloneScanner(scanner_id=elem.get('id'))

@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.entity import EntityObjectType
@@ -34,12 +32,15 @@ class CertBundAdvisoryRevision(graphene.ObjectType):
     description = graphene.String()
     number = graphene.Int()
 
+    @staticmethod
     def resolve_date(root, _info):
         return get_datetime_from_element(root, 'Date')
 
+    @staticmethod
     def resolve_description(root, _info):
         return get_text_from_element(root, 'Description')
 
+    @staticmethod
     def resolve_number(root, _info):
         return get_int_from_element(root, 'Number')
 
@@ -48,9 +49,11 @@ class CertBundAdvisoryInfo(graphene.ObjectType):
     info_issuer = graphene.String()
     info_url = graphene.String()
 
+    @staticmethod
     def resolve_info_issuer(root, _info):
         return root.get('Info_Issuer')
 
+    @staticmethod
     def resolve_info_url(root, _info):
         return root.get('Info_URL')
 
@@ -77,24 +80,30 @@ class CertBundAdvisory(EntityObjectType):
     risk = graphene.String()
     software = graphene.String()
 
+    @staticmethod
     def resolve_uuid(root, _info):
         return root.get('id')
 
+    @staticmethod
     def resolve_update_time(root, _info):
         return get_datetime_from_element(root, 'update_time')
 
+    @staticmethod
     def resolve_max_cvss(root, _info):
         cert_bund = root.find('cert_bund_adv')
         return get_text_from_element(cert_bund, 'max_cvss')
 
+    @staticmethod
     def resolve_score(root, _info):
         cert_bund = root.find('cert_bund_adv')
         return get_text_from_element(cert_bund, 'score')
 
+    @staticmethod
     def resolve_cve_refs(root, _info):
         cert_bund = root.find('cert_bund_adv')
         return get_int_from_element(cert_bund, 'cve_refs')
 
+    @staticmethod
     def resolve_cves(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
@@ -105,6 +114,7 @@ class CertBundAdvisory(EntityObjectType):
             return cves
         return None
 
+    @staticmethod
     def resolve_categories(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
@@ -115,12 +125,15 @@ class CertBundAdvisory(EntityObjectType):
             return categories
         return None
 
+    @staticmethod
     def resolve_description(root, _info):
         return get_text_from_element(root.find('cert_bund_adv'), 'summary')
 
+    @staticmethod
     def resolve_title(root, _info):
         return get_text_from_element(root.find('cert_bund_adv'), 'title')
 
+    @staticmethod
     def resolve_infos(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
@@ -131,11 +144,13 @@ class CertBundAdvisory(EntityObjectType):
                     return infos.findall('Info')
         return None
 
+    @staticmethod
     def resolve_effect(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Effect')
 
+    @staticmethod
     def resolve_remote_attack(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
@@ -143,41 +158,49 @@ class CertBundAdvisory(EntityObjectType):
                 return True
         return False
 
+    @staticmethod
     def resolve_platform(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Platform')
 
+    @staticmethod
     def resolve_reference_id(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Ref_Num')
 
+    @staticmethod
     def resolve_reference_number(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return adv.find('Ref_Num').get('update')
 
+    @staticmethod
     def resolve_reference_source(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Reference_Source')
 
+    @staticmethod
     def resolve_reference_url(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Reference_URL')
 
+    @staticmethod
     def resolve_revisions(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return adv.find('RevisionHistory').findall('Revision')
 
+    @staticmethod
     def resolve_risk(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:
             return get_text_from_element(adv, 'Risk')
 
+    @staticmethod
     def resolve_software(root, _info):
         adv = root.find('cert_bund_adv/raw_data/Advisory')
         if adv is not None:

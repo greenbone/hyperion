@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from gvm.protocols.next import (
@@ -51,15 +49,19 @@ class PermissionSubject(graphene.ObjectType):
     subject_type = graphene.String(name='type')
     trash = graphene.Boolean()
 
+    @staticmethod
     def resolve_uuid(root, _info):
         return parse_uuid(root.get('id'))
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
+    @staticmethod
     def resolve_subject_type(root, _info):
         return get_text_from_element(root, 'type')
 
+    @staticmethod
     def resolve_trash(root, _info):
         return get_boolean_from_element(root, 'trash')
 
@@ -74,21 +76,27 @@ class PermissionResource(graphene.ObjectType):
     deleted = graphene.Boolean()
     permissions = graphene.List(EntityPermission)
 
+    @staticmethod
     def resolve_uuid(root, _info):
         return parse_uuid(root.get('id'))
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
+    @staticmethod
     def resolve_permission_type(root, _info):
         return get_text_from_element(root, 'type')
 
+    @staticmethod
     def resolve_trash(root, _info):
         return get_boolean_from_element(root, 'trash')
 
+    @staticmethod
     def resolve_deleted(root, _info):
         return get_boolean_from_element(root, 'deleted')
 
+    @staticmethod
     def resolve_permissions(root, _info):
         permissions = root.find('permissions')
         if permissions is None or permissions and len(permissions) == 0:
@@ -100,8 +108,10 @@ class Permission(EntityObjectType):
     resource = graphene.Field(PermissionResource)
     subject = graphene.Field(PermissionSubject)
 
+    @staticmethod
     def resolve_resource(root, _info):
         return root.find('resource')
 
+    @staticmethod
     def resolve_subject(root, _info):
         return root.find('subject')

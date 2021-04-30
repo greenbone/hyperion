@@ -16,9 +16,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
+
 from gvm.protocols.next import PortRangeType as GvmPortRangeType
 
 from selene.schema.base import BaseObjectType
@@ -48,15 +47,19 @@ class PortRange(graphene.ObjectType):
         PortRangeType, name='type', description='Type of the port range'
     )
 
+    @staticmethod
     def resolve_uuid(root, _info):
         return parse_uuid(root.get('id'))
 
+    @staticmethod
     def resolve_start(root, _info):
         return get_int_from_element(root, 'start')
 
+    @staticmethod
     def resolve_end(root, _info):
         return get_int_from_element(root, 'end')
 
+    @staticmethod
     def resolve_port_range_type(root, _info):
         type_string: str = get_text_from_element(root, 'type')
         if not type_string:
@@ -74,12 +77,15 @@ class PortCount(graphene.ObjectType):
     tcp = graphene.Int(description='Number of TCP ports')
     udp = graphene.Int(description='Number of UDP ports')
 
+    @staticmethod
     def resolve_count_all(root, _info):
         return get_int_from_element(root, 'all')
 
+    @staticmethod
     def resolve_tcp(root, _info):
         return get_int_from_element(root, 'tcp')
 
+    @staticmethod
     def resolve_udp(root, _info):
         return get_int_from_element(root, 'udp')
 
@@ -102,12 +108,14 @@ class PortList(EntityObjectType):
         PortListTarget, description="Targets using this port list"
     )
 
+    @staticmethod
     def resolve_port_ranges(root, _info):
         port_ranges = root.find('port_ranges')
         if port_ranges is None or len(port_ranges) == 0:
             return None
         return port_ranges.findall('port_range')
 
+    @staticmethod
     def resolve_targets(root, _info):
         targets = root.find('targets')
         if len(targets) == 0:

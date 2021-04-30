@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument
-
 from typing import List
 from lxml import etree
 
@@ -53,8 +51,9 @@ def create_export_by_filter_mutation(
     """
 
     class ExportByFilter(graphene.Mutation, AbstractExportByFilter):
+        @staticmethod
         @require_authentication
-        def mutate(root, info, filter_string: str = None):
+        def mutate(_root, info, filter_string: str = None):
             gmp = get_gmp(info)
 
             get_entities = (
@@ -107,8 +106,9 @@ def create_export_by_ids_mutation(
     """
 
     class ExportByIds(graphene.Mutation, AbstractExportByIds):
+        @staticmethod
         @require_authentication
-        def mutate(root, info, entity_ids: str = None):
+        def mutate(_root, info, entity_ids: str = None):
             gmp = get_gmp(info)
 
             get_entities = (
@@ -166,9 +166,10 @@ def create_delete_by_filter_mutation(
     """
 
     class DeleteByFilter(graphene.Mutation, AbstractDeleteByFilter):
+        @staticmethod
         @require_authentication
         def mutate(
-            root, info, filter_string: str = None, ultimate: bool = None
+            _root, info, filter_string: str = None, ultimate: bool = None
         ):
             gmp = get_gmp(info)
 
@@ -238,8 +239,9 @@ def create_delete_by_ids_mutation(
     """
 
     class DeleteByIds(graphene.Mutation, AbstractDeleteByIds):
+        @staticmethod
         @require_authentication
-        def mutate(root, info, entity_ids=None, ultimate=None):
+        def mutate(_root, info, entity_ids=None, ultimate=None):
             gmp = get_gmp(info)
 
             # gmp delete function to call later.
@@ -310,8 +312,9 @@ def create_export_secinfos_by_ids_mutation(
     """
 
     class ExportSecInfoByIds(graphene.Mutation, AbstractExportSecInfosByIds):
+        @staticmethod
         @require_authentication
-        def mutate(root, info, entity_ids: List[str] = None):
+        def mutate(_root, info, entity_ids: List[str] = None):
             gmp = get_gmp(info)
 
             get_entities = getattr(gmp, 'get_info_list')

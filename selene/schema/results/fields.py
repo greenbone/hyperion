@@ -16,9 +16,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
+
 from lxml import etree
 
 from selene.schema.severity import SeverityType
@@ -62,6 +61,7 @@ class OriginResult(UUIDObjectTypeMixin, graphene.ObjectType):
 
     details = graphene.List(OriginResultDetail)
 
+    @staticmethod
     def resolve_details(root, _info):
         details = root.find('details')
         if details is None or len(details) == 0:
@@ -78,6 +78,7 @@ class ResultNVT(ScanConfigNVT):
 
     version = graphene.String(description='Version of the NVT used in the scan')
 
+    @staticmethod
     def resolve_version(root, _info):
         return get_text_from_element(root, 'version')
 
@@ -90,9 +91,11 @@ class ResultCVE(graphene.ObjectType):
         SeverityType, description='Severity of the CVE result.'
     )
 
+    @staticmethod
     def resolve_oid(root, _info):
         return root.get('oid')
 
+    @staticmethod
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'cvss_base')
 
@@ -130,13 +133,16 @@ class ResultHost(graphene.ObjectType):
         )
     )
 
+    @staticmethod
     def resolve_ip(root, _info):
         return get_text(root)
 
+    @staticmethod
     def resolve_asset_id(root, _info):
         asset = root.find('asset')
         return parse_uuid(asset.get('asset_id'))
 
+    @staticmethod
     def resolve_hostname(root, _info):
         return get_text_from_element(root, 'hostname')
 
@@ -168,18 +174,23 @@ class ResultOverride(
         description='Override end time in case of limit, else empty.'
     )
 
+    @staticmethod
     def resolve_active(root, _info):
         return get_boolean_from_element(root, 'active')
 
+    @staticmethod
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'severity')
 
+    @staticmethod
     def resolve_new_severity(root, _info):
         return get_text_from_element(root, 'new_severity')
 
+    @staticmethod
     def resolve_text(root, _info):
         return get_text_from_element(root, 'text')
 
+    @staticmethod
     def resolve_end_time(root, _info):
         return get_datetime_from_element(root, 'end_time')
 
@@ -243,50 +254,61 @@ class Result(  # changed mixin to remove comment mixin
         RemediationTicket, description='List of tickets on the result'
     )
 
+    @staticmethod
     def resolve_description(root, _info):
         return get_text_from_element(root, 'description')
 
+    @staticmethod
     def resolve_origin_result(root, _info):
         detection = root.find('detection')
         if detection is None or len(detection) == 0:
             return None
         return detection.find('result')
 
+    @staticmethod
     def resolve_report_id(root, _info):
         report = root.find('report')
         if report is not None:
             return parse_uuid(root.find('report').get('id'))
 
+    @staticmethod
     def resolve_task(root, _info):
         return root.find('task')
 
+    @staticmethod
     def resolve_location(root, _info):
         return get_text_from_element(root, 'port')
 
+    @staticmethod
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'severity')
 
+    @staticmethod
     def resolve_original_severity(root, _info):
         return get_text_from_element(root, 'original_severity')
 
+    @staticmethod
     def resolve_notes(root, _info):
         notes = root.find('notes')
         if notes is None or len(notes) == 0:
             return None
         return notes.findall('note')
 
+    @staticmethod
     def resolve_overrides(root, _info):
         overrides = root.find('overrides')
         if overrides is None or len(overrides) == 0:
             return None
         return overrides.findall('override')
 
+    @staticmethod
     def resolve_tickets(root, _info):
         tickets = root.find('tickets')
         if tickets is None or len(tickets) == 0:
             return None
         return tickets.findall('ticket')
 
+    @staticmethod
     def resolve_information(root, _info):
         result_info = root.find('nvt')
         info_type = get_text_from_element(result_info, 'type')
@@ -302,6 +324,7 @@ class Result(  # changed mixin to remove comment mixin
 
         return result_info
 
+    @staticmethod
     def resolve_result_type(root, _info):
         nvt = root.find('nvt')
 

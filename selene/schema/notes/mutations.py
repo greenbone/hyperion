@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument
-
 import graphene
 
 from selene.schema.utils import get_gmp, require_authentication
@@ -47,8 +45,9 @@ class CloneNote(graphene.Mutation):
 
     note_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, copy_id):
+    def mutate(_root, info, copy_id):
         gmp = get_gmp(info)
         resp = gmp.clone_note(str(copy_id))
         return CloneNote(note_id=resp.get('id'))
@@ -92,8 +91,9 @@ class CreateNote(graphene.Mutation):
 
     note_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         text = input_object.text
         nvt_oid = input_object.nvt_oid
         days_active = input_object.days_active
@@ -168,8 +168,9 @@ class ModifyNote(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         note_id = str(input_object.note_id)
         text = input_object.text
         days_active = input_object.days_active
@@ -224,8 +225,9 @@ class DeleteNote(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, note_id, ultimate):
+    def mutate(_root, info, note_id, ultimate):
         gmp = get_gmp(info)
         gmp.delete_note(str(note_id), ultimate=ultimate)
         return DeleteNote(ok=True)

@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.entities import (
@@ -46,8 +44,9 @@ class CloneTicket(graphene.Mutation):
 
     ticket_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, ticket_id):
+    def mutate(_root, info, ticket_id):
         gmp = get_gmp(info)
         elem = gmp.clone_ticket(str(ticket_id))
         return CloneTicket(ticket_id=elem.get('id'))
@@ -116,8 +115,9 @@ class CreateTicket(graphene.Mutation):
 
     ticket_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         note = input_object.note
         comment = input_object.comment
@@ -178,8 +178,9 @@ class ModifyTicket(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         ticket_id = str(input_object.ticket_id)
 

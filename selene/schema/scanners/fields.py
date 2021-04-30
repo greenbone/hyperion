@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from gvm.protocols.next import ScannerType as GvmScannerType
@@ -48,6 +46,7 @@ class Param(graphene.ObjectType):
 
     mandatory = graphene.Boolean()
 
+    @staticmethod
     def resolve_mandatory(root, _info):
         return get_boolean_from_element(root, 'mandatory')
 
@@ -72,9 +71,11 @@ class ScannerInfo(graphene.ObjectType):
 
     params = graphene.List(Param)
 
+    @staticmethod
     def resolve_description(root, _info):
         return get_text_from_element(root, 'description')
 
+    @staticmethod
     def resolve_params(root, _info):
         params = root.find('params')
         if len(params) == 0:
@@ -93,9 +94,11 @@ class CaPubInfo(graphene.ObjectType):
     activation_time = graphene.DateTime()
     expiration_time = graphene.DateTime()
 
+    @staticmethod
     def resolve_activation_time(root, _info):
         return get_datetime_from_element(root, 'activation_time')
 
+    @staticmethod
     def resolve_expiration_time(root, _info):
         return get_datetime_from_element(root, 'expiration_time')
 
@@ -105,9 +108,11 @@ class CaPub(graphene.ObjectType):
     certificate = graphene.String()
     info = graphene.Field(CaPubInfo)
 
+    @staticmethod
     def resolve_certificate(root, _info):
         return root.get("certificate")
 
+    @staticmethod
     def resolve_info(root, _info):
         return root.get("info")
 
@@ -143,35 +148,43 @@ class Scanner(EntityObjectType):
         ScannerType, name="type", description="Type of the scanner"
     )
 
+    @staticmethod
     def resolve_host(root, _info):
         return get_text_from_element(root, 'host')
 
+    @staticmethod
     def resolve_port(root, _info):
         return get_text_from_element(root, 'port')
 
+    @staticmethod
     def resolve_configs(root, _info):
         configs = root.find('configs')
         if len(configs) == 0:
             return None
         return configs.findall('config')
 
+    @staticmethod
     def resolve_tasks(root, _info):
         tasks = root.find('tasks')
         if len(tasks) == 0:
             return None
         return tasks.findall('task')
 
+    @staticmethod
     def resolve_ca_pub(parent, _info):
         return {
             "certificate": get_text_from_element(parent, 'ca_pub'),
             "info": parent.find("ca_pub_info"),
         }
 
+    @staticmethod
     def resolve_info(root, _info):
         return root.find('info')
 
+    @staticmethod
     def resolve_credential(root, _info):
         return root.find('credential')
 
+    @staticmethod
     def resolve_type(root, _info):
         return get_text_from_element(root, 'type')

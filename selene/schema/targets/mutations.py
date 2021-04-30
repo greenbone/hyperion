@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument
-
 import graphene
 
 from selene.errors import InvalidRequest
@@ -118,6 +116,7 @@ class CreateTarget(graphene.Mutation):
 
     target_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
     def mutate(_root, info, input_object):
         name = input_object.name
@@ -255,6 +254,7 @@ class ModifyTarget(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
     def mutate(_root, info, input_object):
         target_id = str(input_object.target_id)
@@ -368,6 +368,7 @@ class DeleteTarget(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
     def mutate(_root, info, target_id):
         gmp = get_gmp(info)
@@ -387,6 +388,7 @@ class CloneTarget(graphene.Mutation):
 
     target_id = graphene.UUID(name='id', description='UUID of the new target')
 
+    @staticmethod
     @require_authentication
     def mutate(_root, info, target_id):
         gmp = get_gmp(info)

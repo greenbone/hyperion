@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.entity import EntityObjectType
@@ -43,24 +41,31 @@ class ReportFormat(EntityObjectType):
     active = graphene.Boolean()
     extension = graphene.String()
 
+    @staticmethod
     def resolve_summary(root, _info):
         return get_text_from_element(root, 'summary')
 
+    @staticmethod
     def resolve_description(root, _info):
         return get_text_from_element(root, 'description')
 
+    @staticmethod
     def resolve_trust(root, _info):
         return get_text_from_element(root, 'trust')
 
+    @staticmethod
     def resolve_trust_time(root, _info):
         trust = root.find('trust')
         return get_datetime_from_element(trust, 'time')
 
+    @staticmethod
     def resolve_predefined(root, _info):
         return get_boolean_from_element(root, 'predefined')
 
+    @staticmethod
     def resolve_active(root, _info):
         return get_boolean_from_element(root, 'active')
 
+    @staticmethod
     def resolve_extension(root, _info):
         return get_text_from_element(root, 'extension')

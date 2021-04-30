@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.base import BaseObjectType
@@ -30,6 +28,7 @@ from selene.schema.entity import EntityObjectType
 class OperatingSystemHost(BaseObjectType):
     severity = graphene.Field(SeverityType)
 
+    @staticmethod
     def resolve_severity(root, _info):
         severity = root.find('severity')
         return get_text_from_element(severity, 'value')
@@ -45,30 +44,37 @@ class OperatingSystemInformation(graphene.ObjectType):
     host_count = graphene.Int()
     hosts = graphene.List(OperatingSystemHost)
 
+    @staticmethod
     def resolve_latest_severity(root, _info):
         severity = root.find('latest_severity')
         return get_text_from_element(severity, 'value')
 
+    @staticmethod
     def resolve_highest_severity(root, _info):
         severity = root.find('highest_severity')
         return get_text_from_element(severity, 'value')
 
+    @staticmethod
     def resolve_average_severity(root, _info):
         severity = root.find('average_severity')
         return get_text_from_element(severity, 'value')
 
+    @staticmethod
     def resolve_title(root, _info):
         source = root.find('source')
         if source is not None:
             return parse_uuid(source.get('id'))
         return None
 
+    @staticmethod
     def resolve_installs(root, _info):
         return get_int_from_element(root, 'installs')
 
+    @staticmethod
     def resolve_host_count(root, _info):
         return get_int_from_element(root, 'hosts')
 
+    @staticmethod
     def resolve_hosts(root, _info):
         hosts = root.find('hosts').findall('asset')
         if hosts is not None:
@@ -81,5 +87,6 @@ class OperatingSystem(EntityObjectType):
 
     operating_system_information = graphene.Field(OperatingSystemInformation)
 
+    @staticmethod
     def resolve_operating_system_information(root, _info):
         return root.find('os')

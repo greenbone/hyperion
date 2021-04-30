@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.utils import get_text_from_element
@@ -31,15 +29,19 @@ class UserSetting(graphene.ObjectType):
     uuid = graphene.String(name='id')
     name = graphene.String()
 
+    @staticmethod
     def resolve_uuid(root, _info):
         entity_id = root.get('id')
         return entity_id
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
+    @staticmethod
     def resolve_comment(root, _info):
         return get_text_from_element(root, 'comment')
 
+    @staticmethod
     def resolve_value(root, _info):
         return get_text_from_element(root, 'value')

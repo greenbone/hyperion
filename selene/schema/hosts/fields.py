@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.base import BaseObjectType
@@ -49,21 +47,27 @@ class HostResultCount(graphene.ObjectType):
         description="Number of false positive results for the host"
     )
 
+    @staticmethod
     def resolve_current(parent, _info):
         return get_int_from_element(parent, 'page')
 
+    @staticmethod
     def resolve_high(parent, _info):
         return get_int_from_element(parent.find('hole'), 'page')
 
+    @staticmethod
     def resolve_medium(parent, _info):
         return get_int_from_element(parent.find('warning'), 'page')
 
+    @staticmethod
     def resolve_low(parent, _info):
         return get_int_from_element(parent.find('info'), 'page')
 
+    @staticmethod
     def resolve_log(parent, _info):
         return get_int_from_element(parent.find('log'), 'page')
 
+    @staticmethod
     def resolve_false_positive(parent, _info):
         return get_int_from_element(parent.find('false_positive'), 'page')
 
@@ -75,6 +79,7 @@ class HostResults(graphene.ObjectType):
 
     counts = graphene.Field(HostResultCount)
 
+    @staticmethod
     def resolve_counts(root, _info):
         return root
 
@@ -82,6 +87,7 @@ class HostResults(graphene.ObjectType):
 class HostPortCounts(graphene.ObjectType):
     current = graphene.Int(description="Current ports for the host")
 
+    @staticmethod
     def resolve_current(parent, _info):
         return get_int_from_element(parent, 'page')
 
@@ -93,6 +99,7 @@ class HostPorts(graphene.ObjectType):
 
     counts = graphene.Field(HostPortCounts)
 
+    @staticmethod
     def resolve_counts(root, _info):
         return root
 
@@ -103,15 +110,19 @@ class RouteHost(graphene.ObjectType):
     distance = graphene.Int()
     same_source = graphene.Boolean()
 
+    @staticmethod
     def resolve_host_id(root, _info):
         return parse_uuid(root.get('id'))
 
+    @staticmethod
     def resolve_ip(root, _info):
         return get_text_from_element(root, 'ip')
 
+    @staticmethod
     def resolve_distance(root, _info):
         return get_int_from_element(root, 'distance')
 
+    @staticmethod
     def resolve_same_source(root, _info):
         return get_boolean_from_element(root, 'same_source')
 
@@ -119,6 +130,7 @@ class RouteHost(graphene.ObjectType):
 class Route(graphene.ObjectType):
     hosts = graphene.List(RouteHost)
 
+    @staticmethod
     def resolve_hosts(root, _info):
         hosts = root.findall('host')
         if hosts is not None:
@@ -143,6 +155,7 @@ class HostDetail(graphene.ObjectType):
     source = graphene.Field(DetailSource)
     extra = graphene.String()
 
+    @staticmethod
     def resolve_source(root, _info):
         return root.find('source')
 
@@ -160,51 +173,61 @@ class HostIdentifier(BaseObjectType):
     os_id = graphene.String()
     os_title = graphene.String()
 
+    @staticmethod
     def resolve_value(root, _info):
         return get_text_from_element(root, 'value')
 
+    @staticmethod
     def resolve_creation_time(root, _info):
         return get_datetime_from_element(root, 'creation_time')
 
+    @staticmethod
     def resolve_modification_time(root, _info):
         return get_datetime_from_element(root, 'creation_time')
 
+    @staticmethod
     def resolve_source_id(root, _info):
         source = root.find('source')
         if source is not None:
             return parse_uuid(source.get('id'))
         return None
 
+    @staticmethod
     def resolve_source_name(root, _info):
         source = root.find('source')
         if source is not None:
             return get_text_from_element(source, 'name')
         return None
 
+    @staticmethod
     def resolve_source_type(root, _info):
         source = root.find('source')
         if source is not None:
             return get_text_from_element(source, 'type')
         return None
 
+    @staticmethod
     def resolve_source_data(root, _info):
         source = root.find('source')
         if source is not None:
             return get_text_from_element(source, 'data')
         return None
 
+    @staticmethod
     def resolve_source_deleted(root, _info):
         source = root.find('source')
         if source is not None:
             return get_boolean_from_element(source, 'deleted')
         return None
 
+    @staticmethod
     def resolve_os_id(root, _info):
         os = root.find('os')
         if os is not None:
             return parse_uuid(os.get('id'))
         return None
 
+    @staticmethod
     def resolve_os_title(root, _info):
         os = root.find('os')
         if os is not None:
@@ -220,22 +243,26 @@ class Host(EntityObjectType):
     details = graphene.List(HostDetail)
     routes = graphene.List(Route)
 
+    @staticmethod
     def resolve_identifiers(root, _info):
         identifiers = root.find('identifiers')
         if identifiers is not None:
             return identifiers.findall('identifier')
         return None
 
+    @staticmethod
     def resolve_severity(root, _info):
         severity = root.find('host').find('severity')
         return get_text_from_element(severity, 'value')
 
+    @staticmethod
     def resolve_routes(root, _info):
         routes = root.find('host').find('routes')
         if routes is not None:
             return routes.findall('route')
         return None
 
+    @staticmethod
     def resolve_details(root, _info):
         details = root.find('host').findall('detail')
         if details is not None:
@@ -255,24 +282,31 @@ class ReportHost(graphene.ObjectType):
 
     details = graphene.List(HostDetail)
 
+    @staticmethod
     def resolve_ip(root, _info):
         return get_text_from_element(root, 'ip')
 
+    @staticmethod
     def resolve_asset_id(root, _info):
         asset = root.find('asset')
         return asset.get('asset_id')
 
+    @staticmethod
     def resolve_start(root, _info):
         return get_datetime_from_element(root, 'start')
 
+    @staticmethod
     def resolve_end(root, _info):
         return get_datetime_from_element(root, 'end')
 
+    @staticmethod
     def resolve_details(root, _info):
         return root.findall('detail')
 
+    @staticmethod
     def resolve_ports(root, _info):
         return root.find('port_count')
 
+    @staticmethod
     def resolve_results(root, _info):
         return root.find('result_count')

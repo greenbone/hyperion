@@ -16,9 +16,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
+
 from graphql.language import ast
 
 from selene.schema.resolver import text_resolver
@@ -67,9 +66,11 @@ class SeverityRange(graphene.ObjectType):
     minv = SeverityType(name="min")
     maxv = SeverityType(name="max")
 
+    @staticmethod
     def resolve_minv(root, _info):
         return get_text_from_element(root, 'min')
 
+    @staticmethod
     def resolve_maxv(root, _info):
         return get_text_from_element(root, 'max')
 
@@ -85,5 +86,6 @@ class SeverityClass(BaseObjectType):
     full_name = graphene.String()
     severity_ranges = graphene.List(SeverityRange)
 
+    @staticmethod
     def resolve_severity_ranges(root, _info):
         return root.findall('severity_range')

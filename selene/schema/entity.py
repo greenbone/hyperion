@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
 import graphene
 
 from selene.schema.base import BaseObjectType, NameObjectTypeMixin
@@ -36,9 +35,11 @@ class EntityUserTags(graphene.ObjectType):
     count = graphene.Int(description='Number of tags')
     tags = graphene.List(Tag, description='List of tags')
 
+    @staticmethod
     def resolve_count(root, _info):
         return get_int_from_element(root, 'count')
 
+    @staticmethod
     def resolve_tags(root, _info):
         return root.findall('tag')
 
@@ -56,9 +57,11 @@ class CreationModifactionObjectTypeMixin:
         description='Date and time the entity was last modified '
     )
 
+    @staticmethod
     def resolve_creation_time(root, _info):
         return get_datetime_from_element(root, 'creation_time')
 
+    @staticmethod
     def resolve_modification_time(root, _info):
         return get_datetime_from_element(root, 'modification_time')
 
@@ -66,6 +69,7 @@ class CreationModifactionObjectTypeMixin:
 class OwnerObjectTypeMixin:
     owner = graphene.String(description='Name of the user owning the entity')
 
+    @staticmethod
     def resolve_owner(root, _info):
         return get_owner(root)
 
@@ -74,6 +78,7 @@ class CommentObjectTypeMixin:
 
     comment = graphene.String(description='Additional comment about the entity')
 
+    @staticmethod
     def resolve_comment(root, _info):
         return get_text_from_element(root, 'comment')
 
@@ -85,6 +90,7 @@ class PermissionObjectTypeMixin:
         description='Permissions of the current user on the entity',
     )
 
+    @staticmethod
     def resolve_permissions(root, _info):
         permissions = root.find('permissions')
         if permissions is None or len(permissions) == 0:
@@ -98,6 +104,7 @@ class UserTagsObjectTypeMixin:
         EntityUserTags, description='Tags connected to the entity by the user'
     )
 
+    @staticmethod
     def resolve_user_tags(root, _info):
         return root.find('user_tags')
 
@@ -113,9 +120,11 @@ class AccessObjectTypeMixin:
         ' modified'
     )
 
+    @staticmethod
     def resolve_writable(root, _info):
         return get_boolean_from_element(root, 'writable')
 
+    @staticmethod
     def resolve_in_use(root, _info):
         return get_boolean_from_element(root, 'in_use')
 

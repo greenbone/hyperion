@@ -16,11 +16,10 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from graphql import ResolveInfo
+
 from gvm.protocols.next import InfoType as GvmInfoType
 
 from selene.schema.nvts.fields import (

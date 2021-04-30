@@ -16,9 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
-
 import graphene
 
 
@@ -72,8 +69,9 @@ class CloneCredential(graphene.Mutation):
 
     credential_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, credential_id):
+    def mutate(_root, info, credential_id):
         gmp = get_gmp(info)
         elem = gmp.clone_credential(str(credential_id))
         return CloneCredential(credential_id=elem.get('id'))
@@ -188,8 +186,9 @@ class CreateCredential(graphene.Mutation):
 
     credential_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         name = input_object.name
         credential_type = CredentialType.get(input_object.credential_type)
@@ -352,8 +351,9 @@ class ModifyCredential(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         credential_id = str(input_object.credential_id)
         name = input_object.name
 

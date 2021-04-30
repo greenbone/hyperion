@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
 import graphene
 
 from selene.schema.base import CACertificateMixin
@@ -38,25 +37,31 @@ class CaCertificate(CACertificateMixin, graphene.ObjectType):
         )
     )
 
+    @staticmethod
     def resolve_certificate(root: XmlElement, _info):
         return get_text_from_element(root, "value")
 
+    @staticmethod
     def resolve_time_status(root: XmlElement, _info):
         cert_info = root.find('certificate_info')
         return get_text_from_element(cert_info, 'time_status')
 
+    @staticmethod
     def resolve_md5_fingerprint(root: XmlElement, _info):
         cert_info = root.find('certificate_info')
         return get_text_from_element(cert_info, 'md5_fingerprint')
 
+    @staticmethod
     def resolve_issuer(root: XmlElement, _info):
         cert_info = root.find('certificate_info')
         return get_text_from_element(cert_info, 'issuer')
 
+    @staticmethod
     def resolve_activation_time(root: XmlElement, _info):
         cert_info = root.find('certificate_info')
         return get_datetime_from_element(cert_info, 'activation_time')
 
+    @staticmethod
     def resolve_expiration_time(root: XmlElement, _info):
         cert_info = root.find('certificate_info')
         return get_datetime_from_element(cert_info, 'expiration_time')
@@ -77,6 +82,7 @@ class LDAPAuthenticationSettings(graphene.ObjectType):
         description="True if the LDAP authentication is in use"
     )
 
+    @staticmethod
     def resolve_auth_dn(group: XmlElement, _info):
         for setting in group:
             key = setting.find('key').text
@@ -84,6 +90,7 @@ class LDAPAuthenticationSettings(graphene.ObjectType):
                 return setting.find('value').text
         return None
 
+    @staticmethod
     def resolve_enable(group: XmlElement, _info):
         for setting in group:
             key = setting.find('key').text
@@ -91,6 +98,7 @@ class LDAPAuthenticationSettings(graphene.ObjectType):
                 return setting.find('value').text == 'true'
         return None
 
+    @staticmethod
     def resolve_host(group: XmlElement, _info):
         for setting in group:
             key = setting.find('key').text
@@ -98,6 +106,7 @@ class LDAPAuthenticationSettings(graphene.ObjectType):
                 return setting.find('value').text
         return None
 
+    @staticmethod
     def resolve_ca_certificate(group: XmlElement, _info):
         for setting in group:
             key = setting.find('key').text
@@ -119,6 +128,7 @@ class RADIUSAuthenticationSettings(graphene.ObjectType):
         description="Secret key used for connecting to the RADIUS server"
     )
 
+    @staticmethod
     def resolve_enable(group: XmlElement, _info):
         for setting in group:
             key = setting.find('key').text
@@ -126,6 +136,7 @@ class RADIUSAuthenticationSettings(graphene.ObjectType):
                 return setting.find('value').text == 'true'
         return None
 
+    @staticmethod
     def resolve_host(group: XmlElement, _info):
         for setting in group:
             key = setting.find('key').text
@@ -133,6 +144,7 @@ class RADIUSAuthenticationSettings(graphene.ObjectType):
                 return setting.find('value').text
         return None
 
+    @staticmethod
     def resolve_secret_key(group: XmlElement, _info):
         for setting in group:
             key = setting.find('key').text

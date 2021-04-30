@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from gvm.protocols.next import AliveTest as GvmAliveTest
@@ -45,6 +43,7 @@ class TargetCredential(BaseObjectType):
 class TargetSSHCredential(TargetCredential):
     port = graphene.Int(description="SSH Port to connect with the credential")
 
+    @staticmethod
     def resolve_port(root, _info):
         return get_int_from_element(root, 'port')
 
@@ -70,15 +69,19 @@ class TargetCredentials(graphene.ObjectType):
         TargetCredential, description="Credential to be used for SNMP logins"
     )
 
+    @staticmethod
     def resolve_ssh(root, _info):
         return root.find('ssh_credential')
 
+    @staticmethod
     def resolve_smb(root, _info):
         return root.find('smb_credential')
 
+    @staticmethod
     def resolve_esxi(root, _info):
         return root.find('esxi_credential')
 
+    @staticmethod
     def resolve_snmp(root, _info):
         return root.find('snmp_credential')
 
@@ -130,35 +133,45 @@ class Target(EntityObjectType):
         TargetCredentials, description="Credentials to use for the scan target"
     )
 
+    @staticmethod
     def resolve_hosts(root, _info):
         hosts = get_text_from_element(root, 'hosts')
         return csv_to_list(hosts)
 
+    @staticmethod
     def resolve_credentials(root, _info):
         return root
 
+    @staticmethod
     def resolve_exclude_hosts(root, _info):
         exclude_hosts = get_text_from_element(root, 'exclude_hosts')
         return csv_to_list(exclude_hosts)
 
+    @staticmethod
     def resolve_host_count(root, _info):
         return get_int_from_element(root, 'max_hosts')
 
+    @staticmethod
     def resolve_port_list(root, _info):
         return root.find("port_list")
 
+    @staticmethod
     def resolve_alive_test(root, _info):
         return get_text_from_element(root, 'alive_tests')
 
+    @staticmethod
     def resolve_allow_simultaneous_ips(root, _info):
         return get_boolean_from_element(root, "allow_simultaneous_ips")
 
+    @staticmethod
     def resolve_reverse_lookup_only(root, _info):
         return get_boolean_from_element(root, "reverse_lookup_only")
 
+    @staticmethod
     def resolve_reverse_lookup_unify(root, _info):
         return get_boolean_from_element(root, "reverse_lookup_unify")
 
+    @staticmethod
     def resolve_tasks(root, _info):
         tasks = root.find('tasks')
         if len(tasks) == 0:

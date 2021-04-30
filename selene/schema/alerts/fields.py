@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from gvm.protocols.next import (
@@ -97,6 +95,7 @@ class AlertTask(BaseObjectType):
 class AlertFilter(BaseObjectType):
     trash = graphene.Int()
 
+    @staticmethod
     def resolve_trash(root, _info):
         return get_int_from_element(root, 'trash')
 
@@ -108,6 +107,7 @@ class PropertyData(graphene.ObjectType):
     name = graphene.String()
     value = graphene.String()
 
+    @staticmethod
     def resolve_value(root, _info):
         name = root.find('name')
         return name.tail
@@ -117,9 +117,11 @@ class AlertProperty(graphene.ObjectType):
     property_type = graphene.String(name='type')
     data = graphene.List(PropertyData)
 
+    @staticmethod
     def resolve_property_type(root, _info):
         return get_text(root)
 
+    @staticmethod
     def resolve_data(root, _info):
         return root.findall('data')
 
@@ -135,14 +137,17 @@ class Alert(EntityObjectType):
     event = graphene.Field(AlertProperty)
     alert_filter = graphene.Field(AlertFilter, name="filter")
 
+    @staticmethod
     def resolve_active(root, _info):
         return get_boolean_from_element(root, 'active')
 
+    @staticmethod
     def resolve_tasks(root, _info):
         tasks = root.find('tasks')
         if len(tasks) == 0:
             return None
         return tasks.findall('task')
 
+    @staticmethod
     def resolve_alert_filter(root, _info):
         return root.find('filter')

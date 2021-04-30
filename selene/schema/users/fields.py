@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import string
 
 import graphene
@@ -34,6 +32,7 @@ class UserRole(BaseRoleType):
 
     permissions = graphene.List(EntityPermission)
 
+    @staticmethod
     def resolve_permissions(root, _info):
         permissions = root.find('permissions')
         if permissions is None:
@@ -44,6 +43,7 @@ class UserRole(BaseRoleType):
 class UserGroup(BaseObjectType):
     permissions = graphene.List(EntityPermission)
 
+    @staticmethod
     def resolve_permissions(root, _info):
         permissions = root.find('permissions')
         if permissions is None:
@@ -69,18 +69,21 @@ class User(EntityObjectType):
         description="Sources allowed for" "authentication for this user.",
     )
 
+    @staticmethod
     def resolve_roles(root, _info):
         roles = root.findall('role')
         if not roles or roles is None:
             return None
         return roles
 
+    @staticmethod
     def resolve_group_list(root, _info):
         groups = root.find("groups")
         if groups is None:
             return None
         return groups.findall("group")
 
+    @staticmethod
     def resolve_host_list(root, _info):
         hosts_string = get_text_from_element(root, 'hosts')
         if not hosts_string:
@@ -90,10 +93,12 @@ class User(EntityObjectType):
         )
         return hosts_string.split(',')
 
+    @staticmethod
     def resolve_hosts_allow(root, _info):
         hosts = root.find("hosts")
         return bool(int(hosts.get("allow")))
 
+    @staticmethod
     def resolve_iface_list(root, _info):
         ifaces_string = get_text_from_element(root, 'ifaces')
         if not ifaces_string:
@@ -103,10 +108,12 @@ class User(EntityObjectType):
         )
         return ifaces_string.split(',')
 
+    @staticmethod
     def resolve_ifaces_allow(root, _info):
         ifaces = root.find("ifaces")
         return bool(int(ifaces.get("allow")))
 
+    @staticmethod
     def resolve_sources(root, _info):
         sources_list_xml = root.find('sources').findall('source')
         sources_list = []

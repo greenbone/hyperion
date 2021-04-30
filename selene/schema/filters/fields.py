@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.base import BaseObjectType
@@ -49,6 +47,7 @@ class FilterDelta(graphene.ObjectType):
     new = graphene.Boolean()
     same = graphene.Boolean()
 
+    @staticmethod
     def resolve_states(root, _info):
         return get_text(root)
 
@@ -58,12 +57,15 @@ class Filter(EntityObjectType):
     term = graphene.String()
     alerts = graphene.List(FilterAlerts)
 
+    @staticmethod
     def resolve_entity_type(root, _info):
         return get_text_from_element(root, 'type')
 
+    @staticmethod
     def resolve_term(root, _info):
         return get_text_from_element(root, 'term')
 
+    @staticmethod
     def resolve_alerts(root, _info):
         alerts = root.find('alerts')
         if alerts is not None:

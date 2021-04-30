@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 from uuid import UUID
 
 import graphene
@@ -46,8 +44,9 @@ class DeleteReport(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, report_id):
+    def mutate(_root, info, report_id):
         gmp = get_gmp(info)
         gmp.delete_report(report_id)
         return DeleteReport(ok=True)
@@ -106,9 +105,10 @@ class ImportReport(graphene.Mutation):
 
     report_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
     def mutate(
-        root, info, report: str, task_id: str = UUID, in_assets: bool = None
+        _root, info, report: str, task_id: str = UUID, in_assets: bool = None
     ):
         gmp = get_gmp(info)
 

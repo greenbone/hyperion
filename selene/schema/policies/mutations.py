@@ -16,9 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
-
 import graphene
 
 from selene.schema.utils import require_authentication, get_gmp
@@ -68,8 +65,9 @@ class DeletePolicy(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, policy_id, ultimate):
+    def mutate(_root, info, policy_id, ultimate):
         gmp = get_gmp(info)
         gmp.delete_policy(str(policy_id), ultimate=ultimate)
         return DeletePolicy(ok=True)
@@ -192,8 +190,9 @@ class ClonePolicy(graphene.Mutation):
 
     policy_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, policy_id):
+    def mutate(_root, info, policy_id):
         gmp = get_gmp(info)
         elem = gmp.clone_policy(str(policy_id))
         return ClonePolicy(policy_id=elem.get('id'))
@@ -258,8 +257,9 @@ class ImportPolicy(graphene.Mutation):
 
     policy_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, policy):
+    def mutate(_root, info, policy):
         gmp = get_gmp(info)
         elem = gmp.import_config(config=policy)
 
@@ -319,8 +319,9 @@ class CreatePolicy(graphene.Mutation):
 
     id_of_created_policy = graphene.String(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
         policy_id = (
             str(input_object.policy_id)
@@ -389,8 +390,9 @@ class ModifyPolicySetName(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         policy_id = (
             str(input_object.policy_id)
             if input_object.policy_id is not None
@@ -454,8 +456,9 @@ class ModifyPolicySetComment(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         policy_id = (
             str(input_object.policy_id)
             if input_object.policy_id is not None
@@ -535,8 +538,9 @@ class ModifyPolicySetFamilySelection(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         policy_id = (
             str(input_object.policy_id)
             if input_object.policy_id is not None
@@ -640,8 +644,9 @@ class ModifyPolicySetNvtPreference(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         policy_id = (
             str(input_object.policy_id)
             if input_object.policy_id is not None
@@ -727,8 +732,9 @@ class ModifyPolicySetNvtSelection(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         policy_id = (
             str(input_object.policy_id)
             if input_object.policy_id is not None
@@ -812,8 +818,9 @@ class ModifyPolicySetScannerPreference(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         policy_id = (
             str(input_object.policy_id)
             if input_object.policy_id is not None

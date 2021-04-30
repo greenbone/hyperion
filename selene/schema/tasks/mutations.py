@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from gvm.protocols.next import (
@@ -59,8 +57,9 @@ class CloneTask(graphene.Mutation):
 
     task_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, task_id):
+    def mutate(_root, info, task_id):
         gmp = get_gmp(info)
         elem = gmp.clone_task(str(task_id))
         return CloneTask(task_id=elem.get('id'))
@@ -81,8 +80,9 @@ class DeleteTask(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, task_id):
+    def mutate(_root, info, task_id):
         gmp = get_gmp(info)
         gmp.delete_task(str(task_id))
         return DeleteTask(ok=True)
@@ -131,8 +131,9 @@ class CreateContainerTask(graphene.Mutation):
 
     task_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object: CreateContainerTaskInput):
+    def mutate(_root, info, input_object: CreateContainerTaskInput):
         gmp = get_gmp(info)
 
         resp = gmp.create_container_task(
@@ -260,8 +261,9 @@ class CreateTask(graphene.Mutation):
 
     task_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         name = input_object.name
         alterable = input_object.alterable
@@ -475,8 +477,9 @@ class ModifyTask(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         task_id = str(input_object.task_id)
         name = input_object.name
@@ -586,8 +589,9 @@ class StartTask(graphene.Mutation):
 
     report_id = graphene.UUID()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, task_id):
+    def mutate(_root, info, task_id):
         gmp = get_gmp(info)
         resp = gmp.start_task(str(task_id))
 
@@ -610,8 +614,9 @@ class StopTask(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, task_id):
+    def mutate(_root, info, task_id):
         gmp = get_gmp(info)
         resp = gmp.stop_task(str(task_id))
         status = int(resp.get('status'))
@@ -634,8 +639,9 @@ class ResumeTask(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, task_id):
+    def mutate(_root, info, task_id):
         gmp = get_gmp(info)
         resp = gmp.resume_task(str(task_id))
         status = int(resp.get('status'))
