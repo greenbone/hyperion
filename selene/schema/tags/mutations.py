@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument
-
 import graphene
 
 from selene.schema.relay import FilterString
@@ -49,8 +47,9 @@ class CloneTag(graphene.Mutation):
 
     tag_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, copy_id):
+    def mutate(_root, info, copy_id):
         gmp = get_gmp(info)
         resp = gmp.clone_tag(str(copy_id))
         return CloneTag(tag_id=resp.get('id'))
@@ -99,8 +98,9 @@ class CreateTag(graphene.Mutation):
 
     tag_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         resp = gmp.create_tag(
@@ -260,8 +260,9 @@ class ModifyTag(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         if input_object.resource_type is not None:
@@ -305,8 +306,9 @@ class ToggleTag(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         gmp.modify_tag(str(input_object.tag_id), active=input_object.active)
@@ -344,8 +346,9 @@ class RemoveTag(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         gmp.modify_tag(
@@ -388,8 +391,9 @@ class AddTag(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         gmp.modify_tag(
@@ -440,8 +444,9 @@ class BulkTag(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         if input_object.resource_filter is not None:

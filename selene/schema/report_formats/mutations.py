@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.utils import get_gmp, require_authentication
@@ -43,8 +41,9 @@ class DeleteReportFormat(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, report_format_id):
+    def mutate(_root, info, report_format_id):
         gmp = get_gmp(info)
         gmp.delete_report_format(str(report_format_id))
         return DeleteReportFormat(ok=True)
@@ -67,8 +66,9 @@ class ImportReportFormat(graphene.Mutation):
 
     report_format_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, report_format: str):
+    def mutate(_root, info, report_format: str):
         gmp = get_gmp(info)
 
         resp = gmp.import_report_format(report_format=report_format)
@@ -105,8 +105,9 @@ class ModifyReportFormat(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         gmp.modify_report_format(

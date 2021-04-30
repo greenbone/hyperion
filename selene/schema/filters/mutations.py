@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument
-
 import graphene
 
 from gvm.protocols.next import (
@@ -56,8 +54,9 @@ class CloneFilter(graphene.Mutation):
 
     filter_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, copy_id):
+    def mutate(_root, info, copy_id):
         gmp = get_gmp(info)
         resp = gmp.clone_filter(str(copy_id))
         return CloneFilter(filter_id=resp.get('id'))
@@ -89,8 +88,9 @@ class CreateFilter(graphene.Mutation):
 
     filter_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         resp = gmp.create_filter(
@@ -121,8 +121,9 @@ class DeleteFilter(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, filter_id, ultimate):
+    def mutate(_root, info, filter_id, ultimate):
         gmp = get_gmp(info)
         gmp.delete_filter(filter_id=str(filter_id), ultimate=ultimate)
         return DeleteFilter(ok=True)
@@ -260,8 +261,9 @@ class ModifyFilter(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         filter_id = str(input_object.filter_id)
 

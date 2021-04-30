@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.utils import (
@@ -113,9 +111,11 @@ class QoD(graphene.ObjectType):
     value = graphene.Int(description='The numeric QoD value.')
     qod_type = graphene.Field(QoDType, name="type", description='The QoD type.')
 
+    @staticmethod
     def resolve_value(root, _info):
         return get_int_from_element(root, 'value')
 
+    @staticmethod
     def resolve_qod_type(root, _info):
         return get_text_from_element(root, 'type')
 
@@ -131,18 +131,23 @@ class NvtSeverity(graphene.ObjectType):
         description='The CVSS Vector responsible for the Score.'
     )
 
+    @staticmethod
     def resolve_date(root, _info):
         return get_datetime_from_element(root, 'date')
 
+    @staticmethod
     def resolve_origin(root, _info):
         return get_text_from_element(root, 'origin')
 
+    @staticmethod
     def resolve_score(root, _info):
         return get_int_from_element(root, 'score')
 
+    @staticmethod
     def resolve_severity_type(root, _info):
         return root.get('type')
 
+    @staticmethod
     def resolve_vector(root, _info):
         return get_text_from_element(root, 'value')
 
@@ -160,9 +165,11 @@ class NvtReference(graphene.ObjectType):
         ),
     )
 
+    @staticmethod
     def resolve_reference_id(root, _info):
         return root.get('id')
 
+    @staticmethod
     def resolve_reference_type(root, _info):
         return root.get('type')
 
@@ -173,9 +180,11 @@ class NvtPreferenceNvt(graphene.ObjectType):
     oid = graphene.String(name='id')
     name = graphene.String()
 
+    @staticmethod
     def resolve_oid(root, _info):
         return root.get('oid')
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
@@ -211,27 +220,35 @@ class NvtPreference(graphene.ObjectType):
         ),
     )
 
+    @staticmethod
     def resolve_hr_name(root, _info):
         return get_text_from_element(root, 'hr_name')
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
+    @staticmethod
     def resolve_preference_type(root, _info):
         return get_text_from_element(root, 'type')
 
+    @staticmethod
     def resolve_value(root, _info):
         return get_text_from_element(root, 'value')
 
+    @staticmethod
     def resolve_default(root, _info):
         return get_text_from_element(root, 'default')
 
+    @staticmethod
     def resolve_preference_id(root, _info):
         return get_int_from_element(root, 'id')
 
+    @staticmethod
     def resolve_nvt(root, _info):
         return root.find('nvt')
 
+    @staticmethod
     def resolve_alternative_values(root, _info):
         alts = root.findall('alt')
         if alts is not None and len(alts) > 0:
@@ -246,12 +263,15 @@ class NvtSolution(graphene.ObjectType):
     solution_method = graphene.String(name='method')
     solution_text = graphene.String(name='description')
 
+    @staticmethod
     def resolve_solution_type(root, _info):
         return root.get('type')
 
+    @staticmethod
     def resolve_solution_method(root, _info):
         return root.get('method')
 
+    @staticmethod
     def resolve_solution_text(root, _info):
         return root.text
 
@@ -282,9 +302,11 @@ class BaseNvtFamily(graphene.ObjectType):
     name = graphene.String()
     max_nvt_count = graphene.Int()
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
+    @staticmethod
     def resolve_max_nvt_count(root, _info):
         return get_int_from_element(root, 'max_nvt_count')
 
@@ -340,39 +362,49 @@ class ScanConfigNVT(graphene.ObjectType):
         NvtSolution, description='Fix solution for this NVT'
     )
 
+    @staticmethod
     def resolve_oid(root, _info):
         return root.get('oid')
 
+    @staticmethod
     def resolve_category(root, _info):
         return get_int_from_element(root, 'category')
 
+    @staticmethod
     def resolve_preference_count(root, _info):
         return get_int_from_element(root, 'preference_count')
 
+    @staticmethod
     def resolve_timeout(root, _info):
         return get_int_from_element(root, 'timeout')
 
+    @staticmethod
     def resolve_default_timeout(root, _info):
         return get_int_from_element(root, 'default_timeout')
 
+    @staticmethod
     def resolve_qod(root, _info):
         return root.find('qod')
 
+    @staticmethod
     def resolve_score(root, _info):
         severities = root.find('severities')
         if severities is not None:
             return severities.get('score')
 
+    @staticmethod
     def resolve_severities(root, _info):
         severities = root.find('severities')
         if severities is not None:
             return severities.findall('severity')
 
+    @staticmethod
     def resolve_reference_warning(root, _info):
         refs = root.find('refs')
         if refs is not None:
             return get_text_from_element(refs, 'warning')
 
+    @staticmethod
     def resolve_other_references(root, _info):
         refs = root.find('refs')
         if refs is not None:
@@ -380,6 +412,7 @@ class ScanConfigNVT(graphene.ObjectType):
                 ref for ref in refs.findall('ref') if ref.get('type') == 'url'
             ]
 
+    @staticmethod
     def resolve_cert_references(root, _info):
         refs = root.find('refs')
         if refs is not None:
@@ -392,6 +425,7 @@ class ScanConfigNVT(graphene.ObjectType):
                 )
             ]
 
+    @staticmethod
     def resolve_bid_references(root, _info):
         refs = root.find('refs')
         if refs is not None:
@@ -401,6 +435,7 @@ class ScanConfigNVT(graphene.ObjectType):
                 if (ref.get('type') == 'bid' or ref.get('type') == 'bugtraq_id')
             ]
 
+    @staticmethod
     def resolve_cve_references(root, _info):
         refs = root.find('refs')
         if refs is not None:
@@ -410,14 +445,17 @@ class ScanConfigNVT(graphene.ObjectType):
                 if (ref.get('type') == 'cve' or ref.get('type') == 'cve_id')
             ]
 
+    @staticmethod
     def resolve_tags(root, _info):
         return root.find('tags')
 
+    @staticmethod
     def resolve_preferences(root, _info):
         preferences = root.find('preferences')
         if preferences is not None:
             return preferences.findall('preference')
 
+    @staticmethod
     def resolve_solution(root, _info):
         return root.find('solution')
 
@@ -469,65 +507,78 @@ class NVT(EntityObjectType):
         NvtSolution, description='Fix solution for this NVT'
     )
 
+    @staticmethod
     def resolve_uuid(root, _info):
         return root.get('id')
 
+    @staticmethod
     def resolve_update_time(root, _info):
         return get_datetime_from_element(root, 'update_time')
 
+    @staticmethod
     def resolve_family(root, _info):
         nvt = root.find('nvt')
         if nvt is not None:
             return get_text_from_element(nvt, 'family')
         return None
 
+    @staticmethod
     def resolve_cvss_base(root, _info):
         nvt = root.find('nvt')
         if nvt is not None:
             return get_text_from_element(nvt, 'cvss_base')
         return None
 
+    @staticmethod
     def resolve_score(root, _info):
         severities = root.find('nvt/severities')
         if severities is not None:
             return severities.get('score')
 
+    @staticmethod
     def resolve_tags(root, _info):
         nvt = root.find('nvt')
         if nvt is not None:
             return nvt.find('tags')
         return None
 
+    @staticmethod
     def resolve_category(root, _info):
         nvt = root.find('nvt')
         if nvt is not None:
             return get_int_from_element(nvt, 'category')
 
+    @staticmethod
     def resolve_preference_count(root, _info):
         nvt = root.find('nvt')
         if nvt is not None:
             return get_int_from_element(nvt, 'preference_count')
 
+    @staticmethod
     def resolve_timeout(root, _info):
         nvt = root.find('nvt')
         if nvt is not None:
             return get_int_from_element(nvt, 'timeout')
 
+    @staticmethod
     def resolve_default_timeout(root, _info):
         nvt = root.find('nvt')
         if nvt is not None:
             return get_int_from_element(nvt, 'default_timeout')
 
+    @staticmethod
     def resolve_qod(root, _info):
         nvt = root.find('nvt')
         if nvt is not None:
             return nvt.find('qod')
 
+    @staticmethod
     def resolve_severities(root, _info):
         severities = root.find('nvt/severities')
         if severities is not None:
             return severities.findall('severity')
 
+    @staticmethod
     def resolve_other_references(root, _info):
         refs = root.find('nvt/refs')
         if refs is not None:
@@ -535,6 +586,7 @@ class NVT(EntityObjectType):
                 ref for ref in refs.findall('ref') if ref.get('type') == 'url'
             ]
 
+    @staticmethod
     def resolve_cert_references(root, _info):
         refs = root.find('nvt/refs')
         if refs is not None:
@@ -547,6 +599,7 @@ class NVT(EntityObjectType):
                 )
             ]
 
+    @staticmethod
     def resolve_bid_references(root, _info):
         refs = root.find('nvt/refs')
         if refs is not None:
@@ -556,6 +609,7 @@ class NVT(EntityObjectType):
                 if (ref.get('type') == 'bid' or ref.get('type') == 'bugtraq_id')
             ]
 
+    @staticmethod
     def resolve_cve_references(root, _info):
         refs = root.find('nvt/refs')
         if refs is not None:
@@ -565,16 +619,19 @@ class NVT(EntityObjectType):
                 if (ref.get('type') == 'cve' or ref.get('type') == 'cve_id')
             ]
 
+    @staticmethod
     def resolve_reference_warning(root, _info):
         refs = root.find('nvt/refs')
         if refs is not None:
             return get_text_from_element(refs, 'warning')
 
+    @staticmethod
     def resolve_preferences(root, _info):
         preferences = root.find('nvt/preferences')
         if preferences is not None:
             return preferences.findall('preference')
 
+    @staticmethod
     def resolve_solution(root, _info):
         nvt = root.find('nvt')
         if nvt is not None:

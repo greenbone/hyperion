@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument
-
 import graphene
 
 from selene.schema.utils import get_gmp, require_authentication
@@ -51,8 +49,9 @@ class CloneOverride(graphene.Mutation):
 
     override_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, copy_id):
+    def mutate(_root, info, copy_id):
         gmp = get_gmp(info)
         resp = gmp.clone_override(str(copy_id))
         return CloneOverride(override_id=resp.get('id'))
@@ -112,8 +111,9 @@ class CreateOverride(graphene.Mutation):
 
     override_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         text = input_object.text
         nvt_oid = input_object.nvt_oid
         days_active = input_object.days_active
@@ -197,8 +197,9 @@ class ModifyOverride(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         override_id = str(input_object.override_id)
         text = input_object.text
         days_active = input_object.days_active
@@ -255,8 +256,9 @@ class DeleteOverride(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, override_id, ultimate):
+    def mutate(_root, info, override_id, ultimate):
         gmp = get_gmp(info)
         gmp.delete_override(str(override_id), ultimate=ultimate)
         return DeleteOverride(ok=True)

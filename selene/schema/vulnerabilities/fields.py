@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.resolver import text_resolver
@@ -36,12 +34,15 @@ class VulnerabilityResults(graphene.ObjectType):
     oldest = graphene.DateTime()
     newest = graphene.DateTime()
 
+    @staticmethod
     def resolve_count(root, _info):
         return get_int_from_element(root, 'count')
 
+    @staticmethod
     def resolve_oldest(root, _info):
         return get_datetime_from_element(root, 'oldest')
 
+    @staticmethod
     def resolve_newest(root, _info):
         return get_datetime_from_element(root, 'newest')
 
@@ -60,24 +61,31 @@ class Vulnerability(graphene.ObjectType):
     results = graphene.Field(VulnerabilityResults)
     host_count = graphene.Int()
 
+    @staticmethod
     def resolve_vuln_id(root, _info):
         return root.get('id')
 
+    @staticmethod
     def resolve_vuln_type(root, _info):
         return get_text_from_element(root, 'type')
 
+    @staticmethod
     def resolve_creation_time(root, _info):
         return get_datetime_from_element(root, 'creation_time')
 
+    @staticmethod
     def resolve_modification_time(root, _info):
         return get_datetime_from_element(root, 'modification_time')
 
+    @staticmethod
     def resolve_host_count(root, _info):
         hosts = root.find('hosts')
         return get_int_from_element(hosts, 'count')
 
+    @staticmethod
     def resolve_results(root, _info):
         return root.find('results')
 
+    @staticmethod
     def resolve_qod(root, _info):
         return get_int_from_element(root, 'qod')

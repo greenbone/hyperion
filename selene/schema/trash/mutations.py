@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument
-
 import graphene
 
 from selene.schema.utils import get_gmp, require_authentication
@@ -32,8 +30,9 @@ class EmptyTrashcan(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info):
+    def mutate(_root, info):
         gmp = get_gmp(info)
         gmp.empty_trashcan()
         return EmptyTrashcan(ok=True)
@@ -55,8 +54,9 @@ class RestoreFromTrashcan(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, restore_id):
+    def mutate(_root, info, restore_id):
         gmp = get_gmp(info)
         gmp.restore(str(restore_id))
         return EmptyTrashcan(ok=True)

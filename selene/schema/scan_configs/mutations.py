@@ -16,9 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
-
 import graphene
 
 from selene.schema.utils import require_authentication, get_gmp
@@ -66,8 +63,9 @@ class DeleteScanConfig(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, config_id, ultimate):
+    def mutate(_root, info, config_id, ultimate):
         gmp = get_gmp(info)
         gmp.delete_config(str(config_id), ultimate=ultimate)
         return DeleteScanConfig(ok=True)
@@ -186,8 +184,9 @@ class CloneScanConfig(graphene.Mutation):
 
     config_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, config_id):
+    def mutate(_root, info, config_id):
         gmp = get_gmp(info)
         elem = gmp.clone_config(str(config_id))
         return CloneScanConfig(config_id=elem.get('id'))
@@ -252,8 +251,9 @@ class ImportScanConfig(graphene.Mutation):
 
     config_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, config):
+    def mutate(_root, info, config):
         gmp = get_gmp(info)
         elem = gmp.import_config(config=config)
 
@@ -315,8 +315,9 @@ class CreateScanConfig(graphene.Mutation):
 
     id_of_created_config = graphene.String(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
         config_id = (
             str(input_object.config_id)
@@ -394,8 +395,9 @@ class CreateScanConfigFromOspScanner(graphene.Mutation):
 
     id_of_created_config = graphene.String(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
         scanner_id = (
             str(input_object.scanner_id)
@@ -466,8 +468,9 @@ class ModifyScanConfigSetName(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         config_id = (
             str(input_object.config_id)
             if input_object.config_id is not None
@@ -533,8 +536,9 @@ class ModifyScanConfigSetComment(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         config_id = (
             str(input_object.config_id)
             if input_object.config_id is not None
@@ -641,8 +645,9 @@ class ModifyScanConfigSetFamilySelection(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         config_id = (
             str(input_object.config_id)
             if input_object.config_id is not None
@@ -744,8 +749,9 @@ class ModifyScanConfigSetNvtPreference(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         config_id = (
             str(input_object.config_id)
             if input_object.config_id is not None
@@ -831,8 +837,9 @@ class ModifyScanConfigSetNvtSelection(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         config_id = (
             str(input_object.config_id)
             if input_object.config_id is not None
@@ -916,8 +923,9 @@ class ModifyScanConfigSetScannerPreference(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         config_id = (
             str(input_object.config_id)
             if input_object.config_id is not None

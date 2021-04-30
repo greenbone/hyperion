@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.resolver import find_resolver
@@ -36,14 +34,17 @@ class Schedule(EntityObjectType):
     tasks = graphene.List(Task)
     timezone = graphene.String()
 
+    @staticmethod
     def resolve_icalendar(root, _info):
         return get_text_from_element(root, 'icalendar')
 
+    @staticmethod
     def resolve_tasks(root, _info):
         tasks = root.find('tasks')
         if len(tasks) == 0:
             return None
         return tasks.findall('task')
 
+    @staticmethod
     def resolve_timezone(root, _info):
         return get_text_from_element(root, 'timezone')

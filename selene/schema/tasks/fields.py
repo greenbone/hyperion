@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.resolver import find_resolver, text_resolver
@@ -45,9 +43,11 @@ class TaskReportsCounts(graphene.ObjectType):
         description="Number of finished reports for the task"
     )
 
+    @staticmethod
     def resolve_finished(parent, _info):
         return get_text_from_element(parent, 'finished')
 
+    @staticmethod
     def resolve_total(parent, _info):
         return get_text(parent)
 
@@ -61,24 +61,29 @@ class LastReport(graphene.ObjectType):
     scan_end = graphene.DateTime()
     timestamp = graphene.DateTime()
 
+    @staticmethod
     def resolve_uuid(parent, _info):
         report = parent.find('report')
         uuid = report.get('id')
         return uuid
 
+    @staticmethod
     def resolve_severity(parent, _info):
         report = parent.find('report')
         severity = report.find('severity')
         return get_text(severity)
 
+    @staticmethod
     def resolve_timestamp(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'timestamp')
 
+    @staticmethod
     def resolve_scan_start(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'scan_start')
 
+    @staticmethod
     def resolve_scan_end(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'scan_end')
@@ -92,18 +97,22 @@ class CurrentReport(graphene.ObjectType):
     scan_end = graphene.DateTime()
     timestamp = graphene.DateTime()
 
+    @staticmethod
     def resolve_uuid(parent, _info):
         report = parent.find('report')
         return report.get('id')
 
+    @staticmethod
     def resolve_scan_start(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'scan_start')
 
+    @staticmethod
     def resolve_scan_end(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'scan_end')
 
+    @staticmethod
     def resolve_timestamp(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'timestamp')
@@ -122,6 +131,7 @@ class TaskReports(graphene.ObjectType):
     class Meta:
         default_resolver = find_resolver
 
+    @staticmethod
     def resolve_counts(root, _info):
         return get_subelement(root, 'report_count')
 
@@ -130,6 +140,7 @@ class TaskSubObjectType(BaseObjectType):
 
     trash = graphene.Boolean()
 
+    @staticmethod
     def resolve_trash(root, _info):
         return get_boolean_from_element(root, 'trash')
 
@@ -140,6 +151,7 @@ class TaskScanConfig(TaskSubObjectType):
         name="type", description="Type of the scan config"
     )
 
+    @staticmethod
     def resolve_scan_config_type(parent, _info):
         return get_int_from_element(parent, 'type')
 
@@ -149,6 +161,7 @@ class TaskScanner(TaskSubObjectType):
         ScannerType, name="type", description="Type of the scanner"
     )
 
+    @staticmethod
     def resolve_scanner_type(root, _info):
         return get_text_from_element(root, 'type')
 
@@ -158,15 +171,18 @@ class Observers(graphene.ObjectType):
     groups = graphene.List(BaseObjectType)
     roles = graphene.List(BaseObjectType)
 
+    @staticmethod
     def resolve_users(root, _info):
         user_string = get_text(root)
         if not user_string:
             return None
         return user_string.split(' ')
 
+    @staticmethod
     def resolve_groups(root, _info):
         return root.findall('group')
 
+    @staticmethod
     def resolve_roles(root, _info):
         return root.findall('role')
 
@@ -179,6 +195,7 @@ class TaskSchedule(TaskSubObjectType):
     duration = graphene.Int()
     timezone = graphene.String()
 
+    @staticmethod
     def resolve_duration(root, _info):
         return get_int_from_element(root, 'duration')
 
@@ -191,9 +208,11 @@ class TaskPreference(graphene.ObjectType):
     name = graphene.String()
     value = graphene.String()
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'scanner_name')
 
+    @staticmethod
     def resolve_description(root, _info):
         return get_text_from_element(root, 'name')
 
@@ -203,6 +222,7 @@ class BaseCounts(graphene.ObjectType):
 
 
 class TaskResultsCounts(BaseCounts):
+    @staticmethod
     def resolve_current(current: int, _info):
         return current
 
@@ -210,6 +230,7 @@ class TaskResultsCounts(BaseCounts):
 class TaskResults(graphene.ObjectType):
     counts = graphene.Field(TaskResultsCounts)
 
+    @staticmethod
     def resolve_counts(result_count: XmlElement, _info):
         current = get_text(result_count)
         return parse_int(current)
@@ -249,53 +270,68 @@ class Task(EntityObjectType):
     reports = graphene.Field(TaskReports)
     results = graphene.Field(TaskResults)
 
+    @staticmethod
     def resolve_average_duration(root, _info):
         return get_int_from_element(root, 'average_duration')
 
+    @staticmethod
     def resolve_trend(root, _info):
         return get_text_from_element(root, 'trend')
 
+    @staticmethod
     def resolve_status(root, _info):
         return get_text_from_element(root, 'status')
 
+    @staticmethod
     def resolve_alterable(root, _info):
         return get_boolean_from_element(root, 'alterable')
 
+    @staticmethod
     def resolve_hosts_ordering(root, _info):
         return get_text_from_element(root, 'hosts_ordering')
 
+    @staticmethod
     def resolve_progress(root, _info):
         return get_int_from_element(root, 'progress')
 
+    @staticmethod
     def resolve_scan_config(root, _info):
         return get_sub_element_if_id_available(root, 'config')
 
+    @staticmethod
     def resolve_target(root, _info):
         return get_sub_element_if_id_available(root, 'target')
 
+    @staticmethod
     def resolve_scanner(root, _info):
         return get_sub_element_if_id_available(root, 'scanner')
 
+    @staticmethod
     def resolve_alerts(root, _info):
         alerts = root.findall('alert')
         if not alerts:
             return None
         return alerts
 
+    @staticmethod
     def resolve_schedule(root, _info):
         return get_sub_element_if_id_available(root, 'schedule')
 
+    @staticmethod
     def resolve_schedule_periods(root, _info):
         return get_int_from_element(root, 'schedule_periods')
 
+    @staticmethod
     def resolve_preferences(root, _info):
         preferences = root.find('preferences')
         if preferences is None:
             return None
         return preferences.findall('preference')
 
+    @staticmethod
     def resolve_results(root, _info):
         return get_subelement(root, 'result_count')
 
+    @staticmethod
     def resolve_reports(root, _info):
         return root

@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.utils import (
@@ -59,24 +57,31 @@ class ScannerPreference(graphene.ObjectType):
         ),
     )
 
+    @staticmethod
     def resolve_hr_name(root, _info):
         return get_text_from_element(root, 'hr_name')
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
+    @staticmethod
     def resolve_preference_type(root, _info):
         return get_text_from_element(root, 'type')
 
+    @staticmethod
     def resolve_value(root, _info):
         return get_text_from_element(root, 'value')
 
+    @staticmethod
     def resolve_default(root, _info):
         return get_text_from_element(root, 'default')
 
+    @staticmethod
     def resolve_preference_id(root, _info):
         return get_int_from_element(root, 'id')
 
+    @staticmethod
     def resolve_alternative_values(root, _info):
         alts = root.findall('alt')
         if alts is not None and len(alts) > 0:
@@ -92,15 +97,19 @@ class ScanConfigFamily(graphene.ObjectType):
     max_nvt_count = graphene.Int()
     growing = graphene.Boolean()
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
+    @staticmethod
     def resolve_nvt_count(root, _info):
         return get_int_from_element(root, 'nvt_count')
 
+    @staticmethod
     def resolve_max_nvt_count(root, _info):
         return get_int_from_element(root, 'max_nvt_count')
 
+    @staticmethod
     def resolve_growing(root, _info):
         return get_boolean_from_element(root, 'growing')
 
@@ -111,9 +120,11 @@ class ScanConfigTask(graphene.ObjectType):
     task_id = graphene.String(name='id')
     name = graphene.String()
 
+    @staticmethod
     def resolve_task_id(root, _info):
         return root.get('id')
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
@@ -126,15 +137,19 @@ class ScanConfigNvtSelector(graphene.ObjectType):
     selector_type = graphene.Int(name='type')
     family_or_nvt = graphene.String()
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
+    @staticmethod
     def resolve_include(root, _info):
         return get_boolean_from_element(root, 'include')
 
+    @staticmethod
     def resolve_selector_type(root, _info):
         return get_int_from_element(root, 'type')
 
+    @staticmethod
     def resolve_family_or_nvt(root, _info):
         return get_text_from_element(root, 'family_or_nvt')
 
@@ -170,44 +185,56 @@ class ScanConfig(EntityObjectType):
     )
     nvt_selectors = graphene.List(ScanConfigNvtSelector)
 
+    @staticmethod
     def resolve_scan_config_type(root, _info):
         return get_text_from_element(root, 'type')
 
+    @staticmethod
     def resolve_trash(root, _info):
         return get_int_from_element(root, 'trash')
 
+    @staticmethod
     def resolve_family_count(root, _info):
         return get_int_from_element(root, 'family_count')
 
+    @staticmethod
     def resolve_family_growing(root, _info):
         family_count = root.find('family_count')
         return get_int_from_element(family_count, 'growing')
 
+    @staticmethod
     def resolve_nvt_count(root, _info):
         return get_int_from_element(root, 'nvt_count')
 
+    @staticmethod
     def resolve_nvt_growing(root, _info):
         nvt_count = root.find('nvt_count')
         return get_int_from_element(nvt_count, 'growing')
 
+    @staticmethod
     def resolve_usage_type(root, _info):
         return get_text_from_element(root, 'usage_type')
 
+    @staticmethod
     def resolve_max_nvt_count(root, _info):
         return get_int_from_element(root, 'max_nvt_count')
 
+    @staticmethod
     def resolve_known_nvt_count(root, _info):
         return get_int_from_element(root, 'known_nvt_count')
 
+    @staticmethod
     def resolve_predefined(root, _info):
         return get_boolean_from_element(root, 'predefined')
 
+    @staticmethod
     def resolve_families(root, _info):
         families = root.find('families')
         if families is None:
             return None
         return families.findall('family')
 
+    @staticmethod
     def resolve_nvt_preferences(root, _info):
         preferences = root.find('preferences')
         if preferences is not None:
@@ -221,6 +248,7 @@ class ScanConfig(EntityObjectType):
                 ]
         return None
 
+    @staticmethod
     def resolve_scanner_preferences(root, _info):
         preferences = root.find('preferences')
         if preferences is not None:
@@ -233,12 +261,14 @@ class ScanConfig(EntityObjectType):
                 ]
         return None
 
+    @staticmethod
     def resolve_tasks(root, _info):
         tasks = root.find('tasks')
         if tasks is None:
             return None
         return tasks.findall('task')
 
+    @staticmethod
     def resolve_nvt_selectors(root, _info):
         selectors = root.find('nvt_selectors')
         if selectors is None:

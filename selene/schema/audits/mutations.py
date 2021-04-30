@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from gvm.protocols.next import (
@@ -59,8 +57,9 @@ class CloneAudit(graphene.Mutation):
 
     audit_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, audit_id):
+    def mutate(_root, info, audit_id):
         gmp = get_gmp(info)
         elem = gmp.clone_audit(str(audit_id))
         return CloneAudit(audit_id=elem.get('id'))
@@ -81,8 +80,9 @@ class DeleteAudit(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, audit_id):
+    def mutate(_root, info, audit_id):
         gmp = get_gmp(info)
         gmp.delete_audit(str(audit_id))
         return DeleteAudit(ok=True)
@@ -135,8 +135,9 @@ class CreateContainerAudit(graphene.Mutation):
 
     audit_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object: CreateContainerAuditInput):
+    def mutate(_root, info, input_object: CreateContainerAuditInput):
         gmp = get_gmp(info)
 
         resp = gmp.create_container_audit(
@@ -264,8 +265,9 @@ class CreateAudit(graphene.Mutation):
 
     audit_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         name = input_object.name
         alterable = input_object.alterable
@@ -478,8 +480,9 @@ class ModifyAudit(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         audit_id = str(input_object.audit_id)
         name = input_object.name
@@ -589,8 +592,9 @@ class StartAudit(graphene.Mutation):
 
     report_id = graphene.UUID()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, audit_id):
+    def mutate(_root, info, audit_id):
         gmp = get_gmp(info)
         resp = gmp.start_audit(str(audit_id))
 
@@ -613,8 +617,9 @@ class StopAudit(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, audit_id):
+    def mutate(_root, info, audit_id):
         gmp = get_gmp(info)
         resp = gmp.stop_audit(str(audit_id))
         status = int(resp.get('status'))
@@ -637,8 +642,9 @@ class ResumeAudit(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, audit_id):
+    def mutate(_root, info, audit_id):
         gmp = get_gmp(info)
         resp = gmp.resume_audit(str(audit_id))
         status = int(resp.get('status'))

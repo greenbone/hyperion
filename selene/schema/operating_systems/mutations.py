@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from gvm.protocols.next import AssetType as GvmAssetType
@@ -46,8 +44,9 @@ class DeleteOperatingSystem(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, operating_system_id):
+    def mutate(_root, info, operating_system_id):
         gmp = get_gmp(info)
         gmp.delete_asset(asset_id=str(operating_system_id))
         return DeleteOperatingSystem(ok=True)
@@ -70,8 +69,9 @@ class DeleteOperatingSystemsByReport(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, report_id):
+    def mutate(_root, info, report_id):
         gmp = get_gmp(info)
         gmp.delete_asset(report_id=str(report_id))
         return DeleteOperatingSystemsByReport(ok=True)
@@ -209,8 +209,9 @@ class ModifyOperatingSystem(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         operating_system_id = str(input_object.operating_system_id)
         comment = input_object.comment

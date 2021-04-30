@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from gvm.protocols.next import (
@@ -199,8 +197,9 @@ class CreateAlert(graphene.Mutation):
 
     alert_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         if input_object.event_data is not None:
@@ -310,8 +309,9 @@ class ModifyAlert(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         if input_object.event_data is not None:
@@ -375,8 +375,9 @@ class CloneAlert(graphene.Mutation):
 
     alert_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, copy_id):
+    def mutate(_root, info, copy_id):
         gmp = get_gmp(info)
         resp = gmp.clone_alert(str(copy_id))
         return CloneAlert(alert_id=resp.get('id'))
@@ -399,8 +400,9 @@ class TestAlert(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, alert_id):
+    def mutate(_root, info, alert_id):
         gmp = get_gmp(info)
         gmp.test_alert(str(alert_id))
         return TestAlert(ok=True)

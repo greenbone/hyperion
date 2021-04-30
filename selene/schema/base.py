@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 from typing import Dict
 
 import graphene
@@ -29,6 +27,7 @@ from selene.schema.utils import get_datetime_from_element, get_text_from_element
 class NameObjectTypeMixin:
     name = graphene.String(description='Name of the object')
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
@@ -38,6 +37,7 @@ class UUIDObjectTypeMixin:
         name='id', description='Unique identifier of the object'
     )
 
+    @staticmethod
     def resolve_uuid(root, _info):
         return parse_uuid(root.get('id'))
 
@@ -67,15 +67,19 @@ class CACertificateMixin:
         description="Datetime when the CA certificate will expire"
     )
 
+    @staticmethod
     def resolve_md5_fingerprint(root, _info):
         return get_text_from_element(root, 'md5_fingerprint')
 
+    @staticmethod
     def resolve_issuer(root, _info):
         return get_text_from_element(root, 'issuer')
 
+    @staticmethod
     def resolve_activation_time(root, _info):
         return get_datetime_from_element(root, 'activation_time')
 
+    @staticmethod
     def resolve_expiration_time(root, _info):
         return get_datetime_from_element(root, 'expiration_time')
 

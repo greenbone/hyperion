@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.entity import EntityObjectType
@@ -35,9 +33,11 @@ class CveRef(graphene.ObjectType):
         SeverityType, description="Severity of referenced CVE"
     )
 
+    @staticmethod
     def resolve_uuid(root, _info):
         return root.get('id')
 
+    @staticmethod
     def resolve_severity(root, _info):
         return get_text_from_element(root, '{*}cvss/{*}base_metrics/{*}score')
 
@@ -59,36 +59,43 @@ class CPE(EntityObjectType):
     )
     status = graphene.String(description="Latest CPE status")
 
+    @staticmethod
     def resolve_uuid(root, _info):
         return root.get('id')
 
+    @staticmethod
     def resolve_update_time(root, _info):
         return get_datetime_from_element(root, 'update_time')
 
+    @staticmethod
     def resolve_title(root, _info):
         cpe = root.find('cpe')
         if cpe is not None:
             return get_text_from_element(cpe, 'title')
         return None
 
+    @staticmethod
     def resolve_nvd_id(root, _info):
         cpe = root.find('cpe')
         if cpe is not None:
             return get_text_from_element(cpe, 'nvd_id')
         return None
 
+    @staticmethod
     def resolve_score(root, _info):
         cpe = root.find('cpe')
         if cpe is not None:
             return get_text_from_element(cpe, 'score')
         return None
 
+    @staticmethod
     def resolve_cve_ref_count(root, _info):
         cpe = root.find('cpe')
         if cpe is not None:
             return get_int_from_element(cpe, 'cve_refs')
         return None
 
+    @staticmethod
     def resolve_cve_refs(root, _info):
         cves = root.find('cpe/cves')
         if cves is not None:
@@ -97,12 +104,14 @@ class CPE(EntityObjectType):
                 return cves
         return None
 
+    @staticmethod
     def resolve_deprecated_by(root, _info):
         cpe_item = root.find('cpe/raw_data/{*}cpe-item')
         if cpe_item is not None:
             return cpe_item.get('deprecated_by')
         return None
 
+    @staticmethod
     def resolve_status(root, _info):
         cpe = root.find('cpe')
         if cpe is not None:

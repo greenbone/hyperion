@@ -16,10 +16,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
+import graphene
 
 from graphql import GraphQLError
-import graphene
 
 from selene.schema.severity import SeverityType
 
@@ -63,33 +62,42 @@ class Override(EntityObjectType):
     task = graphene.Field(Task)
     result = graphene.Field(Result)
 
+    @staticmethod
     def resolve_name(root, _info):
         raise GraphQLError(
             f'Cannot query field "{_info.field_name}"'
             f' on type "{_info.parent_type}".'
         )
 
+    @staticmethod
     def resolve_end_time(root, _info):
         return get_datetime_from_element(root, 'end_time')
 
+    @staticmethod
     def resolve_active(root, _info):
         return get_boolean_from_element(root, 'active')
 
+    @staticmethod
     def resolve_orphan(root, _info):
         return get_boolean_from_element(root, 'orphan')
 
+    @staticmethod
     def resolve_text(root, _info):
         return get_text_from_element(root, 'text')
 
+    @staticmethod
     def resolve_hosts(root, _info):
         hosts = get_text_from_element(root, 'hosts')
         return csv_to_list(hosts)
 
+    @staticmethod
     def resolve_port(root, _info):
         return get_text_from_element(root, 'port')
 
+    @staticmethod
     def resolve_severity(root, _info):
         return get_text_from_element(root, 'severity')
 
+    @staticmethod
     def resolve_new_severity(root, _info):
         return get_text_from_element(root, 'new_severity')

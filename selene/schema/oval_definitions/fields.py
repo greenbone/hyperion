@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member, not-an-iterable
-
 import graphene
 
 from selene.schema.entity import EntityObjectType
@@ -35,9 +33,11 @@ class HistoryStatusChange(graphene.ObjectType):
     status = graphene.String()
     date = graphene.String()
 
+    @staticmethod
     def resolve_status(root, _info):
         return get_text(root)
 
+    @staticmethod
     def resolve_date(root, _info):
         return parse_datetime(root.get('date'))
 
@@ -49,26 +49,31 @@ class OvalDefinitionHistory(graphene.ObjectType):
     organization = graphene.String()
     status_changes = graphene.List(HistoryStatusChange)
 
+    @staticmethod
     def resolve_status(root, _info):
         return get_text_from_element(root, '{*}status')
 
+    @staticmethod
     def resolve_date(root, _info):
         submitted = root.find('{*}dates/{*}submitted')
         if submitted is not None:
             return parse_datetime(submitted.get('date'))
         return None
 
+    @staticmethod
     def resolve_contributor(root, _info):
         submitted = root.find('{*}dates/{*}submitted')
         if submitted is not None:
             return get_text_from_element(submitted, '{*}contributor')
 
+    @staticmethod
     def resolve_organization(root, _info):
         contributor = root.find('{*}dates/{*}submitted/{*}contributor')
         if contributor is not None:
             return contributor.get('organization')
         return None
 
+    @staticmethod
     def resolve_status_changes(root, _info):
         dates = root.find('{*}dates')
         if dates is not None:
@@ -87,24 +92,29 @@ class OvalDefinitionCriteria(graphene.ObjectType):
     criterion = graphene.String()
     criteria = graphene.List(lambda: OvalDefinitionCriteria)
 
+    @staticmethod
     def resolve_operator(root, _info):
         return root.get('operator')
 
+    @staticmethod
     def resolve_comment(root, _info):
         return root.get('comment')
 
+    @staticmethod
     def resolve_extend_definition(root, _info):
         extend_definition = root.find('{*}extend_definition')
         if extend_definition is not None:
             return extend_definition.get('comment')
         return None
 
+    @staticmethod
     def resolve_criterion(root, _info):
         criterion = root.find('{*}criterion')
         if criterion is not None:
             return criterion.get('comment')
         return None
 
+    @staticmethod
     def resolve_criteria(root, _info):
         criteria = root.findall('{*}criteria')
         if len(criteria) != 0:
@@ -117,12 +127,15 @@ class OvalDefinitionRefs(graphene.ObjectType):
     ref_id = graphene.String(name='id', description='ID of this reference')
     url = graphene.String(description='URL of this reference')
 
+    @staticmethod
     def resolve_source(root, _info):
         return root.get('source')
 
+    @staticmethod
     def resolve_ref_id(root, _info):
         return root.get('ref_id')
 
+    @staticmethod
     def resolve_url(root, _info):
         return root.get('ref_url')
 
@@ -132,15 +145,18 @@ class OvalDefinitionAffectedFamily(graphene.ObjectType):
     platforms = graphene.List(graphene.String)
     products = graphene.List(graphene.String)
 
+    @staticmethod
     def resolve_family(root, _info):
         return root.get('family')
 
+    @staticmethod
     def resolve_platforms(root, _info):
         platforms = root.findall('{*}platform')
         if len(platforms) != 0:
             return [platform.text for platform in platforms]
         return None
 
+    @staticmethod
     def resolve_products(root, _info):
         products = root.findall('{*}product')
         if len(products) != 0:
@@ -165,39 +181,46 @@ class OvalDefinition(EntityObjectType):
     title = graphene.String()
     version = graphene.Int()
 
+    @staticmethod
     def resolve_uuid(root, _info):
         return root.get('id')
 
+    @staticmethod
     def resolve_cve_refs(root, _info):
         ovaldef = root.find('ovaldef')
         if ovaldef is not None:
             return get_int_from_element(ovaldef, 'cve_refs')
         return None
 
+    @staticmethod
     def resolve_deprecated(root, _info):
         ovaldef = root.find('ovaldef')
         if ovaldef is not None:
             return get_boolean_from_element(ovaldef, 'deprecated')
         return None
 
+    @staticmethod
     def resolve_description(root, _info):
         ovaldef = root.find('ovaldef')
         if ovaldef is not None:
             return get_text_from_element(ovaldef, 'description')
         return None
 
+    @staticmethod
     def resolve_file_path(root, _info):
         ovaldef = root.find('ovaldef')
         if ovaldef is not None:
             return get_text_from_element(ovaldef, 'file')
         return None
 
+    @staticmethod
     def resolve_info_class(root, _info):
         ovaldef = root.find('ovaldef')
         if ovaldef is not None:
             return get_text_from_element(ovaldef, 'class')
         return None
 
+    @staticmethod
     def resolve_affected_family(root, _info):
         affected = root.find(
             'ovaldef/raw_data/{*}definition/{*}metadata/{*}affected'
@@ -206,6 +229,7 @@ class OvalDefinition(EntityObjectType):
             return affected
         return None
 
+    @staticmethod
     def resolve_history(root, _info):
         history = root.find(
             'ovaldef/raw_data/{*}definition/{*}metadata/{*}oval_repository'
@@ -214,12 +238,14 @@ class OvalDefinition(EntityObjectType):
             return history
         return None
 
+    @staticmethod
     def resolve_criteria(root, _info):
         criteria = root.find('ovaldef/raw_data/{*}definition/{*}criteria')
         if criteria is not None:
             return criteria
         return None
 
+    @staticmethod
     def resolve_references(root, _info):
         metadata = root.find('ovaldef/raw_data/{*}definition/{*}metadata')
         if metadata is not None:
@@ -228,24 +254,28 @@ class OvalDefinition(EntityObjectType):
                 return references
         return None
 
+    @staticmethod
     def resolve_score(root, _info):
         ovaldef = root.find('ovaldef')
         if ovaldef is not None:
             return get_text_from_element(ovaldef, 'score')
         return None
 
+    @staticmethod
     def resolve_status(root, _info):
         ovaldef = root.find('ovaldef')
         if ovaldef is not None:
             return get_text_from_element(ovaldef, 'status')
         return None
 
+    @staticmethod
     def resolve_title(root, _info):
         ovaldef = root.find('ovaldef')
         if ovaldef is not None:
             return get_text_from_element(ovaldef, 'title')
         return None
 
+    @staticmethod
     def resolve_version(root, _info):
         ovaldef = root.find('ovaldef')
         if ovaldef is not None:

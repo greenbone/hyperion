@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.utils import require_authentication, get_gmp
@@ -66,8 +64,9 @@ class CloneRole(graphene.Mutation):
 
     role_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, role_id):
+    def mutate(_root, info, role_id):
         gmp = get_gmp(info)
         elem = gmp.clone_role(str(role_id))
         return CloneRole(role_id=elem.get('id'))
@@ -127,8 +126,9 @@ class CreateRole(graphene.Mutation):
 
     id_of_created_role = graphene.String(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         name = input_object.name if input_object.name is not None else None
@@ -174,8 +174,9 @@ class ModifyRole(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         role_id = (
             str(input_object.role_id)
             if input_object.role_id is not None
@@ -234,8 +235,9 @@ class DeleteRole(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, role_id, ultimate):
+    def mutate(_root, info, role_id, ultimate):
         gmp = get_gmp(info)
         gmp.delete_role(str(role_id), ultimate=ultimate)
         return DeleteRole(ok=True)

@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.permissions.fields import (
@@ -71,8 +69,9 @@ class ClonePermission(graphene.Mutation):
 
     permission_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, permission_id):
+    def mutate(_root, info, permission_id):
         gmp = get_gmp(info)
         elem = gmp.clone_permission(str(permission_id))
         return ClonePermission(permission_id=elem.get('id'))
@@ -154,8 +153,9 @@ class CreatePermission(graphene.Mutation):
 
     id_of_created_permission = graphene.String(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         # Required args
@@ -248,8 +248,9 @@ class ModifyPermission(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         permission_id = (
             str(input_object.permission_id)

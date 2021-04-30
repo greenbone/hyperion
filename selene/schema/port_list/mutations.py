@@ -16,10 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
-
 
 from selene.schema.entities import (
     create_delete_by_ids_mutation,
@@ -66,8 +63,9 @@ class CreatePortRange(graphene.Mutation):
         name='id', description="ID of the created port range"
     )
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         resp = gmp.create_port_range(
@@ -88,8 +86,9 @@ class DeletePortRange(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, port_range_id):
+    def mutate(_root, info, port_range_id):
         gmp = get_gmp(info)
         gmp.delete_port_range(str(port_range_id))
         return DeletePortRange(ok=True)
@@ -132,8 +131,9 @@ class ClonePortList(graphene.Mutation):
         name='id', description="ID of the new port list"
     )
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, port_list_id):
+    def mutate(_root, info, port_list_id):
         gmp = get_gmp(info)
         elem = gmp.clone_port_list(str(port_list_id))
         return ClonePortList(port_list_id=elem.get('id'))
@@ -166,8 +166,9 @@ class CreatePortList(graphene.Mutation):
         name='id', description="ID of the new port list"
     )
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         name = input_object.name
         comment = input_object.comment
@@ -203,8 +204,9 @@ class ModifyPortList(graphene.Mutation):
 
     ok = graphene.Boolean(description="True if no error occurred")
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         name = input_object.name
         comment = input_object.comment

@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from gvm.protocols.next import (
@@ -72,39 +70,49 @@ class Credential(EntityObjectType):
     certificate = graphene.String()
     public_key = graphene.String()
 
+    @staticmethod
     def resolve_login(root, _info):
         return get_text_from_element(root, 'login')
 
+    @staticmethod
     def resolve_allow_insecure(root, _info):
         return get_boolean_from_element(root, 'allow_insecure')
 
+    @staticmethod
     def resolve_credential_type(root, _info):
         return get_text_from_element(root, 'type')
 
+    @staticmethod
     def resolve_auth_algorithm(root, _info):
         return get_text_from_element(root, 'auth_algorithm')
 
+    @staticmethod
     def resolve_privacy_algorithm(root, _info):
         privacy = get_subelement(root, 'privacy')
         return get_text_from_element(privacy, 'algorithm')
 
+    @staticmethod
     def resolve_scanners(root, _info):
         scanners = root.find('scanners')
         if len(scanners) == 0:
             return None
         return scanners.findall('scanner')
 
+    @staticmethod
     def resolve_targets(root, _info):
         targets = root.find('targets')
         if len(targets) == 0:
             return None
         return targets.findall('target')
 
+    @staticmethod
     def resolve_credential_package(root, _info):
         return get_text_from_element(root, 'package')
 
+    @staticmethod
     def resolve_certificate(root, _info):
         return get_text_from_element(root, 'certificate')
 
+    @staticmethod
     def resolve_public_key(root, _info):
         return get_text_from_element(root, 'public_key')

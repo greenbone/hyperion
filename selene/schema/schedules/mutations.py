@@ -16,9 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
-
 import graphene
 
 from selene.schema.utils import require_authentication, get_gmp
@@ -70,8 +67,9 @@ class CreateSchedule(graphene.Mutation):
 
     schedule_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         resp = gmp.create_schedule(
@@ -126,8 +124,9 @@ class ModifySchedule(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         gmp.modify_schedule(
@@ -179,8 +178,9 @@ class CloneSchedule(graphene.Mutation):
     # name here, but it seems working ...?!
     schedule_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, schedule_id):
+    def mutate(_root, info, schedule_id):
         gmp = get_gmp(info)
         elem = gmp.clone_schedule(str(schedule_id))
         return CloneSchedule(schedule_id=elem.get('id'))

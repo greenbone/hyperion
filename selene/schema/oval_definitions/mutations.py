@@ -16,9 +16,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 from gvm.protocols.next import InfoType as GvmInfoType
+
 from selene.schema.entities import (
     create_export_secinfos_by_ids_mutation,
     create_export_by_filter_mutation,

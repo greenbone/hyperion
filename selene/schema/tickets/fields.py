@@ -16,11 +16,10 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from gvm.protocols.next import TicketStatus as GvmTicketStatus
+
 from selene.schema.resolver import text_resolver
 
 from selene.schema.parser import parse_uuid
@@ -43,9 +42,11 @@ class TicketReport(graphene.ObjectType):
     id = graphene.UUID()
     timestamp = graphene.DateTime()
 
+    @staticmethod
     def resolve_id(root, _info):
         return parse_uuid(root.get('id'))
 
+    @staticmethod
     def resolve_timestamp(root, _info):
         return get_datetime_from_element(root, 'timestamp')
 
@@ -78,29 +79,38 @@ class RemediationTicket(EntityObjectType):
     result = graphene.UUID()
     orphan = graphene.Boolean()
 
+    @staticmethod
     def resolve_assigned_to(root, _info):
         return root.find('assigned_to').find('user')
 
+    @staticmethod
     def resolve_open_time(root, _info):
         return get_datetime_from_element(root, 'open_time')
 
+    @staticmethod
     def resolve_fixed_time(root, _info):
         return get_datetime_from_element(root, 'fixed_time')
 
+    @staticmethod
     def resolve_closed_time(root, _info):
         return get_datetime_from_element(root, 'closed_time')
 
+    @staticmethod
     def resolve_nvt_oid(root, _info):
         return root.find('nvt').get('oid')
 
+    @staticmethod
     def resolve_task(root, _info):
         return root.find("task")
 
+    @staticmethod
     def resolve_report(root, _info):
         return root.find('report')
 
+    @staticmethod
     def resolve_result(root, _info):
         return parse_uuid(root.find('result').get('id'))
 
+    @staticmethod
     def resolve_orphan(root, _info):
         return get_boolean_from_element(root, 'orphan')

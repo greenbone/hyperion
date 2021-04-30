@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import string
 
 import graphene
@@ -34,6 +32,7 @@ class BaseRoleType(EntityObjectType):
 class Role(BaseRoleType):
     users = graphene.List(graphene.String)
 
+    @staticmethod
     def resolve_users(root, _info):
         user_string = get_text_from_element(root, 'users')
         if not user_string:

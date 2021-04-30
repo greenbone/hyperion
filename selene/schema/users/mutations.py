@@ -16,10 +16,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
+import string
 
 from enum import auto
-import string
 
 import graphene
 
@@ -71,8 +70,9 @@ class CloneUser(graphene.Mutation):
 
     user_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, user_id):
+    def mutate(_root, info, user_id):
         gmp = get_gmp(info)
         elem = gmp.clone_user(str(user_id))
         return CloneUser(user_id=elem.get('id'))
@@ -159,8 +159,9 @@ class CreateUser(graphene.Mutation):
 
     id_of_created_user = graphene.String(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         name = input_object.name if input_object.name is not None else None
@@ -222,8 +223,9 @@ class DeleteUsersByFilter(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         filter_string = (
             input_object.filter_string
             if input_object.filter_string is not None
@@ -284,8 +286,9 @@ class DeleteUsersByIds(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         user_ids = (
             input_object.user_ids if input_object.user_ids is not None else None
         )
@@ -420,8 +423,9 @@ def create_modify_user_mutation(
     field_to_modify=None,
 ):
     class ModifyUser(graphene.Mutation, AbstractModifyUser):
+        @staticmethod
         @require_authentication
-        def mutate(root, info, input_object):
+        def mutate(_root, info, input_object):
             gmp = get_gmp(info)
 
             # No fields given to be modify

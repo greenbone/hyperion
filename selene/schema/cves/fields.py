@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member
-
 import graphene
 
 from selene.schema.entity import EntityObjectType
@@ -35,27 +33,35 @@ class CVSSv2Vector(graphene.ObjectType):
     base_score = graphene.Field(SeverityType)
     vector = graphene.String()
 
+    @staticmethod
     def resolve_access_vector(root, _info):
         return get_text_from_element(root, '{*}access-vector')
 
+    @staticmethod
     def resolve_access_complexity(root, _info):
         return get_text_from_element(root, '{*}access-complexity')
 
+    @staticmethod
     def resolve_authentication(root, _info):
         return get_text_from_element(root, '{*}authentication')
 
+    @staticmethod
     def resolve_confidentiality(root, _info):
         return get_text_from_element(root, '{*}confidentiality-impact')
 
+    @staticmethod
     def resolve_integrity(root, _info):
         return get_text_from_element(root, '{*}integrity-impact')
 
+    @staticmethod
     def resolve_availability(root, _info):
         return get_text_from_element(root, '{*}availability-impact')
 
+    @staticmethod
     def resolve_base_score(root, _info):
         return get_text_from_element(root, '{*}score')
 
+    @staticmethod
     def resolve_vector(root, _info):
         return get_text_from_element(root, '{*}vector-string')
 
@@ -72,33 +78,43 @@ class CVSSv3Vector(graphene.ObjectType):
     base_score = graphene.Field(SeverityType)
     vector = graphene.String()
 
+    @staticmethod
     def resolve_attack_vector(root, _info):
         return get_text_from_element(root, '{*}attack-vector')
 
+    @staticmethod
     def resolve_attack_complexity(root, _info):
         return get_text_from_element(root, '{*}attack-complexity')
 
+    @staticmethod
     def resolve_privileges_required(root, _info):
         return get_text_from_element(root, '{*}privileges-required')
 
+    @staticmethod
     def resolve_user_interaction(root, _info):
         return get_text_from_element(root, '{*}user-interaction')
 
+    @staticmethod
     def resolve_scope(root, _info):
         return get_text_from_element(root, '{*}scope')
 
+    @staticmethod
     def resolve_confidentiality(root, _info):
         return get_text_from_element(root, '{*}confidentiality-impact')
 
+    @staticmethod
     def resolve_integrity(root, _info):
         return get_text_from_element(root, '{*}integrity-impact')
 
+    @staticmethod
     def resolve_availability(root, _info):
         return get_text_from_element(root, '{*}availability-impact')
 
+    @staticmethod
     def resolve_base_score(root, _info):
         return get_text_from_element(root, '{*}base-score')
 
+    @staticmethod
     def resolve_vector(root, _info):
         return get_text_from_element(root, '{*}vector-string')
 
@@ -107,9 +123,11 @@ class NvtRef(graphene.ObjectType):
     oid = graphene.String(name='id', description='NVT reference oid')
     name = graphene.String(description='NVT reference oid')
 
+    @staticmethod
     def resolve_oid(root, _info):
         return root.get('oid')
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
@@ -119,12 +137,15 @@ class CertRef(graphene.ObjectType):
     title = graphene.String(description='Cert reference title')
     cert_type = graphene.String(name='type', description='Cert reference type')
 
+    @staticmethod
     def resolve_name(root, _info):
         return get_text_from_element(root, 'name')
 
+    @staticmethod
     def resolve_title(root, _info):
         return get_text_from_element(root, 'title')
 
+    @staticmethod
     def resolve_cert_type(root, _info):
         return root.get('type')
 
@@ -134,15 +155,18 @@ class Refs(graphene.ObjectType):
     link = graphene.String()
     reference = graphene.String()
 
+    @staticmethod
     def resolve_source(root, _info):
         return get_text_from_element(root, '{*}source')
 
+    @staticmethod
     def resolve_link(root, _info):
         ref = root.find('{*}reference')
         if ref is not None:
             return ref.get('href')
         return None
 
+    @staticmethod
     def resolve_reference(root, _info):
         return get_text_from_element(root, '{*}reference')
 
@@ -160,39 +184,47 @@ class CVE(EntityObjectType):
     nvt_refs = graphene.List(NvtRef)
     cert_refs = graphene.List(CertRef)
 
+    @staticmethod
     def resolve_uuid(root, _info):
         return root.get('id')
 
+    @staticmethod
     def resolve_update_time(root, _info):
         return get_datetime_from_element(root, 'update_time')
 
+    @staticmethod
     def resolve_cvss_vector(root, _info):
         cve = root.find('cve')
         if cve is not None:
             return get_text_from_element(cve, 'cvss_vector')
         return None
 
+    @staticmethod
     def resolve_cvss_v2_vector(root, _info):
         entry = root.find('cve/raw_data/{*}entry')
         if entry is not None:
             return entry.find('{*}cvss/{*}base_metrics')
         return None
 
+    @staticmethod
     def resolve_cvss_v3_vector(root, _info):
         entry = root.find('cve/raw_data/{*}entry')
         if entry is not None:
             return entry.find('{*}cvss3/{*}base_metrics')
         return None
 
+    @staticmethod
     def resolve_score(root, _info):
         cve = root.find('cve')
         if cve is not None:
             return get_text_from_element(cve, 'score')
         return None
 
+    @staticmethod
     def resolve_description(root, _info):
         return get_text_from_element(root.find('cve'), 'description')
 
+    @staticmethod
     def resolve_products(root, _info):
         cve = root.find('cve')
         if cve is not None:
@@ -201,18 +233,21 @@ class CVE(EntityObjectType):
                 return products.rstrip().split(' ')
         return None
 
+    @staticmethod
     def resolve_nvt_refs(root, _info):
         nvts = root.find('cve/nvts')
         if nvts is not None:
             return nvts.findall('nvt')
         return None
 
+    @staticmethod
     def resolve_cert_refs(root, _info):
         cert = root.find('cve/cert')
         if cert is not None:
             return cert.findall('cert_ref')
         return None
 
+    @staticmethod
     def resolve_refs(root, _info):
         entry = root.find('cve/raw_data/{*}entry')
         if entry is not None:

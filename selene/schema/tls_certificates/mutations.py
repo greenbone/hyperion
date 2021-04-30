@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument
-
 import graphene
 
 from selene.schema.entities import (
@@ -55,8 +53,9 @@ class CreateTLSCertificate(graphene.Mutation):
 
     tls_certificate_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         resp = gmp.create_tls_certificate(
@@ -84,8 +83,9 @@ class CloneTLSCertificate(graphene.Mutation):
 
     cloned_tls_certificate_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, tls_certificate_id):
+    def mutate(_root, info, tls_certificate_id):
         gmp = get_gmp(info)
         resp = gmp.clone_tls_certificate(str(tls_certificate_id))
         return CloneTLSCertificate(cloned_tls_certificate_id=resp.get('id'))
@@ -106,8 +106,9 @@ class DeleteTLSCertificate(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, tls_certificate_id):
+    def mutate(_root, info, tls_certificate_id):
         gmp = get_gmp(info)
         gmp.delete_tls_certificate(str(tls_certificate_id))
         return DeleteTLSCertificate(ok=True)
@@ -237,8 +238,9 @@ class ModifyTLSCertificate(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         tls_certificate_id = (
             str(input_object.tls_certificate_id)
             if input_object.tls_certificate_id is not None

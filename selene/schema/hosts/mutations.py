@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument
-
 import graphene
 
 from gvm.protocols.next import AssetType as GvmAssetType
@@ -55,8 +53,9 @@ class CreateHost(graphene.Mutation):
 
     host_id = graphene.UUID(name='id')
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
         gmp = get_gmp(info)
 
         resp = gmp.create_host(input_object.name, comment=input_object.comment)
@@ -79,8 +78,9 @@ class DeleteHost(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, host_id):
+    def mutate(_root, info, host_id):
         gmp = get_gmp(info)
         gmp.delete_asset(asset_id=str(host_id))
         return DeleteHost(ok=True)
@@ -103,8 +103,9 @@ class DeleteHostsByReport(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, report_id):
+    def mutate(_root, info, report_id):
         gmp = get_gmp(info)
         gmp.delete_asset(report_id=str(report_id))
         return DeleteHostsByReport(ok=True)
@@ -240,8 +241,9 @@ class ModifyHost(graphene.Mutation):
 
     ok = graphene.Boolean()
 
+    @staticmethod
     @require_authentication
-    def mutate(root, info, input_object):
+    def mutate(_root, info, input_object):
 
         host_id = str(input_object.host_id)
         comment = input_object.comment

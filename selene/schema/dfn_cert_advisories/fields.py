@@ -16,8 +16,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# pylint: disable=no-self-argument, no-member, not-an-iterable
-
 import graphene
 
 from selene.schema.entity import EntityObjectType
@@ -39,11 +37,13 @@ class DFNCertAdvisoryAuthor(graphene.ObjectType):
     name = graphene.String()
     uri = graphene.String()
 
+    @staticmethod
     def resolve_name(root, _info):
         for elem in root:
             if 'name' in elem.tag:
                 return elem.text
 
+    @staticmethod
     def resolve_uri(root, _info):
         for elem in root:
             if 'uri' in elem.tag:
@@ -62,42 +62,50 @@ class DFNCertAdvisory(EntityObjectType):
     cves = graphene.List(graphene.String)
     link = graphene.String()
 
+    @staticmethod
     def resolve_uuid(root, _info):
         return root.get('id')
 
+    @staticmethod
     def resolve_update_time(root, _info):
         return get_datetime_from_element(root, 'update_time')
 
+    @staticmethod
     def resolve_title(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv')
         if dfn_cert_adv is not None:
             return get_text_from_element(dfn_cert_adv, 'title')
         return None
 
+    @staticmethod
     def resolve_summary(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv')
         if dfn_cert_adv is not None:
             return get_text_from_element(dfn_cert_adv, 'summary').strip()
         return None
 
+    @staticmethod
     def resolve_max_cvss(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv')
         if dfn_cert_adv is not None:
             return get_text_from_element(dfn_cert_adv, 'max_cvss')
         return None
 
+    @staticmethod
     def resolve_score(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv')
         if dfn_cert_adv is not None:
             return get_text_from_element(dfn_cert_adv, 'score')
         return None
 
+    @staticmethod
     def resolve_cve_refs(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv')
         if dfn_cert_adv is not None:
             return get_int_from_element(dfn_cert_adv, 'cve_refs')
         return None
 
+    @staticmethod
     def resolve_cves(root, _info):
         dfn_cert_adv = root.find('dfn_cert_adv/raw_data/{*}entry')
         if dfn_cert_adv is not None:
@@ -106,12 +114,14 @@ class DFNCertAdvisory(EntityObjectType):
                 return [cve.text for cve in cves]
         return None
 
+    @staticmethod
     def resolve_author(root, _info):
         author = root.find('dfn_cert_adv/raw_data/{*}entry/{*}author')
         if author is not None:
             return author
         return None
 
+    @staticmethod
     def resolve_link(root, _info):
         link = root.find('dfn_cert_adv/raw_data/{*}entry/{*}link')
         if link is not None:
