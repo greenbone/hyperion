@@ -17,6 +17,7 @@ $ cd hyperion && git log
 
 ### Added
 
+- Introduced new base classes for queries [#126](https://github.com/greenbone/hyperion/pull/126)
 - Use [#graphdoc](https://github.com/wallee94/graphdoc) as schema documentation tool [#124](https://github.com/greenbone/hyperion/pull/124)
 - Add csv_to_list function [#96](https://github.com/greenbone/hyperion/pull/96)
 - Add `new_severity` to override mutations [#85](https://github.com/greenbone/hyperion/pull/85)
