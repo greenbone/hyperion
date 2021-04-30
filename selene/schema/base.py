@@ -18,6 +18,8 @@
 
 # pylint: disable=no-self-argument, no-member
 
+from typing import Dict
+
 import graphene
 
 from selene.schema.parser import parse_uuid
@@ -76,3 +78,32 @@ class CACertificateMixin:
 
     def resolve_expiration_time(root, _info):
         return get_datetime_from_element(root, 'expiration_time')
+
+
+class ObjectTypeQueryMixin:
+    object_type: graphene.ObjectType = None
+    kwargs: Dict[str, graphene.Field] = None
+
+    def __init__(self, description: str = None, **kwargs):
+        if description is None:
+            description = self.__doc__
+
+        kwargs.update(self.get_kwargs())
+
+        super().__init__(
+            self.object_type,
+            resolver=self.resolve,
+            description=description,
+            **kwargs,
+        )
+
+    def get_kwargs(self):
+        return self.kwargs or {}
+
+
+class SingleObjectQuery(ObjectTypeQueryMixin, graphene.Field):
+    pass
+
+
+class ListQuery(ObjectTypeQueryMixin, graphene.List):
+    pass
