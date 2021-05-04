@@ -19,7 +19,10 @@
 import graphene
 
 from graphql import ResolveInfo
+
 from gvm.protocols.next import InfoType as GvmInfoType
+
+from selene.schema.base import SingleObjectQuery
 
 from selene.schema.cpes.fields import CPE
 
@@ -34,55 +37,48 @@ from selene.schema.relay import (
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetCPE(graphene.Field):
-    """Gets a single CPE information.
-
-    Args:
-        id (str): ID of the CPE information being queried
+class GetCPE(SingleObjectQuery):
+    """Get a single CPE information
 
     Example:
 
-        .. code-block::
+        query {
+            cpe(id: "cpe:/a:vendor:product:etc") {
+                id
+                name
+                updateTime
+                title
+                nvdId
+                maxCvss
+                cveRefs
+                status
+            }
+        }
 
-            query {
-                cpe(id: "cpe:/a:vendor:product:etc") {
-                    id
-                    name
-                    updateTime
-                    title
-                    nvdId
-                    maxCvss
-                    cveRefs
-                    status
+    Response:
+
+        {
+            "data": {
+                "cpe": {
+                    "id": "cpe:/a:vendor:product:etc",
+                    "name": "cpe:/a:vendor:product:etc"
+                    "title": "Vendor product etc"
+                    "nvdId": "123456"
+                    "maxCvss": 5.6
+                    "cveRefs": 1
+                    "status": "FINAL"
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "cpe": {
-                        "id": "cpe:/a:vendor:product:etc",
-                        "name": "cpe:/a:vendor:product:etc"
-                        "title": "Vendor product etc"
-                        "nvdId": "123456"
-                        "maxCvss": 5.6
-                        "cveRefs": 1
-                        "status": "FINAL"
-                    }
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            CPE,
-            cpe_id=graphene.String(required=True, name='id'),
-            resolver=self.resolve,
-        )
+    object_type = CPE
+    kwargs = {
+        'cpe_id': graphene.String(
+            required=True, name='id', description="ID of the CPE"
+        ),
+    }
 
     @staticmethod
     @require_authentication
@@ -94,45 +90,37 @@ class GetCPE(graphene.Field):
 
 
 class GetCPEs(EntityConnectionField):
-    """Gets a list of CPE information with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
+    """Get a list of CPE information with pagination
 
     Example:
 
-        .. code-block::
-
-            query {
-                cpes (filterString: "name~Foo rows=2") {
-                    nodes {
-                        id
-                        name
-                    }
+        query {
+            cpes (filterString: "name~Foo rows=2") {
+                nodes {
+                    id
+                    name
                 }
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                    "cpes": {
-                        "nodes": [
-                            {
-                                "id": "CPE-2020-12345",
-                                "name": "Foo"
-                            },
-                            {
-                                "id": "CPE-2020-12346",
-                                "name": "Foo Bar"
-                            },
-                        ]
-                    }
+        {
+            "data": {
+                "cpes": {
+                    "nodes": [
+                        {
+                            "id": "CPE-2020-12345",
+                            "name": "Foo"
+                        },
+                        {
+                            "id": "CPE-2020-12346",
+                            "name": "Foo Bar"
+                        },
+                    ]
                 }
             }
+        }
 
     """
 
