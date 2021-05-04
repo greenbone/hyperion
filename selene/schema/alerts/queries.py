@@ -22,6 +22,8 @@ from graphql import ResolveInfo
 
 import graphene
 
+from selene.schema.base import SingleObjectQuery
+
 from selene.schema.alerts.fields import Alert
 
 from selene.schema.parser import FilterString
@@ -35,7 +37,7 @@ from selene.schema.relay import (
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetAlert(graphene.Field):
+class GetAlert(SingleObjectQuery):
     """Get a single alert
 
     Example:
@@ -60,20 +62,21 @@ class GetAlert(graphene.Field):
 
     """
 
-    def __init__(self):
-        super().__init__(
-            Alert,
-            alert_id=graphene.UUID(required=True, name='id'),
-            tasks=graphene.Boolean(default_value=True),
-            resolver=self.resolve,
-        )
+    object_type = Alert
+    kwargs = {
+        'alert_id': graphene.UUID(
+            required=True,
+            name='id',
+            description="UUID of the to be requested alert",
+        ),
+    }
 
     @staticmethod
     @require_authentication
-    def resolve(_root, info, alert_id: UUID, tasks):
+    def resolve(_root, info, alert_id: UUID):
         gmp = get_gmp(info)
 
-        xml = gmp.get_alert(str(alert_id), tasks=tasks)
+        xml = gmp.get_alert(str(alert_id), tasks=True)
         return xml.find('alert')
 
 
