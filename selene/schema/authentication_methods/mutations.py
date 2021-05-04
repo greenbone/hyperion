@@ -38,7 +38,9 @@ class ModifyLDAPAuthenticationSettings(graphene.Mutation):
             description='Hostname or IP of the LDAP server', required=True
         )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(
+        description="True on success. Otherwise the response contains an error"
+    )
 
     @staticmethod
     @require_authentication
@@ -62,6 +64,8 @@ class ModifyLDAPAuthenticationSettings(graphene.Mutation):
 
 
 class ModifyRADIUSAuthenticationSettings(graphene.Mutation):
+    """ObjectType for modifying the LDAP authentication settings"""
+
     class Arguments:
         enable = graphene.Boolean(
             description='True to enable the RADIUS authentication',
@@ -75,7 +79,9 @@ class ModifyRADIUSAuthenticationSettings(graphene.Mutation):
             description="Secret key used for connecting to the RADIUS server",
         )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(
+        description="True on success. Otherwise the response contains an error"
+    )
 
     @staticmethod
     @require_authentication

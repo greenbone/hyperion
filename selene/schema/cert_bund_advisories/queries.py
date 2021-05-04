@@ -35,34 +35,27 @@ from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
 class GetCertBundAdvisory(graphene.Field):
-    """Gets a single CertBundAdvisory information.
-
-    Args:
-        id (str): ID of the CertBundAdvisory information being queried
+    """Get a single CertBund Advisory
 
     Example:
 
-        .. code-block::
-
-            query {
-                certbund (id: "CB-K13/0093"){
-                        id
-                        name
-                }
+        query {
+            certbund (id: "CB-K13/0093"){
+                    id
+                    name
             }
+        }
 
         Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                    "certbund": {
-                        "id": "CB-K13/0093",
-                        "name": "foo"
-                    }
+        {
+            "data": {
+                "certbund": {
+                    "id": "CB-K13/0093",
+                    "name": "foo"
                 }
             }
+        }
 
     """
 
@@ -85,45 +78,37 @@ class GetCertBundAdvisory(graphene.Field):
 
 
 class GetCertBundAdvisories(EntityConnectionField):
-    """Gets a list of CertBundAdvisory information with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
+    """Get a list of CertBund Advisoreswith pagination
 
     Example:
 
-        .. code-block::
-
-            query {
-                certBundAdvisories (filterString: "name~Foo rows=2") {
-                    nodes {
-                        id
-                        name
-                    }
+        query {
+            certBundAdvisories (filterString: "name~Foo rows=2") {
+                nodes {
+                    id
+                    name
                 }
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                    "certBundAdvisories": {
-                        "nodes": [
-                            {
-                                "id": "CB-K13/0093",
-                                "name": "Foo"
-                            },
-                            {
-                                "id": "CB-K13/0094",
-                                "name": "Foo Bar"
-                            },
-                        ]
-                    }
+        {
+            "data": {
+                "certBundAdvisories": {
+                    "nodes": [
+                        {
+                            "id": "CB-K13/0093",
+                            "name": "Foo"
+                        },
+                        {
+                            "id": "CB-K13/0094",
+                            "name": "Foo Bar"
+                        },
+                    ]
                 }
             }
+        }
 
     """
 
