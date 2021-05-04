@@ -64,28 +64,6 @@ class CloneAudit(graphene.Mutation):
         return CloneAudit(audit_id=elem.get('id'))
 
 
-class DeleteAudit(graphene.Mutation):
-    """Delete an audit"""
-
-    class Arguments:
-        audit_id = graphene.UUID(
-            required=True,
-            name='id',
-            description="UUID of the to be deleted Audit",
-        )
-
-    ok = graphene.Boolean(
-        description="True on success. Otherwise the response contains an error"
-    )
-
-    @staticmethod
-    @require_authentication
-    def mutate(_root, info, audit_id):
-        gmp = get_gmp(info)
-        gmp.delete_audit(str(audit_id))
-        return DeleteAudit(ok=True)
-
-
 # Explicit classes needed, else we get error
 # 'AssertionError: Found different types with the same name in the
 #   schema: DeleteByIds, DeleteByIds.'
@@ -109,7 +87,7 @@ class DeleteAuditsByFilter(DeleteByFilterClass):
 
 
 class CreateContainerAuditInput(graphene.InputObjectType):
-    """Input object type for creating an audit container"""
+    """Input ObjectType for creating an audit container"""
 
     name = graphene.String(
         required=True, description="Name of the new audit container"
