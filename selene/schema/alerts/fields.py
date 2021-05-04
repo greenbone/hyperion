@@ -127,6 +127,8 @@ class AlertProperty(graphene.ObjectType):
 
 
 class Alert(EntityObjectType):
+    """Alert entity"""
+
     class Meta:
         default_resolver = find_resolver
 
