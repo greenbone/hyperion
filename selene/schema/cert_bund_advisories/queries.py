@@ -19,7 +19,10 @@
 import graphene
 
 from graphql import ResolveInfo
+
 from gvm.protocols.next import InfoType as GvmInfoType
+
+from selene.schema.base import SingleObjectQuery
 
 from selene.schema.cert_bund_advisories.fields import CertBundAdvisory
 
@@ -34,7 +37,7 @@ from selene.schema.relay import (
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetCertBundAdvisory(graphene.Field):
+class GetCertBundAdvisory(SingleObjectQuery):
     """Get a single CertBund Advisory
 
     Example:
@@ -59,12 +62,14 @@ class GetCertBundAdvisory(graphene.Field):
 
     """
 
-    def __init__(self):
-        super().__init__(
-            CertBundAdvisory,
-            cert_bund_advisory_id=graphene.String(required=True, name='id'),
-            resolver=self.resolve,
-        )
+    object_type = CertBundAdvisory
+    kwargs = {
+        'cert_bund_advisory_id': graphene.String(
+            required=True,
+            name='id',
+            description="ID of the advisory to request information for",
+        ),
+    }
 
     @staticmethod
     @require_authentication

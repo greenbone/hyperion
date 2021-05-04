@@ -22,6 +22,8 @@ from graphql import ResolveInfo
 
 import graphene
 
+from selene.schema.base import SingleObjectQuery
+
 from selene.schema.parser import FilterString
 
 from selene.schema.relay import (
@@ -35,7 +37,7 @@ from selene.schema.audits.fields import Audit
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetAudit(graphene.Field):
+class GetAudit(SingleObjectQuery):
     """Get a single audit
 
     Example:
@@ -60,12 +62,14 @@ class GetAudit(graphene.Field):
 
     """
 
-    def __init__(self):
-        super().__init__(
-            Audit,
-            audit_id=graphene.UUID(required=True, name='id'),
-            resolver=self.resolve,
-        )
+    object_type = Audit
+    kwargs = {
+        'audit_id': graphene.UUID(
+            required=True,
+            name='id',
+            description="UUID of the to be requested Audit",
+        ),
+    }
 
     @staticmethod
     @require_authentication

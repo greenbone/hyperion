@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import graphene
+from selene.schema.base import SingleObjectQuery
 
 from selene.schema.authentication_methods.fields import (
     LDAPAuthenticationSettings,
@@ -26,11 +26,10 @@ from selene.schema.authentication_methods.fields import (
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetLDAPAuthenticationSettings(graphene.Field):
+class GetLDAPAuthenticationSettings(SingleObjectQuery):
     """Get the current settings for LDAP based authentication"""
 
-    def __init__(self):
-        super().__init__(LDAPAuthenticationSettings, resolver=self.resolve)
+    object_type = LDAPAuthenticationSettings
 
     @staticmethod
     @require_authentication
@@ -45,11 +44,10 @@ class GetLDAPAuthenticationSettings(graphene.Field):
         return None
 
 
-class GetRADIUSAuthenticationSettings(graphene.Field):
+class GetRADIUSAuthenticationSettings(SingleObjectQuery):
     """Get the current settings for RADIUS based authentication"""
 
-    def __init__(self):
-        super().__init__(RADIUSAuthenticationSettings, resolver=self.resolve)
+    object_type = RADIUSAuthenticationSettings
 
     @staticmethod
     @require_authentication
