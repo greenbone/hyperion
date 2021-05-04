@@ -19,7 +19,10 @@
 import graphene
 
 from graphql import ResolveInfo
+
 from gvm.protocols.next import InfoType as GvmInfoType
+
+from selene.schema.base import SingleObjectQuery
 
 from selene.schema.cves.fields import CVE
 
@@ -34,44 +37,39 @@ from selene.schema.relay import (
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetCVE(graphene.Field):
-    """Gets a single CVE information.
-
-    Args:
-        id (str): ID of the CVE information being queried
+class GetCVE(SingleObjectQuery):
+    """Get a single CVE information.
 
     Example:
 
-        .. code-block::
+        query {
+            cve (id: "CVE-2020-12345"){
+                    id
+                    name
+            }
+        }
 
-            query {
-                cve (id: "CVE-2020-12345"){
-                        id
-                        name
+    Response:
+
+    .. code-block::
+
+        {
+            "data": {
+                "cve": {
+                    "id": "CVE-2020-12345",
+                    "name": "foo"
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "cve": {
-                        "id": "CVE-2020-12345",
-                        "name": "foo"
-                    }
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            CVE,
-            cve_id=graphene.String(required=True, name='id'),
-            resolver=self.resolve,
-        )
+    object_type = CVE
+    kwargs = {
+        'cve_id': graphene.String(
+            required=True, name='id', description="ID of the CVE"
+        ),
+    }
 
     @staticmethod
     @require_authentication
@@ -83,45 +81,37 @@ class GetCVE(graphene.Field):
 
 
 class GetCVEs(EntityConnectionField):
-    """Gets a list of CVE information with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
+    """Get a list of CVE information with pagination
 
     Example:
 
-        .. code-block::
-
-            query {
-                cves (filterString: "name~Foo rows=2") {
-                    nodes {
-                        id
-                        name
-                    }
+        query {
+            cves (filterString: "name~Foo rows=2") {
+                nodes {
+                    id
+                    name
                 }
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                    "cves": {
-                        "nodes": [
-                            {
-                                "id": "CVE-2020-12345",
-                                "name": "Foo"
-                            },
-                            {
-                                "id": "CVE-2020-12346",
-                                "name": "Foo Bar"
-                            },
-                        ]
-                    }
+        {
+            "data": {
+                "cves": {
+                    "nodes": [
+                        {
+                            "id": "CVE-2020-12345",
+                            "name": "Foo"
+                        },
+                        {
+                            "id": "CVE-2020-12346",
+                            "name": "Foo Bar"
+                        },
+                    ]
                 }
             }
+        }
 
     """
 

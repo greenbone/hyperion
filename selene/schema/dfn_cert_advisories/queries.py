@@ -19,7 +19,10 @@
 import graphene
 
 from graphql import ResolveInfo
+
 from gvm.protocols.next import InfoType as GvmInfoType
+
+from selene.schema.base import SingleObjectQuery
 
 from selene.schema.dfn_cert_advisories.fields import DFNCertAdvisory
 
@@ -34,55 +37,48 @@ from selene.schema.relay import (
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetDFNCertAdvisory(graphene.Field):
+class GetDFNCertAdvisory(SingleObjectQuery):
     """Gets a single DFNCertAdvisory information.
-
-    Args:
-        id (str): ID of the DFNCertAdvisory information being queried
 
     Example:
 
-        .. code-block::
+        query {
+            dfnCertAdvisory(id: "DFN-CERT-2008-0644") {
+                id
+                name
+                updateTime
+                title
+                nvdId
+                maxCvss
+                cveRefs
+                status
+            }
+        }
 
-            query {
-                dfnCertAdvisory(id: "DFN-CERT-2008-0644") {
-                    id
-                    name
-                    updateTime
-                    title
-                    nvdId
-                    maxCvss
-                    cveRefs
-                    status
+    Response:
+
+        {
+            "data": {
+                "dfnCertAdvisory": {
+                    "id": "DFN-CERT-2008-0644",
+                    "name": "DFN-CERT-2008-0644"
+                    "title": "Vendor product etc"
+                    "nvdId": "123456"
+                    "maxCvss": 5.6
+                    "cveRefs": 1
+                    "status": "FINAL"
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "dfnCertAdvisory": {
-                        "id": "DFN-CERT-2008-0644",
-                        "name": "DFN-CERT-2008-0644"
-                        "title": "Vendor product etc"
-                        "nvdId": "123456"
-                        "maxCvss": 5.6
-                        "cveRefs": 1
-                        "status": "FINAL"
-                    }
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            DFNCertAdvisory,
-            dfn_cert_advisory_id=graphene.String(required=True, name='id'),
-            resolver=self.resolve,
-        )
+    object_type = DFNCertAdvisory
+    kwargs = {
+        'dfn_cert_advisory_id': graphene.String(
+            required=True, name='id', description="ID of the DFN Cert advisory"
+        ),
+    }
 
     @staticmethod
     @require_authentication

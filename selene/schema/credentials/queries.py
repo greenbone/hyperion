@@ -22,6 +22,8 @@ import graphene
 
 from graphql import ResolveInfo
 
+from selene.schema.base import SingleObjectQuery
+
 from selene.schema.credentials.fields import Credential, CredentialFormat
 
 from selene.schema.parser import FilterString
@@ -35,49 +37,35 @@ from selene.schema.relay import (
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetCredential(graphene.Field):
-    """Gets a single credential.
-
-    Args:
-        id (UUID): UUID of the credential being queried
+class GetCredential(SingleObjectQuery):
+    """Get a single credential
 
     Example:
 
-        .. code-block::
+        query {
+            credential (id: "4846b497-936b-4816-aa4a-1a997cf9ab8d"){
+                    id
+                    name
+            }
+        }
 
-            query {
-                credential (id: "4846b497-936b-4816-aa4a-1a997cf9ab8d"){
-                        id
-                        name
+    Response:
+
+        {
+            "data": {
+                "credential": {
+                    "id": "4846b497-936b-4816-aa4a-1a997cf9ab8d",
+                    "name": "foo"
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "credential": {
-                        "id": "4846b497-936b-4816-aa4a-1a997cf9ab8d",
-                        "name": "foo"
-                    }
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            Credential,
-            credential_id=graphene.UUID(required=True, name='id'),
-            scanners=graphene.Boolean(default_value=True),
-            targets=graphene.Boolean(default_value=True),
-            credential_format=graphene.String(
-                default_value=None, name='format'
-            ),
-            resolver=self.resolve,
-        )
+    object_type = Credential
+    kwargs = {
+        'credential_format': graphene.String(default_value=None, name='format'),
+    }
 
     @staticmethod
     @require_authentication
@@ -85,8 +73,6 @@ class GetCredential(graphene.Field):
         _root,
         info,
         credential_id: UUID,
-        targets,
-        scanners,
         credential_format=None,
     ):
         gmp = get_gmp(info)
@@ -99,53 +85,45 @@ class GetCredential(graphene.Field):
 
         xml = gmp.get_credential(
             str(credential_id),
-            scanners=scanners,
-            targets=targets,
+            scanners=False,  # should be set to true depending on the query
+            targets=False,  # should be set to true depending on the query
             credential_format=cred_format,
         )
         return xml.find('credential')
 
 
 class GetCredentials(EntityConnectionField):
-    """Gets a list of credentials with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
+    """Get a list of credentials with pagination
 
     Example:
 
-        .. code-block::
-
-            query {
-                credentials (filterString: "name~Foo rows=2") {
-                    nodes {
-                        id
-                        name
-                    }
+        query {
+            credentials (filterString: "name~Foo rows=2") {
+                nodes {
+                    id
+                    name
                 }
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                    "credentials": {
-                        "nodes": [
-                            {
-                                "id": "1fb47870-47ce-4b9f-a8f9-8b4b19624c59",
-                                "name": "Foo"
-                            },
-                            {
-                                "id": "5d07b6eb-27f9-424a-a206-34babbba7b4d",
-                                "name": "Foo Bar"
-                            },
-                        ]
-                    }
+        {
+            "data": {
+                "credentials": {
+                    "nodes": [
+                        {
+                            "id": "1fb47870-47ce-4b9f-a8f9-8b4b19624c59",
+                            "name": "Foo"
+                        },
+                        {
+                            "id": "5d07b6eb-27f9-424a-a206-34babbba7b4d",
+                            "name": "Foo Bar"
+                        },
+                    ]
                 }
             }
+        }
 
     """
 
