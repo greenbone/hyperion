@@ -422,6 +422,7 @@ class EntityConnectionField(graphene.Field):
         self,
         connection_type: Type[EntityConnection] = None,
         entity_type: Type[graphene.ObjectType] = None,
+        description: str = None,
         **kwargs,
     ):
         entity_type = entity_type or self.entity_type
@@ -429,6 +430,9 @@ class EntityConnectionField(graphene.Field):
 
         if not connection_type:
             connection_type = create_entity_connection_type(entity_type)
+
+        if description is None:
+            description = self.__doc__
 
         super().__init__(
             connection_type,
@@ -439,6 +443,7 @@ class EntityConnectionField(graphene.Field):
             first=graphene.Int(),
             last=graphene.Int(),
             resolver=self.resolve_entities,
+            description=description,
             **kwargs,
         )
 
