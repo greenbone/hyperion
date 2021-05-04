@@ -21,11 +21,10 @@ from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
 class GetFeed(SingleObjectQuery):
-    """Gets a single feed
+    """Get a single feed
 
     Example:
 
-    .. code-block::
         query {
             feed (feedType: NVT) {
                 name
@@ -38,13 +37,11 @@ class GetFeed(SingleObjectQuery):
 
     Response:
 
-    .. code-block::
-
     {
         "data": {
             "feed": {
                 "name": "Greenbone Security Feed",
-                "version": "202010220502\n",
+                "version": "202010220502",
                 "description": "This script synchronizes [...]",
                 "type": "NVT",
                 "currentlySyncing": True,
@@ -74,25 +71,18 @@ class GetFeed(SingleObjectQuery):
 class GetFeeds(ListQuery):
     """Gets a list of all feeds
 
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
-
     Example:
 
-        .. code-block::
-
-            query {
-                feeds {
-                    type
-                    name
-                    version
-                }
+        query {
+            feeds {
+                type
+                name
+                version
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
 
         {
             "data": {
@@ -100,7 +90,7 @@ class GetFeeds(ListQuery):
                     {
                         "type": "NVT",
                         "name": "Greenbone Security Feed",
-                        "version": "202010220502\n"
+                        "version": "202010220502"
                     },
                     {
                         "type": "SCAP",

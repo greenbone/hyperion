@@ -32,6 +32,8 @@ class FeedType(graphene.Enum):
 
 
 class Feed(graphene.ObjectType):
+    """Representation of a Feed"""
+
     class Meta:
         default_resolver = find_resolver
 

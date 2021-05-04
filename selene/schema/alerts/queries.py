@@ -36,34 +36,27 @@ from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
 class GetAlert(graphene.Field):
-    """Gets a single alert.
-
-    Args:
-        id (UUID): UUID of the alert being queried
+    """Get a single alert
 
     Example:
 
-        .. code-block::
+        query {
+            alert(id: "08b69003-5fc2-4037-a479-93b440211c73"){
+                name
+                id
+            }
+        }
 
-            query {
-                alert(id: "08b69003-5fc2-4037-a479-93b440211c73"){
-                    name
-                    id
+    Response:
+
+        {
+            "data": {
+                "alert": {
+                    "name": "foo",
+                    "id": "08b69003-5fc2-4037-a479-93b440211c73"
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "alert": {
-                        "name": "foo",
-                        "id": "08b69003-5fc2-4037-a479-93b440211c73"
-                    }
-                }
-            }
+        }
 
     """
 
@@ -85,45 +78,37 @@ class GetAlert(graphene.Field):
 
 
 class GetAlerts(EntityConnectionField):
-    """Gets a list of alerts with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
+    """Get a list of alerts with pagination
 
     Example:
 
-        .. code-block::
-
-            query {
-                alerts (filterString: "foo"){
-                    nodes {
-                        name
-                        id
-                    }
+        query {
+            alerts (filterString: "foo"){
+                nodes {
+                    name
+                    id
                 }
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                    "alerts": {
-                        "nodes": [
-                            {
-                                "name": "foo",
-                                "id": "08b69003-5fc2-4037-a479-93b440211c73"
-                            },
-                            {
-                                "name": "bar",
-                                "id": "6b2db524-9fb0-45b8-9b56-d958f84cb546"
-                            }
-                        ]
-                    }
+        {
+            "data": {
+                "alerts": {
+                    "nodes": [
+                        {
+                            "name": "foo",
+                            "id": "08b69003-5fc2-4037-a479-93b440211c73"
+                        },
+                        {
+                            "name": "bar",
+                            "id": "6b2db524-9fb0-45b8-9b56-d958f84cb546"
+                        }
+                    ]
                 }
             }
+        }
 
     """
 
