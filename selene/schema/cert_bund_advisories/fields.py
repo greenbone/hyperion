@@ -28,6 +28,8 @@ from selene.schema.utils import (
 
 
 class CertBundAdvisoryRevision(graphene.ObjectType):
+    """The revision information of the CertBund advisory"""
+
     date = graphene.DateTime()
     description = graphene.String()
     number = graphene.Int()
@@ -59,7 +61,9 @@ class CertBundAdvisoryInfo(graphene.ObjectType):
 
 
 class CertBundAdvisory(EntityObjectType):
-    uuid = graphene.String(name='id')
+    """A CertBund Advisory"""
+
+    uuid = graphene.String(name='id', description="ID of the advisory")
     update_time = graphene.DateTime()
     max_cvss = SeverityType
     score = SeverityType

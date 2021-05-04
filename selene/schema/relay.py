@@ -422,6 +422,7 @@ class EntityConnectionField(graphene.Field):
         self,
         connection_type: Type[EntityConnection] = None,
         entity_type: Type[graphene.ObjectType] = None,
+        description: str = None,
         **kwargs,
     ):
         entity_type = entity_type or self.entity_type
@@ -430,15 +431,34 @@ class EntityConnectionField(graphene.Field):
         if not connection_type:
             connection_type = create_entity_connection_type(entity_type)
 
+        if description is None:
+            description = self.__doc__
+
         super().__init__(
             connection_type,
-            filter_string=FilterString(),
-            details=graphene.Boolean(),
-            before=graphene.String(),
-            after=graphene.String(),
-            first=graphene.Int(),
-            last=graphene.Int(),
+            filter_string=FilterString(
+                description="Optional filter string to be used with the query"
+            ),
+            details=graphene.Boolean(
+                description="DO NOT USE. Will be removed."
+            ),
+            after=graphene.String(
+                description="Show nodes after this cursor. Must be used in "
+                "conjunction with first argument"
+            ),
+            before=graphene.String(
+                description="Show nodes before this cursor. Must be used"
+                "in conjunction with the last argument"
+            ),
+            first=graphene.Int(
+                description="Show first number of nodes using the after cursor"
+            ),
+            last=graphene.Int(
+                description="Show the last number of nodes using the before "
+                "cursor"
+            ),
             resolver=self.resolve_entities,
+            description=description,
             **kwargs,
         )
 

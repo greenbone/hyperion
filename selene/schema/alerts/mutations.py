@@ -133,29 +133,7 @@ class MethodData(graphene.InputObjectType):
 
 
 class CreateAlertInput(graphene.InputObjectType):
-    """Input object for createAlert.
-
-    Args:
-        name (str): Name of the new alert
-        event (AlertEvent): The event that must happen for the alert to occur,
-            one of ‘TASK_RUN_STATUS_CHANGED’, ‘UPDATED_SECINFO_ARRIVED’ or
-            ‘NEW_SECINFO_ARRIVED’
-        condition (AlertCondition): The condition that must be satisfied for
-            the alert to occur; if the event is either ‘UPDATED_SECINFO_ARRIVED’
-            or ‘NEW_SECINFO_ARRIVED’, condition must be 'ALWAYS'. Otherwise,
-            condition can also be on of ‘SEVERITY_AT_LEAST’,
-            ‘FILTER_COUNT_CHANGED’ or ‘FILTER_COUNT_AT_LEAST’.
-        method (AlertMethod): The method by which the user is alerted, one
-            of ‘SCP’, 'SEND, ‘SMB’, ‘SNMP’, 'SYSLOG' or 'EMAIL'; if the event is
-            neither ‘UPDATED_SECINFO_ARRIVED’ nor ‘NEW_SECINFO_ARRIVED’, method
-            can also be one of ‘START_TASK’, ‘HTTP_GET’, ‘SOURCEFIRE_CONNECTOR’
-            or ‘VERINICE_CONNECTOR’.
-        event_data (dict, optional): Data that defines the event
-        condition_data (dict, optional): Data that defines the condition
-        method_data (dict, optional): Data that defines the method
-        filter_id (UUID, optional): Filter to apply when executing alert
-        comment (str, optional): Comment for the alert
-    """
+    """Input ObjectType for creating an alert"""
 
     name = graphene.String(required=True, description="Name of the new alert")
     event = AlertEvent(
@@ -186,16 +164,16 @@ class CreateAlertInput(graphene.InputObjectType):
 
 
 class CreateAlert(graphene.Mutation):
-    """Creates an alert
-
-    Args:
-        input (CreateAlertInput): Input object for CreateAlert.
-    """
+    """Create an alert"""
 
     class Arguments:
-        input_object = CreateAlertInput(required=True, name='input')
+        input_object = CreateAlertInput(
+            required=True,
+            name='input',
+            description="Input ObjectType for creating an alert",
+        )
 
-    alert_id = graphene.UUID(name='id')
+    alert_id = graphene.UUID(name='id', description="UUID of the new alert")
 
     @staticmethod
     @require_authentication
@@ -246,33 +224,11 @@ class CreateAlert(graphene.Mutation):
 
 
 class ModifyAlertInput(graphene.InputObjectType):
-    """Input object for createAlert.
+    """Input ObjectType for modifying an alert"""
 
-    Args:
-        id (UUID): UUID of the alert that will be modified
-        name (str, optional): Name of the new alert
-        event (AlertEvent, optional): The event that must happen for the alert
-            to occur, one of ‘TASK_RUN_STATUS_CHANGED’,
-            ‘UPDATED_SECINFO_ARRIVED’ or ‘NEW_SECINFO_ARRIVED’
-        condition (AlertCondition, optional): The condition that must be
-            satisfied for the alert to occur; if the event is either
-            ‘UPDATED_SECINFO_ARRIVED’ or ‘NEW_SECINFO_ARRIVED’, condition must
-            be 'ALWAYS'. Otherwise, condition can also be on of
-            ‘SEVERITY_AT_LEAST’, ‘FILTER_COUNT_CHANGED’ or
-            ‘FILTER_COUNT_AT_LEAST’.
-        method (AlertMethod, optional): The method by which the user is alerted,
-            one of ‘SCP’, 'SEND, ‘SMB’, ‘SNMP’, 'SYSLOG' or 'EMAIL'; if the
-            event is neither ‘UPDATED_SECINFO_ARRIVED’ nor ‘NEW_SECINFO_ARRIVED’
-            method can also be one of ‘START_TASK’, ‘HTTP_GET’,
-            ‘SOURCEFIRE_CONNECTOR’ or ‘VERINICE_CONNECTOR’.
-        event_data (dict, optional): Data that defines the event
-        condition_data (dict, optional): Data that defines the condition
-        method_data (dict, optional): Data that defines the method
-        filter_id (UUID, optional): Filter to apply when executing alert
-        comment (str, optional): Comment for the alert
-    """
-
-    alert_id = graphene.UUID(required=True, name='id')
+    alert_id = graphene.UUID(
+        required=True, name='id', description="UUID of the alert to be modified"
+    )
     name = graphene.String(description="Name of the new alert")
     event = AlertEvent(
         description="The event that must be satisfied for the alert to occur"
@@ -290,24 +246,26 @@ class ModifyAlertInput(graphene.InputObjectType):
     )
     comment = graphene.String(description="Comment for the alert")
     filter_id = graphene.UUID(
-        description="Filter to apply when executing alert"
+        description="Filter to apply when executing the alert"
     )
     report_formats = graphene.List(
-        graphene.UUID, description="List of UUIDs to use with Alemba vFire"
+        graphene.UUID, description="List of UUIDs for report formats"
     )
 
 
 class ModifyAlert(graphene.Mutation):
-    """Modifies an alert
-
-    Args:
-        input (ModifyAlertInput): Input object for ModifyAlert.
-    """
+    """Modify an alert"""
 
     class Arguments:
-        input_object = ModifyAlertInput(required=True, name='input')
+        input_object = ModifyAlertInput(
+            required=True,
+            name='input',
+            description="Input ObjectType for modifying an alert",
+        )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(
+        description="True on success. Otherwise the response contains an error"
+    )
 
     @staticmethod
     @require_authentication
@@ -359,21 +317,16 @@ class ModifyAlert(graphene.Mutation):
 
 
 class CloneAlert(graphene.Mutation):
-    """Clones an alert
-
-    Args:
-        id (UUID): UUID of alert to clone.
-
-    Returns:
-        ok (Boolean)
-    """
+    """Clone an alert"""
 
     class Arguments:
         copy_id = graphene.UUID(
-            required=True, name='id', description='UUID of the alert to clone.'
+            required=True,
+            name='id',
+            description='UUID of the alert to be cloned',
         )
 
-    alert_id = graphene.UUID(name='id')
+    alert_id = graphene.UUID(name='id', description="UUID of the new alert")
 
     @staticmethod
     @require_authentication
@@ -384,21 +337,16 @@ class CloneAlert(graphene.Mutation):
 
 
 class TestAlert(graphene.Mutation):
-    """Test an alert
-
-    Args:
-        id (UUID): UUID of alert to test.
-
-    Returns:
-        ok (Boolean)
-    """
+    """Test an alert"""
 
     class Arguments:
         alert_id = graphene.UUID(
-            required=True, name='id', description='UUID of the alert to test.'
+            required=True, name='id', description='UUID of the alert to test'
         )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(
+        description="True on success. Otherwise the response contains an error"
+    )
 
     @staticmethod
     @require_authentication
@@ -416,26 +364,14 @@ DeleteByIdsClass = create_delete_by_ids_mutation(entity_name='alert')
 
 
 class DeleteAlertsByIds(DeleteByIdsClass):
-    """Deletes a list of alerts
-
-    Args:
-        ids (List(UUID)): List of UUIDs of alert to delete.
-
-    Returns:
-        ok (Boolean)
-    """
+    """Deletes a list of alerts"""
 
 
 DeleteByFilterClass = create_delete_by_filter_mutation(entity_name='alert')
 
 
 class DeleteAlertsByFilter(DeleteByFilterClass):
-    """Deletes a filtered list of alerts
-    Args:
-        filterString (str): Filter string for alert list to delete.
-    Returns:
-        ok (Boolean)
-    """
+    """Delete a filtered list of alerts"""
 
 
 # Explicit classes needed, else we get error

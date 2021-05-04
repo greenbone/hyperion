@@ -27,6 +27,8 @@ from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
 class GetLDAPAuthenticationSettings(graphene.Field):
+    """Get the current settings for LDAP based authentication"""
+
     def __init__(self):
         super().__init__(LDAPAuthenticationSettings, resolver=self.resolve)
 
@@ -44,6 +46,8 @@ class GetLDAPAuthenticationSettings(graphene.Field):
 
 
 class GetRADIUSAuthenticationSettings(graphene.Field):
+    """Get the current settings for RADIUS based authentication"""
+
     def __init__(self):
         super().__init__(RADIUSAuthenticationSettings, resolver=self.resolve)
 
