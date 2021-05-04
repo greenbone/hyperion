@@ -86,40 +86,6 @@ class DeleteAuditsByFilter(DeleteByFilterClass):
     """Delete a filtered list of audits"""
 
 
-class CreateContainerAuditInput(graphene.InputObjectType):
-    """Input ObjectType for creating an audit container"""
-
-    name = graphene.String(
-        required=True, description="Name of the new audit container"
-    )
-    comment = graphene.String(
-        description="Optional comment for the new audit container"
-    )
-
-
-class CreateContainerAudit(graphene.Mutation):
-    class Arguments:
-        input_object = CreateContainerAuditInput(
-            required=True,
-            name="input",
-            description="Input Object for creating an audit container",
-        )
-
-    audit_id = graphene.UUID(
-        name='id', description="UUID of the new audit container"
-    )
-
-    @staticmethod
-    @require_authentication
-    def mutate(_root, info, input_object: CreateContainerAuditInput):
-        gmp = get_gmp(info)
-
-        resp = gmp.create_container_audit(
-            input_object.name, comment=input_object.comment
-        )
-        return CreateContainerAudit(audit_id=resp.get('id'))
-
-
 class CreateAuditInput(graphene.InputObjectType):
     """Input object for creating an audit"""
 
