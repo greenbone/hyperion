@@ -38,24 +38,23 @@ from selene.schema.utils import (
 
 
 class HostsOrdering(graphene.Enum):
+    """Ordering of Hosts"""
+
     class Meta:
         enum = GvmHostsOrdering
 
 
 class CloneAudit(graphene.Mutation):
-    """Clones a audit
-
-    Args:
-        id (UUID): UUID of audit to clone.
-
-    Returns:
-        id (UUID)
-    """
+    """Clone an audit"""
 
     class Arguments:
-        audit_id = graphene.UUID(required=True, name='id')
+        audit_id = graphene.UUID(
+            required=True,
+            name='id',
+            description="UUID of the to be cloned Audit",
+        )
 
-    audit_id = graphene.UUID(name='id')
+    audit_id = graphene.UUID(name='id', description="UUID of the new Audit")
 
     @staticmethod
     @require_authentication
@@ -66,19 +65,18 @@ class CloneAudit(graphene.Mutation):
 
 
 class DeleteAudit(graphene.Mutation):
-    """Deletes a audit
-
-    Args:
-        id (UUID): UUID of audit to delete.
-
-    Returns:
-        ok (Boolean)
-    """
+    """Delete an audit"""
 
     class Arguments:
-        audit_id = graphene.UUID(required=True, name='id')
+        audit_id = graphene.UUID(
+            required=True,
+            name='id',
+            description="UUID of the to be deleted Audit",
+        )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(
+        description="True on success. Otherwise the response contains an error"
+    )
 
     @staticmethod
     @require_authentication
@@ -98,14 +96,7 @@ DeleteByIdsClass = create_delete_by_ids_mutation(
 
 
 class DeleteAuditsByIds(DeleteByIdsClass):
-    """Deletes a list of audits
-
-    Args:
-        ids (List(UUID)): List of UUIDs of audits to delete.
-
-    Returns:
-        ok (Boolean)
-    """
+    """Delete a list of audits"""
 
 
 DeleteByFilterClass = create_delete_by_filter_mutation(
@@ -114,26 +105,31 @@ DeleteByFilterClass = create_delete_by_filter_mutation(
 
 
 class DeleteAuditsByFilter(DeleteByFilterClass):
-    """Deletes a filtered list of audits
-    Args:
-        filterString (str): Filter string for audit list to delete.
-    Returns:
-        ok (Boolean)
-    """
+    """Delete a filtered list of audits"""
 
 
 class CreateContainerAuditInput(graphene.InputObjectType):
-    """Input object type for createContainerAudit"""
+    """Input object type for creating an audit container"""
 
-    name = graphene.String(required=True)
-    comment = graphene.String()
+    name = graphene.String(
+        required=True, description="Name of the new audit container"
+    )
+    comment = graphene.String(
+        description="Optional comment for the new audit container"
+    )
 
 
 class CreateContainerAudit(graphene.Mutation):
     class Arguments:
-        input_object = CreateContainerAuditInput(required=True, name="input")
+        input_object = CreateContainerAuditInput(
+            required=True,
+            name="input",
+            description="Input Object for creating an audit container",
+        )
 
-    audit_id = graphene.UUID(name='id')
+    audit_id = graphene.UUID(
+        name='id', description="UUID of the new audit container"
+    )
 
     @staticmethod
     @require_authentication
@@ -147,54 +143,27 @@ class CreateContainerAudit(graphene.Mutation):
 
 
 class CreateAuditInput(graphene.InputObjectType):
-    """Input object for createAudit.
+    """Input object for creating an audit"""
 
-    Args:
-        name (str): The name of the audit.
-        policy_id (UUID): UUID of policy to use by the audit;
-            OpenVAS Default scanners only
-        target_id (UUID): UUID of target to be scanned
-        scanner_id (UUID): UUID of scanner to use
-        alert_ids (List(UUID), optional): List of UUIDs for alerts to
-            be applied to the audit
-        alterable (bool, optional): Whether the audit is alterable.
-        apply_overrides (bool, optional): Whether to apply overrides
-        auto_delete (str, optional): Whether to automatically delete reports,
-            And if yes, "keep", if no, "no"
-        auto_delete_data (int, optional): if auto_delete is "keep", how many
-            of the latest reports to keep
-        comment (str, optional): The comment on the audit.
-        hosts_ordering (str, optional): The order hosts are scanned in;
-            OpenVAS Default scanners only
-        in_assets (bool, optional): Whether to add the audit's results to assets
-        max_checks (int, optional): Maximum concurrently executed NVTs per host;
-            OpenVAS Default scanners only
-        max_hosts (int, optional): Maximum concurrently scanned hosts;
-            OpenVAS Default scanners only
-        observers (Observers, optional): List of names or ids of users which
-            should be allowed to observe this audit
-        min_qod (int, optional): Minimum quality of detection
-        scanner_type (int, optional): Type of scanner, 1-5
-        schedule_id (UUID, optional): UUID of a schedule when the audit
-            should be run.
-        schedule_periods (int, optional): A limit to the number of times the
-            audit will be scheduled, or 0 for no limit.
-        source_iface (str, optional): Network Source Interface;
-            OpenVAS Default scanners only
-    """
-
-    name = graphene.String(required=True, description="Audit name.")
+    name = graphene.String(required=True, description="Audit name")
     policy_id = graphene.UUID(
         required=True,
-        description=("UUID of policy. " "OpenVAS Default scanners only."),
+        description="UUID of the to be used policy. Only for OpenVAS scanners.",
     )
-    target_id = graphene.UUID(required=True, description="UUID of target.")
-    scanner_id = graphene.UUID(required=True, description="UUID of scanner.")
+    target_id = graphene.UUID(
+        required=True, description="UUID of to be used target"
+    )
+    scanner_id = graphene.UUID(
+        required=True, description="UUID of to be used scanner"
+    )
 
     alert_ids = graphene.List(
-        graphene.UUID, description="List of UUIDs for alerts."
+        graphene.UUID,
+        description="List of UUIDs for alerts to be used in the audit",
     )
-    alterable = graphene.Boolean(description="Whether the audit is alterable.")
+    alterable = graphene.Boolean(
+        description="Whether the audit should be alterable"
+    )
     apply_overrides = graphene.Boolean(
         description="Whether to apply overrides."
     )
@@ -210,32 +179,31 @@ class CreateAuditInput(graphene.InputObjectType):
             "how many of the latest reports to keep"
         )
     )
-    comment = graphene.String(description="Audit comment.")
+    comment = graphene.String(description="Audit comment")
     hosts_ordering = graphene.String(
-        description=(
-            "The order hosts are scanned in; " "OpenVAS Default scanners only."
-        )
+        description="The order hosts are scanned in. Only for OpenVAS scanners."
     )
     in_assets = graphene.Boolean(
         description="Whether to add the audit's results to assets."
     )
     max_checks = graphene.Int(
-        description=(
-            "Maximum concurrently executed NVTs per host; "
-            "OpenVAS Default scanners only."
-        )
+        description="Maximum concurrently executed NVTs per host. "
+        "Only for OpenVAS scanners."
     )
     max_hosts = graphene.Int(
         description=(
-            "Maximum concurrently scanned hosts; "
-            "OpenVAS Default scanners only."
+            "Maximum concurrently scanned hosts. Only for OpenVAS scanners"
         )
     )
-    min_qod = graphene.Int(description="Minimum quality of detection.")
-    observers = graphene.List(graphene.String)
     scanner_type = graphene.Int(
         description="Type of scanner, 1-5."
     )  # will be enum once frontend is implemented
+    min_qod = graphene.Int(description="Minimum quality of detection")
+    observers = graphene.List(
+        graphene.UUID,
+        description="List of UUIDs for users which should be allowed to "
+        "observer the audit",
+    )
     schedule_id = graphene.UUID(
         description="UUID of a schedule when the audit should be run."
     )
@@ -246,24 +214,21 @@ class CreateAuditInput(graphene.InputObjectType):
         )
     )
     source_iface = graphene.String(
-        description=(
-            "Network Source Interface; " "OpenVAS Default scanners only"
-        )
+        description=("Network Source Interface. Only for OpenVAS scanners")
     )
 
 
 class CreateAudit(graphene.Mutation):
-    """Creates a new audit. Call with createAudit.
-
-    Args:
-        input (CreateAuditInput): Input object for CreateAudit
-
-    """
+    """Create a new audit"""
 
     class Arguments:
-        input_object = CreateAuditInput(required=True, name='input')
+        input_object = CreateAuditInput(
+            required=True,
+            name='input',
+            description="Input ObjectType for creating a new audit",
+        )
 
-    audit_id = graphene.UUID(name='id')
+    audit_id = graphene.UUID(name='id', description="UUID of the new audit")
 
     @staticmethod
     @require_authentication
@@ -356,60 +321,23 @@ class CreateAudit(graphene.Mutation):
 
 
 class ModifyAuditInput(graphene.InputObjectType):
-    """Input object for modifyAudit.
-
-    Args:
-        id (UUID): UUID of audit to modify.
-        name (str, optional): The name of the audit.
-        policy_id (UUID, optional): UUID of policy to use by the audit;
-            OpenVAS Default scanners only
-        target_id (UUID, optional): UUID of target to be scanned
-        scanner_id (UUID, optional): UUID of scanner to use
-        alert_ids (List(UUID), optional): List of UUIDs for alerts to
-            be applied to the audit
-        alterable (bool, optional): Whether the audit is alterable.
-        apply_overrides (bool, optional): Whether to apply overrides
-        auto_delete (str, optional): Whether to automatically delete reports,
-            And if yes, "keep", if no, "no"
-        auto_delete_data (int, optional): if auto_delete is "keep", how many
-            of the latest reports to keep
-        comment (str, optional): The comment on the audit.
-        hosts_ordering (str, optional): The order hosts are scanned in;
-            OpenVAS Default scanners only
-        in_assets (bool, optional): Whether to add the audit's results to assets
-        max_checks (int, optional): Maximum concurrently executed NVTs per host;
-            OpenVAS Default scanners only
-        max_hosts (int, optional): Maximum concurrently scanned hosts;
-            OpenVAS Default scanners only
-        observers (Observers, optional): List of names or ids of users which
-            should be allowed to observe this audit
-        min_qod (int, optional): Minimum quality of detection
-        scanner_type (int, optional): Type of scanner, 1-5
-        schedule_id (UUID, optional): UUID of a schedule when the audit
-            should be run.
-        schedule_periods (int, optional): A limit to the number of times the
-            audit will be scheduled, or 0 for no limit.
-        source_iface (str, optional): Network Source Interface;
-            OpenVAS Default scanners only
-    """
+    """Input object for modifying an audit"""
 
     audit_id = graphene.UUID(
         required=True, description="UUID of audit to modify.", name='id'
     )
-    name = graphene.String(description="Audit name.")
+    name = graphene.String(description="Audit name")
     policy_id = graphene.UUID(
-        description=("UUID of policy. " "OpenVAS Default scanners only.")
+        description=("UUID of policy. OpenVAS Default scanners only")
     )
-    target_id = graphene.UUID(description="UUID of target.")
-    scanner_id = graphene.UUID(description="UUID of scanner.")
+    target_id = graphene.UUID(description="UUID of target")
+    scanner_id = graphene.UUID(description="UUID of scanner")
 
     alert_ids = graphene.List(
-        graphene.UUID, description="List of UUIDs for alerts."
+        graphene.UUID, description="List of UUIDs for alerts"
     )
-    alterable = graphene.Boolean(description="Whether the audit is alterable.")
-    apply_overrides = graphene.Boolean(
-        description="Whether to apply overrides."
-    )
+    alterable = graphene.Boolean(description="Whether the audit is alterable")
+    apply_overrides = graphene.Boolean(description="Whether to apply overrides")
     auto_delete = graphene.String(
         description=(
             "Whether to automatically delete reports, "
@@ -425,25 +353,25 @@ class ModifyAuditInput(graphene.InputObjectType):
     comment = graphene.String(description="Audit comment.")
     hosts_ordering = graphene.String(
         description=(
-            "The order hosts are scanned in; " "OpenVAS Default scanners only."
+            "The order hosts are scanned in. OpenVAS Default scanners only"
         )
     )
     in_assets = graphene.Boolean(
-        description="Whether to add the audit's results to assets."
+        description="Whether to add the audit's results to assets"
     )
     max_checks = graphene.Int(
         description=(
-            "Maximum concurrently executed NVTs per host; "
-            "OpenVAS Default scanners only."
+            "Maximum concurrently executed NVTs per host. "
+            "OpenVAS Default scanners only"
         )
     )
     max_hosts = graphene.Int(
         description=(
-            "Maximum concurrently scanned hosts; "
-            "OpenVAS Default scanners only."
+            "Maximum concurrently scanned hosts. "
+            "OpenVAS Default scanners only"
         )
     )
-    min_qod = graphene.Int(description="Minimum quality of detection.")
+    min_qod = graphene.Int(description="Minimum quality of detection")
     observers = graphene.List(graphene.String)
     scanner_type = graphene.Int(
         description="Type of scanner, 1-5."

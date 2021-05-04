@@ -36,34 +36,27 @@ from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
 class GetAudit(graphene.Field):
-    """Gets a single audit.
-
-    Args:
-        id (UUID): UUID of the audit being queried
+    """Get a single audit
 
     Example:
 
-        .. code-block::
+        query {
+            audit (auditId: "f5c40267-71ab-4cd7-b14b-3599a84522e8") {
+                name
+                comment
+            }
+        }
 
-            query {
-                audit (auditId: "f5c40267-71ab-4cd7-b14b-3599a84522e8") {
-                    name
-                    comment
+    Response:
+
+        {
+            "data": {
+                "audit": {
+                    "name": "modified",
+                    "comment": "To be or not to be",
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "audit": {
-                        "name": "modified",
-                        "comment": "To be or not to be",
-                    }
-                }
-            }
+        }
 
     """
 
@@ -84,53 +77,45 @@ class GetAudit(graphene.Field):
 
 
 class GetAudits(EntityConnectionField):
-    """Gets a list of audits with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
+    """Get a list of audits with pagination
 
     Example:
 
-        .. code-block::
-
-            query {
-                audits (filterString: "name~TLS rows=4") {
-                    nodes {
-                        id
-                        name
-                    }
+        query {
+            audits (filterString: "name~TLS rows=4") {
+                nodes {
+                    id
+                    name
                 }
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                    "audits": {
-                        "nodes": [
-                            {
-                                "id": "1fb47870-47ce-4b9f-a8f9-8b4b19624c59",
-                                "name": "TLS"
-                            },
-                            {
-                                "id": "5d07b6eb-27f9-424a-a206-34babbba7b4d",
-                                "name": "TLS Clone 1"
-                            },
-                            {
-                                "id": "3e2dab9d-8abe-4eb6-a3c7-5171738ac520",
-                                "name": "TLS Clone 2"
-                            },
-                            {
-                                "id": "49415287-32e7-4451-9424-df4e44bffc6c",
-                                "name": "TLS Clone 3"
-                            }
-                        ]
-                    }
+        {
+            "data": {
+                "audits": {
+                    "nodes": [
+                        {
+                            "id": "1fb47870-47ce-4b9f-a8f9-8b4b19624c59",
+                            "name": "TLS"
+                        },
+                        {
+                            "id": "5d07b6eb-27f9-424a-a206-34babbba7b4d",
+                            "name": "TLS Clone 1"
+                        },
+                        {
+                            "id": "3e2dab9d-8abe-4eb6-a3c7-5171738ac520",
+                            "name": "TLS Clone 2"
+                        },
+                        {
+                            "id": "49415287-32e7-4451-9424-df4e44bffc6c",
+                            "name": "TLS Clone 3"
+                        }
+                    ]
                 }
             }
+        }
 
     """
 
