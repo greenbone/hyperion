@@ -229,9 +229,6 @@ class CreateTaskInput(graphene.InputObjectType):
     )
     min_qod = graphene.Int(description="Minimum quality of detection.")
     observers = graphene.List(graphene.String)
-    scanner_type = graphene.Int(
-        description="Type of scanner, 1-5."
-    )  # will be enum once frontend is implemented
     schedule_id = graphene.UUID(
         description="UUID of a schedule when the task should be run."
     )
@@ -322,16 +319,12 @@ class CreateTask(graphene.Mutation):
                 "yes" if input_object.in_assets == 1 else "no"
             )
 
-        if input_object.scanner_type == 2:
-            if input_object.max_checks is not None:
-                preferences['max_checks'] = input_object.max_checks
-            if input_object.max_hosts is not None:
-                preferences['max_hosts'] = input_object.max_hosts
-            if input_object.source_iface is not None:
-                preferences['source_iface'] = input_object.source_iface
-        else:
-            # config_id is required for create_task in python-gvm
-            hosts_ordering = None
+        if input_object.max_checks is not None:
+            preferences['max_checks'] = input_object.max_checks
+        if input_object.max_hosts is not None:
+            preferences['max_hosts'] = input_object.max_hosts
+        if input_object.source_iface is not None:
+            preferences['source_iface'] = input_object.source_iface
 
         gmp = get_gmp(info)
 
@@ -442,9 +435,6 @@ class ModifyTaskInput(graphene.InputObjectType):
     )
     min_qod = graphene.Int(description="Minimum quality of detection.")
     observers = graphene.List(graphene.String)
-    scanner_type = graphene.Int(
-        description="Type of scanner, 1-5."
-    )  # will be enum once frontend is implemented
     schedule_id = graphene.UUID(
         description="UUID of a schedule when the task should be run."
     )
@@ -542,16 +532,12 @@ class ModifyTask(graphene.Mutation):
                 "yes" if input_object.in_assets == 1 else "no"
             )
 
-        if input_object.scanner_type == 2:
-            if input_object.max_checks is not None:
-                preferences['max_checks'] = input_object.max_checks
-            if input_object.max_hosts is not None:
-                preferences['max_hosts'] = input_object.max_hosts
-            if input_object.source_iface is not None:
-                preferences['source_iface'] = input_object.source_iface
-        else:
-            config_id = None
-            hosts_ordering = None
+        if input_object.max_checks is not None:
+            preferences['max_checks'] = input_object.max_checks
+        if input_object.max_hosts is not None:
+            preferences['max_hosts'] = input_object.max_hosts
+        if input_object.source_iface is not None:
+            preferences['source_iface'] = input_object.source_iface
 
         gmp = get_gmp(info)
 
