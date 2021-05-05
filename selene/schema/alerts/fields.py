@@ -57,8 +57,9 @@ class SecInfoType(graphene.Enum):
     OVALDEF = "ovaldef"
 
 
-class TaskStatus(graphene.Enum):
-    # same strings as gsa sends
+class AlertTaskStatus(graphene.Enum):
+    """Status changes of a Task"""
+
     DONE = 'Done'
     NEW = 'New'
     REQUESTED = 'Requested'
