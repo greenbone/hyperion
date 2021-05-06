@@ -18,10 +18,7 @@
 
 import graphene
 
-from gvm.protocols.next import (
-    HostsOrdering as GvmHostsOrdering,
-    get_hosts_ordering_from_string,
-)
+from selene.schema.audits.fields import AuditHostsOrdering
 
 from selene.schema.entities import (
     create_export_by_filter_mutation,
@@ -35,13 +32,6 @@ from selene.schema.utils import (
     require_authentication,
     get_text_from_element,
 )
-
-
-class HostsOrdering(graphene.Enum):
-    """Ordering of Hosts"""
-
-    class Meta:
-        enum = GvmHostsOrdering
 
 
 class CloneAudit(graphene.Mutation):
@@ -124,8 +114,10 @@ class CreateAuditInput(graphene.InputObjectType):
         )
     )
     comment = graphene.String(description="Audit comment")
-    hosts_ordering = graphene.String(
-        description="The order hosts are scanned in. Only for OpenVAS scanners."
+    hosts_ordering = graphene.Field(
+        AuditHostsOrdering,
+        description="The order hosts are scanned in. "
+        "Only for OpenVAS scanners",
     )
     in_assets = graphene.Boolean(
         description="Whether to add the audit's results to assets."
@@ -208,10 +200,9 @@ class CreateAudit(graphene.Mutation):
             if input_object.policy_id is not None
             else None
         )
-        if input_object.hosts_ordering is not None:
-            hosts_ordering = get_hosts_ordering_from_string(
-                input_object.hosts_ordering
-            )
+
+        if input_object.hosts_ordering:
+            hosts_ordering = AuditHostsOrdering.get(input_object.hosts_ordering)
         else:
             hosts_ordering = None
 
@@ -289,10 +280,10 @@ class ModifyAuditInput(graphene.InputObjectType):
         )
     )
     comment = graphene.String(description="Audit comment.")
-    hosts_ordering = graphene.String(
-        description=(
-            "The order hosts are scanned in. OpenVAS Default scanners only"
-        )
+    hosts_ordering = graphene.Field(
+        AuditHostsOrdering,
+        description="The order hosts are scanned in. "
+        "Only for OpenVAS scanners",
     )
     in_assets = graphene.Boolean(
         description="Whether to add the audit's results to assets"
@@ -384,10 +375,8 @@ class ModifyAudit(graphene.Mutation):
             else None
         )
 
-        if input_object.hosts_ordering is not None:
-            hosts_ordering = get_hosts_ordering_from_string(
-                input_object.hosts_ordering
-            )
+        if input_object.hosts_ordering:
+            hosts_ordering = AuditHostsOrdering.get(input_object.hosts_ordering)
         else:
             hosts_ordering = None
 

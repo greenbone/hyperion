@@ -18,10 +18,7 @@
 
 import graphene
 
-from gvm.protocols.next import (
-    HostsOrdering as GvmHostsOrdering,
-    get_hosts_ordering_from_string,
-)
+from selene.schema.tasks.fields import HostsOrdering
 
 from selene.schema.entities import (
     create_export_by_filter_mutation,
@@ -35,11 +32,6 @@ from selene.schema.utils import (
     require_authentication,
     get_text_from_element,
 )
-
-
-class HostsOrdering(graphene.Enum):
-    class Meta:
-        enum = GvmHostsOrdering
 
 
 class CloneTask(graphene.Mutation):
@@ -184,10 +176,10 @@ class CreateTaskInput(graphene.InputObjectType):
         )
     )
     comment = graphene.String(description="Task comment.")
-    hosts_ordering = graphene.String(
-        description=(
-            "The order hosts are scanned in; " "OpenVAS Default scanners only."
-        )
+    hosts_ordering = graphene.Field(
+        HostsOrdering,
+        description="The order hosts are scanned in. "
+        "Only for OpenVAS scanners.",
     )
     in_assets = graphene.Boolean(
         description="Whether to add the task's results to assets."
@@ -273,9 +265,7 @@ class CreateTask(graphene.Mutation):
             else None
         )
         if input_object.hosts_ordering is not None:
-            hosts_ordering = get_hosts_ordering_from_string(
-                input_object.hosts_ordering
-            )
+            hosts_ordering = HostsOrdering.get(input_object.hosts_ordering)
         else:
             hosts_ordering = None
 
@@ -390,10 +380,10 @@ class ModifyTaskInput(graphene.InputObjectType):
         )
     )
     comment = graphene.String(description="Task comment.")
-    hosts_ordering = graphene.String(
-        description=(
-            "The order hosts are scanned in; " "OpenVAS Default scanners only."
-        )
+    hosts_ordering = graphene.Field(
+        HostsOrdering,
+        description="The order hosts are scanned in. "
+        "Only for OpenVAS scanners.",
     )
     in_assets = graphene.Boolean(
         description="Whether to add the task's results to assets."
@@ -486,9 +476,7 @@ class ModifyTask(graphene.Mutation):
         )
 
         if input_object.hosts_ordering is not None:
-            hosts_ordering = get_hosts_ordering_from_string(
-                input_object.hosts_ordering
-            )
+            hosts_ordering = HostsOrdering.get(input_object.hosts_ordering)
         else:
             hosts_ordering = None
 

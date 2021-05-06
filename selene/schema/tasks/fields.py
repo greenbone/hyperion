@@ -18,6 +18,8 @@
 
 import graphene
 
+from gvm.protocols.next import HostsOrdering as GvmHostsOrdering
+
 from selene.schema.resolver import find_resolver, text_resolver
 
 from selene.schema.parser import parse_int
@@ -35,6 +37,13 @@ from selene.schema.severity import SeverityType
 from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
 from selene.schema.scanners.fields import ScannerType
+
+
+class HostsOrdering(graphene.Enum):
+    """Hosts ordering of a task"""
+
+    class Meta:
+        enum = GvmHostsOrdering
 
 
 class TaskReportsCounts(graphene.ObjectType):
@@ -250,7 +259,10 @@ class Task(EntityObjectType):
     trend = graphene.String()
     status = graphene.String()
 
-    hosts_ordering = graphene.String()
+    hosts_ordering = graphene.Field(
+        HostsOrdering,
+        description="Currently used hosts ordering during a scan",
+    )
 
     alterable = graphene.Boolean()
 

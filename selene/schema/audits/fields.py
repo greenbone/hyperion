@@ -18,6 +18,10 @@
 
 import graphene
 
+from gvm.protocols.next import (
+    HostsOrdering as GvmHostsOrdering,
+)
+
 from selene.schema.resolver import find_resolver, int_resolver, text_resolver
 
 from selene.schema.parser import parse_int
@@ -36,6 +40,13 @@ from selene.schema.entity import EntityObjectType
 from selene.schema.scanners.fields import ScannerType
 from selene.schema.severity import SeverityType
 from selene.schema.tasks.fields import BaseCounts
+
+
+class AuditHostsOrdering(graphene.Enum):
+    """Ordering of Hosts"""
+
+    class Meta:
+        enum = GvmHostsOrdering
 
 
 class AuditReportsCounts(graphene.ObjectType):
@@ -266,7 +277,10 @@ class Audit(EntityObjectType):
     trend = graphene.String()
     status = graphene.String()
 
-    hosts_ordering = graphene.String()
+    hosts_ordering = graphene.Field(
+        AuditHostsOrdering,
+        description="Currently used hosts ordering during a scan",
+    )
 
     alterable = graphene.Boolean()
 
@@ -304,7 +318,10 @@ class Audit(EntityObjectType):
 
     @staticmethod
     def resolve_hosts_ordering(root, _info):
-        return get_text_from_element(root, 'hosts_ordering')
+        ordering = get_text_from_element(root, 'hosts_ordering')
+        if not ordering:
+            return None
+        return AuditHostsOrdering.get(ordering)
 
     @staticmethod
     def resolve_progress(root, _info):
