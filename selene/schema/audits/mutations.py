@@ -116,11 +116,11 @@ class CreateAuditInput(graphene.InputObjectType):
     in_assets = graphene.Boolean(
         description="Whether to add the audit's results to assets."
     )
-    max_checks = graphene.Int(
+    max_concurrent_nvts = graphene.Int(
         description="Maximum concurrently executed NVTs per host. "
-        "Only for OpenVAS scanners."
+        "Only for OpenVAS scanners"
     )
-    max_hosts = graphene.Int(
+    max_concurrent_hosts = graphene.Int(
         description=(
             "Maximum concurrently scanned hosts. Only for OpenVAS scanners"
         )
@@ -215,10 +215,10 @@ class CreateAudit(graphene.Mutation):
                 "yes" if input_object.in_assets == 1 else "no"
             )
 
-        if input_object.max_checks is not None:
-            preferences['max_checks'] = input_object.max_checks
-        if input_object.max_hosts is not None:
-            preferences['max_hosts'] = input_object.max_hosts
+        if input_object.max_concurrent_nvts is not None:
+            preferences['max_checks'] = input_object.max_concurrent_nvts
+        if input_object.max_concurrent_hosts is not None:
+            preferences['max_hosts'] = input_object.max_concurrent_hosts
 
         gmp = get_gmp(info)
 
@@ -272,13 +272,13 @@ class ModifyAuditInput(graphene.InputObjectType):
     in_assets = graphene.Boolean(
         description="Whether to add the audit's results to assets"
     )
-    max_checks = graphene.Int(
+    max_concurrent_nvts = graphene.Int(
         description=(
             "Maximum concurrently executed NVTs per host. "
             "OpenVAS Default scanners only"
         )
     )
-    max_hosts = graphene.Int(
+    max_concurrent_hosts = graphene.Int(
         description=(
             "Maximum concurrently scanned hosts. "
             "OpenVAS Default scanners only"
@@ -376,10 +376,10 @@ class ModifyAudit(graphene.Mutation):
                 "yes" if input_object.in_assets == 1 else "no"
             )
 
-        if input_object.max_checks is not None:
-            preferences['max_checks'] = input_object.max_checks
-        if input_object.max_hosts is not None:
-            preferences['max_hosts'] = input_object.max_hosts
+        if input_object.max_concurrent_nvts is not None:
+            preferences['max_checks'] = input_object.max_concurrent_nvts
+        if input_object.max_concurrent_hosts is not None:
+            preferences['max_hosts'] = input_object.max_concurrent_hosts
 
         gmp = get_gmp(info)
 
