@@ -23,6 +23,10 @@ from unittest.mock import patch
 
 from gvm.protocols.next import ScannerType
 
+from selene.schema.scan_configs.fields import ScanConfigType
+
+from selene.schema.tasks.fields import TaskStatus
+
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.entity import make_test_get_entity
@@ -105,14 +109,14 @@ class TaskTestCase(SeleneTestCase):
                         }
                         currentReport {
                             id
-                            timestamp
+                            creationTime
                             scanStart
                             scanEnd
                         }
                         lastReport {
                             id
                             severity
-                            timestamp
+                            creationTime
                             scanStart
                             scanEnd
                         }
@@ -175,7 +179,9 @@ class TaskTestCase(SeleneTestCase):
 
         last_report = reports['lastReport']
 
-        self.assertEqual(last_report['timestamp'], '2020-01-15T11:30:10+01:00')
+        self.assertEqual(
+            last_report['creationTime'], '2020-01-15T11:30:10+01:00'
+        )
         self.assertEqual(last_report['severity'], 10.0)
         self.assertEqual(
             last_report['id'], 'd453374b-64cc-4c25-9959-7bc7c5287242'
@@ -189,7 +195,7 @@ class TaskTestCase(SeleneTestCase):
             current_report['id'], '64213415-efe5-4441-9ee6-562cacf4e3ce'
         )
         self.assertEqual(
-            current_report['timestamp'], '2020-02-04T09:42:14+01:00'
+            current_report['creationTime'], '2020-02-04T09:42:14+01:00'
         )
         self.assertEqual(
             current_report['scanStart'], '2020-02-04T09:42:33+01:00'
@@ -203,7 +209,10 @@ class TaskTestCase(SeleneTestCase):
 
         self.assertFalse(task['alterable'])
 
-        self.assertEqual(task['status'], 'Done')
+        self.assertEqual(
+            task['status'],
+            TaskStatus.DONE.name,  # pylint: disable=no-member
+        )
         self.assertIsNone(task['trend'])
 
         dt = datetime(
@@ -359,7 +368,10 @@ class TaskTestCase(SeleneTestCase):
             scan_config['id'], 'd21f6c81-2b88-4ac1-b7b4-a2a9f2ad4663'
         )
         self.assertFalse(scan_config['trash'])
-        self.assertEqual(scan_config['type'], 0)
+        self.assertEqual(
+            scan_config['type'],
+            ScanConfigType.OPENVAS.name,  # pylint: disable=no-member
+        )
 
         target = task['target']
         self.assertEqual(target['name'], 'Localhost')
@@ -370,9 +382,7 @@ class TaskTestCase(SeleneTestCase):
         self.assertEqual(scanner['name'], 'OpenVAS Default')
         self.assertEqual(scanner['id'], '08b69003-5fc2-4037-a479-93b440211c73')
         self.assertFalse(scanner['trash'])
-        self.assertEqual(
-            ScannerType[scanner['type']], ScannerType.OPENVAS_SCANNER_TYPE
-        )
+        self.assertEqual(scanner['type'], ScannerType.OPENVAS_SCANNER_TYPE.name)
 
         schedule = task['schedule']
         self.assertEqual(schedule['name'], 'Every Week on Friday 16h UTC')

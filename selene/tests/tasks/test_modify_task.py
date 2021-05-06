@@ -19,7 +19,7 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.next import get_hosts_ordering_from_string
+from gvm.protocols.next import HostsOrdering
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
@@ -62,16 +62,13 @@ class ModifyTaskTestCase(SeleneTestCase):
                 modifyTask(input: {{
                     id: "{task_id}",
                     name: "bar"
-                    scannerType: 2,
                     applyOverrides: false,
                     inAssets: true,
-                    configId: "{config_id}",
-                    hostsOrdering: "reverse",
-                    maxChecks: 7,
-                    maxHosts: 13,
-                    sourceIface: "foo",
-                    autoDelete: "keep",
-                    autoDeleteData: 4
+                    scanConfigId: "{config_id}",
+                    hostsOrdering: REVERSE,
+                    maxConcurrentNvts: 7,
+                    maxConcurrentHosts: 13,
+                    autoDelete: 4
                     }}) {{
                     ok
                 }}
@@ -93,7 +90,7 @@ class ModifyTaskTestCase(SeleneTestCase):
             alterable=None,
             comment=None,
             config_id=config_id,
-            hosts_ordering=get_hosts_ordering_from_string('reverse'),
+            hosts_ordering=HostsOrdering.REVERSE,
             name="bar",
             observers=None,
             preferences={
@@ -101,111 +98,9 @@ class ModifyTaskTestCase(SeleneTestCase):
                 'auto_delete_data': 4,
                 'max_checks': 7,
                 'max_hosts': 13,
-                'source_iface': 'foo',
                 'assets_apply_overrides': 'no',
                 'in_assets': 'yes',
             },
-            scanner_id=None,
-            schedule_id=None,
-            schedule_periods=None,
-            target_id=None,
-        )
-
-    def test_nullify_scanner_preferences(self, mock_gmp: GmpMockFactory):
-        task_id = str(uuid4())
-        config_id = str(uuid4())
-        mock_gmp.mock_response(
-            'modify_task',
-            '''
-            <modify_task_response status="200" status_text="OK"/>
-            ''',
-        )
-
-        self.login('foo', 'bar')
-
-        # scanner_type = 3
-        response = self.query(
-            f'''
-            mutation {{
-                modifyTask(input:{{
-                    id: "{task_id}",
-                    scannerType: 3,
-                    hostsOrdering: "random",
-                    configId: "{config_id}"
-                    maxChecks: 7,
-                    maxHosts: 13,
-                    sourceIface: "foo",
-                    autoDelete: "keep",
-                    autoDeleteData: 4,
-                    }}) {{
-                    ok
-                }}
-            }}
-            '''
-        )
-
-        json = response.json()
-
-        self.assertResponseNoErrors(response)
-
-        ok = json['data']['modifyTask']['ok']
-
-        self.assertEqual(ok, True)
-
-        mock_gmp.gmp_protocol.modify_task.assert_called_with(
-            str(task_id),
-            alert_ids=None,
-            alterable=None,
-            comment=None,
-            config_id=None,
-            hosts_ordering=None,
-            name=None,
-            observers=None,
-            preferences={'auto_delete': 'keep', 'auto_delete_data': 4},
-            scanner_id=None,
-            schedule_id=None,
-            schedule_periods=None,
-            target_id=None,
-        )
-
-        # scanner_type = None
-        second_response = self.query(
-            f'''
-            mutation {{
-                modifyTask(input: {{
-                    id: "{task_id}",
-                    hostsOrdering: "random",
-                    configId: "{config_id}"
-                    maxChecks: 7,
-                    maxHosts: 13,
-                    sourceIface: "foo",
-                    autoDelete: "keep",
-                    autoDeleteData: 4
-                    }}) {{
-                    ok
-                }}
-            }}
-            '''
-        )
-
-        json = second_response.json()
-
-        self.assertResponseNoErrors(second_response)
-
-        ok = json['data']['modifyTask']['ok']
-
-        self.assertEqual(ok, True)
-
-        mock_gmp.gmp_protocol.modify_task.assert_called_with(
-            str(task_id),
-            alert_ids=None,
-            alterable=None,
-            comment=None,
-            config_id=None,
-            hosts_ordering=None,
-            name=None,
-            observers=None,
-            preferences={'auto_delete': 'keep', 'auto_delete_data': 4},
             scanner_id=None,
             schedule_id=None,
             schedule_periods=None,

@@ -103,14 +103,13 @@ class AuditTestCase(SeleneTestCase):
                         }
                         currentReport {
                             id
-                            timestamp
+                            creationTime
                             scanStart
                             scanEnd
                         }
                         lastReport {
                             id
-                            severity
-                            timestamp
+                            creationTime
                             scanStart
                             scanEnd
                             complianceCount {
@@ -143,7 +142,6 @@ class AuditTestCase(SeleneTestCase):
                         id
                         name
                         trash
-                        type
                     }
                     target {
                         id
@@ -188,11 +186,11 @@ class AuditTestCase(SeleneTestCase):
         self.assertEqual(audit['name'], 'Audit_for_Report')
         self.assertEqual(audit['id'], 'c4335bf9-de7d-4d45-984a-a4a19709a098')
         self.assertEqual(audit['comment'], 'foo')
-        self.assertEqual(audit['status'], 'New')
+        self.assertEqual(audit['status'], 'NEW')
         self.assertEqual(audit['progress'], -1)
         self.assertIsNone(audit['trend'])
         self.assertEqual(audit['averageDuration'], 0)
-        self.assertEqual(audit['hostsOrdering'], 'sequential')
+        self.assertEqual(audit['hostsOrdering'], 'SEQUENTIAL')
 
         reports = audit['reports']
         current_report = reports['currentReport']
@@ -202,8 +200,9 @@ class AuditTestCase(SeleneTestCase):
         self.assertEqual(
             last_report['id'], '001b46dc-fdaa-4fc3-b094-0329805edcd0'
         )
-        self.assertIsNone(last_report['severity'])
-        self.assertEqual(last_report['timestamp'], '2021-02-09T15:54:45+00:00')
+        self.assertEqual(
+            last_report['creationTime'], '2021-02-09T15:54:45+00:00'
+        )
         self.assertEqual(last_report['scanStart'], '2021-02-09T15:54:50+00:00')
         self.assertEqual(last_report['scanEnd'], '2021-02-09T16:11:22+00:00')
 
@@ -211,7 +210,7 @@ class AuditTestCase(SeleneTestCase):
             current_report['id'], '12e6275b-6933-4c04-9c8a-5762d8489c9e'
         )
         self.assertEqual(
-            current_report['timestamp'], '2021-02-11T15:07:24+00:00'
+            current_report['creationTime'], '2021-02-11T15:07:24+00:00'
         )
         self.assertEqual(
             current_report['scanStart'], '2021-02-11T15:07:28+00:00'
@@ -276,7 +275,6 @@ END:VCALENDAR
         policy = audit['policy']
         self.assertEqual(policy['id'], '9f822ad3-9208-4e02-ac03-78dce3ca9a23')
         self.assertEqual(policy['name'], 'EulerOS Linux Security Configuration')
-        self.assertEqual(policy['type'], 0)
         self.assertEqual(policy['trash'], 0)
 
 
