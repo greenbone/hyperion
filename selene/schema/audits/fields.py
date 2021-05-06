@@ -184,14 +184,7 @@ class AuditSubObjectType(BaseObjectType):
 
 
 class AuditPolicy(AuditSubObjectType):
-
-    scan_config_type = graphene.Int(
-        name="type", description="Type of the scan config"
-    )
-
-    @staticmethod
-    def resolve_scan_config_type(parent, _info):
-        return get_int_from_element(parent, 'type')
+    """A policy for an audit"""
 
 
 class AuditScanner(AuditSubObjectType):
