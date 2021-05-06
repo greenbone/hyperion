@@ -163,16 +163,10 @@ class CreateTaskInput(graphene.InputObjectType):
     apply_overrides = graphene.Boolean(
         description="Whether to apply overrides."
     )
-    auto_delete = graphene.String(
+    auto_delete = graphene.Int(
         description=(
-            "Whether to automatically delete reports, "
-            "if yes, 'keep', if no, 'no'"
-        )
-    )  # will be enum or bool once frontend is implemented
-    auto_delete_data = graphene.Int(
-        description=(
-            "if auto_delete is 'keep', "
-            "how many of the latest reports to keep"
+            "Number of latest reports to keep. If no value is set no report"
+            " is deleted automatically"
         )
     )
     comment = graphene.String(description="Task comment.")
@@ -272,9 +266,8 @@ class CreateTask(graphene.Mutation):
         if input_object.min_qod is not None:
             preferences['assets_min_qod'] = input_object.min_qod
         if input_object.auto_delete is not None:
-            preferences['auto_delete'] = input_object.auto_delete
-        if input_object.auto_delete_data is not None:
-            preferences['auto_delete_data'] = input_object.auto_delete_data
+            preferences['auto_delete'] = "keep"
+            preferences['auto_delete_data'] = input_object.auto_delete
         if input_object.in_assets is not None:
             preferences['in_assets'] = (
                 "yes" if input_object.in_assets == 1 else "no"
@@ -362,16 +355,10 @@ class ModifyTaskInput(graphene.InputObjectType):
     apply_overrides = graphene.Boolean(
         description="Whether to apply overrides."
     )
-    auto_delete = graphene.String(
+    auto_delete = graphene.Int(
         description=(
-            "Whether to automatically delete reports, "
-            "if yes, 'keep', if no, 'no'"
-        )
-    )  # will be enum or bool once frontend is implemented
-    auto_delete_data = graphene.Int(
-        description=(
-            "if auto_delete is 'keep', "
-            "how many of the latest reports to keep"
+            "Number of latest reports to keep. If no value is set no report"
+            " is deleted automatically"
         )
     )
     comment = graphene.String(description="Task comment.")
@@ -479,9 +466,8 @@ class ModifyTask(graphene.Mutation):
         if input_object.min_qod is not None:
             preferences['assets_min_qod'] = input_object.min_qod
         if input_object.auto_delete is not None:
-            preferences['auto_delete'] = input_object.auto_delete
-        if input_object.auto_delete_data is not None:
-            preferences['auto_delete_data'] = input_object.auto_delete_data
+            preferences['auto_delete'] = "keep"
+            preferences['auto_delete_data'] = input_object.auto_delete
         if input_object.in_assets is not None:
             preferences['in_assets'] = (
                 "yes" if input_object.in_assets == 1 else "no"
