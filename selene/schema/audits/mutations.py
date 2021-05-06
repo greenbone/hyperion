@@ -146,9 +146,6 @@ class CreateAuditInput(graphene.InputObjectType):
             "audit will be scheduled, or 0 for no limit."
         )
     )
-    source_iface = graphene.String(
-        description=("Network Source Interface. Only for OpenVAS scanners")
-    )
 
 
 class CreateAudit(graphene.Mutation):
@@ -227,8 +224,6 @@ class CreateAudit(graphene.Mutation):
             preferences['max_checks'] = input_object.max_checks
         if input_object.max_hosts is not None:
             preferences['max_hosts'] = input_object.max_hosts
-        if input_object.source_iface is not None:
-            preferences['source_iface'] = input_object.source_iface
 
         gmp = get_gmp(info)
 
@@ -309,11 +304,6 @@ class ModifyAuditInput(graphene.InputObjectType):
         description=(
             "A limit to the number of times the "
             "audit will be scheduled, or 0 for no limit."
-        )
-    )
-    source_iface = graphene.String(
-        description=(
-            "Network Source Interface; " "OpenVAS Default scanners only"
         )
     )
 
@@ -401,8 +391,6 @@ class ModifyAudit(graphene.Mutation):
             preferences['max_checks'] = input_object.max_checks
         if input_object.max_hosts is not None:
             preferences['max_hosts'] = input_object.max_hosts
-        if input_object.source_iface is not None:
-            preferences['source_iface'] = input_object.source_iface
 
         gmp = get_gmp(info)
 

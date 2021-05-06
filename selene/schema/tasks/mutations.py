@@ -207,25 +207,19 @@ class CreateTaskInput(graphene.InputObjectType):
             "task will be scheduled, or 0 for no limit."
         )
     )
-    source_iface = graphene.String(
-        description=(
-            "Network Source Interface; " "OpenVAS Default scanners only"
-        )
-    )
 
 
 class CreateTask(graphene.Mutation):
-    """Creates a new task. Call with createTask.
-
-    Args:
-        input (CreateTaskInput): Input object for CreateTask
-
-    """
+    """Create a new task"""
 
     class Arguments:
-        input_object = CreateTaskInput(required=True, name='input')
+        input_object = CreateTaskInput(
+            required=True,
+            name='input',
+            description="Input ObjectType for creating a new task",
+        )
 
-    task_id = graphene.UUID(name='id')
+    task_id = graphene.UUID(name='id', description="UUID of the new task")
 
     @staticmethod
     @require_authentication
@@ -290,8 +284,6 @@ class CreateTask(graphene.Mutation):
             preferences['max_checks'] = input_object.max_checks
         if input_object.max_hosts is not None:
             preferences['max_hosts'] = input_object.max_hosts
-        if input_object.source_iface is not None:
-            preferences['source_iface'] = input_object.source_iface
 
         gmp = get_gmp(info)
 
@@ -411,11 +403,6 @@ class ModifyTaskInput(graphene.InputObjectType):
             "task will be scheduled, or 0 for no limit."
         )
     )
-    source_iface = graphene.String(
-        description=(
-            "Network Source Interface; " "OpenVAS Default scanners only"
-        )
-    )
 
 
 class ModifyTask(graphene.Mutation):
@@ -501,8 +488,6 @@ class ModifyTask(graphene.Mutation):
             preferences['max_checks'] = input_object.max_checks
         if input_object.max_hosts is not None:
             preferences['max_hosts'] = input_object.max_hosts
-        if input_object.source_iface is not None:
-            preferences['source_iface'] = input_object.source_iface
 
         gmp = get_gmp(info)
 
