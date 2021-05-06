@@ -154,11 +154,20 @@ class ScanConfigNvtSelector(graphene.ObjectType):
         return get_text_from_element(root, 'family_or_nvt')
 
 
+class ScanConfigType(graphene.Enum):
+    """Type of scan config"""
+
+    OSP = '1'
+    OPENVAS = '0'
+
+
 class ScanConfig(EntityObjectType):
     """Scan config object type. Can be used in GetScanConfig and GetScanConfigs
     queries."""
 
-    scan_config_type = graphene.Int(name='type')
+    scan_config_type = graphene.Field(
+        ScanConfigType, name='type', description="Type of the scan config"
+    )
     trash = graphene.Int()
     family_count = graphene.Int()
     family_growing = graphene.Boolean()
