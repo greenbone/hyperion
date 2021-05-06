@@ -37,6 +37,7 @@ from selene.schema.severity import SeverityType
 from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
 from selene.schema.scanners.fields import ScannerType
+from selene.schema.scan_configs.fields import ScanConfigType
 
 
 class HostsOrdering(graphene.Enum):
@@ -156,13 +157,13 @@ class TaskSubObjectType(BaseObjectType):
 
 class TaskScanConfig(TaskSubObjectType):
 
-    scan_config_type = graphene.Int(
-        name="type", description="Type of the scan config"
+    scan_config_type = graphene.Field(
+        ScanConfigType, name="type", description="Type of the scan config"
     )
 
     @staticmethod
     def resolve_scan_config_type(parent, _info):
-        return get_int_from_element(parent, 'type')
+        return ScanConfigType.get(get_text_from_element(parent, 'type'))
 
 
 class TaskScanner(TaskSubObjectType):
