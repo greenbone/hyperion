@@ -305,7 +305,9 @@ class Task(EntityObjectType):
 
     progress = graphene.Int()
 
-    scan_config = graphene.Field(TaskScanConfig)
+    scan_config = graphene.Field(
+        TaskScanConfig, description="Used scan config for the task"
+    )
     target = graphene.Field(TaskSubObjectType)
     scanner = graphene.Field(TaskScanner)
     alerts = graphene.List(TaskSubObjectType)

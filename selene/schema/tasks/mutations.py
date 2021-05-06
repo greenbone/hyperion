@@ -149,7 +149,7 @@ class CreateTaskInput(graphene.InputObjectType):
     """
 
     name = graphene.String(required=True, description="Task name.")
-    config_id = graphene.UUID(
+    scan_config_id = graphene.UUID(
         required=True,
         description=("UUID of scan config. " "OpenVAS Default scanners only."),
     )
@@ -254,8 +254,8 @@ class CreateTask(graphene.Mutation):
             else None
         )
         config_id = (
-            str(input_object.config_id)
-            if input_object.config_id is not None
+            str(input_object.scan_config_id)
+            if input_object.scan_config_id is not None
             else None
         )
         if input_object.hosts_ordering is not None:
@@ -346,8 +346,11 @@ class ModifyTaskInput(graphene.InputObjectType):
         required=True, description="UUID of task to modify.", name='id'
     )
     name = graphene.String(description="Task name.")
-    config_id = graphene.UUID(
-        description=("UUID of scan config. " "OpenVAS Default scanners only.")
+    scan_config_id = graphene.UUID(
+        description=(
+            "UUID of the scan config to use for the scanner. "
+            "Only for OpenVAS scanners"
+        ),
     )
     target_id = graphene.UUID(description="UUID of target.")
     scanner_id = graphene.UUID(description="UUID of scanner.")
@@ -457,8 +460,8 @@ class ModifyTask(graphene.Mutation):
             else None
         )
         config_id = (
-            str(input_object.config_id)
-            if input_object.config_id is not None
+            str(input_object.scan_config_id)
+            if input_object.scan_config_id is not None
             else None
         )
 
