@@ -77,7 +77,7 @@ class DeleteAuditsByFilter(DeleteByFilterClass):
 
 
 class CreateAuditInput(graphene.InputObjectType):
-    """Input object for creating an audit"""
+    """Input ObjectType for creating an audit"""
 
     name = graphene.String(required=True, description="Audit name")
     policy_id = graphene.UUID(
@@ -85,21 +85,22 @@ class CreateAuditInput(graphene.InputObjectType):
         description="UUID of the to be used policy. Only for OpenVAS scanners.",
     )
     target_id = graphene.UUID(
-        required=True, description="UUID of to be used target"
+        required=True, description="UUID of the target to be used"
     )
     scanner_id = graphene.UUID(
-        required=True, description="UUID of to be used scanner"
+        required=True, description="UUID of the scanner to be used"
     )
 
     alert_ids = graphene.List(
         graphene.UUID,
-        description="List of UUIDs for alerts to be used in the audit",
+        description="List of UUIDs for alerts to be used for the audit",
     )
     alterable = graphene.Boolean(
         description="Whether the audit should be alterable"
     )
     apply_overrides = graphene.Boolean(
-        description="Whether to apply overrides."
+        description="Consider overrides for calculating the severity when "
+        "creating host assets"
     )
     auto_delete = graphene.Int(
         description=(
@@ -114,7 +115,7 @@ class CreateAuditInput(graphene.InputObjectType):
         "Only for OpenVAS scanners",
     )
     in_assets = graphene.Boolean(
-        description="Whether to add the audit's results to assets."
+        description="Whether to create assets from scan results"
     )
     max_concurrent_nvts = graphene.Int(
         description="Maximum concurrently executed NVTs per host. "
@@ -125,19 +126,22 @@ class CreateAuditInput(graphene.InputObjectType):
             "Maximum concurrently scanned hosts. Only for OpenVAS scanners"
         )
     )
-    min_qod = graphene.Int(description="Minimum quality of detection")
+    min_qod = graphene.Int(
+        description="Minimum quality of detection to consider for "
+        "calculating the severity when creating host assets"
+    )
     observers = graphene.List(
         graphene.UUID,
         description="List of UUIDs for users which should be allowed to "
-        "observer the audit",
+        "observe the audit",
     )
     schedule_id = graphene.UUID(
-        description="UUID of a schedule when the audit should be run."
+        description="UUID of a schedule when the audit should be run"
     )
     schedule_periods = graphene.Int(
         description=(
             "A limit to the number of times the "
-            "audit will be scheduled, or 0 for no limit."
+            "audit will be scheduled, or 0 for no limit"
         )
     )
 
@@ -171,6 +175,7 @@ class CreateAudit(graphene.Mutation):
             observers = [str(observer) for observer in input_object.observers]
         else:
             observers = None
+
         schedule_id = (
             str(input_object.schedule_id)
             if input_object.schedule_id is not None
@@ -240,10 +245,10 @@ class CreateAudit(graphene.Mutation):
 
 
 class ModifyAuditInput(graphene.InputObjectType):
-    """Input object for modifying an audit"""
+    """Input ObjectType for modifying an audit"""
 
     audit_id = graphene.UUID(
-        required=True, description="UUID of audit to modify.", name='id'
+        required=True, description="UUID of the audit to modify.", name='id'
     )
     name = graphene.String(description="Audit name")
     policy_id = graphene.UUID(
@@ -263,7 +268,7 @@ class ModifyAuditInput(graphene.InputObjectType):
             " is deleted automatically"
         )
     )
-    comment = graphene.String(description="Audit comment.")
+    comment = graphene.String(description="Audit comment")
     hosts_ordering = graphene.Field(
         AuditHostsOrdering,
         description="The order hosts are scanned in. "
@@ -298,20 +303,18 @@ class ModifyAuditInput(graphene.InputObjectType):
 
 
 class ModifyAudit(graphene.Mutation):
-
-    """Modifies an existing audit. Call with modifyAudit.
-
-    Args:
-        input (ModifyAuditInput): Input object for ModifyAudit
-
-    Returns:
-        ok (Boolean)
-    """
+    """Modify an existing audit"""
 
     class Arguments:
-        input_object = ModifyAuditInput(required=True, name='input')
+        input_object = ModifyAuditInput(
+            required=True,
+            name='input',
+            description="Input ObjectType for modifying an audit",
+        )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(
+        description="True on success. Otherwise the response contains an error"
+    )
 
     @staticmethod
     @require_authentication
@@ -403,19 +406,18 @@ class ModifyAudit(graphene.Mutation):
 
 
 class StartAudit(graphene.Mutation):
-    """Starts a audit
-
-    Args:
-        id (UUID): UUID of audit to start.
-
-    Returns:
-        report_id (UUID)
-    """
+    """Start an audit"""
 
     class Arguments:
-        audit_id = graphene.UUID(required=True, name='id')
+        audit_id = graphene.UUID(
+            required=True,
+            name='id',
+            description="UUID of the audit to start a scan for",
+        )
 
-    report_id = graphene.UUID()
+    report_id = graphene.UUID(
+        description="UUID of the report for the started scan"
+    )
 
     @staticmethod
     @require_authentication
@@ -428,19 +430,18 @@ class StartAudit(graphene.Mutation):
 
 
 class StopAudit(graphene.Mutation):
-    """Stops a audit
-
-    Args:
-        id (UUID): UUID of audit to stop.
-
-    Returns:
-       ok (Boolean)
-    """
+    """Stop an audit"""
 
     class Arguments:
-        audit_id = graphene.UUID(required=True, name='id')
+        audit_id = graphene.UUID(
+            required=True,
+            name='id',
+            description="UUID of the audit to stop the current scan",
+        )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(
+        description="True on success. Otherwise the response contains an error"
+    )
 
     @staticmethod
     @require_authentication
@@ -453,19 +454,18 @@ class StopAudit(graphene.Mutation):
 
 
 class ResumeAudit(graphene.Mutation):
-    """Resumes a audit
-
-    Args:
-        id (UUID): UUID of audit to resume.
-
-    Returns:
-       ok (Boolean)
-    """
+    """Resume an audit"""
 
     class Arguments:
-        audit_id = graphene.UUID(required=True, name='id')
+        audit_id = graphene.UUID(
+            required=True,
+            name='id',
+            description="UUID of the audit which scan should be resumed",
+        )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(
+        description="True on success. Otherwise the response contains an error"
+    )
 
     @staticmethod
     @require_authentication

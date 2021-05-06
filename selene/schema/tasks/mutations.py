@@ -35,14 +35,7 @@ from selene.schema.utils import (
 
 
 class CloneTask(graphene.Mutation):
-    """Clones a task
-
-    Args:
-        id (UUID): UUID of task to clone.
-
-    Returns:
-        id (UUID)
-    """
+    """Clone a task"""
 
     class Arguments:
         task_id = graphene.UUID(required=True, name='id')
@@ -65,40 +58,36 @@ DeleteByIdsClass = create_delete_by_ids_mutation(entity_name='task')
 
 
 class DeleteTasksByIds(DeleteByIdsClass):
-    """Deletes a list of tasks
-
-    Args:
-        ids (List(UUID)): List of UUIDs of tasks to delete.
-
-    Returns:
-        ok (Boolean)
-    """
+    """Delete a list of tasks"""
 
 
 DeleteByFilterClass = create_delete_by_filter_mutation(entity_name='task')
 
 
 class DeleteTasksByFilter(DeleteByFilterClass):
-    """Deletes a filtered list of tasks
-    Args:
-        filterString (str): Filter string for task list to delete.
-    Returns:
-        ok (Boolean)
-    """
+    """Delete a filtered list of tasks"""
 
 
 class CreateContainerTaskInput(graphene.InputObjectType):
-    """Input object type for createContainerTask"""
+    """Input ObjectType for create a task container"""
 
     name = graphene.String(required=True)
     comment = graphene.String()
 
 
 class CreateContainerTask(graphene.Mutation):
-    class Arguments:
-        input_object = CreateContainerTaskInput(required=True, name="input")
+    """Create a new container task"""
 
-    task_id = graphene.UUID(name='id')
+    class Arguments:
+        input_object = CreateContainerTaskInput(
+            required=True,
+            name="input",
+            description="Input ObjectType for creating a new container task",
+        )
+
+    task_id = graphene.UUID(
+        name='id', description="UUID of the new task container"
+    )
 
     @staticmethod
     @require_authentication
@@ -112,56 +101,33 @@ class CreateContainerTask(graphene.Mutation):
 
 
 class CreateTaskInput(graphene.InputObjectType):
-    """Input object for createTask.
+    """Input ObjectType for creating a task"""
 
-    Args:
-        name (str): The name of the task.
-        config_id (UUID): UUID of scan config to use by the task;
-            OpenVAS Default scanners only
-        target_id (UUID): UUID of target to be scanned
-        scanner_id (UUID): UUID of scanner to use
-        alert_ids (List(UUID), optional): List of UUIDs for alerts to
-            be applied to the task
-        alterable (bool, optional): Whether the task is alterable.
-        apply_overrides (bool, optional): Whether to apply overrides
-        auto_delete (str, optional): Whether to automatically delete reports,
-            And if yes, "keep", if no, "no"
-        auto_delete_data (int, optional): if auto_delete is "keep", how many
-            of the latest reports to keep
-        comment (str, optional): The comment on the task.
-        hosts_ordering (str, optional): The order hosts are scanned in;
-            OpenVAS Default scanners only
-        in_assets (bool, optional): Whether to add the task's results to assets
-        max_checks (int, optional): Maximum concurrently executed NVTs per host;
-            OpenVAS Default scanners only
-        max_hosts (int, optional): Maximum concurrently scanned hosts;
-            OpenVAS Default scanners only
-        observers (Observers, optional): List of names or ids of users which
-            should be allowed to observe this task
-        min_qod (int, optional): Minimum quality of detection
-        scanner_type (int, optional): Type of scanner, 1-5
-        schedule_id (UUID, optional): UUID of a schedule when the task
-            should be run.
-        schedule_periods (int, optional): A limit to the number of times the
-            task will be scheduled, or 0 for no limit.
-        source_iface (str, optional): Network Source Interface;
-            OpenVAS Default scanners only
-    """
-
-    name = graphene.String(required=True, description="Task name.")
+    name = graphene.String(required=True, description="Task name")
     scan_config_id = graphene.UUID(
         required=True,
-        description=("UUID of scan config. " "OpenVAS Default scanners only."),
+        description=(
+            "UUID of the scan config to use for the scanner. "
+            "Only for OpenVAS scanners"
+        ),
     )
-    target_id = graphene.UUID(required=True, description="UUID of target.")
-    scanner_id = graphene.UUID(required=True, description="UUID of scanner.")
+    target_id = graphene.UUID(
+        required=True, description="UUID of the target to be used"
+    )
+    scanner_id = graphene.UUID(
+        required=True, description="UUID of the scanner to be used"
+    )
 
     alert_ids = graphene.List(
-        graphene.UUID, description="List of UUIDs for alerts."
+        graphene.UUID,
+        description="List of UUIDs for alerts to be used for the task",
     )
-    alterable = graphene.Boolean(description="Whether the task is alterable.")
+    alterable = graphene.Boolean(
+        description="Whether the task should be alterable"
+    )
     apply_overrides = graphene.Boolean(
-        description="Whether to apply overrides."
+        description="Consider overrides for calculating the severity when "
+        "creating host assets"
     )
     auto_delete = graphene.Int(
         description=(
@@ -169,14 +135,14 @@ class CreateTaskInput(graphene.InputObjectType):
             " is deleted automatically"
         )
     )
-    comment = graphene.String(description="Task comment.")
+    comment = graphene.String(description="Task comment")
     hosts_ordering = graphene.Field(
         HostsOrdering,
         description="The order hosts are scanned in. "
         "Only for OpenVAS scanners.",
     )
     in_assets = graphene.Boolean(
-        description="Whether to add the task's results to assets."
+        description="Whether to create assets from scan results"
     )
     max_concurrent_nvts = graphene.Int(
         description="Maximum concurrently executed NVTs per host. "
@@ -187,15 +153,22 @@ class CreateTaskInput(graphene.InputObjectType):
             "Maximum concurrently scanned hosts. Only for OpenVAS scanners"
         )
     )
-    min_qod = graphene.Int(description="Minimum quality of detection.")
-    observers = graphene.List(graphene.String)
+    min_qod = graphene.Int(
+        description="Minimum quality of detection to consider for "
+        "calculating the severity when creating host assets"
+    )
+    observers = graphene.List(
+        graphene.String,
+        description="List of UUIDs for users which should be allowed to "
+        "observe the task",
+    )
     schedule_id = graphene.UUID(
-        description="UUID of a schedule when the task should be run."
+        description="UUID of a schedule when the task should be run"
     )
     schedule_periods = graphene.Int(
         description=(
             "A limit to the number of times the "
-            "task will be scheduled, or 0 for no limit."
+            "task will be scheduled, or 0 for no limit"
         )
     )
 
@@ -295,62 +268,31 @@ class CreateTask(graphene.Mutation):
 
 
 class ModifyTaskInput(graphene.InputObjectType):
-    """Input object for modifyTask.
-
-    Args:
-        id (UUID): UUID of task to modify.
-        name (str, optional): The name of the task.
-        config_id (UUID, optional): UUID of scan config to use by the task;
-            OpenVAS Default scanners only
-        target_id (UUID, optional): UUID of target to be scanned
-        scanner_id (UUID, optional): UUID of scanner to use
-        alert_ids (List(UUID), optional): List of UUIDs for alerts to
-            be applied to the task
-        alterable (bool, optional): Whether the task is alterable.
-        apply_overrides (bool, optional): Whether to apply overrides
-        auto_delete (str, optional): Whether to automatically delete reports,
-            And if yes, "keep", if no, "no"
-        auto_delete_data (int, optional): if auto_delete is "keep", how many
-            of the latest reports to keep
-        comment (str, optional): The comment on the task.
-        hosts_ordering (str, optional): The order hosts are scanned in;
-            OpenVAS Default scanners only
-        in_assets (bool, optional): Whether to add the task's results to assets
-        max_checks (int, optional): Maximum concurrently executed NVTs per host;
-            OpenVAS Default scanners only
-        max_hosts (int, optional): Maximum concurrently scanned hosts;
-            OpenVAS Default scanners only
-        observers (Observers, optional): List of names or ids of users which
-            should be allowed to observe this task
-        min_qod (int, optional): Minimum quality of detection
-        scanner_type (int, optional): Type of scanner, 1-5
-        schedule_id (UUID, optional): UUID of a schedule when the task
-            should be run.
-        schedule_periods (int, optional): A limit to the number of times the
-            task will be scheduled, or 0 for no limit.
-        source_iface (str, optional): Network Source Interface;
-            OpenVAS Default scanners only
-    """
+    """Input ObjectType for modifying a task"""
 
     task_id = graphene.UUID(
         required=True, description="UUID of task to modify.", name='id'
     )
-    name = graphene.String(description="Task name.")
+    name = graphene.String(description="Task name")
     scan_config_id = graphene.UUID(
         description=(
             "UUID of the scan config to use for the scanner. "
             "Only for OpenVAS scanners"
         ),
     )
-    target_id = graphene.UUID(description="UUID of target.")
-    scanner_id = graphene.UUID(description="UUID of scanner.")
+    target_id = graphene.UUID(description="UUID of the target to be used")
+    scanner_id = graphene.UUID(description="UUID of the scanner to be used")
 
     alert_ids = graphene.List(
-        graphene.UUID, description="List of UUIDs for alerts."
+        graphene.UUID,
+        description="List of UUIDs for alerts to be used for the task",
     )
-    alterable = graphene.Boolean(description="Whether the task is alterable.")
+    alterable = graphene.Boolean(
+        description="Whether the task should be alterable"
+    )
     apply_overrides = graphene.Boolean(
-        description="Whether to apply overrides."
+        description="Consider overrides for calculating the severity when "
+        "creating host assets"
     )
     auto_delete = graphene.Int(
         description=(
@@ -358,7 +300,7 @@ class ModifyTaskInput(graphene.InputObjectType):
             " is deleted automatically"
         )
     )
-    comment = graphene.String(description="Task comment.")
+    comment = graphene.String(description="Task comment")
     hosts_ordering = graphene.Field(
         HostsOrdering,
         description="The order hosts are scanned in. "
@@ -376,10 +318,17 @@ class ModifyTaskInput(graphene.InputObjectType):
             "Maximum concurrently scanned hosts. Only for OpenVAS scanners"
         )
     )
-    min_qod = graphene.Int(description="Minimum quality of detection.")
-    observers = graphene.List(graphene.String)
+    min_qod = graphene.Int(
+        description="Minimum quality of detection to consider for "
+        "calculating the severity when creating host assets"
+    )
+    observers = graphene.List(
+        graphene.String,
+        description="List of UUIDs for users which should be allowed to "
+        "observe the task",
+    )
     schedule_id = graphene.UUID(
-        description="UUID of a schedule when the task should be run."
+        description="UUID of a schedule when the task should be run"
     )
     schedule_periods = graphene.Int(
         description=(
@@ -390,20 +339,18 @@ class ModifyTaskInput(graphene.InputObjectType):
 
 
 class ModifyTask(graphene.Mutation):
-
-    """Modifies an existing task. Call with modifyTask.
-
-    Args:
-        input (ModifyTaskInput): Input object for ModifyTask
-
-    Returns:
-        ok (Boolean)
-    """
+    """Modify an existing task"""
 
     class Arguments:
-        input_object = ModifyTaskInput(required=True, name='input')
+        input_object = ModifyTaskInput(
+            required=True,
+            name='input',
+            description="Input ObjectType for modifying an existing task",
+        )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(
+        description="True on success. Otherwise the response contains an error"
+    )
 
     @staticmethod
     @require_authentication
@@ -494,19 +441,18 @@ class ModifyTask(graphene.Mutation):
 
 
 class StartTask(graphene.Mutation):
-    """Starts a task
-
-    Args:
-        id (UUID): UUID of task to start.
-
-    Returns:
-        report_id (UUID)
-    """
+    """Starts a scan for a task"""
 
     class Arguments:
-        task_id = graphene.UUID(required=True, name='id')
+        task_id = graphene.UUID(
+            required=True,
+            name='id',
+            description="UUID of the task to start a scan for",
+        )
 
-    report_id = graphene.UUID()
+    report_id = graphene.UUID(
+        description="UUID of the report for the started scan"
+    )
 
     @staticmethod
     @require_authentication
@@ -519,19 +465,18 @@ class StartTask(graphene.Mutation):
 
 
 class StopTask(graphene.Mutation):
-    """Stops a task
-
-    Args:
-        id (UUID): UUID of task to stop.
-
-    Returns:
-       ok (Boolean)
-    """
+    """Stop a task"""
 
     class Arguments:
-        task_id = graphene.UUID(required=True, name='id')
+        task_id = graphene.UUID(
+            required=True,
+            name='id',
+            description="UUID of the task to stop the current task",
+        )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(
+        description="True on success. Otherwise the response contains an error"
+    )
 
     @staticmethod
     @require_authentication
@@ -544,19 +489,18 @@ class StopTask(graphene.Mutation):
 
 
 class ResumeTask(graphene.Mutation):
-    """Resumes a task
-
-    Args:
-        id (UUID): UUID of task to resume.
-
-    Returns:
-       ok (Boolean)
-    """
+    """Resume a task"""
 
     class Arguments:
-        task_id = graphene.UUID(required=True, name='id')
+        task_id = graphene.UUID(
+            required=True,
+            name='id',
+            description="UUID of the task which scan should be resumed",
+        )
 
-    ok = graphene.Boolean()
+    ok = graphene.Boolean(
+        description="True on success. Otherwise the response contains an error"
+    )
 
     @staticmethod
     @require_authentication

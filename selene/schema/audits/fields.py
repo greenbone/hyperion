@@ -49,7 +49,9 @@ class AuditHostsOrdering(graphene.Enum):
 
 
 class AuditReportsCounts(graphene.ObjectType):
-    total = graphene.Int(description="Total count of reports for the audit")
+    """Report counts for audits"""
+
+    total = graphene.Int(description="Total number of reports for the audit")
     finished = graphene.Int(
         description="Number of finished reports for the audit"
     )
@@ -64,9 +66,11 @@ class AuditReportsCounts(graphene.ObjectType):
 
 
 class AuditComplianceCount(graphene.ObjectType):
-    yes = graphene.Int()
-    no = graphene.Int()
-    incomplete = graphene.Int()
+    """Summary of compliant results"""
+
+    yes = graphene.Int(description="Number of compliant results")
+    no = graphene.Int(description="Number of non-compliant results")
+    incomplete = graphene.Int(description="Number of incomplete results")
 
     class Meta:
         default_resolver = int_resolver
@@ -75,9 +79,9 @@ class AuditComplianceCount(graphene.ObjectType):
 class AuditLastReport(graphene.ObjectType):
     """The last report of an audit for a finished scan"""
 
-    uuid = graphene.String(name='id')
-    scan_start = graphene.DateTime()
-    scan_end = graphene.DateTime()
+    uuid = graphene.String(name='id', description="UUID of the last report")
+    scan_start = graphene.DateTime(description="Start time of the scan")
+    scan_end = graphene.DateTime(description="End time of the scan")
     creation_time = graphene.DateTime(
         description="Date and time when the report has ben created"
     )
@@ -117,9 +121,9 @@ class AuditCurrentReport(graphene.ObjectType):
     during a running scan
     """
 
-    uuid = graphene.String(name='id')
-    scan_start = graphene.DateTime()
-    scan_end = graphene.DateTime()
+    uuid = graphene.String(name='id', description="UUID of the current report")
+    scan_start = graphene.DateTime(description="Start time of the scan")
+    scan_end = graphene.DateTime(description="End time of the scan")
     creation_time = graphene.DateTime(
         description="Date and time when the report has ben created"
     )
@@ -146,7 +150,12 @@ class AuditCurrentReport(graphene.ObjectType):
 
 
 class AuditReports(graphene.ObjectType):
-    counts = graphene.Field(AuditReportsCounts)
+    """Report information of an audit"""
+
+    counts = graphene.Field(
+        AuditReportsCounts,
+        description="Counts information for reports of the audit",
+    )
     current_report = graphene.Field(
         AuditCurrentReport,
         description='Report of the current running scan for this audit',
@@ -164,13 +173,20 @@ class AuditReports(graphene.ObjectType):
 
 
 class AuditResultsCounts(BaseCounts):
+    """Result count information of an audit"""
+
     @staticmethod
     def resolve_current(current: int, _info):
         return current
 
 
 class AuditResults(graphene.ObjectType):
-    counts = graphene.Field(AuditResultsCounts)
+    """Result information of an audit"""
+
+    counts = graphene.Field(
+        AuditResultsCounts,
+        description="Count information for results of the audit",
+    )
 
     @staticmethod
     def resolve_counts(result_count: XmlElement, _info):
@@ -180,7 +196,7 @@ class AuditResults(graphene.ObjectType):
 
 class AuditSubObjectType(BaseObjectType):
 
-    trash = graphene.Boolean()
+    trash = graphene.Boolean(description="Wether the object is in the trashcan")
 
     @staticmethod
     def resolve_trash(root, _info):
@@ -192,6 +208,8 @@ class AuditPolicy(AuditSubObjectType):
 
 
 class AuditScanner(AuditSubObjectType):
+    """A scanner for an audit"""
+
     scanner_type = graphene.Field(
         ScannerType, name="type", description="Type of the scanner"
     )
@@ -202,12 +220,19 @@ class AuditScanner(AuditSubObjectType):
 
 
 class AuditSchedule(AuditSubObjectType):
+    """A schedule for an audit"""
+
     class Meta:
         default_resolver = text_resolver
 
-    icalendar = graphene.String()
-    duration = graphene.Int()
-    timezone = graphene.String()
+    icalendar = graphene.String(
+        description="Calender information for an audit in the iCal format"
+    )
+    duration = graphene.Int(
+        description="Maximum duration of a schedule in seconds. A scheduled "
+        "scan will be stopped if the duration is exceeded"
+    )
+    timezone = graphene.String(description="Timezone of the schedule")
 
     @staticmethod
     def resolve_duration(root, _info):
@@ -215,12 +240,14 @@ class AuditSchedule(AuditSubObjectType):
 
 
 class AuditPreference(graphene.ObjectType):
+    """A preference for an audit"""
+
     class Meta:
         default_resolver = text_resolver
 
-    description = graphene.String()
-    name = graphene.String()
-    value = graphene.String()
+    description = graphene.String(description="Description of the preference")
+    name = graphene.String(description="Name of the preference")
+    value = graphene.String(description="Value of the preference")
 
     @staticmethod
     def resolve_name(root, _info):
@@ -232,9 +259,13 @@ class AuditPreference(graphene.ObjectType):
 
 
 class AuditObservers(graphene.ObjectType):
-    users = graphene.List(graphene.String)
-    groups = graphene.List(BaseObjectType)
-    roles = graphene.List(BaseObjectType)
+    """Observers of an audit"""
+
+    users = graphene.List(graphene.String, description="List of usernames")
+    groups = graphene.List(
+        BaseObjectType, description="List of UUIDs of groups"
+    )
+    roles = graphene.List(BaseObjectType, description="List of UUIDS of roles")
 
     @staticmethod
     def resolve_users(root, _info):
@@ -281,15 +312,14 @@ class AuditStatus(graphene.Enum):
 
 
 class Audit(EntityObjectType):
-    """Audit object type. Can be used in GetAudit and GetAudits queries.
-
-    Please query in camelCase e.g. audit_id => auditId.
-    """
+    """Audit object type"""
 
     class Meta:
         default_resolver = find_resolver
 
-    average_duration = graphene.Int()
+    average_duration = graphene.Int(
+        description="Average duration of scans for this audit in seconds"
+    )
 
     trend = graphene.Field(
         AuditTrend, description="Vulnerability trend of the audit"
@@ -304,23 +334,43 @@ class Audit(EntityObjectType):
         description="Currently used hosts ordering during a scan",
     )
 
-    alterable = graphene.Boolean()
+    alterable = graphene.Boolean(description="Wether the audit is alterable")
 
-    progress = graphene.Int()
+    progress = graphene.Int(description="Progess of the current scan")
 
-    policy = graphene.Field(AuditPolicy)
-    target = graphene.Field(AuditSubObjectType)
-    scanner = graphene.Field(AuditScanner)
-    alerts = graphene.List(AuditSubObjectType)
+    policy = graphene.Field(
+        AuditPolicy, description="Used policy for the audit"
+    )
+    target = graphene.Field(
+        AuditSubObjectType, description="Used target for the audit"
+    )
+    scanner = graphene.Field(
+        AuditScanner, description="Used scanner for the audit"
+    )
+    alerts = graphene.List(
+        AuditSubObjectType, description="List of alerts used for the audit"
+    )
 
-    observers = graphene.Field(AuditObservers)
+    observers = graphene.Field(
+        AuditObservers, description="Observers of the audit"
+    )
 
-    schedule = graphene.Field(AuditSchedule)
-    schedule_periods = graphene.Int()
+    schedule = graphene.Field(
+        AuditSchedule, description="Used schedule for the audit"
+    )
+    schedule_periods = graphene.Int(
+        description="Number of recurrences for the schedule"
+    )
 
-    preferences = graphene.List(AuditPreference)
-    reports = graphene.Field(AuditReports)
-    results = graphene.Field(AuditResults)
+    preferences = graphene.List(
+        AuditPreference, description="List of preferences set for the audit"
+    )
+    reports = graphene.Field(
+        AuditReports, description="Report information for the audit"
+    )
+    results = graphene.Field(
+        AuditResults, description="Result information for the audit"
+    )
 
     @staticmethod
     def resolve_average_duration(root, _info):
