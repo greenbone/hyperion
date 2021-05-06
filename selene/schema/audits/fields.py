@@ -38,7 +38,6 @@ from selene.schema.utils import (
 from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
 from selene.schema.scanners.fields import ScannerType
-from selene.schema.severity import SeverityType
 from selene.schema.tasks.fields import BaseCounts
 
 
@@ -77,7 +76,6 @@ class AuditLastReport(graphene.ObjectType):
     """The last report of an audit for a finished scan"""
 
     uuid = graphene.String(name='id')
-    severity = SeverityType()
     scan_start = graphene.DateTime()
     scan_end = graphene.DateTime()
     timestamp = graphene.DateTime()
@@ -95,12 +93,6 @@ class AuditLastReport(graphene.ObjectType):
         report = parent.find('report')
         uuid = report.get('id')
         return uuid
-
-    @staticmethod
-    def resolve_severity(parent, _info):
-        report = parent.find('report')
-        severity = report.find('severity')
-        return get_text(severity)
 
     @staticmethod
     def resolve_timestamp(parent, _info):
