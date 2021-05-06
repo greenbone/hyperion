@@ -248,6 +248,34 @@ class AuditObservers(graphene.ObjectType):
         return root.findall('role')
 
 
+class AuditTrend(graphene.Enum):
+    """Vulnerability trend of an audit"""
+
+    UP = "up"
+    DOWN = "down"
+    MORE = "more"
+    LESS = "less"
+    SAME = "same"
+
+
+class AuditStatus(graphene.Enum):
+    """Status of an audit"""
+
+    QUEUED = 'Queued'
+    RUNNING = 'Running'
+    STOP_REQUESTED = 'Stop Requested'
+    DELETE_REQUESTED = 'Delete Requested'
+    ULTIMATE_DELETE_REQUESTED = 'Ultimate Delete Requested'
+    RESUME_REQUESTED = 'Resume Requested'
+    REQUESTED = 'Requested'
+    STOPPED = 'Stopped'
+    NEW = 'New'
+    INTERRUPTED = 'Interrupted'
+    CONTAINER = 'Container'
+    UPLOADING = 'Uploading'
+    DONE = 'Done'
+
+
 class Audit(EntityObjectType):
     """Audit object type. Can be used in GetAudit and GetAudits queries.
 
@@ -259,8 +287,13 @@ class Audit(EntityObjectType):
 
     average_duration = graphene.Int()
 
-    trend = graphene.String()
-    status = graphene.String()
+    trend = graphene.Field(
+        AuditTrend, description="Vulnerability trend of the audit"
+    )
+    status = graphene.Field(
+        AuditStatus,
+        description="Status of the last or current scan of the audit",
+    )
 
     hosts_ordering = graphene.Field(
         AuditHostsOrdering,
@@ -291,11 +324,17 @@ class Audit(EntityObjectType):
 
     @staticmethod
     def resolve_trend(root, _info):
-        return get_text_from_element(root, 'trend')
+        trend = get_text_from_element(root, 'trend')
+        if not trend:
+            return None
+        return AuditTrend.get(trend)
 
     @staticmethod
     def resolve_status(root, _info):
-        return get_text_from_element(root, 'status')
+        status = get_text_from_element(root, 'status')
+        if not status:
+            return None
+        return AuditStatus.get(status)
 
     @staticmethod
     def resolve_alterable(root, _info):

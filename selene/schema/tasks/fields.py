@@ -245,6 +245,34 @@ class TaskResults(graphene.ObjectType):
         return parse_int(current)
 
 
+class TaskTrend(graphene.Enum):
+    """Vulnerability trend of a task"""
+
+    UP = "up"
+    DOWN = "down"
+    MORE = "more"
+    LESS = "less"
+    SAME = "same"
+
+
+class TaskStatus(graphene.Enum):
+    """Status of a task"""
+
+    QUEUED = 'Queued'
+    RUNNING = 'Running'
+    STOP_REQUESTED = 'Stop Requested'
+    DELETE_REQUESTED = 'Delete Requested'
+    ULTIMATE_DELETE_REQUESTED = 'Ultimate Delete Requested'
+    RESUME_REQUESTED = 'Resume Requested'
+    REQUESTED = 'Requested'
+    STOPPED = 'Stopped'
+    NEW = 'New'
+    INTERRUPTED = 'Interrupted'
+    CONTAINER = 'Container'
+    UPLOADING = 'Uploading'
+    DONE = 'Done'
+
+
 class Task(EntityObjectType):
     """Task object type. Can be used in GetTask and GetTasks queries.
 
@@ -256,8 +284,12 @@ class Task(EntityObjectType):
 
     average_duration = graphene.Int()
 
-    trend = graphene.String()
-    status = graphene.String()
+    trend = graphene.Field(
+        TaskTrend, description="Vulnerability trend of the task"
+    )
+    status = graphene.Field(
+        TaskStatus, description="Status of the last or current scan of the task"
+    )
 
     hosts_ordering = graphene.Field(
         HostsOrdering,
