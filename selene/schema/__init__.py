@@ -392,7 +392,6 @@ from selene.schema.schedules.mutations import (
 from selene.schema.tasks.mutations import (
     CloneTask,
     CreateTask,
-    DeleteTask,
     DeleteTasksByIds,
     DeleteTasksByFilter,
     ModifyTask,
@@ -686,7 +685,6 @@ class Mutations(ObjectType):
     clone_task = CloneTask.Field()
     create_container_task = CreateContainerTask.Field()
     create_task = CreateTask.Field()
-    delete_task = DeleteTask.Field()
     delete_tasks_by_filter = DeleteTasksByFilter.Field()
     delete_tasks_by_ids = DeleteTasksByIds.Field()
     export_tasks_by_filter = ExportTasksByFilter.Field()

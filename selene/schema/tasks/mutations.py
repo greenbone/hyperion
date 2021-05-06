@@ -65,29 +65,6 @@ class CloneTask(graphene.Mutation):
         return CloneTask(task_id=elem.get('id'))
 
 
-class DeleteTask(graphene.Mutation):
-    """Deletes a task
-
-    Args:
-        id (UUID): UUID of task to delete.
-
-    Returns:
-        ok (Boolean)
-    """
-
-    class Arguments:
-        task_id = graphene.UUID(required=True, name='id')
-
-    ok = graphene.Boolean()
-
-    @staticmethod
-    @require_authentication
-    def mutate(_root, info, task_id):
-        gmp = get_gmp(info)
-        gmp.delete_task(str(task_id))
-        return DeleteTask(ok=True)
-
-
 # Explicit classes needed, else we get error
 # 'AssertionError: Found different types with the same name in the
 #   schema: DeleteByIds, DeleteByIds.'
