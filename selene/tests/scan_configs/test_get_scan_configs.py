@@ -20,6 +20,9 @@ from unittest.mock import patch
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
+from selene.schema.scan_configs.fields import ScanConfigType
+from selene.schema.scan_configs.queries import GetScanConfigs
+
 from selene.tests.pagination import (
     make_test_counts,
     make_test_after_first,
@@ -29,8 +32,6 @@ from selene.tests.pagination import (
     make_test_after_first_before_last,
 )
 from selene.tests.entity import make_test_get_entities
-
-from selene.schema.scan_configs.queries import GetScanConfigs
 
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)
@@ -103,7 +104,10 @@ class ScanConfigsTestCase(SeleneTestCase):
         )
         self.assertEqual(scan_config1['name'], 'foo')
 
-        self.assertEqual(scan_config1['type'], 0)
+        self.assertEqual(
+            scan_config1['type'],
+            ScanConfigType.OPENVAS.name,  # pylint: disable=no-member
+        )
 
         # Config 2
 
@@ -112,7 +116,10 @@ class ScanConfigsTestCase(SeleneTestCase):
         )
         self.assertEqual(scan_config2['name'], 'lorem')
 
-        self.assertEqual(scan_config2['type'], 1)
+        self.assertEqual(
+            scan_config2['type'],
+            ScanConfigType.OSP.name,  # pylint: disable=no-member
+        )
 
     def test_get_filtered_scan_configs(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response('get_configs', self.xml)
@@ -148,11 +155,17 @@ class ScanConfigsTestCase(SeleneTestCase):
 
         self.assertEqual(config1['id'], '08b69003-5fc2-4037-a479-93b440211c73')
         self.assertEqual(config1['name'], 'foo')
-        self.assertEqual(config1['type'], 0)
+        self.assertEqual(
+            config1['type'],
+            ScanConfigType.OPENVAS.name,  # pylint: disable=no-member
+        )
 
         self.assertEqual(config2['id'], '6b2db524-9fb0-45b8-9b56-d958f84cb546')
         self.assertEqual(config2['name'], 'lorem')
-        self.assertEqual(config2['type'], 1)
+        self.assertEqual(
+            config2['type'],
+            ScanConfigType.OSP.name,  # pylint: disable=no-member
+        )
 
 
 class ScanConfigsPaginationTestCase(SeleneTestCase):
