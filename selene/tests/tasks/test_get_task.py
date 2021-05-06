@@ -347,7 +347,6 @@ class TaskTestCase(SeleneTestCase):
                         name
                     }
                     schedulePeriods
-                    hostsOrdering
                 }
             }
             '''
@@ -395,10 +394,6 @@ class TaskTestCase(SeleneTestCase):
         schedule_periods = task['schedulePeriods']
 
         self.assertEqual(schedule_periods, 0)
-
-        hosts_ordering = task['hostsOrdering']
-
-        self.assertIsNone(hosts_ordering)
 
         alerts = task['alerts']
         self.assertEqual(len(alerts), 2)

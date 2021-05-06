@@ -19,8 +19,6 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.next import HostsOrdering
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 
@@ -65,7 +63,6 @@ class ModifyTaskTestCase(SeleneTestCase):
                     applyOverrides: false,
                     inAssets: true,
                     scanConfigId: "{config_id}",
-                    hostsOrdering: REVERSE,
                     maxConcurrentNvts: 7,
                     maxConcurrentHosts: 13,
                     autoDelete: 4
@@ -90,7 +87,6 @@ class ModifyTaskTestCase(SeleneTestCase):
             alterable=None,
             comment=None,
             config_id=config_id,
-            hosts_ordering=HostsOrdering.REVERSE,
             name="bar",
             observers=None,
             preferences={

@@ -20,8 +20,6 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.next import get_hosts_ordering_from_string
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 
@@ -68,7 +66,6 @@ class CreateTaskTestCase(SeleneTestCase):
                     scannerId: "{scanner_id}",
                     scanConfigId: "{config_id}",
                     targetId: "{target_id}",
-                    hostsOrdering: REVERSE,
                     maxConcurrentNvts: 7,
                     maxConcurrentHosts: 13,
                     autoDelete: 4,
@@ -97,7 +94,6 @@ class CreateTaskTestCase(SeleneTestCase):
             alert_ids=None,
             alterable=None,
             comment=None,
-            hosts_ordering=get_hosts_ordering_from_string('reverse'),
             observers=None,
             preferences={
                 'auto_delete': 'keep',

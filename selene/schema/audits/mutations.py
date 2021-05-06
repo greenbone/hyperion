@@ -18,8 +18,6 @@
 
 import graphene
 
-from selene.schema.audits.fields import AuditHostsOrdering
-
 from selene.schema.entities import (
     create_export_by_filter_mutation,
     create_export_by_ids_mutation,
@@ -109,11 +107,6 @@ class CreateAuditInput(graphene.InputObjectType):
         )
     )
     comment = graphene.String(description="Audit comment")
-    hosts_ordering = graphene.Field(
-        AuditHostsOrdering,
-        description="The order hosts are scanned in. "
-        "Only for OpenVAS scanners",
-    )
     in_assets = graphene.Boolean(
         description="Whether to create assets from scan results"
     )
@@ -197,11 +190,6 @@ class CreateAudit(graphene.Mutation):
             else None
         )
 
-        if input_object.hosts_ordering:
-            hosts_ordering = AuditHostsOrdering.get(input_object.hosts_ordering)
-        else:
-            hosts_ordering = None
-
         preferences = {}
 
         if input_object.apply_overrides is not None:
@@ -235,7 +223,6 @@ class CreateAudit(graphene.Mutation):
             alterable=alterable,
             comment=comment,
             alert_ids=alert_ids,
-            hosts_ordering=hosts_ordering,
             schedule_id=schedule_id,
             schedule_periods=schedule_periods,
             observers=observers,
@@ -269,11 +256,6 @@ class ModifyAuditInput(graphene.InputObjectType):
         )
     )
     comment = graphene.String(description="Audit comment")
-    hosts_ordering = graphene.Field(
-        AuditHostsOrdering,
-        description="The order hosts are scanned in. "
-        "Only for OpenVAS scanners",
-    )
     in_assets = graphene.Boolean(
         description="Whether to add the audit's results to assets"
     )
@@ -357,11 +339,6 @@ class ModifyAudit(graphene.Mutation):
             else None
         )
 
-        if input_object.hosts_ordering:
-            hosts_ordering = AuditHostsOrdering.get(input_object.hosts_ordering)
-        else:
-            hosts_ordering = None
-
         preferences = {}
 
         if input_object.apply_overrides is not None:
@@ -393,7 +370,6 @@ class ModifyAudit(graphene.Mutation):
             target_id=target_id,
             scanner_id=scanner_id,
             alterable=alterable,
-            hosts_ordering=hosts_ordering,
             schedule_id=schedule_id,
             schedule_periods=schedule_periods,
             comment=comment,

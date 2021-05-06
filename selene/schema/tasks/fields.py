@@ -18,8 +18,6 @@
 
 import graphene
 
-from gvm.protocols.next import HostsOrdering as GvmHostsOrdering
-
 from selene.schema.resolver import find_resolver, text_resolver
 
 from selene.schema.parser import parse_int
@@ -38,13 +36,6 @@ from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
 from selene.schema.scanners.fields import ScannerType
 from selene.schema.scan_configs.fields import ScanConfigType
-
-
-class HostsOrdering(graphene.Enum):
-    """Hosts ordering of a task"""
-
-    class Meta:
-        enum = GvmHostsOrdering
 
 
 class TaskReportsCounts(graphene.ObjectType):
@@ -327,11 +318,6 @@ class Task(EntityObjectType):
         TaskStatus, description="Status of the last or current scan of the task"
     )
 
-    hosts_ordering = graphene.Field(
-        HostsOrdering,
-        description="Currently used hosts ordering during a scan",
-    )
-
     alterable = graphene.Boolean(description="Wether the task is alterable")
 
     progress = graphene.Int(description="Progess of the current scan")
@@ -381,10 +367,6 @@ class Task(EntityObjectType):
     @staticmethod
     def resolve_alterable(root, _info):
         return get_boolean_from_element(root, 'alterable')
-
-    @staticmethod
-    def resolve_hosts_ordering(root, _info):
-        return get_text_from_element(root, 'hosts_ordering')
 
     @staticmethod
     def resolve_progress(root, _info):

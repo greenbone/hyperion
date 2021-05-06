@@ -22,8 +22,6 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.next import HostsOrdering
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 
@@ -70,7 +68,6 @@ class CreateAuditTestCase(SeleneTestCase):
                     scannerId: "{scanner_id}",
                     policyId: "{policy_id}",
                     targetId: "{target_id}",
-                    hostsOrdering: REVERSE,
                     maxConcurrentNvts: 7,
                     maxConcurrentHosts: 13,
                     autoDelete: 4,
@@ -99,7 +96,6 @@ class CreateAuditTestCase(SeleneTestCase):
             alert_ids=None,
             alterable=None,
             comment=None,
-            hosts_ordering=HostsOrdering.REVERSE,
             observers=None,
             preferences={
                 'auto_delete': 'keep',

@@ -18,8 +18,6 @@
 
 import graphene
 
-from selene.schema.tasks.fields import HostsOrdering
-
 from selene.schema.entities import (
     create_export_by_filter_mutation,
     create_export_by_ids_mutation,
@@ -136,11 +134,6 @@ class CreateTaskInput(graphene.InputObjectType):
         )
     )
     comment = graphene.String(description="Task comment")
-    hosts_ordering = graphene.Field(
-        HostsOrdering,
-        description="The order hosts are scanned in. "
-        "Only for OpenVAS scanners.",
-    )
     in_assets = graphene.Boolean(
         description="Whether to create assets from scan results"
     )
@@ -222,10 +215,6 @@ class CreateTask(graphene.Mutation):
             if input_object.scan_config_id is not None
             else None
         )
-        if input_object.hosts_ordering is not None:
-            hosts_ordering = HostsOrdering.get(input_object.hosts_ordering)
-        else:
-            hosts_ordering = None
 
         preferences = {}
 
@@ -258,7 +247,6 @@ class CreateTask(graphene.Mutation):
             alterable=alterable,
             comment=comment,
             alert_ids=alert_ids,
-            hosts_ordering=hosts_ordering,
             schedule_id=schedule_id,
             schedule_periods=schedule_periods,
             observers=observers,
@@ -301,11 +289,6 @@ class ModifyTaskInput(graphene.InputObjectType):
         )
     )
     comment = graphene.String(description="Task comment")
-    hosts_ordering = graphene.Field(
-        HostsOrdering,
-        description="The order hosts are scanned in. "
-        "Only for OpenVAS scanners.",
-    )
     in_assets = graphene.Boolean(
         description="Whether to add the task's results to assets."
     )
@@ -393,11 +376,6 @@ class ModifyTask(graphene.Mutation):
             else None
         )
 
-        if input_object.hosts_ordering is not None:
-            hosts_ordering = HostsOrdering.get(input_object.hosts_ordering)
-        else:
-            hosts_ordering = None
-
         preferences = {}
 
         if input_object.apply_overrides is not None:
@@ -428,7 +406,6 @@ class ModifyTask(graphene.Mutation):
             target_id=target_id,
             scanner_id=scanner_id,
             alterable=alterable,
-            hosts_ordering=hosts_ordering,
             schedule_id=schedule_id,
             schedule_periods=schedule_periods,
             comment=comment,

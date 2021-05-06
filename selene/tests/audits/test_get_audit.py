@@ -162,7 +162,6 @@ class AuditTestCase(SeleneTestCase):
                         timezone
                         duration
                     }
-                    hostsOrdering
                     alerts {
                         id
                         name
@@ -190,7 +189,6 @@ class AuditTestCase(SeleneTestCase):
         self.assertEqual(audit['progress'], -1)
         self.assertIsNone(audit['trend'])
         self.assertEqual(audit['averageDuration'], 0)
-        self.assertEqual(audit['hostsOrdering'], 'SEQUENTIAL')
 
         reports = audit['reports']
         current_report = reports['currentReport']
