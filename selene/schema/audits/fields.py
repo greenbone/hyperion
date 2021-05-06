@@ -78,7 +78,9 @@ class AuditLastReport(graphene.ObjectType):
     uuid = graphene.String(name='id')
     scan_start = graphene.DateTime()
     scan_end = graphene.DateTime()
-    timestamp = graphene.DateTime()
+    creation_time = graphene.DateTime(
+        description="Date and time when the report has ben created"
+    )
     compliance_count = graphene.Field(
         AuditComplianceCount, description='Compliance status for this audit'
     )
@@ -95,7 +97,7 @@ class AuditLastReport(graphene.ObjectType):
         return uuid
 
     @staticmethod
-    def resolve_timestamp(parent, _info):
+    def resolve_creation_time(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'timestamp')
 
@@ -118,7 +120,9 @@ class AuditCurrentReport(graphene.ObjectType):
     uuid = graphene.String(name='id')
     scan_start = graphene.DateTime()
     scan_end = graphene.DateTime()
-    timestamp = graphene.DateTime()
+    creation_time = graphene.DateTime(
+        description="Date and time when the report has ben created"
+    )
 
     @staticmethod
     def resolve_uuid(parent, _info):
@@ -136,7 +140,7 @@ class AuditCurrentReport(graphene.ObjectType):
         return get_datetime_from_element(report, 'scan_end')
 
     @staticmethod
-    def resolve_timestamp(parent, _info):
+    def resolve_creation_time(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'timestamp')
 

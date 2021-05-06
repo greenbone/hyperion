@@ -69,7 +69,9 @@ class LastReport(graphene.ObjectType):
     severity = SeverityType()
     scan_start = graphene.DateTime()
     scan_end = graphene.DateTime()
-    timestamp = graphene.DateTime()
+    creation_time = graphene.DateTime(
+        description="Date and time when the report has ben created"
+    )
 
     @staticmethod
     def resolve_uuid(parent, _info):
@@ -84,7 +86,7 @@ class LastReport(graphene.ObjectType):
         return get_text(severity)
 
     @staticmethod
-    def resolve_timestamp(parent, _info):
+    def resolve_creation_time(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'timestamp')
 
@@ -105,7 +107,9 @@ class CurrentReport(graphene.ObjectType):
     uuid = graphene.String(name='id')
     scan_start = graphene.DateTime()
     scan_end = graphene.DateTime()
-    timestamp = graphene.DateTime()
+    creation_time = graphene.DateTime(
+        description="Date and time when the report has ben created"
+    )
 
     @staticmethod
     def resolve_uuid(parent, _info):
@@ -123,7 +127,7 @@ class CurrentReport(graphene.ObjectType):
         return get_datetime_from_element(report, 'scan_end')
 
     @staticmethod
-    def resolve_timestamp(parent, _info):
+    def resolve_creation_time(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'timestamp')
 
