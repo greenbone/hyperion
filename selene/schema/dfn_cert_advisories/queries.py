@@ -38,7 +38,7 @@ from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
 class GetDFNCertAdvisory(SingleObjectQuery):
-    """Gets a single DFNCertAdvisory information.
+    """Get a single DFNCertAdvisory information
 
     Example:
 
