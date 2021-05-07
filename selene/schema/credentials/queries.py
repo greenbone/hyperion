@@ -65,6 +65,13 @@ class GetCredential(SingleObjectQuery):
     object_type = Credential
     kwargs = {
         'credential_format': graphene.String(default_value=None, name='format'),
+        'credential_id': graphene.UUID(required=True, name='id'),
+        'scanners': graphene.Boolean(
+            default_value=True
+        ),  # should be set to true depending on the query actually
+        'targets': graphene.Boolean(
+            default_value=True
+        ),  # should be set to true depending on the query actually
     }
 
     @staticmethod
@@ -73,6 +80,8 @@ class GetCredential(SingleObjectQuery):
         _root,
         info,
         credential_id: UUID,
+        scanners: bool,
+        targets: bool,
         credential_format=None,
     ):
         gmp = get_gmp(info)
@@ -85,8 +94,8 @@ class GetCredential(SingleObjectQuery):
 
         xml = gmp.get_credential(
             str(credential_id),
-            scanners=False,  # should be set to true depending on the query
-            targets=False,  # should be set to true depending on the query
+            scanners=scanners,
+            targets=targets,
             credential_format=cred_format,
         )
         return xml.find('credential')
