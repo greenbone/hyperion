@@ -66,11 +66,13 @@ class CreateTaskTestCase(SeleneTestCase):
                     scannerId: "{scanner_id}",
                     scanConfigId: "{config_id}",
                     targetId: "{target_id}",
-                    maxConcurrentNvts: 7,
-                    maxConcurrentHosts: 13,
-                    autoDelete: 4,
-                    inAssets: true,
-                    applyOverrides: false
+                    preferences: {{
+                        autoDeleteReports: 4,
+                        createAssets: true,
+                        createAssetsApplyOverrides: false
+                        maxConcurrentNvts: 7,
+                        maxConcurrentHosts: 13,
+                    }}
                 }}) {{
                     id
                 }}

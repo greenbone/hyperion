@@ -68,11 +68,13 @@ class CreateAuditTestCase(SeleneTestCase):
                     scannerId: "{scanner_id}",
                     policyId: "{policy_id}",
                     targetId: "{target_id}",
-                    maxConcurrentNvts: 7,
-                    maxConcurrentHosts: 13,
-                    autoDelete: 4,
-                    inAssets: true,
-                    applyOverrides: false
+                    preferences: {{
+                        autoDeleteReports: 4,
+                        createAssets: true,
+                        createAssetsApplyOverrides: false,
+                        maxConcurrentNvts: 7,
+                        maxConcurrentHosts: 13,
+                    }}
                 }}) {{
                     id
                 }}

@@ -156,9 +156,12 @@ class TaskTestCase(SeleneTestCase):
                         id
                     }
                     preferences {
-                        name
-                        description
-                        value
+                        autoDeleteReports
+                        createAssets
+                        createAssetsApplyOverrides
+                        createAssetsMinQod
+                        maxConcurrentHosts
+                        maxConcurrentNvts
                     }
                 }
             }
@@ -241,65 +244,14 @@ class TaskTestCase(SeleneTestCase):
         self.assertIsNone(task['alerts'])
 
         preferences = task['preferences']
-        self.assertEqual(len(preferences), 8)
+        self.assertEqual(len(preferences), 6)
 
-        pref_max_check = preferences[0]
-        self.assertEqual(
-            pref_max_check['description'],
-            'Maximum concurrently executed NVTs per host',
-        )
-        self.assertEqual(pref_max_check['name'], 'max_checks')
-        self.assertEqual(pref_max_check['value'], '4')
-
-        pref_max_hosts = preferences[1]
-        self.assertEqual(
-            pref_max_hosts['description'], 'Maximum concurrently scanned hosts'
-        )
-        self.assertEqual(pref_max_hosts['name'], 'max_hosts')
-        self.assertEqual(pref_max_hosts['value'], '20')
-
-        pref_source_iface = preferences[2]
-        self.assertEqual(
-            pref_source_iface['description'], 'Network Source Interface'
-        )
-        self.assertEqual(pref_source_iface['name'], 'source_iface')
-        self.assertIsNone(pref_source_iface['value'])
-
-        pref_in_assets = preferences[3]
-        self.assertEqual(
-            pref_in_assets['description'], 'Add results to Asset Management'
-        )
-        self.assertEqual(pref_in_assets['name'], 'in_assets')
-        self.assertEqual(pref_in_assets['value'], 'yes')
-
-        pref_assets_apply_overrides = preferences[4]
-        self.assertEqual(
-            pref_assets_apply_overrides['description'],
-            'Apply Overrides when adding Assets',
-        )
-        self.assertEqual(
-            pref_assets_apply_overrides['name'], 'assets_apply_overrides'
-        )
-        self.assertEqual(pref_assets_apply_overrides['value'], 'yes')
-
-        pref_assets_min_qod = preferences[5]
-        self.assertEqual(
-            pref_assets_min_qod['description'], 'Min QOD when adding Assets'
-        )
-        self.assertEqual(pref_assets_min_qod['name'], 'assets_min_qod')
-        self.assertEqual(pref_assets_min_qod['value'], '70')
-
-        pref_auto_delete = preferences[6]
-        self.assertEqual(pref_auto_delete['description'], 'Auto Delete Reports')
-        self.assertEqual(pref_auto_delete['name'], 'auto_delete')
-        self.assertEqual(pref_auto_delete['value'], '0')
-
-        pref_auto_delete_data = preferences[7]
-        self.assertEqual(
-            pref_auto_delete_data['description'], 'Auto Delete Reports Data'
-        )
-        self.assertEqual(pref_auto_delete_data['name'], 'auto_delete_data')
-        self.assertEqual(pref_auto_delete_data['value'], '0')
+        self.assertEqual(preferences['autoDeleteReports'], 5)
+        self.assertEqual(preferences['createAssets'], True)
+        self.assertEqual(preferences['createAssetsApplyOverrides'], True)
+        self.assertEqual(preferences['createAssetsMinQod'], 70)
+        self.assertEqual(preferences['maxConcurrentNvts'], 4)
+        self.assertEqual(preferences['maxConcurrentHosts'], 20)
 
         results_counts = task['results']['counts']
         self.assertEqual(results_counts['current'], 50000)

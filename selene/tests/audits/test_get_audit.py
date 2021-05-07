@@ -167,9 +167,12 @@ class AuditTestCase(SeleneTestCase):
                         name
                     }
                     preferences {
-                        name
-                        description
-                        value
+                        autoDeleteReports
+                        createAssets
+                        createAssetsApplyOverrides
+                        createAssetsMinQod
+                        maxConcurrentHosts
+                        maxConcurrentNvts
                     }
                 }
             }
@@ -274,6 +277,16 @@ END:VCALENDAR
         self.assertEqual(policy['id'], '9f822ad3-9208-4e02-ac03-78dce3ca9a23')
         self.assertEqual(policy['name'], 'EulerOS Linux Security Configuration')
         self.assertEqual(policy['trash'], 0)
+
+        preferences = audit['preferences']
+        self.assertEqual(len(preferences), 6)
+
+        self.assertIsNone(preferences['autoDeleteReports'])
+        self.assertEqual(preferences['createAssets'], True)
+        self.assertEqual(preferences['createAssetsApplyOverrides'], True)
+        self.assertEqual(preferences['createAssetsMinQod'], 70)
+        self.assertEqual(preferences['maxConcurrentNvts'], 4)
+        self.assertEqual(preferences['maxConcurrentHosts'], 20)
 
 
 class AuditGetEntityTestCase(SeleneTestCase):

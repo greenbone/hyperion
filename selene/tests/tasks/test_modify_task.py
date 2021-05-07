@@ -60,13 +60,15 @@ class ModifyTaskTestCase(SeleneTestCase):
                 modifyTask(input: {{
                     id: "{task_id}",
                     name: "bar"
-                    applyOverrides: false,
-                    inAssets: true,
                     scanConfigId: "{config_id}",
-                    maxConcurrentNvts: 7,
-                    maxConcurrentHosts: 13,
-                    autoDelete: 4
-                    }}) {{
+                    preferences: {{
+                        autoDeleteReports: 4
+                        createAssets: true,
+                        createAssetsApplyOverrides: false,
+                        maxConcurrentNvts: 7,
+                        maxConcurrentHosts: 13,
+                    }}
+                }}) {{
                     ok
                 }}
             }}

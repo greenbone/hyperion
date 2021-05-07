@@ -60,13 +60,15 @@ class ModifyAuditTestCase(SeleneTestCase):
                 modifyAudit(input: {{
                     id: "{audit_id}",
                     name: "bar"
-                    applyOverrides: false,
-                    inAssets: true,
                     policyId: "{policy_id}",
-                    maxConcurrentNvts: 7,
-                    maxConcurrentHosts: 13,
-                    autoDelete: 4
-                    }}) {{
+                    preferences: {{
+                        autoDeleteReports: 4
+                        createAssets: true,
+                        createAssetsApplyOverrides: false,
+                        maxConcurrentNvts: 7,
+                        maxConcurrentHosts: 13,
+                    }}
+                }}) {{
                     ok
                 }}
             }}

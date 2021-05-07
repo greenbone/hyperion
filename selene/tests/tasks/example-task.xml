@@ -56,126 +56,126 @@
       <trash>0</trash>
     </schedule>
     <last_report>
-        <report id="d453374b-64cc-4c25-9959-7bc7c5287242">
-          <timestamp>2020-01-15T11:30:10+01:00</timestamp>
-          <scan_start>2020-01-15T11:30:28+01:00</scan_start>
-          <scan_end>2020-01-15T11:39:24+01:00</scan_end>
-          <result_count>
-              <debug>0</debug>
-              <hole>38</hole>
-              <info>4</info>
-              <log>40</log>
-              <warning>40</warning>
-              <false_positive>0</false_positive>
-          </result_count>
-          <severity>10.0</severity>
-        </report>
+      <report id="d453374b-64cc-4c25-9959-7bc7c5287242">
+        <timestamp>2020-01-15T11:30:10+01:00</timestamp>
+        <scan_start>2020-01-15T11:30:28+01:00</scan_start>
+        <scan_end>2020-01-15T11:39:24+01:00</scan_end>
+        <result_count>
+          <debug>0</debug>
+          <hole>38</hole>
+          <info>4</info>
+          <log>40</log>
+          <warning>40</warning>
+          <false_positive>0</false_positive>
+        </result_count>
+        <severity>10.0</severity>
+      </report>
     </last_report>
     <current_report>
-        <report id="64213415-efe5-4441-9ee6-562cacf4e3ce">
-          <timestamp>2020-02-04T09:42:14+01:00</timestamp>
-          <scan_start>2020-02-04T09:42:33+01:00</scan_start>
-          <scan_end/>
-        </report>
+      <report id="64213415-efe5-4441-9ee6-562cacf4e3ce">
+        <timestamp>2020-02-04T09:42:14+01:00</timestamp>
+        <scan_start>2020-02-04T09:42:33+01:00</scan_start>
+        <scan_end/>
+      </report>
     </current_report>
     <observers>admin admin_Clone_4<group id="44ff149f-8817-4419-9d5c-b6c3a8655ab2">
-        <name>plebeians</name>
-      </group>
-      <role id="7a8cb5b4-b74d-11e2-8187-406186ea4fc5">
-        <name>Admin</name>
-      </role>
-    </observers>
-    <average_duration>0</average_duration>
-    <result_count>50000</result_count>
-    <preferences>
-      <preference>
-        <name>Maximum concurrently executed NVTs per host</name>
-        <scanner_name>max_checks</scanner_name>
-        <value>4</value>
-      </preference>
-      <preference>
-        <name>Maximum concurrently scanned hosts</name>
-        <scanner_name>max_hosts</scanner_name>
-        <value>20</value>
-      </preference>
-      <preference>
-        <name>Network Source Interface</name>
-        <scanner_name>source_iface</scanner_name>
-        <value></value>
-      </preference>
-      <preference>
-        <name>Add results to Asset Management</name>
-        <scanner_name>in_assets</scanner_name>
-        <value>yes</value>
-      </preference>
-      <preference>
-        <name>Apply Overrides when adding Assets</name>
-        <scanner_name>assets_apply_overrides</scanner_name>
-        <value>yes</value>
-      </preference>
-      <preference>
-        <name>Min QOD when adding Assets</name>
-        <scanner_name>assets_min_qod</scanner_name>
-        <value>70</value>
-      </preference>
-      <preference>
-        <name>Auto Delete Reports</name>
-        <scanner_name>auto_delete</scanner_name>
-        <value>0</value>
-      </preference>
-      <preference>
-        <name>Auto Delete Reports Data</name>
-        <scanner_name>auto_delete_data</scanner_name>
-        <value>0</value>
-      </preference>
-    </preferences>
-  </task>
-  <filters id="">
-    <term>apply_overrides=0 min_qod=70 first=1 rows=1000 uuid= uuid=291a7547-c817-4b46-88f2-32415d825335 sort=name</term>
-    <keywords>
-      <keyword>
-        <column>apply_overrides</column>
-        <relation>=</relation>
-        <value>0</value>
-      </keyword>
-      <keyword>
-        <column>min_qod</column>
-        <relation>=</relation>
-        <value>70</value>
-      </keyword>
-      <keyword>
-        <column>first</column>
-        <relation>=</relation>
-        <value>1</value>
-      </keyword>
-      <keyword>
-        <column>rows</column>
-        <relation>=</relation>
-        <value>1000</value>
-      </keyword>
-      <keyword>
-        <column>uuid</column>
-        <relation>=</relation>
-        <value></value>
-      </keyword>
-      <keyword>
-        <column>uuid</column>
-        <relation>=</relation>
-        <value>291a7547-c817-4b46-88f2-32415d825335</value>
-      </keyword>
-      <keyword>
-        <column>sort</column>
-        <relation>=</relation>
-        <value>name</value>
-      </keyword>
-    </keywords>
-  </filters>
-  <sort>
-    <field>name<order>ascending</order>
-    </field>
-  </sort>
-  <tasks start="1" max="1000"/>
-  <task_count>1<filtered>1</filtered>
-    <page>1</page>
-  </task_count>
+      <name>plebeians</name>
+    </group>
+    <role id="7a8cb5b4-b74d-11e2-8187-406186ea4fc5">
+      <name>Admin</name>
+    </role>
+  </observers>
+  <average_duration>0</average_duration>
+  <result_count>50000</result_count>
+  <preferences>
+    <preference>
+      <name>Maximum concurrently executed NVTs per host</name>
+      <scanner_name>max_checks</scanner_name>
+      <value>4</value>
+    </preference>
+    <preference>
+      <name>Maximum concurrently scanned hosts</name>
+      <scanner_name>max_hosts</scanner_name>
+      <value>20</value>
+    </preference>
+    <preference>
+      <name>Network Source Interface</name>
+      <scanner_name>source_iface</scanner_name>
+      <value></value>
+    </preference>
+    <preference>
+      <name>Add results to Asset Management</name>
+      <scanner_name>in_assets</scanner_name>
+      <value>yes</value>
+    </preference>
+    <preference>
+      <name>Apply Overrides when adding Assets</name>
+      <scanner_name>assets_apply_overrides</scanner_name>
+      <value>yes</value>
+    </preference>
+    <preference>
+      <name>Min QOD when adding Assets</name>
+      <scanner_name>assets_min_qod</scanner_name>
+      <value>70</value>
+    </preference>
+    <preference>
+      <name>Auto Delete Reports</name>
+      <scanner_name>auto_delete</scanner_name>
+      <value>keep</value>
+    </preference>
+    <preference>
+      <name>Auto Delete Reports Data</name>
+      <scanner_name>auto_delete_data</scanner_name>
+      <value>5</value>
+    </preference>
+  </preferences>
+</task>
+<filters id="">
+  <term>apply_overrides=0 min_qod=70 first=1 rows=1000 uuid= uuid=291a7547-c817-4b46-88f2-32415d825335 sort=name</term>
+  <keywords>
+    <keyword>
+      <column>apply_overrides</column>
+      <relation>=</relation>
+      <value>0</value>
+    </keyword>
+    <keyword>
+      <column>min_qod</column>
+      <relation>=</relation>
+      <value>70</value>
+    </keyword>
+    <keyword>
+      <column>first</column>
+      <relation>=</relation>
+      <value>1</value>
+    </keyword>
+    <keyword>
+      <column>rows</column>
+      <relation>=</relation>
+      <value>1000</value>
+    </keyword>
+    <keyword>
+      <column>uuid</column>
+      <relation>=</relation>
+      <value></value>
+    </keyword>
+    <keyword>
+      <column>uuid</column>
+      <relation>=</relation>
+      <value>291a7547-c817-4b46-88f2-32415d825335</value>
+    </keyword>
+    <keyword>
+      <column>sort</column>
+      <relation>=</relation>
+      <value>name</value>
+    </keyword>
+  </keywords>
+</filters>
+<sort>
+  <field>name<order>ascending</order>
+  </field>
+</sort>
+<tasks start="1" max="1000"/>
+<task_count>1<filtered>1</filtered>
+  <page>1</page>
+</task_count>
 </get_tasks_response>
