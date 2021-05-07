@@ -34,6 +34,7 @@ from selene.schema.utils import (
     get_int_from_element,
     get_sub_element_if_id_available,
     get_subelement,
+    to_yes_no,
 )
 
 
@@ -287,3 +288,16 @@ class CsvToListTestCase(TestCase):
         self.assertEqual(
             csv_to_list(csv), ['foo', 'bar', 'lorem', 'ipsum', 'dolor']
         )
+
+
+class ToYesNoTestCase(TestCase):
+    def test_no(self):
+        self.assertEqual(to_yes_no(None), 'no')
+        self.assertEqual(to_yes_no(False), 'no')
+        self.assertEqual(to_yes_no(1), 'no')
+        self.assertEqual(to_yes_no(0), 'no')
+        self.assertEqual(to_yes_no(123), 'no')
+        self.assertEqual(to_yes_no('foo'), 'no')
+
+    def test_yes(self):
+        self.assertEqual(to_yes_no(True), 'yes')

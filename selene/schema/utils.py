@@ -127,3 +127,7 @@ def csv_to_list(csv_list: str) -> List[str]:
         return []
 
     return [value.strip() for value in csv_list.split(',')]
+
+
+def to_yes_no(value: bool) -> str:
+    return 'yes' if value is True else 'no'
