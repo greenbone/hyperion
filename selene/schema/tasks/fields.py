@@ -16,11 +16,13 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import Dict
+
 import graphene
 
 from selene.schema.resolver import find_resolver, text_resolver
 
-from selene.schema.parser import parse_int
+from selene.schema.parser import parse_int, parse_yes_no
 from selene.schema.utils import (
     get_text,
     get_boolean_from_element,
@@ -35,9 +37,12 @@ from selene.schema.severity import SeverityType
 from selene.schema.base import BaseObjectType
 from selene.schema.entity import EntityObjectType
 from selene.schema.scanners.fields import ScannerType
+from selene.schema.scan_configs.fields import ScanConfigType
 
 
 class TaskReportsCounts(graphene.ObjectType):
+    """Report counts for tasks"""
+
     total = graphene.Int(description="Total count of reports for the task")
     finished = graphene.Int(
         description="Number of finished reports for the task"
@@ -55,11 +60,15 @@ class TaskReportsCounts(graphene.ObjectType):
 class LastReport(graphene.ObjectType):
     """The last report of a task for a finished scan"""
 
-    uuid = graphene.String(name='id')
-    severity = SeverityType()
-    scan_start = graphene.DateTime()
-    scan_end = graphene.DateTime()
-    timestamp = graphene.DateTime()
+    uuid = graphene.String(name='id', description="UUID of the last report")
+    severity = graphene.Field(
+        SeverityType, description="Maximum severity of the last report"
+    )
+    scan_start = graphene.DateTime(description="Start time of the scan")
+    scan_end = graphene.DateTime(description="End time of the scan")
+    creation_time = graphene.DateTime(
+        description="Date and time when the report has ben created"
+    )
 
     @staticmethod
     def resolve_uuid(parent, _info):
@@ -74,7 +83,7 @@ class LastReport(graphene.ObjectType):
         return get_text(severity)
 
     @staticmethod
-    def resolve_timestamp(parent, _info):
+    def resolve_creation_time(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'timestamp')
 
@@ -92,10 +101,12 @@ class LastReport(graphene.ObjectType):
 class CurrentReport(graphene.ObjectType):
     """The current report of a task is only available during a running scan"""
 
-    uuid = graphene.String(name='id')
-    scan_start = graphene.DateTime()
-    scan_end = graphene.DateTime()
-    timestamp = graphene.DateTime()
+    uuid = graphene.String(name='id', description="UUID of the current report")
+    scan_start = graphene.DateTime(description="Start time of the scan")
+    scan_end = graphene.DateTime(description="End time of the scan")
+    creation_time = graphene.DateTime(
+        description="Date and time when the report has ben created"
+    )
 
     @staticmethod
     def resolve_uuid(parent, _info):
@@ -113,13 +124,18 @@ class CurrentReport(graphene.ObjectType):
         return get_datetime_from_element(report, 'scan_end')
 
     @staticmethod
-    def resolve_timestamp(parent, _info):
+    def resolve_creation_time(parent, _info):
         report = parent.find('report')
         return get_datetime_from_element(report, 'timestamp')
 
 
 class TaskReports(graphene.ObjectType):
-    counts = graphene.Field(TaskReportsCounts)
+    """Report information of a task"""
+
+    counts = graphene.Field(
+        TaskReportsCounts,
+        description="Counts information for reports of the task",
+    )
     current_report = graphene.Field(
         CurrentReport,
         description='Report of the current running scan for this task',
@@ -138,7 +154,7 @@ class TaskReports(graphene.ObjectType):
 
 class TaskSubObjectType(BaseObjectType):
 
-    trash = graphene.Boolean()
+    trash = graphene.Boolean(description="Wether the object is in the trashcan")
 
     @staticmethod
     def resolve_trash(root, _info):
@@ -146,17 +162,20 @@ class TaskSubObjectType(BaseObjectType):
 
 
 class TaskScanConfig(TaskSubObjectType):
+    """A scan config for a task"""
 
-    scan_config_type = graphene.Int(
-        name="type", description="Type of the scan config"
+    scan_config_type = graphene.Field(
+        ScanConfigType, name="type", description="Type of the scan config"
     )
 
     @staticmethod
     def resolve_scan_config_type(parent, _info):
-        return get_int_from_element(parent, 'type')
+        return ScanConfigType.get(get_text_from_element(parent, 'type'))
 
 
 class TaskScanner(TaskSubObjectType):
+    """A scanner for a task"""
+
     scanner_type = graphene.Field(
         ScannerType, name="type", description="Type of the scanner"
     )
@@ -167,9 +186,13 @@ class TaskScanner(TaskSubObjectType):
 
 
 class Observers(graphene.ObjectType):
-    users = graphene.List(graphene.String)
-    groups = graphene.List(BaseObjectType)
-    roles = graphene.List(BaseObjectType)
+    """Observers of a task"""
+
+    users = graphene.List(graphene.String, description="List of usernames")
+    groups = graphene.List(
+        BaseObjectType, description="List of UUIDs of groups"
+    )
+    roles = graphene.List(BaseObjectType, description="List of UUIDS of roles")
 
     @staticmethod
     def resolve_users(root, _info):
@@ -188,33 +211,84 @@ class Observers(graphene.ObjectType):
 
 
 class TaskSchedule(TaskSubObjectType):
+    """A schedule for a task"""
+
     class Meta:
         default_resolver = text_resolver
 
-    icalendar = graphene.String()
-    duration = graphene.Int()
-    timezone = graphene.String()
+    icalendar = graphene.String(
+        description="Calender information for a task in the iCal format"
+    )
+    duration = graphene.Int(
+        description="Maximum duration of a schedule in seconds. A scheduled "
+        "scan will be stopped if the duration is exceeded"
+    )
+    timezone = graphene.String(description="Timezone of the schedule")
 
     @staticmethod
     def resolve_duration(root, _info):
         return get_int_from_element(root, 'duration')
 
 
-class TaskPreference(graphene.ObjectType):
-    class Meta:
-        default_resolver = text_resolver
+class TaskPreferences(graphene.ObjectType):
+    """A preference for a task"""
 
-    description = graphene.String()
-    name = graphene.String()
-    value = graphene.String()
+    auto_delete_reports = graphene.Int(
+        description=(
+            "Number of latest reports to keep. If no value is set no report"
+            " is deleted automatically"
+        )
+    )
+    create_assets = graphene.Boolean(
+        description="Whether to create assets from scan results"
+    )
+    create_assets_apply_overrides = graphene.Boolean(
+        description="Consider overrides for calculating the severity when "
+        "creating assets"
+    )
+
+    create_assets_min_qod = graphene.Int(
+        description="Minimum quality of detection to consider for "
+        "calculating the severity creating assets"
+    )
+    max_concurrent_nvts = graphene.Int(
+        description="Maximum concurrently executed NVTs per host. "
+        "Only for OpenVAS scanners"
+    )
+    max_concurrent_hosts = graphene.Int(
+        description=(
+            "Maximum concurrently scanned hosts. Only for OpenVAS scanners"
+        )
+    )
 
     @staticmethod
-    def resolve_name(root, _info):
-        return get_text_from_element(root, 'scanner_name')
+    def resolve_auto_delete_reports(root: Dict[str, str], _info) -> int:
+        auto_delete = root.get("auto_delete")
+        if auto_delete == "keep":
+            return parse_int(root.get("auto_delete_data"))
+        return None
 
     @staticmethod
-    def resolve_description(root, _info):
-        return get_text_from_element(root, 'name')
+    def resolve_create_assets(root: Dict[str, str], _info) -> bool:
+        return parse_yes_no(root.get('in_assets'))
+
+    @staticmethod
+    def resolve_create_assets_apply_overrides(
+        root: Dict[str, str], _info
+    ) -> bool:
+        return parse_yes_no(root.get("assets_apply_overrides"))
+
+    @staticmethod
+    def resolve_create_assets_min_qod(root: Dict[str, str], _info) -> int:
+        return parse_int(root.get("assets_min_qod"))
+
+    @staticmethod
+    def resolve_max_concurrent_nvts(root: Dict[str, str], _info) -> int:
+        return parse_int(root.get("max_checks"))
+
+    @staticmethod
+    def resolve_max_concurrent_hosts(root: Dict[str, str], _info) -> int:
+        return parse_int(root.get("max_hosts"))
 
 
 class BaseCounts(graphene.ObjectType):
@@ -222,13 +296,20 @@ class BaseCounts(graphene.ObjectType):
 
 
 class TaskResultsCounts(BaseCounts):
+    """Result count information of a task"""
+
     @staticmethod
     def resolve_current(current: int, _info):
         return current
 
 
 class TaskResults(graphene.ObjectType):
-    counts = graphene.Field(TaskResultsCounts)
+    """Result information of a task"""
+
+    counts = graphene.Field(
+        TaskResultsCounts,
+        description="Count information for results of the task",
+    )
 
     @staticmethod
     def resolve_counts(result_count: XmlElement, _info):
@@ -236,39 +317,84 @@ class TaskResults(graphene.ObjectType):
         return parse_int(current)
 
 
-class Task(EntityObjectType):
-    """Task object type. Can be used in GetTask and GetTasks queries.
+class TaskTrend(graphene.Enum):
+    """Vulnerability trend of a task"""
 
-    Please query in camelCase e.g. task_id => taskId.
-    """
+    UP = "up"
+    DOWN = "down"
+    MORE = "more"
+    LESS = "less"
+    SAME = "same"
+
+
+class TaskStatus(graphene.Enum):
+    """Status of a task"""
+
+    QUEUED = 'Queued'
+    RUNNING = 'Running'
+    STOP_REQUESTED = 'Stop Requested'
+    DELETE_REQUESTED = 'Delete Requested'
+    ULTIMATE_DELETE_REQUESTED = 'Ultimate Delete Requested'
+    RESUME_REQUESTED = 'Resume Requested'
+    REQUESTED = 'Requested'
+    STOPPED = 'Stopped'
+    NEW = 'New'
+    INTERRUPTED = 'Interrupted'
+    CONTAINER = 'Container'
+    UPLOADING = 'Uploading'
+    DONE = 'Done'
+
+
+class Task(EntityObjectType):
+    """Task object type"""
 
     class Meta:
         default_resolver = find_resolver
 
-    average_duration = graphene.Int()
+    average_duration = graphene.Int(
+        description="Average duration of scans for this task in seconds"
+    )
 
-    trend = graphene.String()
-    status = graphene.String()
+    trend = graphene.Field(
+        TaskTrend, description="Vulnerability trend of the task"
+    )
+    status = graphene.Field(
+        TaskStatus, description="Status of the last or current scan of the task"
+    )
 
-    hosts_ordering = graphene.String()
+    alterable = graphene.Boolean(description="Wether the task is alterable")
 
-    alterable = graphene.Boolean()
+    progress = graphene.Int(description="Progess of the current scan")
 
-    progress = graphene.Int()
+    scan_config = graphene.Field(
+        TaskScanConfig, description="Used scan config for the task"
+    )
+    target = graphene.Field(
+        TaskSubObjectType, description="Used target of the task"
+    )
+    scanner = graphene.Field(TaskScanner, description="Used target of the task")
+    alerts = graphene.List(
+        TaskSubObjectType, description="List of alerts used for the task"
+    )
 
-    scan_config = graphene.Field(TaskScanConfig)
-    target = graphene.Field(TaskSubObjectType)
-    scanner = graphene.Field(TaskScanner)
-    alerts = graphene.List(TaskSubObjectType)
+    observers = graphene.Field(Observers, description="Observers of the task")
 
-    observers = graphene.Field(Observers)
+    schedule = graphene.Field(
+        TaskSchedule, description="Used schedule for the task"
+    )
+    schedule_periods = graphene.Int(
+        description="Number of recurrences for the schedule"
+    )
 
-    schedule = graphene.Field(TaskSchedule)
-    schedule_periods = graphene.Int()
-
-    preferences = graphene.List(TaskPreference)
-    reports = graphene.Field(TaskReports)
-    results = graphene.Field(TaskResults)
+    preferences = graphene.Field(
+        TaskPreferences, description="Preferences set for the task"
+    )
+    reports = graphene.Field(
+        TaskReports, description="Report information for the task"
+    )
+    results = graphene.Field(
+        TaskResults, description="Result information for the task"
+    )
 
     @staticmethod
     def resolve_average_duration(root, _info):
@@ -285,10 +411,6 @@ class Task(EntityObjectType):
     @staticmethod
     def resolve_alterable(root, _info):
         return get_boolean_from_element(root, 'alterable')
-
-    @staticmethod
-    def resolve_hosts_ordering(root, _info):
-        return get_text_from_element(root, 'hosts_ordering')
 
     @staticmethod
     def resolve_progress(root, _info):
@@ -326,7 +448,14 @@ class Task(EntityObjectType):
         preferences = root.find('preferences')
         if preferences is None:
             return None
-        return preferences.findall('preference')
+
+        preferences_dict = {}
+        for preference in preferences.findall('preference'):
+            preferences_dict[
+                get_text_from_element(preference, "scanner_name")
+            ] = get_text_from_element(preference, "value")
+
+        return preferences_dict
 
     @staticmethod
     def resolve_results(root, _info):

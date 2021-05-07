@@ -19,8 +19,6 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
-from gvm.protocols.next import get_hosts_ordering_from_string
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 
@@ -62,17 +60,15 @@ class ModifyAuditTestCase(SeleneTestCase):
                 modifyAudit(input: {{
                     id: "{audit_id}",
                     name: "bar"
-                    scannerType: 2,
-                    applyOverrides: false,
-                    inAssets: true,
                     policyId: "{policy_id}",
-                    hostsOrdering: "reverse",
-                    maxChecks: 7,
-                    maxHosts: 13,
-                    sourceIface: "foo",
-                    autoDelete: "keep",
-                    autoDeleteData: 4
-                    }}) {{
+                    preferences: {{
+                        autoDeleteReports: 4
+                        createAssets: true,
+                        createAssetsApplyOverrides: false,
+                        maxConcurrentNvts: 7,
+                        maxConcurrentHosts: 13,
+                    }}
+                }}) {{
                     ok
                 }}
             }}
@@ -93,7 +89,6 @@ class ModifyAuditTestCase(SeleneTestCase):
             alterable=None,
             comment=None,
             policy_id=policy_id,
-            hosts_ordering=get_hosts_ordering_from_string('reverse'),
             name="bar",
             observers=None,
             preferences={
@@ -101,111 +96,9 @@ class ModifyAuditTestCase(SeleneTestCase):
                 'auto_delete_data': 4,
                 'max_checks': 7,
                 'max_hosts': 13,
-                'source_iface': 'foo',
                 'assets_apply_overrides': 'no',
                 'in_assets': 'yes',
             },
-            scanner_id=None,
-            schedule_id=None,
-            schedule_periods=None,
-            target_id=None,
-        )
-
-    def test_nullify_scanner_preferences(self, mock_gmp: GmpMockFactory):
-        audit_id = str(uuid4())
-        policy_id = str(uuid4())
-        mock_gmp.mock_response(
-            'modify_audit',
-            '''
-            <modify_task_response status="200" status_text="OK"/>
-            ''',
-        )
-
-        self.login('foo', 'bar')
-
-        # scanner_type = 3
-        response = self.query(
-            f'''
-            mutation {{
-                modifyAudit(input:{{
-                    id: "{audit_id}",
-                    scannerType: 3,
-                    hostsOrdering: "random",
-                    policyId: "{policy_id}"
-                    maxChecks: 7,
-                    maxHosts: 13,
-                    sourceIface: "foo",
-                    autoDelete: "keep",
-                    autoDeleteData: 4,
-                    }}) {{
-                    ok
-                }}
-            }}
-            '''
-        )
-
-        json = response.json()
-
-        self.assertResponseNoErrors(response)
-
-        ok = json['data']['modifyAudit']['ok']
-
-        self.assertEqual(ok, True)
-
-        mock_gmp.gmp_protocol.modify_audit.assert_called_with(
-            str(audit_id),
-            alert_ids=None,
-            alterable=None,
-            comment=None,
-            policy_id=None,
-            hosts_ordering=None,
-            name=None,
-            observers=None,
-            preferences={'auto_delete': 'keep', 'auto_delete_data': 4},
-            scanner_id=None,
-            schedule_id=None,
-            schedule_periods=None,
-            target_id=None,
-        )
-
-        # scanner_type = None
-        second_response = self.query(
-            f'''
-            mutation {{
-                modifyAudit(input: {{
-                    id: "{audit_id}",
-                    hostsOrdering: "random",
-                    policyId: "{policy_id}"
-                    maxChecks: 7,
-                    maxHosts: 13,
-                    sourceIface: "foo",
-                    autoDelete: "keep",
-                    autoDeleteData: 4
-                    }}) {{
-                    ok
-                }}
-            }}
-            '''
-        )
-
-        json = second_response.json()
-
-        self.assertResponseNoErrors(second_response)
-
-        ok = json['data']['modifyAudit']['ok']
-
-        self.assertEqual(ok, True)
-
-        mock_gmp.gmp_protocol.modify_audit.assert_called_with(
-            str(audit_id),
-            alert_ids=None,
-            alterable=None,
-            comment=None,
-            policy_id=None,
-            hosts_ordering=None,
-            name=None,
-            observers=None,
-            preferences={'auto_delete': 'keep', 'auto_delete_data': 4},
             scanner_id=None,
             schedule_id=None,
             schedule_periods=None,

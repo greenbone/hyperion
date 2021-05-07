@@ -31,6 +31,7 @@ $ cd hyperion && git log
 
 ### Changed
 
+- Revisit audit and task object types [#133](https://github.com/greenbone/hyperion/pull/133)
 - Revisit authentication methods [#93](https://github.com/greenbone/hyperion/pull/93)
 - Revisit port list object type, queries and mutations [#108](https://github.com/greenbone/hyperion/pull/108)
 - Revisit feed status object types [#95](https://github.com/greenbone/hyperion/pull/95), [#122](https://github.com/greenbone/hyperion/pull/122)

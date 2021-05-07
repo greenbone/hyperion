@@ -38,7 +38,7 @@ from selene.schema.alerts.fields import (
     FeedEvent,
     SecInfoType,
     SeverityDirection,
-    TaskStatus,
+    AlertTaskStatus,
 )
 
 from selene.schema.entities import (
@@ -63,9 +63,19 @@ class ConditionData(graphene.InputObjectType):
 
 
 class EventData(graphene.InputObjectType):
-    status = TaskStatus()
-    feed_event = FeedEvent(name='feed_event')
-    secinfo_type = SecInfoType(name='secinfo_type')
+    status = graphene.Field(
+        AlertTaskStatus, description="Task status to create an event for"
+    )
+    feed_event = graphene.Field(
+        FeedEvent,
+        name="feed_event",
+        description="Feed change to create an event for",
+    )
+    secinfo_type = graphene.Field(
+        SecInfoType,
+        name="secinfo_type",
+        description="Type of security information to create an event for",
+    )
 
 
 class MethodData(graphene.InputObjectType):

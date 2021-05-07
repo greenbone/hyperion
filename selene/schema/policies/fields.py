@@ -99,7 +99,6 @@ class Policy(EntityObjectType):
     """Policy object type. Can be used in GetPolicy and GetPolicies
     queries."""
 
-    policy_type = graphene.Int(name='type')
     trash = graphene.Int()
     family_count = graphene.Int()
     family_growing = graphene.Boolean()
@@ -124,10 +123,6 @@ class Policy(EntityObjectType):
         PolicyAudit, description='List of Audits using this Policy'
     )
     nvt_selectors = graphene.List(PolicyNvtSelector)
-
-    @staticmethod
-    def resolve_policy_type(root, _info):
-        return get_text_from_element(root, 'type')
 
     @staticmethod
     def resolve_trash(root, _info):

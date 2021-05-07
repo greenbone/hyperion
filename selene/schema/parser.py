@@ -112,3 +112,11 @@ def parse_uuid(value: str) -> Optional[UUID]:
         return None
 
     return UUID(value)
+
+
+def parse_yes_no(value: str) -> Optional[bool]:
+    """Parse a string with yes/no as True/False"""
+    if not value:
+        return None
+
+    return value == 'yes'

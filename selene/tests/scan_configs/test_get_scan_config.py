@@ -22,6 +22,8 @@ from pathlib import Path
 
 from unittest.mock import patch
 
+from selene.schema.scan_configs.fields import ScanConfigType
+
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.entity import make_test_get_entity
@@ -202,7 +204,10 @@ class GetScanConfigTestCase(SeleneTestCase):
             scan_config['id'], "daba56c8-73ec-11df-a475-002264764cea"
         )
         self.assertEqual(scan_config['name'], 'foo')
-        self.assertEqual(scan_config['type'], 0)
+        self.assertEqual(
+            scan_config['type'],
+            ScanConfigType.OPENVAS.name,  # pylint: disable=no-member
+        )
         self.assertEqual(scan_config['trash'], 0)
         self.assertEqual(scan_config['familyCount'], 2)
         self.assertEqual(scan_config['usageType'], 'scan')

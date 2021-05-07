@@ -25,6 +25,7 @@ from selene.schema.parser import (
     parse_datetime,
     parse_uuid,
     parse_int,
+    parse_yes_no,
 )
 
 
@@ -99,3 +100,20 @@ class ParseIntTestCase(TestCase):
 
         with self.assertRaises(ValueError):
             parse_int('1.2', safe=False)
+
+
+class ParseYesNoTestCase(TestCase):
+    def test_none(self):
+        self.assertIsNone(parse_yes_no(None))
+
+    def test_true(self):
+        self.assertTrue(parse_yes_no('yes'))
+
+    def test_false(self):
+        self.assertFalse(parse_yes_no('no'))
+        self.assertFalse(parse_yes_no('y'))
+        self.assertFalse(parse_yes_no('yo'))
+        self.assertFalse(parse_yes_no('foo'))
+        self.assertFalse(parse_yes_no(1))
+        self.assertFalse(parse_yes_no(True))
+        self.assertFalse(parse_yes_no(False))

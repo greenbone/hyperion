@@ -57,7 +57,6 @@ class PoliciesTestCase(SeleneTestCase):
                     nodes {
                         id
                         name
-                        type
                     }
                 }
             }
@@ -78,7 +77,6 @@ class PoliciesTestCase(SeleneTestCase):
                     nodes {
                         id
                         name
-                        type
                     }
                 }
             }
@@ -101,14 +99,10 @@ class PoliciesTestCase(SeleneTestCase):
         self.assertEqual(policy1['id'], '08b69003-5fc2-4037-a479-93b440211c73')
         self.assertEqual(policy1['name'], 'foo')
 
-        self.assertEqual(policy1['type'], 0)
-
         # Policy 2
 
         self.assertEqual(policy2['id'], '6b2db524-9fb0-45b8-9b56-d958f84cb546')
         self.assertEqual(policy2['name'], 'lorem')
-
-        self.assertEqual(policy2['type'], 1)
 
     def test_get_filtered_policies(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response('get_policies', self.xml)
@@ -124,7 +118,6 @@ class PoliciesTestCase(SeleneTestCase):
                     nodes {
                         id
                         name
-                        type
                     }
                 }
             }
@@ -144,11 +137,9 @@ class PoliciesTestCase(SeleneTestCase):
 
         self.assertEqual(policy1['id'], '08b69003-5fc2-4037-a479-93b440211c73')
         self.assertEqual(policy1['name'], 'foo')
-        self.assertEqual(policy1['type'], 0)
 
         self.assertEqual(policy2['id'], '6b2db524-9fb0-45b8-9b56-d958f84cb546')
         self.assertEqual(policy2['name'], 'lorem')
-        self.assertEqual(policy2['type'], 1)
 
 
 class PoliciesPaginationTestCase(SeleneTestCase):

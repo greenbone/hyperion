@@ -23,6 +23,10 @@ from unittest.mock import patch
 
 from gvm.protocols.next import ScannerType
 
+from selene.schema.scan_configs.fields import ScanConfigType
+
+from selene.schema.tasks.fields import TaskStatus
+
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.entity import make_test_get_entity
@@ -105,14 +109,14 @@ class TaskTestCase(SeleneTestCase):
                         }
                         currentReport {
                             id
-                            timestamp
+                            creationTime
                             scanStart
                             scanEnd
                         }
                         lastReport {
                             id
                             severity
-                            timestamp
+                            creationTime
                             scanStart
                             scanEnd
                         }
@@ -152,9 +156,12 @@ class TaskTestCase(SeleneTestCase):
                         id
                     }
                     preferences {
-                        name
-                        description
-                        value
+                        autoDeleteReports
+                        createAssets
+                        createAssetsApplyOverrides
+                        createAssetsMinQod
+                        maxConcurrentHosts
+                        maxConcurrentNvts
                     }
                 }
             }
@@ -175,7 +182,9 @@ class TaskTestCase(SeleneTestCase):
 
         last_report = reports['lastReport']
 
-        self.assertEqual(last_report['timestamp'], '2020-01-15T11:30:10+01:00')
+        self.assertEqual(
+            last_report['creationTime'], '2020-01-15T11:30:10+01:00'
+        )
         self.assertEqual(last_report['severity'], 10.0)
         self.assertEqual(
             last_report['id'], 'd453374b-64cc-4c25-9959-7bc7c5287242'
@@ -189,7 +198,7 @@ class TaskTestCase(SeleneTestCase):
             current_report['id'], '64213415-efe5-4441-9ee6-562cacf4e3ce'
         )
         self.assertEqual(
-            current_report['timestamp'], '2020-02-04T09:42:14+01:00'
+            current_report['creationTime'], '2020-02-04T09:42:14+01:00'
         )
         self.assertEqual(
             current_report['scanStart'], '2020-02-04T09:42:33+01:00'
@@ -203,7 +212,10 @@ class TaskTestCase(SeleneTestCase):
 
         self.assertFalse(task['alterable'])
 
-        self.assertEqual(task['status'], 'Done')
+        self.assertEqual(
+            task['status'],
+            TaskStatus.DONE.name,  # pylint: disable=no-member
+        )
         self.assertIsNone(task['trend'])
 
         dt = datetime(
@@ -232,65 +244,14 @@ class TaskTestCase(SeleneTestCase):
         self.assertIsNone(task['alerts'])
 
         preferences = task['preferences']
-        self.assertEqual(len(preferences), 8)
+        self.assertEqual(len(preferences), 6)
 
-        pref_max_check = preferences[0]
-        self.assertEqual(
-            pref_max_check['description'],
-            'Maximum concurrently executed NVTs per host',
-        )
-        self.assertEqual(pref_max_check['name'], 'max_checks')
-        self.assertEqual(pref_max_check['value'], '4')
-
-        pref_max_hosts = preferences[1]
-        self.assertEqual(
-            pref_max_hosts['description'], 'Maximum concurrently scanned hosts'
-        )
-        self.assertEqual(pref_max_hosts['name'], 'max_hosts')
-        self.assertEqual(pref_max_hosts['value'], '20')
-
-        pref_source_iface = preferences[2]
-        self.assertEqual(
-            pref_source_iface['description'], 'Network Source Interface'
-        )
-        self.assertEqual(pref_source_iface['name'], 'source_iface')
-        self.assertIsNone(pref_source_iface['value'])
-
-        pref_in_assets = preferences[3]
-        self.assertEqual(
-            pref_in_assets['description'], 'Add results to Asset Management'
-        )
-        self.assertEqual(pref_in_assets['name'], 'in_assets')
-        self.assertEqual(pref_in_assets['value'], 'yes')
-
-        pref_assets_apply_overrides = preferences[4]
-        self.assertEqual(
-            pref_assets_apply_overrides['description'],
-            'Apply Overrides when adding Assets',
-        )
-        self.assertEqual(
-            pref_assets_apply_overrides['name'], 'assets_apply_overrides'
-        )
-        self.assertEqual(pref_assets_apply_overrides['value'], 'yes')
-
-        pref_assets_min_qod = preferences[5]
-        self.assertEqual(
-            pref_assets_min_qod['description'], 'Min QOD when adding Assets'
-        )
-        self.assertEqual(pref_assets_min_qod['name'], 'assets_min_qod')
-        self.assertEqual(pref_assets_min_qod['value'], '70')
-
-        pref_auto_delete = preferences[6]
-        self.assertEqual(pref_auto_delete['description'], 'Auto Delete Reports')
-        self.assertEqual(pref_auto_delete['name'], 'auto_delete')
-        self.assertEqual(pref_auto_delete['value'], '0')
-
-        pref_auto_delete_data = preferences[7]
-        self.assertEqual(
-            pref_auto_delete_data['description'], 'Auto Delete Reports Data'
-        )
-        self.assertEqual(pref_auto_delete_data['name'], 'auto_delete_data')
-        self.assertEqual(pref_auto_delete_data['value'], '0')
+        self.assertEqual(preferences['autoDeleteReports'], 5)
+        self.assertEqual(preferences['createAssets'], True)
+        self.assertEqual(preferences['createAssetsApplyOverrides'], True)
+        self.assertEqual(preferences['createAssetsMinQod'], 70)
+        self.assertEqual(preferences['maxConcurrentNvts'], 4)
+        self.assertEqual(preferences['maxConcurrentHosts'], 20)
 
         results_counts = task['results']['counts']
         self.assertEqual(results_counts['current'], 50000)
@@ -338,7 +299,6 @@ class TaskTestCase(SeleneTestCase):
                         name
                     }
                     schedulePeriods
-                    hostsOrdering
                 }
             }
             '''
@@ -359,7 +319,10 @@ class TaskTestCase(SeleneTestCase):
             scan_config['id'], 'd21f6c81-2b88-4ac1-b7b4-a2a9f2ad4663'
         )
         self.assertFalse(scan_config['trash'])
-        self.assertEqual(scan_config['type'], 0)
+        self.assertEqual(
+            scan_config['type'],
+            ScanConfigType.OPENVAS.name,  # pylint: disable=no-member
+        )
 
         target = task['target']
         self.assertEqual(target['name'], 'Localhost')
@@ -370,9 +333,7 @@ class TaskTestCase(SeleneTestCase):
         self.assertEqual(scanner['name'], 'OpenVAS Default')
         self.assertEqual(scanner['id'], '08b69003-5fc2-4037-a479-93b440211c73')
         self.assertFalse(scanner['trash'])
-        self.assertEqual(
-            ScannerType[scanner['type']], ScannerType.OPENVAS_SCANNER_TYPE
-        )
+        self.assertEqual(scanner['type'], ScannerType.OPENVAS_SCANNER_TYPE.name)
 
         schedule = task['schedule']
         self.assertEqual(schedule['name'], 'Every Week on Friday 16h UTC')
@@ -385,10 +346,6 @@ class TaskTestCase(SeleneTestCase):
         schedule_periods = task['schedulePeriods']
 
         self.assertEqual(schedule_periods, 0)
-
-        hosts_ordering = task['hostsOrdering']
-
-        self.assertIsNone(hosts_ordering)
 
         alerts = task['alerts']
         self.assertEqual(len(alerts), 2)

@@ -38,7 +38,6 @@ class GetPolicyTestCase(SeleneTestCase):
                policy (id: "daba56c8-73ec-11df-a475-002264764cea",
                ) {
                     name
-                    type
                     id
                     trash
                }
@@ -68,7 +67,6 @@ class GetPolicyTestCase(SeleneTestCase):
                policy (id: "daba56c8-73ec-11df-a475-002264764cea",
                ) {
                     name
-                    type
             	    id
             	    trash
                     familyCount
@@ -108,7 +106,6 @@ class GetPolicyTestCase(SeleneTestCase):
 
         policy = json['data']['policy']
 
-        self.assertIsNone(policy['type'])
         self.assertIsNone(policy['trash'])
         self.assertIsNone(policy['familyCount'])
         self.assertIsNone(policy['familyGrowing'])
@@ -138,7 +135,6 @@ class GetPolicyTestCase(SeleneTestCase):
                policy (id: "daba56c8-73ec-11df-a475-002264764cea",
                ) {
                     name
-                    type
                     id
                     trash
                     familyCount
@@ -199,7 +195,6 @@ class GetPolicyTestCase(SeleneTestCase):
 
         self.assertEqual(policy['id'], "daba56c8-73ec-11df-a475-002264764cea")
         self.assertEqual(policy['name'], 'foo')
-        self.assertEqual(policy['type'], 0)
         self.assertEqual(policy['trash'], 0)
         self.assertEqual(policy['familyCount'], 2)
         self.assertEqual(policy['usageType'], 'scan')

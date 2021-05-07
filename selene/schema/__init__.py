@@ -38,12 +38,10 @@ from selene.schema.audits.queries import GetAudit, GetAudits
 from selene.schema.audits.mutations import (
     CloneAudit,
     CreateAudit,
-    DeleteAudit,
     DeleteAuditsByIds,
     DeleteAuditsByFilter,
     ModifyAudit,
     StartAudit,
-    CreateContainerAudit,
     StopAudit,
     ResumeAudit,
     ExportAuditsByFilter,
@@ -384,7 +382,6 @@ from selene.schema.schedules.mutations import (
 from selene.schema.tasks.mutations import (
     CloneTask,
     CreateTask,
-    DeleteTask,
     DeleteTasksByIds,
     DeleteTasksByFilter,
     ModifyTask,
@@ -462,9 +459,7 @@ class Mutations(ObjectType):
     test_alert = TestAlert.Field()
     # Audits
     clone_audit = CloneAudit.Field()
-    create_container_audit = CreateContainerAudit.Field()
     create_audit = CreateAudit.Field()
-    delete_audit = DeleteAudit.Field()
     delete_audits_by_filter = DeleteAuditsByFilter.Field()
     delete_audits_by_ids = DeleteAuditsByIds.Field()
     export_audits_by_filter = ExportAuditsByFilter.Field()
@@ -677,7 +672,6 @@ class Mutations(ObjectType):
     clone_task = CloneTask.Field()
     create_container_task = CreateContainerTask.Field()
     create_task = CreateTask.Field()
-    delete_task = DeleteTask.Field()
     delete_tasks_by_filter = DeleteTasksByFilter.Field()
     delete_tasks_by_ids = DeleteTasksByIds.Field()
     export_tasks_by_filter = ExportTasksByFilter.Field()
