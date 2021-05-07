@@ -154,16 +154,6 @@ from selene.schema.operating_systems.mutations import (
     ModifyOperatingSystem,
 )
 
-from selene.schema.oval_definitions.queries import (
-    GetOvalDefinition,
-    GetOvalDefinitions,
-)
-
-from selene.schema.oval_definitions.mutations import (
-    ExportOvalDefinitionsByFilter,
-    ExportOvalDefinitionsByIds,
-)
-
 from selene.schema.permissions.queries import GetPermissions, GetPermission
 
 from selene.schema.scanners.queries import GetScanner, GetScanners
@@ -552,9 +542,6 @@ class Mutations(ObjectType):
     export_operating_systems_by_ids = ExportOperatingSystemsByIds.Field()
     export_operating_systems_by_filter = ExportOperatingSystemsByFilter.Field()
     modify_operating_system = ModifyOperatingSystem.Field()
-    # Oval Definitions
-    export_oval_definitions_by_filter = ExportOvalDefinitionsByFilter.Field()
-    export_oval_definitions_by_ids = ExportOvalDefinitionsByIds.Field()
     # Overrides
     clone_override = CloneOverride.Field()
     create_override = CreateOverride.Field()
@@ -780,8 +767,6 @@ class Query(ObjectType):
     nvt_families = GetNvtFamilies()
     operating_system = GetOperatingSystem()
     operating_systems = GetOperatingSystems()
-    oval_definition = GetOvalDefinition()
-    oval_definitions = GetOvalDefinitions()
     override = GetOverride()
     overrides = GetOverrides()
     permission = GetPermission()

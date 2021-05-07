@@ -56,6 +56,7 @@ $ cd hyperion && git log
 
 ### Removed
 
+- Remove OVAL definitions from the schema [#136](https://github.com/greenbone/hyperion/pull/136)
 - Remove our sphinx extension for documenting the GraphQL schema [#123](https://github.com/greenbone/hyperion/pull/123)
 
 ### Fixed
