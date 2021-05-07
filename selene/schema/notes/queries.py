@@ -22,6 +22,7 @@ import graphene
 
 from graphql import ResolveInfo
 
+from selene.schema.base import SingleObjectQuery
 from selene.schema.notes.fields import Note
 from selene.schema.parser import FilterString
 
@@ -34,44 +35,35 @@ from selene.schema.relay import (
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetNote(graphene.Field):
-    """Gets a single note.
-
-    Args:
-        id (UUID): UUID of the note being queried
+class GetNote(SingleObjectQuery):
+    """Get a single note
 
     Example:
 
-        .. code-block::
+        query {
+            note(id: "6e618e3a-bdfb-4495-9571-22c84b022b13"){
+                id
+                text
+            }
+        }
 
-            query {
-                note(id: "6e618e3a-bdfb-4495-9571-22c84b022b13"){
-                    id
-                    text
+    Response:
+
+        {
+            "data": {
+                "note": {
+                    "id": "6e618e3a-bdfb-4495-9571-22c84b022b13",
+                    "text": "Test Note"
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "note": {
-                        "id": "6e618e3a-bdfb-4495-9571-22c84b022b13",
-                        "text": "Test Note"
-                    }
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            Note,
-            note_id=graphene.UUID(required=True, name='id'),
-            resolver=self.resolve,
-        )
+    object_type = Note
+    kwargs = {
+        'note_id': graphene.UUID(required=True, name='id'),
+    }
 
     @staticmethod
     @require_authentication
@@ -83,45 +75,37 @@ class GetNote(graphene.Field):
 
 
 class GetNotes(EntityConnectionField):
-    """Gets a list of notes with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
+    """Get a list of notes with pagination
 
     Example:
 
-        .. code-block::
-
-            query {
-                notes (filterString: "Test"){
-                    nodes {
-                        id
-                        text
-                    }
+        query {
+            notes (filterString: "Test"){
+                nodes {
+                    id
+                    text
                 }
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                    "notes": {
-                        "nodes": [
-                            {
-                                "id": "08b69003-5fc2-4037-a479-93b440211c73"
-                                "text": "Test Note 1",
-                            },
-                            {
-                                "id": "6b2db524-9fb0-45b8-9b56-d958f84cb546"
-                                "text": "Test Note 2",
-                            }
-                        ]
-                    }
+        {
+            "data": {
+                "notes": {
+                    "nodes": [
+                        {
+                            "id": "08b69003-5fc2-4037-a479-93b440211c73"
+                            "text": "Test Note 1",
+                        },
+                        {
+                            "id": "6b2db524-9fb0-45b8-9b56-d958f84cb546"
+                            "text": "Test Note 2",
+                        }
+                    ]
                 }
             }
+        }
 
     """
 
