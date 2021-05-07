@@ -22,6 +22,8 @@ import graphene
 
 from graphql import ResolveInfo
 
+from selene.schema.base import SingleObjectQuery
+
 from selene.schema.filters.fields import Filter
 
 from selene.schema.parser import FilterString
@@ -35,45 +37,37 @@ from selene.schema.relay import (
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetFilter(graphene.Field):
-    """Gets a single filter.
-
-    Args:
-        id (UUID): UUID of the filter being queried
+class GetFilter(SingleObjectQuery):
+    """Get a single filter
 
     Example:
 
-        .. code-block::
+        query {
+            filter (id: "4846b497-936b-4816-aa4a-1a997cf9ab8d"){
+                    id
+                    name
+            }
+        }
 
-            query {
-                filter (id: "4846b497-936b-4816-aa4a-1a997cf9ab8d"){
-                        id
-                        name
+    Response:
+
+        {
+            "data": {
+                "filter": {
+                    "id": "4846b497-936b-4816-aa4a-1a997cf9ab8d",
+                    "name": "foo"
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "filter": {
-                        "id": "4846b497-936b-4816-aa4a-1a997cf9ab8d",
-                        "name": "foo"
-                    }
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            Filter,
-            filter_id=graphene.UUID(required=True, name='id'),
-            alerts=graphene.Boolean(default_value=False),
-            resolver=self.resolve,
-        )
+    object_type = Filter
+    kwargs = {
+        'filter_id': graphene.UUID(required=True, name='id'),
+        # should be set to true depending on the query actually
+        'alerts': graphene.Boolean(default_value=False),
+    }
 
     @staticmethod
     @require_authentication
@@ -85,45 +79,37 @@ class GetFilter(graphene.Field):
 
 
 class GetFilters(EntityConnectionField):
-    """Gets a list of filters with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
+    """Get a list of filters with pagination
 
     Example:
 
-        .. code-block::
-
-            query {
-                filters (filterString: "name~Foo rows=2") {
-                    nodes {
-                        id
-                        name
-                    }
+        query {
+            filters (filterString: "name~Foo rows=2") {
+                nodes {
+                    id
+                    name
                 }
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                    "filters": {
-                        "nodes": [
-                            {
-                                "id": "1fb47870-47ce-4b9f-a8f9-8b4b19624c59",
-                                "name": "Foo"
-                            },
-                            {
-                                "id": "5d07b6eb-27f9-424a-a206-34babbba7b4d",
-                                "name": "Foo Bar"
-                            },
-                        ]
-                    }
+        {
+            "data": {
+                "filters": {
+                    "nodes": [
+                        {
+                            "id": "1fb47870-47ce-4b9f-a8f9-8b4b19624c59",
+                            "name": "Foo"
+                        },
+                        {
+                            "id": "5d07b6eb-27f9-424a-a206-34babbba7b4d",
+                            "name": "Foo Bar"
+                        },
+                    ]
                 }
             }
+        }
 
     """
 

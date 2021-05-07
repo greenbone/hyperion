@@ -22,6 +22,7 @@ from graphql import ResolveInfo
 
 from gvm.protocols.next import InfoType as GvmInfoType
 
+from selene.schema.base import ListQuery, SingleObjectQuery
 from selene.schema.nvts.fields import (
     ScanConfigNVT,
     NvtFamily,
@@ -40,75 +41,66 @@ from selene.schema.relay import (
 from selene.schema.utils import require_authentication, get_gmp, XmlElement
 
 
-class GetScanConfigNvt(graphene.Field):
-    """Gets a single ScanConfig NVT.
-
-    Args:
-        id (str): OID of the NVT to get
+class GetScanConfigNvt(SingleObjectQuery):
+    """Get a single ScanConfig NVT
 
     Example:
 
-        .. code-block::
-
-            query {
-                nvt (id:"1.3.6.1.4.1.25623.1.0.999999") {
-                id
-                creationTime
-                modificationTime
-                category
-                summary
-                family
-                cvssBase
-                qod {
+        query {
+            nvt (id:"1.3.6.1.4.1.25623.1.0.999999") {
+            id
+            creationTime
+            modificationTime
+            category
+            summary
+            family
+            cvssBase
+            qod {
+                value
+                type
+            }
+            severities {
+                score
+                severitiesList {
+                    date
+                    origin
+                    score
+                    type
                     value
+                }
+            }
+            refs{
+                warning
+                refList{
+                    id
                     type
                 }
-                severities {
-                    score
-                    severitiesList {
-                        date
-                        origin
-                        score
-                        type
-                        value
-                    }
-                }
-                refs{
-                    warning
-                    refList{
-                        id
-                        type
-                    }
-                }
-                tags
-                preferenceCount
-                timeout
-                defaultTimeout
+            }
+            tags
+            preferenceCount
+            timeout
+            defaultTimeout
+            }
+        }
+
+    Response:
+
+        {
+            "data": {
+                "nvt": {
+                    "name": "Some name of a NVT",
+                    .....
+                    .....
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "nvt": {
-                        "name": "Some name of a NVT",
-                        .....
-                        .....
-                    }
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            ScanConfigNVT,
-            oid=graphene.String(required=True, name='id'),
-            resolver=self.resolve,
-        )
+    object_type = ScanConfigNVT
+    kwargs = {
+        'oid': graphene.String(required=True, name='id'),
+    }
 
     @staticmethod
     @require_authentication
@@ -119,38 +111,21 @@ class GetScanConfigNvt(graphene.Field):
         return xml.find('nvt')
 
 
-class GetScanConfigNvts(graphene.List):
-    """Gets multiple ScanConfig NVTs.
+class GetScanConfigNvts(ListQuery):
+    """Get multiple ScanConfig NVTs"""
 
-    Args:
-        details (bool, optional): Whether to include full details
-        preferences (bool, optional): Whether to include nvt preferences
-        preference_count (bool, optional): Whether to include preference count
-        timeout (bool, optional): Whether to include the special timeout
-            preference
-        config_id (str, optional): UUID of scan config to which to limit the
-            NVT listing
-        preferences_config_id (str, optional): UUID of scan config to use for
-            preference values
-        family (str, optional): Family to which to limit NVT listing
-        sort_order (str, optional): Sort order
-        sort_field (str, optional): Sort field
-    """
-
-    def __init__(self):
-        super().__init__(
-            ScanConfigNVT,
-            resolver=self.resolve,
-            details=graphene.Boolean(),
-            preferences=graphene.Boolean(),
-            preference_count=graphene.Boolean(),
-            timeout=graphene.Boolean(),
-            config_id=graphene.String(),
-            preferences_config_id=graphene.String(),
-            family=graphene.String(),
-            sort_order=graphene.String(),
-            sort_field=graphene.String(),
-        )
+    object_type = ScanConfigNVT
+    kwargs = {
+        'details': graphene.Boolean(),
+        'preferences': graphene.Boolean(),
+        'preference_count': graphene.Boolean(),
+        'timeout': graphene.Boolean(),
+        'config_id': graphene.String(),
+        'preferences_config_id': graphene.String(),
+        'family': graphene.String(),
+        'sort_order': graphene.String(),
+        'sort_field': graphene.String(),
+    }
 
     @staticmethod
     @require_authentication
@@ -183,51 +158,35 @@ class GetScanConfigNvts(graphene.List):
         return xml.findall('nvt')
 
 
-class GetNvtFamilies(graphene.List):
+class GetNvtFamilies(ListQuery):
     """Get list of nvt families
-        Args:
-            sort_order (str, optional): "descending" denotes descending order,
-                anything else means ascending.
 
     Example:
 
-        .. code-block::
-
-            query {
-                task (taskId: "f5c40267-71ab-4cd7-b14b-3599a84522e8") {
-                    name
-                    comment
-                }
+        query {
+            nvtFamilies(sortOrder:"descending"){
+                name
+                maxNvtCount
             }
+        }
 
-            query {
-                nvtFamilies(sortOrder:"descending"){
-                    name
-                    maxNvtCount
+    Response:
+
+        {
+            "data": {
+                "nvtFamilies": [
+                {
+                    "name": "Windows : Microsoft Bulletins",
+                    "maxNvtCount": 3031
                 }
+                ]
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "nvtFamilies": [
-                    {
-                        "name": "Windows : Microsoft Bulletins",
-                        "maxNvtCount": 3031
-                    }
-                    ]
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            NvtFamily, sort_order=graphene.String(), resolver=self.resolve
-        )
+    object_type = NvtFamily
+    kwargs = {'sort_order': graphene.String()}
 
     @staticmethod
     @require_authentication
@@ -242,48 +201,37 @@ class GetNvtFamilies(graphene.List):
         return families.findall('family')
 
 
-class GetPreference(graphene.Field):
+class GetPreference(SingleObjectQuery):
     """Get a single preference by name.
-
-    name (str): Name of the preference. Has format type:name.
-    nvt_oid (str, optional): OID of nvt.
-    config_id (UUID, optional): UUID of scan config of which to show
-        preference values.
 
     Example:
 
-        .. code-block::
+        query {
+            preference (name: "<type>:Some name") {
+                name
+                value
+            }
+        }
 
-            query {
-                preference (name: "<type>:Some name") {
-                    name
-                    value
+    Response:
+
+        {
+            "data": {
+                "preference": {
+                    "name": "Some name",
+                    "value": "yes,
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "preference": {
-                        "name": "Some name",
-                        "value": "yes,
-                    }
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            NvtPreference,
-            name=graphene.String(required=True),
-            nvt_oid=graphene.String(),
-            config_id=graphene.UUID(),
-            resolver=self.resolve,
-        )
+    object_type = NvtPreference
+    kwargs = {
+        'name': graphene.String(required=True),
+        'nvt_oid': graphene.String(),
+        'config_id': graphene.UUID(),
+    }
 
     @staticmethod
     @require_authentication
@@ -301,7 +249,7 @@ class GetPreference(graphene.Field):
         return xml.find('preference')
 
 
-class GetPreferences(graphene.List):
+class GetPreferences(ListQuery):
     """Request a list of preferences
 
     When the command includes a config_id attribute, the preference element
@@ -309,53 +257,42 @@ class GetPreferences(graphene.List):
     preference applies. Otherwise, the preference element includes just the
     name and value, with the NVT and type built into the name.
 
-    nvt_oid (str, optional): OID of nvt.
-    config_id (UUID, optional): UUID of a scan config of which to show
-        preference values.
-
-
     Example:
 
-        .. code-block::
-
-            query {
-                preferences (
-                    nvtOid:"Some NVT OID",
-                    configId: "daba56c8-73ec-11df-a475-002264764cea"
-                ) {
-                    name
-                    value
-                }
+        query {
+            preferences (
+                nvtOid:"Some NVT OID",
+                configId: "daba56c8-73ec-11df-a475-002264764cea"
+            ) {
+                name
+                value
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                "preferences": [
-                    {
-                        "name": "Some name 1",
-                        "value": "Some value 1"
-                    },
-                    {
-                        "name": "Some name 2",
-                        "value": "Some value 2"
-                    }
-                ]
+        {
+            "data": {
+            "preferences": [
+                {
+                    "name": "Some name 1",
+                    "value": "Some value 1"
+                },
+                {
+                    "name": "Some name 2",
+                    "value": "Some value 2"
                 }
+            ]
             }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            NvtPreference,
-            resolver=self.resolve,
-            nvt_oid=graphene.String(),
-            config_id=graphene.UUID(),
-        )
+    object_type = NvtPreference
+    kwargs = {
+        'nvt_oid': graphene.String(),
+        'config_id': graphene.UUID(),
+    }
 
     @staticmethod
     @require_authentication
@@ -370,44 +307,35 @@ class GetPreferences(graphene.List):
         return xml.findall('preference')
 
 
-class GetNVT(graphene.Field):
-    """Gets a single NVT information.
-
-    Args:
-        id (str): ID of the NVT information being queried
+class GetNVT(SingleObjectQuery):
+    """Get a single NVT information
 
     Example:
 
-        .. code-block::
+        query {
+            nvt (id: "1.3.6.1.4.1.25623.1.0.123456"){
+                    id
+                    name
+            }
+        }
 
-            query {
-                nvt (id: "1.3.6.1.4.1.25623.1.0.123456"){
-                        id
-                        name
+    Response:
+
+        {
+            "data": {
+                "nvt": {
+                    "id": "1.3.6.1.4.1.25623.1.0.123456",
+                    "name": "foo"
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "nvt": {
-                        "id": "1.3.6.1.4.1.25623.1.0.123456",
-                        "name": "foo"
-                    }
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            NVT,
-            nvt_id=graphene.String(required=True, name='id'),
-            resolver=self.resolve,
-        )
+    object_type = NVT
+    kwargs = {
+        'nvt_id': graphene.String(required=True, name='id'),
+    }
 
     @staticmethod
     @require_authentication
@@ -419,45 +347,37 @@ class GetNVT(graphene.Field):
 
 
 class GetNVTs(EntityConnectionField):
-    """Gets a list of NVT information with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
+    """Get a list of NVT information with pagination
 
     Example:
 
-        .. code-block::
-
-            query {
-                nvts (filterString: "name~Foo rows=2") {
-                    nodes {
-                        id
-                        name
-                    }
+        query {
+            nvts (filterString: "name~Foo rows=2") {
+                nodes {
+                    id
+                    name
                 }
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                    "nvts": {
-                        "nodes": [
-                            {
-                                "id": "NVT-2020-12345",
-                                "name": "Foo"
-                            },
-                            {
-                                "id": "NVT-2020-12346",
-                                "name": "Foo Bar"
-                            },
-                        ]
-                    }
+        {
+            "data": {
+                "nvts": {
+                    "nodes": [
+                        {
+                            "id": "NVT-2020-12345",
+                            "name": "Foo"
+                        },
+                        {
+                            "id": "NVT-2020-12346",
+                            "name": "Foo Bar"
+                        },
+                    ]
                 }
             }
+        }
 
     """
 
