@@ -69,14 +69,16 @@ class GetAlert(SingleObjectQuery):
             name='id',
             description="UUID of the to be requested alert",
         ),
+        # should be set to true depending on the query actually
+        'tasks': graphene.Boolean(default_value=True),
     }
 
     @staticmethod
     @require_authentication
-    def resolve(_root, info, alert_id: UUID):
+    def resolve(_root, info, alert_id: UUID, tasks: bool):
         gmp = get_gmp(info)
 
-        xml = gmp.get_alert(str(alert_id), tasks=True)
+        xml = gmp.get_alert(str(alert_id), tasks=tasks)
         return xml.find('alert')
 
 
