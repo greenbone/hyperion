@@ -21,7 +21,10 @@ from uuid import UUID
 import graphene
 
 from graphql import ResolveInfo
+
 from gvm.protocols.next import AssetType
+
+from selene.schema.base import SingleObjectQuery
 
 from selene.schema.hosts.fields import Host
 
@@ -36,44 +39,35 @@ from selene.schema.relay import (
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetHost(graphene.Field):
-    """Gets a single host.
-
-    Args:
-        id (UUID): UUID of the host being queried
+class GetHost(SingleObjectQuery):
+    """Get a single host
 
     Example:
 
-        .. code-block::
+        query {
+            host (id: "4846b497-936b-4816-aa4a-1a997cf9ab8d"){
+                    id
+                    name
+            }
+        }
 
-            query {
-                host (id: "4846b497-936b-4816-aa4a-1a997cf9ab8d"){
-                        id
-                        name
+    Response:
+
+        {
+            "data": {
+                "host": {
+                    "id": "4846b497-936b-4816-aa4a-1a997cf9ab8d",
+                    "name": "foo"
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "host": {
-                        "id": "4846b497-936b-4816-aa4a-1a997cf9ab8d",
-                        "name": "foo"
-                    }
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            Host,
-            host_id=graphene.UUID(required=True, name='id'),
-            resolver=self.resolve,
-        )
+    object_type = Host
+    kwargs = {
+        'host_id': graphene.UUID(required=True, name='id'),
+    }
 
     @staticmethod
     @require_authentication
@@ -85,45 +79,37 @@ class GetHost(graphene.Field):
 
 
 class GetHosts(EntityConnectionField):
-    """Gets a list of hosts with pagination
-
-    Args:
-        filter_string (str, optional): Optional filter string to be
-            used with query.
+    """Get a list of hosts with pagination
 
     Example:
 
-        .. code-block::
-
-            query {
-                hosts (filterString: "name~Foo rows=2") {
-                    nodes {
-                        id
-                        name
-                    }
+        query {
+            hosts (filterString: "name~Foo rows=2") {
+                nodes {
+                    id
+                    name
                 }
             }
+        }
 
-        Response:
+    Response:
 
-        .. code-block::
-
-            {
-                "data": {
-                    "hosts": {
-                        "nodes": [
-                            {
-                                "id": "1fb47870-47ce-4b9f-a8f9-8b4b19624c59",
-                                "name": "Foo"
-                            },
-                            {
-                                "id": "5d07b6eb-27f9-424a-a206-34babbba7b4d",
-                                "name": "Foo Bar"
-                            },
-                        ]
-                    }
+        {
+            "data": {
+                "hosts": {
+                    "nodes": [
+                        {
+                            "id": "1fb47870-47ce-4b9f-a8f9-8b4b19624c59",
+                            "name": "Foo"
+                        },
+                        {
+                            "id": "5d07b6eb-27f9-424a-a206-34babbba7b4d",
+                            "name": "Foo Bar"
+                        },
+                    ]
                 }
             }
+        }
 
     """
 

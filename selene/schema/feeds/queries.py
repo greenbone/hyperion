@@ -69,7 +69,7 @@ class GetFeed(SingleObjectQuery):
 
 
 class GetFeeds(ListQuery):
-    """Gets a list of all feeds
+    """Get a list of all feeds
 
     Example:
 
