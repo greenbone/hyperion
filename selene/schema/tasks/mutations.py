@@ -29,6 +29,7 @@ from selene.schema.utils import (
     get_gmp,
     require_authentication,
     get_text_from_element,
+    to_yes_no,
 )
 
 
@@ -98,6 +99,37 @@ class CreateContainerTask(graphene.Mutation):
         return CreateContainerTask(task_id=resp.get('id'))
 
 
+class TaskPreferencesInput(graphene.InputObjectType):
+    """Input ObjectType for creating task preferences"""
+
+    auto_delete_reports = graphene.Int(
+        description=(
+            "Number of latest reports to keep. If no value is set no report"
+            " is deleted automatically"
+        )
+    )
+    create_assets = graphene.Boolean(
+        description="Whether to create assets from scan results"
+    )
+    create_assets_apply_overrides = graphene.Boolean(
+        description="Consider overrides for calculating the severity when "
+        "creating assets"
+    )
+    create_assets_min_qod = graphene.Int(
+        description="Minimum quality of detection to consider for "
+        "calculating the severity when creating assets"
+    )
+    max_concurrent_nvts = graphene.Int(
+        description="Maximum concurrently executed NVTs per host. "
+        "Only for OpenVAS scanners"
+    )
+    max_concurrent_hosts = graphene.Int(
+        description=(
+            "Maximum concurrently scanned hosts. Only for OpenVAS scanners"
+        )
+    )
+
+
 class CreateTaskInput(graphene.InputObjectType):
     """Input ObjectType for creating a task"""
 
@@ -123,37 +155,14 @@ class CreateTaskInput(graphene.InputObjectType):
     alterable = graphene.Boolean(
         description="Whether the task should be alterable"
     )
-    apply_overrides = graphene.Boolean(
-        description="Consider overrides for calculating the severity when "
-        "creating host assets"
-    )
-    auto_delete = graphene.Int(
-        description=(
-            "Number of latest reports to keep. If no value is set no report"
-            " is deleted automatically"
-        )
-    )
     comment = graphene.String(description="Task comment")
-    in_assets = graphene.Boolean(
-        description="Whether to create assets from scan results"
-    )
-    max_concurrent_nvts = graphene.Int(
-        description="Maximum concurrently executed NVTs per host. "
-        "Only for OpenVAS scanners"
-    )
-    max_concurrent_hosts = graphene.Int(
-        description=(
-            "Maximum concurrently scanned hosts. Only for OpenVAS scanners"
-        )
-    )
-    min_qod = graphene.Int(
-        description="Minimum quality of detection to consider for "
-        "calculating the severity when creating host assets"
-    )
     observers = graphene.List(
         graphene.String,
         description="List of UUIDs for users which should be allowed to "
         "observe the task",
+    )
+    preferences = graphene.Field(
+        TaskPreferencesInput, description="Preferences to set for the task"
     )
     schedule_id = graphene.UUID(
         description="UUID of a schedule when the task should be run"
@@ -218,24 +227,49 @@ class CreateTask(graphene.Mutation):
 
         preferences = {}
 
-        if input_object.apply_overrides is not None:
-            preferences['assets_apply_overrides'] = (
-                "yes" if input_object.apply_overrides == 1 else "no"
-            )
-        if input_object.min_qod is not None:
-            preferences['assets_min_qod'] = input_object.min_qod
-        if input_object.auto_delete is not None:
-            preferences['auto_delete'] = "keep"
-            preferences['auto_delete_data'] = input_object.auto_delete
-        if input_object.in_assets is not None:
-            preferences['in_assets'] = (
-                "yes" if input_object.in_assets == 1 else "no"
+        input_preferences = input_object.preferences
+
+        if (
+            input_preferences
+            and input_preferences.create_assets_apply_overrides is not None
+        ):
+            preferences['assets_apply_overrides'] = to_yes_no(
+                input_preferences.create_assets_apply_overrides
             )
 
-        if input_object.max_concurrent_nvts is not None:
-            preferences['max_checks'] = input_object.max_concurrent_nvts
-        if input_object.max_concurrent_hosts is not None:
-            preferences['max_hosts'] = input_object.max_concurrent_hosts
+        if (
+            input_preferences
+            and input_preferences.create_assets_min_qod is not None
+        ):
+            preferences[
+                'assets_min_qod'
+            ] = input_preferences.create_assets_min_qod
+
+        if (
+            input_preferences
+            and input_preferences.auto_delete_reports is not None
+        ):
+            preferences['auto_delete'] = "keep"
+            preferences[
+                'auto_delete_data'
+            ] = input_preferences.auto_delete_reports
+
+        if input_preferences and input_preferences.create_assets is not None:
+            preferences['in_assets'] = to_yes_no(
+                input_preferences.create_assets
+            )
+
+        if (
+            input_preferences
+            and input_preferences.max_concurrent_nvts is not None
+        ):
+            preferences['max_checks'] = input_preferences.max_concurrent_nvts
+
+        if (
+            input_preferences
+            and input_preferences.max_concurrent_hosts is not None
+        ):
+            preferences['max_hosts'] = input_preferences.max_concurrent_hosts
 
         gmp = get_gmp(info)
 
@@ -278,37 +312,14 @@ class ModifyTaskInput(graphene.InputObjectType):
     alterable = graphene.Boolean(
         description="Whether the task should be alterable"
     )
-    apply_overrides = graphene.Boolean(
-        description="Consider overrides for calculating the severity when "
-        "creating host assets"
-    )
-    auto_delete = graphene.Int(
-        description=(
-            "Number of latest reports to keep. If no value is set no report"
-            " is deleted automatically"
-        )
-    )
     comment = graphene.String(description="Task comment")
-    in_assets = graphene.Boolean(
-        description="Whether to add the task's results to assets."
-    )
-    max_concurrent_nvts = graphene.Int(
-        description="Maximum concurrently executed NVTs per host. "
-        "Only for OpenVAS scanners"
-    )
-    max_concurrent_hosts = graphene.Int(
-        description=(
-            "Maximum concurrently scanned hosts. Only for OpenVAS scanners"
-        )
-    )
-    min_qod = graphene.Int(
-        description="Minimum quality of detection to consider for "
-        "calculating the severity when creating host assets"
-    )
     observers = graphene.List(
         graphene.String,
         description="List of UUIDs for users which should be allowed to "
         "observe the task",
+    )
+    preferences = graphene.Field(
+        TaskPreferencesInput, description="Preferences to set for the task"
     )
     schedule_id = graphene.UUID(
         description="UUID of a schedule when the task should be run"
@@ -378,24 +389,49 @@ class ModifyTask(graphene.Mutation):
 
         preferences = {}
 
-        if input_object.apply_overrides is not None:
-            preferences['assets_apply_overrides'] = (
-                "yes" if input_object.apply_overrides == 1 else "no"
-            )
-        if input_object.min_qod is not None:
-            preferences['assets_min_qod'] = input_object.min_qod
-        if input_object.auto_delete is not None:
-            preferences['auto_delete'] = "keep"
-            preferences['auto_delete_data'] = input_object.auto_delete
-        if input_object.in_assets is not None:
-            preferences['in_assets'] = (
-                "yes" if input_object.in_assets == 1 else "no"
+        input_preferences = input_object.preferences
+
+        if (
+            input_preferences
+            and input_preferences.create_assets_apply_overrides is not None
+        ):
+            preferences['assets_apply_overrides'] = to_yes_no(
+                input_preferences.create_assets_apply_overrides
             )
 
-        if input_object.max_concurrent_nvts is not None:
-            preferences['max_checks'] = input_object.max_concurrent_nvts
-        if input_object.max_concurrent_hosts is not None:
-            preferences['max_hosts'] = input_object.max_concurrent_hosts
+        if (
+            input_preferences
+            and input_preferences.create_assets_min_qod is not None
+        ):
+            preferences[
+                'assets_min_qod'
+            ] = input_preferences.create_assets_min_qod
+
+        if (
+            input_preferences
+            and input_preferences.auto_delete_reports is not None
+        ):
+            preferences['auto_delete'] = "keep"
+            preferences[
+                'auto_delete_data'
+            ] = input_preferences.auto_delete_reports
+
+        if input_preferences and input_preferences.create_assets is not None:
+            preferences['in_assets'] = to_yes_no(
+                input_preferences.create_assets
+            )
+
+        if (
+            input_preferences
+            and input_preferences.max_concurrent_nvts is not None
+        ):
+            preferences['max_checks'] = input_preferences.max_concurrent_nvts
+
+        if (
+            input_preferences
+            and input_preferences.max_concurrent_hosts is not None
+        ):
+            preferences['max_hosts'] = input_preferences.max_concurrent_hosts
 
         gmp = get_gmp(info)
 

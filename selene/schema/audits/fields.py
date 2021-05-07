@@ -16,11 +16,13 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import Dict
+
 import graphene
 
 from selene.schema.resolver import find_resolver, int_resolver, text_resolver
 
-from selene.schema.parser import parse_int
+from selene.schema.parser import parse_int, parse_yes_no
 from selene.schema.utils import (
     get_boolean_from_element,
     get_int_from_element,
@@ -228,23 +230,65 @@ class AuditSchedule(AuditSubObjectType):
         return get_int_from_element(root, 'duration')
 
 
-class AuditPreference(graphene.ObjectType):
+class AuditPreferences(graphene.ObjectType):
     """A preference for an audit"""
 
-    class Meta:
-        default_resolver = text_resolver
+    auto_delete_reports = graphene.Int(
+        description=(
+            "Number of latest reports to keep. If no value is set no report"
+            " is deleted automatically"
+        )
+    )
+    create_assets = graphene.Boolean(
+        description="Whether to create assets from scan results"
+    )
+    create_assets_apply_overrides = graphene.Boolean(
+        description="Consider overrides for calculating the severity when "
+        "creating assets"
+    )
 
-    description = graphene.String(description="Description of the preference")
-    name = graphene.String(description="Name of the preference")
-    value = graphene.String(description="Value of the preference")
+    create_assets_min_qod = graphene.Int(
+        description="Minimum quality of detection to consider for "
+        "calculating the severity when creating assets"
+    )
+    max_concurrent_nvts = graphene.Int(
+        description="Maximum concurrently executed NVTs per host. "
+        "Only for OpenVAS scanners"
+    )
+    max_concurrent_hosts = graphene.Int(
+        description=(
+            "Maximum concurrently scanned hosts. Only for OpenVAS scanners"
+        )
+    )
 
     @staticmethod
-    def resolve_name(root, _info):
-        return get_text_from_element(root, 'scanner_name')
+    def resolve_auto_delete_reports(root: Dict[str, str], _info) -> int:
+        auto_delete = root.get("auto_delete")
+        if auto_delete == "keep":
+            return parse_int(root.get("auto_delete_data"))
+        return None
 
     @staticmethod
-    def resolve_description(root, _info):
-        return get_text_from_element(root, 'name')
+    def resolve_create_assets(root: Dict[str, str], _info) -> bool:
+        return parse_yes_no(root.get('in_assets'))
+
+    @staticmethod
+    def resolve_create_assets_apply_overrides(
+        root: Dict[str, str], _info
+    ) -> bool:
+        return parse_yes_no(root.get("assets_apply_overrides"))
+
+    @staticmethod
+    def resolve_create_assets_min_qod(root: Dict[str, str], _info) -> int:
+        return parse_int(root.get("assets_min_qod"))
+
+    @staticmethod
+    def resolve_max_concurrent_nvts(root: Dict[str, str], _info) -> int:
+        return parse_int(root.get("max_checks"))
+
+    @staticmethod
+    def resolve_max_concurrent_hosts(root: Dict[str, str], _info) -> int:
+        return parse_int(root.get("max_hosts"))
 
 
 class AuditObservers(graphene.ObjectType):
@@ -346,8 +390,8 @@ class Audit(EntityObjectType):
         description="Number of recurrences for the schedule"
     )
 
-    preferences = graphene.List(
-        AuditPreference, description="List of preferences set for the audit"
+    preferences = graphene.Field(
+        AuditPreferences, description="Preferences set for the audit"
     )
     reports = graphene.Field(
         AuditReports, description="Report information for the audit"
@@ -414,7 +458,14 @@ class Audit(EntityObjectType):
         preferences = root.find('preferences')
         if preferences is None:
             return None
-        return preferences.findall('preference')
+
+        preferences_dict = {}
+        for preference in preferences.findall('preference'):
+            preferences_dict[
+                get_text_from_element(preference, "scanner_name")
+            ] = get_text_from_element(preference, "value")
+
+        return preferences_dict
 
     @staticmethod
     def resolve_results(root, _info):
