@@ -61,6 +61,7 @@ $ cd hyperion && git log
 
 ### Fixed
 
+- Fixed crash if targets of a port list have been created from a post list without targets [#134](https://github.com/greenbone/hyperion/pull/134)
 - Fixed a problem with NVT `oid` in Notes. [#15](https://github.com/greenbone/hyperion/pull/15)
 - Fixed a problem with NVT `oid` in Overrides. [#16](https://github.com/greenbone/hyperion/pull/16)
 - Now the `name` field in Overrides and Notes can not be queried. It returned the `name` of the `permission`/`owner` because of `.find()`. Notes/Overrides don't have a name field theirself. [#16](https://github.com/greenbone/hyperion/pull/16)

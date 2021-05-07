@@ -118,6 +118,6 @@ class PortList(EntityObjectType):
     @staticmethod
     def resolve_targets(root, _info):
         targets = root.find('targets')
-        if len(targets) == 0:
+        if targets is None or len(targets) == 0:
             return None
         return targets.findall('target')
