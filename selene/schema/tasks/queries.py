@@ -22,6 +22,8 @@ from graphql import ResolveInfo
 
 import graphene
 
+from selene.schema.base import SingleObjectQuery
+
 from selene.schema.parser import FilterString
 
 from selene.schema.relay import (
@@ -35,8 +37,8 @@ from selene.schema.tasks.fields import Task
 from selene.schema.utils import get_gmp, require_authentication, XmlElement
 
 
-class GetTask(graphene.Field):
-    """Get a single task.
+class GetTask(SingleObjectQuery):
+    """Get a single task
 
     Example:
 
@@ -60,12 +62,10 @@ class GetTask(graphene.Field):
 
     """
 
-    def __init__(self):
-        super().__init__(
-            Task,
-            task_id=graphene.UUID(required=True, name='id'),
-            resolver=self.resolve,
-        )
+    object_type = Task
+    kwargs = {
+        'task_id': graphene.UUID(required=True, name='id'),
+    }
 
     @staticmethod
     @require_authentication

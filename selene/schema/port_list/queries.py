@@ -22,6 +22,7 @@ import graphene
 
 from graphql import ResolveInfo
 
+from selene.schema.base import SingleObjectQuery
 from selene.schema.parser import FilterString
 from selene.schema.port_list.fields import PortList
 
@@ -34,55 +35,49 @@ from selene.schema.relay import (
 from selene.schema.utils import require_authentication, get_gmp, XmlElement
 
 
-class GetPortList(graphene.Field):
+class GetPortList(SingleObjectQuery):
     """Get a single portlist
 
     Example:
 
-        .. code-block::
+        query {
+            portList (id: "4a4717fe-57d2-11e1-9a26-406186ea4fc5") {
+                id
+                name
+                portRanges [
+                    {
+                        start
+                        end
+                        type
+                    }
+                ]
+            }
+        }
 
-            query {
-                portList (id: "4a4717fe-57d2-11e1-9a26-406186ea4fc5") {
-                    id
-                    name
-                    portRanges [
+    Response:
+
+        {
+            "data": {
+                "port_list": {
+                    "id": "4a4717fe-57d2-11e1-9a26-406186ea4fc5"
+                    "name": "All IANA assigned TCP and UDP",
+                    "portRanges": [
                         {
-                           start
-                           end
-                           type
+                            "type": TCP,
                         }
                     ]
                 }
             }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "port_list": {
-                        "id": "4a4717fe-57d2-11e1-9a26-406186ea4fc5"
-                        "name": "All IANA assigned TCP and UDP",
-                        "portRanges": [
-                            {
-                                "type": TCP,
-                            }
-                        ]
-                    }
-                }
-            }
+        }
 
     """
 
-    def __init__(self):
-        super().__init__(
-            PortList,
-            port_list_id=graphene.UUID(
-                required=True, name='id', description="ID of the port list"
-            ),
-            resolver=self.resolve,
-        )
+    object_type = PortList
+    kwargs = {
+        'port_list_id': graphene.UUID(
+            required=True, name='id', description="ID of the port list"
+        ),
+    }
 
     @staticmethod
     @require_authentication
