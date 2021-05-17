@@ -8,7 +8,7 @@ license = "AGPL-3.0-or-later"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-django = "^3.2.2"
+django = "^3.2.3"
 graphene-django = "^2.9.0"
 python-gvm = "^21.4.0"
 django-cors-headers = "^3.2.1"
