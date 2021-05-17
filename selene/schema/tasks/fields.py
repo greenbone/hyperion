@@ -154,7 +154,7 @@ class TaskReports(graphene.ObjectType):
 
 class TaskSubObjectType(BaseObjectType):
 
-    trash = graphene.Boolean(description="Wether the object is in the trashcan")
+    trash = graphene.Boolean(description="Whether the object is in the trashcan")
 
     @staticmethod
     def resolve_trash(root, _info):
@@ -217,7 +217,7 @@ class TaskSchedule(TaskSubObjectType):
         default_resolver = text_resolver
 
     icalendar = graphene.String(
-        description="Calender information for a task in the iCal format"
+        description="Calendar information for a task in the iCal format"
     )
     duration = graphene.Int(
         description="Maximum duration of a schedule in seconds. A scheduled "
@@ -362,9 +362,9 @@ class Task(EntityObjectType):
         TaskStatus, description="Status of the last or current scan of the task"
     )
 
-    alterable = graphene.Boolean(description="Wether the task is alterable")
+    alterable = graphene.Boolean(description="Whether the task is alterable")
 
-    progress = graphene.Int(description="Progess of the current scan")
+    progress = graphene.Int(description="Progress of the current scan")
 
     scan_config = graphene.Field(
         TaskScanConfig, description="Used scan config for the task"
