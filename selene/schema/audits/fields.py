@@ -187,7 +187,9 @@ class AuditResults(graphene.ObjectType):
 
 class AuditSubObjectType(BaseObjectType):
 
-    trash = graphene.Boolean(description="Wether the object is in the trashcan")
+    trash = graphene.Boolean(
+        description="Whether the object is in the trashcan"
+    )
 
     @staticmethod
     def resolve_trash(root, _info):
@@ -217,7 +219,7 @@ class AuditSchedule(AuditSubObjectType):
         default_resolver = text_resolver
 
     icalendar = graphene.String(
-        description="Calender information for an audit in the iCal format"
+        description="Calendar information for an audit in the iCal format"
     )
     duration = graphene.Int(
         description="Maximum duration of a schedule in seconds. A scheduled "
@@ -362,9 +364,9 @@ class Audit(EntityObjectType):
         description="Status of the last or current scan of the audit",
     )
 
-    alterable = graphene.Boolean(description="Wether the audit is alterable")
+    alterable = graphene.Boolean(description="Whether the audit is alterable")
 
-    progress = graphene.Int(description="Progess of the current scan")
+    progress = graphene.Int(description="Progress of the current scan")
 
     policy = graphene.Field(
         AuditPolicy, description="Used policy for the audit"
