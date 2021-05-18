@@ -187,7 +187,9 @@ class AuditResults(graphene.ObjectType):
 
 class AuditSubObjectType(BaseObjectType):
 
-    trash = graphene.Boolean(description="Whether the object is in the trashcan")
+    trash = graphene.Boolean(
+        description="Whether the object is in the trashcan"
+    )
 
     @staticmethod
     def resolve_trash(root, _info):
