@@ -104,3 +104,67 @@ class ModifyAuditTestCase(SeleneTestCase):
             schedule_periods=None,
             target_id=None,
         )
+
+    def test_modify_audit_auto_delete_reports_none(
+        self, mock_gmp: GmpMockFactory
+    ):
+        audit_id = str(uuid4())
+        policy_id = str(uuid4())
+
+        mock_gmp.mock_response(
+            'modify_audit',
+            '''
+            <modify_task_response status="200" status_text="OK"/>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            f'''
+            mutation {{
+                modifyAudit(input: {{
+                    id: "{audit_id}",
+                    name: "bar"
+                    policyId: "{policy_id}",
+                    preferences: {{
+                        createAssets: true,
+                        createAssetsApplyOverrides: false,
+                        maxConcurrentNvts: 7,
+                        maxConcurrentHosts: 13,
+                    }}
+                }}) {{
+                    ok
+                }}
+            }}
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        ok = json['data']['modifyAudit']['ok']
+
+        self.assertEqual(ok, True)
+
+        mock_gmp.gmp_protocol.modify_audit.assert_called_with(
+            str(audit_id),
+            alert_ids=None,
+            alterable=None,
+            comment=None,
+            policy_id=policy_id,
+            name="bar",
+            observers=None,
+            preferences={
+                'auto_delete': 'no',
+                'max_checks': 7,
+                'max_hosts': 13,
+                'assets_apply_overrides': 'no',
+                'in_assets': 'yes',
+            },
+            scanner_id=None,
+            schedule_id=None,
+            schedule_periods=None,
+            target_id=None,
+        )

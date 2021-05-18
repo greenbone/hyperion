@@ -110,3 +110,69 @@ class CreateAuditTestCase(SeleneTestCase):
             schedule_id=None,
             schedule_periods=None,
         )
+
+    def test_create_audit_auto_delete_reports_none(
+        self, mock_gmp: GmpMockFactory
+    ):
+        audit_id = str(uuid4())
+        policy_id = str(uuid4())
+        target_id = str(uuid4())
+        scanner_id = str(uuid4())
+
+        mock_gmp.mock_response(
+            'create_audit',
+            f'''
+            <create_task_response id="{audit_id}" status="200" status_text="OK"/>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            f'''
+            mutation {{
+                createAudit(input: {{
+                    name: "bar",
+                    scannerId: "{scanner_id}",
+                    policyId: "{policy_id}",
+                    targetId: "{target_id}",
+                    preferences: {{
+                        createAssets: true,
+                        createAssetsApplyOverrides: false,
+                        maxConcurrentNvts: 7,
+                        maxConcurrentHosts: 13,
+                    }}
+                }}) {{
+                    id
+                }}
+            }}
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        uuid = json['data']['createAudit']['id']
+
+        self.assertEqual(uuid, audit_id)
+
+        mock_gmp.gmp_protocol.create_audit.assert_called_with(
+            "bar",
+            policy_id,
+            target_id,
+            scanner_id,
+            alert_ids=None,
+            alterable=None,
+            comment=None,
+            observers=None,
+            preferences={
+                'auto_delete': 'no',
+                'max_checks': 7,
+                'max_hosts': 13,
+                'in_assets': 'yes',
+                'assets_apply_overrides': 'no',
+            },
+            schedule_id=None,
+            schedule_periods=None,
+        )
