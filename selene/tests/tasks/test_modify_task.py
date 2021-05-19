@@ -19,6 +19,8 @@ from uuid import uuid4
 
 from unittest.mock import patch
 
+from selene.schema.utils import RESET_UUID
+
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 
@@ -26,12 +28,25 @@ from selene.tests import SeleneTestCase, GmpMockFactory
 class ModifyTaskTestCase(SeleneTestCase):
     def test_require_authentication(self, _mock_gmp: GmpMockFactory):
         task_id = str(uuid4())
+        target_id = str(uuid4())
+        scanner_id = str(uuid4())
+        scan_config_id = str(uuid4())
+        schedule_id = str(uuid4())
+        alert_ids = [str(uuid4()), str(uuid4())]
+
         response = self.query(
             f'''
             mutation {{
                 modifyTask(input: {{
                     id: "{task_id}",
                     name: "foo",
+                    comment: "Foo Bar",
+                    targetId: "{target_id}",
+                    scannerId: "{scanner_id}",
+                    scanConfigId: "{scan_config_id}",
+                    scheduleId: "{schedule_id}",
+                    alterable: true,
+                    alertIds: ["{'","'.join(alert_ids)}"],
                 }}) {{
                     ok
                 }}
@@ -43,7 +58,11 @@ class ModifyTaskTestCase(SeleneTestCase):
 
     def test_modify_task(self, mock_gmp: GmpMockFactory):
         task_id = str(uuid4())
-        config_id = str(uuid4())
+        target_id = str(uuid4())
+        scanner_id = str(uuid4())
+        scan_config_id = str(uuid4())
+        schedule_id = str(uuid4())
+        alert_ids = [str(uuid4()), str(uuid4())]
 
         mock_gmp.mock_response(
             'modify_task',
@@ -60,7 +79,13 @@ class ModifyTaskTestCase(SeleneTestCase):
                 modifyTask(input: {{
                     id: "{task_id}",
                     name: "bar"
-                    scanConfigId: "{config_id}",
+                    comment: "Foo Bar",
+                    targetId: "{target_id}",
+                    scannerId: "{scanner_id}",
+                    scanConfigId: "{scan_config_id}",
+                    scheduleId: "{schedule_id}",
+                    alterable: true,
+                    alertIds: ["{'","'.join(alert_ids)}"],
                     preferences: {{
                         autoDeleteReports: 4
                         createAssets: true,
@@ -84,11 +109,11 @@ class ModifyTaskTestCase(SeleneTestCase):
         self.assertEqual(ok, True)
 
         mock_gmp.gmp_protocol.modify_task.assert_called_with(
-            str(task_id),
-            alert_ids=None,
-            alterable=None,
-            comment=None,
-            config_id=config_id,
+            task_id,
+            alert_ids=alert_ids,
+            alterable=True,
+            comment="Foo Bar",
+            config_id=scan_config_id,
             name="bar",
             observers=None,
             preferences={
@@ -99,17 +124,21 @@ class ModifyTaskTestCase(SeleneTestCase):
                 'assets_apply_overrides': 'no',
                 'in_assets': 'yes',
             },
-            scanner_id=None,
-            schedule_id=None,
+            scanner_id=scanner_id,
+            schedule_id=schedule_id,
             schedule_periods=None,
-            target_id=None,
+            target_id=target_id,
         )
 
     def test_modify_task_auto_delete_reports_none(
         self, mock_gmp: GmpMockFactory
     ):
         task_id = str(uuid4())
-        config_id = str(uuid4())
+        target_id = str(uuid4())
+        scanner_id = str(uuid4())
+        scan_config_id = str(uuid4())
+        schedule_id = str(uuid4())
+        alert_ids = [str(uuid4()), str(uuid4())]
 
         mock_gmp.mock_response(
             'modify_task',
@@ -126,7 +155,13 @@ class ModifyTaskTestCase(SeleneTestCase):
                 modifyTask(input: {{
                     id: "{task_id}",
                     name: "bar"
-                    scanConfigId: "{config_id}",
+                    comment: "Foo Bar",
+                    targetId: "{target_id}",
+                    scannerId: "{scanner_id}",
+                    scanConfigId: "{scan_config_id}",
+                    scheduleId: "{schedule_id}",
+                    alertIds: ["{'","'.join(alert_ids)}"],
+                    alterable: true,
                     preferences: {{
                         createAssets: true,
                         createAssetsApplyOverrides: false,
@@ -149,11 +184,11 @@ class ModifyTaskTestCase(SeleneTestCase):
         self.assertEqual(ok, True)
 
         mock_gmp.gmp_protocol.modify_task.assert_called_with(
-            str(task_id),
-            alert_ids=None,
-            alterable=None,
-            comment=None,
-            config_id=config_id,
+            task_id,
+            alert_ids=alert_ids,
+            alterable=True,
+            comment="Foo Bar",
+            config_id=scan_config_id,
             name="bar",
             observers=None,
             preferences={
@@ -163,8 +198,152 @@ class ModifyTaskTestCase(SeleneTestCase):
                 'assets_apply_overrides': 'no',
                 'in_assets': 'yes',
             },
-            scanner_id=None,
-            schedule_id=None,
+            scanner_id=scanner_id,
+            schedule_id=schedule_id,
             schedule_periods=None,
-            target_id=None,
+            target_id=target_id,
+        )
+
+    def test_modify_task_reset_schedule(self, mock_gmp: GmpMockFactory):
+        task_id = str(uuid4())
+        target_id = str(uuid4())
+        scanner_id = str(uuid4())
+        scan_config_id = str(uuid4())
+        alert_ids = [str(uuid4()), str(uuid4())]
+
+        mock_gmp.mock_response(
+            'modify_task',
+            '''
+            <modify_task_response status="200" status_text="OK"/>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            f'''
+            mutation {{
+                modifyTask(input: {{
+                    id: "{task_id}",
+                    name: "bar"
+                    comment: "Foo Bar",
+                    targetId: "{target_id}",
+                    scannerId: "{scanner_id}",
+                    scanConfigId: "{scan_config_id}",
+                    alterable: true,
+                    alertIds: ["{'","'.join(alert_ids)}"],
+                    preferences: {{
+                        autoDeleteReports: 4
+                        createAssets: true,
+                        createAssetsApplyOverrides: false,
+                        maxConcurrentNvts: 7,
+                        maxConcurrentHosts: 13,
+                    }}
+                }}) {{
+                    ok
+                }}
+            }}
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        ok = json['data']['modifyTask']['ok']
+
+        self.assertEqual(ok, True)
+
+        mock_gmp.gmp_protocol.modify_task.assert_called_with(
+            task_id,
+            alert_ids=alert_ids,
+            alterable=True,
+            comment="Foo Bar",
+            config_id=scan_config_id,
+            name="bar",
+            observers=None,
+            preferences={
+                'auto_delete': 'keep',
+                'auto_delete_data': 4,
+                'max_checks': 7,
+                'max_hosts': 13,
+                'assets_apply_overrides': 'no',
+                'in_assets': 'yes',
+            },
+            scanner_id=scanner_id,
+            schedule_id=RESET_UUID,
+            schedule_periods=None,
+            target_id=target_id,
+        )
+
+    def test_modify_task_reset_alerts(self, mock_gmp: GmpMockFactory):
+        task_id = str(uuid4())
+        target_id = str(uuid4())
+        scanner_id = str(uuid4())
+        scan_config_id = str(uuid4())
+        schedule_id = str(uuid4())
+
+        mock_gmp.mock_response(
+            'modify_task',
+            '''
+            <modify_task_response status="200" status_text="OK"/>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            f'''
+            mutation {{
+                modifyTask(input: {{
+                    id: "{task_id}",
+                    name: "bar"
+                    comment: "Foo Bar",
+                    targetId: "{target_id}",
+                    scannerId: "{scanner_id}",
+                    scanConfigId: "{scan_config_id}",
+                    scheduleId: "{schedule_id}",
+                    alterable: true,
+                    preferences: {{
+                        autoDeleteReports: 4
+                        createAssets: true,
+                        createAssetsApplyOverrides: false,
+                        maxConcurrentNvts: 7,
+                        maxConcurrentHosts: 13,
+                    }}
+                }}) {{
+                    ok
+                }}
+            }}
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        ok = json['data']['modifyTask']['ok']
+
+        self.assertEqual(ok, True)
+
+        mock_gmp.gmp_protocol.modify_task.assert_called_with(
+            task_id,
+            alert_ids=[],
+            alterable=True,
+            comment="Foo Bar",
+            config_id=scan_config_id,
+            name="bar",
+            observers=None,
+            preferences={
+                'auto_delete': 'keep',
+                'auto_delete_data': 4,
+                'max_checks': 7,
+                'max_hosts': 13,
+                'assets_apply_overrides': 'no',
+                'in_assets': 'yes',
+            },
+            scanner_id=scanner_id,
+            schedule_id=schedule_id,
+            schedule_periods=None,
+            target_id=target_id,
         )

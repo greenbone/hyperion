@@ -26,6 +26,7 @@ from selene.schema.entities import (
 )
 
 from selene.schema.utils import (
+    RESET_UUID,
     get_gmp,
     require_authentication,
     get_text_from_element,
@@ -153,7 +154,7 @@ class CreateTaskInput(graphene.InputObjectType):
         description="List of UUIDs for alerts to be used for the task",
     )
     alterable = graphene.Boolean(
-        description="Whether the task should be alterable"
+        description="Whether the task should be alterable",
     )
     comment = graphene.String(description="Task comment")
     observers = graphene.List(
@@ -171,7 +172,7 @@ class CreateTaskInput(graphene.InputObjectType):
         description=(
             "A limit to the number of times the "
             "task will be scheduled, or 0 for no limit"
-        )
+        ),
     )
 
 
@@ -200,10 +201,12 @@ class CreateTask(graphene.Mutation):
             alert_ids = [str(alert_id) for alert_id in input_object.alert_ids]
         else:
             alert_ids = None
+
         if input_object.observers is not None:
             observers = [str(observer) for observer in input_object.observers]
         else:
             observers = None
+
         schedule_id = (
             str(input_object.schedule_id)
             if input_object.schedule_id is not None
@@ -285,24 +288,30 @@ class ModifyTaskInput(graphene.InputObjectType):
     """Input ObjectType for modifying a task"""
 
     task_id = graphene.UUID(
-        required=True, description="UUID of task to modify.", name='id'
+        description="UUID of task to modify", name='id', required=True
     )
-    name = graphene.String(description="Task name")
+    name = graphene.String(description="Task name", required=True)
+    target_id = graphene.UUID(
+        description="UUID of the target to be used", required=True
+    )
+    scanner_id = graphene.UUID(
+        description="UUID of the scanner to be used", required=True
+    )
+
     scan_config_id = graphene.UUID(
         description=(
             "UUID of the scan config to use for the scanner. "
             "Only for OpenVAS scanners"
         ),
+        required=True,
     )
-    target_id = graphene.UUID(description="UUID of the target to be used")
-    scanner_id = graphene.UUID(description="UUID of the scanner to be used")
 
     alert_ids = graphene.List(
         graphene.UUID,
         description="List of UUIDs for alerts to be used for the task",
     )
     alterable = graphene.Boolean(
-        description="Whether the task should be alterable"
+        description="Whether the task should be alterable",
     )
     comment = graphene.String(description="Task comment")
     observers = graphene.List(
@@ -320,7 +329,7 @@ class ModifyTaskInput(graphene.InputObjectType):
         description=(
             "A limit to the number of times the "
             "task will be scheduled, or 0 for no limit."
-        )
+        ),
     )
 
 
@@ -351,32 +360,21 @@ class ModifyTask(graphene.Mutation):
         if input_object.alert_ids is not None:
             alert_ids = [str(alert_id) for alert_id in input_object.alert_ids]
         else:
-            alert_ids = None
+            alert_ids = []
 
         if input_object.observers is not None:
             observers = [str(observer) for observer in input_object.observers]
         else:
             observers = None
 
+        target_id = str(input_object.target_id)
+        scanner_id = str(input_object.scanner_id)
+        config_id = str(input_object.scan_config_id)
+
         schedule_id = (
             str(input_object.schedule_id)
             if input_object.schedule_id is not None
-            else None
-        )
-        scanner_id = (
-            str(input_object.scanner_id)
-            if input_object.scanner_id is not None
-            else None
-        )
-        target_id = (
-            str(input_object.target_id)
-            if input_object.target_id is not None
-            else None
-        )
-        config_id = (
-            str(input_object.scan_config_id)
-            if input_object.scan_config_id is not None
-            else None
+            else RESET_UUID
         )
 
         preferences = {}

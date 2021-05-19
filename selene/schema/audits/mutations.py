@@ -26,6 +26,7 @@ from selene.schema.entities import (
 )
 
 from selene.schema.utils import (
+    RESET_UUID,
     get_gmp,
     require_authentication,
     get_text_from_element,
@@ -258,14 +259,15 @@ class ModifyAuditInput(graphene.InputObjectType):
     """Input ObjectType for modifying an audit"""
 
     audit_id = graphene.UUID(
-        required=True, description="UUID of the audit to modify.", name='id'
+        description="UUID of the audit to modify.", name='id', required=True
     )
-    name = graphene.String(description="Audit name")
+    name = graphene.String(description="Audit name", required=True)
+    target_id = graphene.UUID(description="UUID of target", required=True)
     policy_id = graphene.UUID(
-        description=("UUID of policy. OpenVAS Default scanners only")
+        description=("UUID of policy. OpenVAS Default scanners only"),
+        required=True,
     )
-    target_id = graphene.UUID(description="UUID of target")
-    scanner_id = graphene.UUID(description="UUID of scanner")
+    scanner_id = graphene.UUID(description="UUID of scanner", required=True)
 
     alert_ids = graphene.List(
         graphene.UUID, description="List of UUIDs for alerts"
@@ -314,32 +316,21 @@ class ModifyAudit(graphene.Mutation):
         if input_object.alert_ids is not None:
             alert_ids = [str(alert_id) for alert_id in input_object.alert_ids]
         else:
-            alert_ids = None
+            alert_ids = []
 
         if input_object.observers is not None:
             observers = [str(observer) for observer in input_object.observers]
         else:
             observers = None
 
+        target_id = str(input_object.target_id)
+        scanner_id = str(input_object.scanner_id)
+        policy_id = str(input_object.policy_id)
+
         schedule_id = (
             str(input_object.schedule_id)
             if input_object.schedule_id is not None
-            else None
-        )
-        scanner_id = (
-            str(input_object.scanner_id)
-            if input_object.scanner_id is not None
-            else None
-        )
-        target_id = (
-            str(input_object.target_id)
-            if input_object.target_id is not None
-            else None
-        )
-        policy_id = (
-            str(input_object.policy_id)
-            if input_object.policy_id is not None
-            else None
+            else RESET_UUID
         )
 
         preferences = {}
