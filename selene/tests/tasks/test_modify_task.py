@@ -104,3 +104,67 @@ class ModifyTaskTestCase(SeleneTestCase):
             schedule_periods=None,
             target_id=None,
         )
+
+    def test_modify_task_auto_delete_reports_none(
+        self, mock_gmp: GmpMockFactory
+    ):
+        task_id = str(uuid4())
+        config_id = str(uuid4())
+
+        mock_gmp.mock_response(
+            'modify_task',
+            '''
+            <modify_task_response status="200" status_text="OK"/>
+            ''',
+        )
+
+        self.login('foo', 'bar')
+
+        response = self.query(
+            f'''
+            mutation {{
+                modifyTask(input: {{
+                    id: "{task_id}",
+                    name: "bar"
+                    scanConfigId: "{config_id}",
+                    preferences: {{
+                        createAssets: true,
+                        createAssetsApplyOverrides: false,
+                        maxConcurrentNvts: 7,
+                        maxConcurrentHosts: 13,
+                    }}
+                }}) {{
+                    ok
+                }}
+            }}
+            '''
+        )
+
+        json = response.json()
+
+        self.assertResponseNoErrors(response)
+
+        ok = json['data']['modifyTask']['ok']
+
+        self.assertEqual(ok, True)
+
+        mock_gmp.gmp_protocol.modify_task.assert_called_with(
+            str(task_id),
+            alert_ids=None,
+            alterable=None,
+            comment=None,
+            config_id=config_id,
+            name="bar",
+            observers=None,
+            preferences={
+                'auto_delete': 'no',
+                'max_checks': 7,
+                'max_hosts': 13,
+                'assets_apply_overrides': 'no',
+                'in_assets': 'yes',
+            },
+            scanner_id=None,
+            schedule_id=None,
+            schedule_periods=None,
+            target_id=None,
+        )

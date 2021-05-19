@@ -229,47 +229,39 @@ class CreateTask(graphene.Mutation):
 
         input_preferences = input_object.preferences
 
-        if (
-            input_preferences
-            and input_preferences.create_assets_apply_overrides is not None
-        ):
-            preferences['assets_apply_overrides'] = to_yes_no(
-                input_preferences.create_assets_apply_overrides
-            )
+        if input_preferences:
+            if input_preferences.create_assets_apply_overrides is not None:
+                preferences['assets_apply_overrides'] = to_yes_no(
+                    input_preferences.create_assets_apply_overrides
+                )
 
-        if (
-            input_preferences
-            and input_preferences.create_assets_min_qod is not None
-        ):
-            preferences[
-                'assets_min_qod'
-            ] = input_preferences.create_assets_min_qod
+            if input_preferences.create_assets_min_qod is not None:
+                preferences[
+                    'assets_min_qod'
+                ] = input_preferences.create_assets_min_qod
 
-        if (
-            input_preferences
-            and input_preferences.auto_delete_reports is not None
-        ):
-            preferences['auto_delete'] = "keep"
-            preferences[
-                'auto_delete_data'
-            ] = input_preferences.auto_delete_reports
+            if input_preferences.auto_delete_reports is not None:
+                preferences['auto_delete'] = "keep"
+                preferences[
+                    'auto_delete_data'
+                ] = input_preferences.auto_delete_reports
+            else:
+                preferences['auto_delete'] = "no"
 
-        if input_preferences and input_preferences.create_assets is not None:
-            preferences['in_assets'] = to_yes_no(
-                input_preferences.create_assets
-            )
+            if input_preferences.create_assets is not None:
+                preferences['in_assets'] = to_yes_no(
+                    input_preferences.create_assets
+                )
 
-        if (
-            input_preferences
-            and input_preferences.max_concurrent_nvts is not None
-        ):
-            preferences['max_checks'] = input_preferences.max_concurrent_nvts
+            if input_preferences.max_concurrent_nvts is not None:
+                preferences[
+                    'max_checks'
+                ] = input_preferences.max_concurrent_nvts
 
-        if (
-            input_preferences
-            and input_preferences.max_concurrent_hosts is not None
-        ):
-            preferences['max_hosts'] = input_preferences.max_concurrent_hosts
+            if input_preferences.max_concurrent_hosts is not None:
+                preferences[
+                    'max_hosts'
+                ] = input_preferences.max_concurrent_hosts
 
         gmp = get_gmp(info)
 
@@ -391,47 +383,39 @@ class ModifyTask(graphene.Mutation):
 
         input_preferences = input_object.preferences
 
-        if (
-            input_preferences
-            and input_preferences.create_assets_apply_overrides is not None
-        ):
-            preferences['assets_apply_overrides'] = to_yes_no(
-                input_preferences.create_assets_apply_overrides
-            )
+        if input_preferences:
+            if input_preferences.create_assets_apply_overrides is not None:
+                preferences['assets_apply_overrides'] = to_yes_no(
+                    input_preferences.create_assets_apply_overrides
+                )
 
-        if (
-            input_preferences
-            and input_preferences.create_assets_min_qod is not None
-        ):
-            preferences[
-                'assets_min_qod'
-            ] = input_preferences.create_assets_min_qod
+            if input_preferences.create_assets_min_qod is not None:
+                preferences[
+                    'assets_min_qod'
+                ] = input_preferences.create_assets_min_qod
 
-        if (
-            input_preferences
-            and input_preferences.auto_delete_reports is not None
-        ):
-            preferences['auto_delete'] = "keep"
-            preferences[
-                'auto_delete_data'
-            ] = input_preferences.auto_delete_reports
+            if input_preferences.auto_delete_reports is not None:
+                preferences['auto_delete'] = "keep"
+                preferences[
+                    'auto_delete_data'
+                ] = input_preferences.auto_delete_reports
+            else:
+                preferences['auto_delete'] = "no"
 
-        if input_preferences and input_preferences.create_assets is not None:
-            preferences['in_assets'] = to_yes_no(
-                input_preferences.create_assets
-            )
+            if input_preferences.create_assets is not None:
+                preferences['in_assets'] = to_yes_no(
+                    input_preferences.create_assets
+                )
 
-        if (
-            input_preferences
-            and input_preferences.max_concurrent_nvts is not None
-        ):
-            preferences['max_checks'] = input_preferences.max_concurrent_nvts
+            if input_preferences.max_concurrent_nvts is not None:
+                preferences[
+                    'max_checks'
+                ] = input_preferences.max_concurrent_nvts
 
-        if (
-            input_preferences
-            and input_preferences.max_concurrent_hosts is not None
-        ):
-            preferences['max_hosts'] = input_preferences.max_concurrent_hosts
+            if input_preferences.max_concurrent_hosts is not None:
+                preferences[
+                    'max_hosts'
+                ] = input_preferences.max_concurrent_hosts
 
         gmp = get_gmp(info)
 
