@@ -130,11 +130,6 @@ class CreateAuditInput(graphene.InputObjectType):
         description="Whether the audit should be alterable"
     )
     comment = graphene.String(description="Audit comment")
-    observers = graphene.List(
-        graphene.UUID,
-        description="List of UUIDs for users which should be allowed to "
-        "observe the audit",
-    )
     preferences = graphene.Field(
         AuditPreferencesInput, description="Preferences to set for the audit"
     )
@@ -174,10 +169,6 @@ class CreateAudit(graphene.Mutation):
             alert_ids = [str(alert_id) for alert_id in input_object.alert_ids]
         else:
             alert_ids = None
-        if input_object.observers is not None:
-            observers = [str(observer) for observer in input_object.observers]
-        else:
-            observers = None
 
         schedule_id = (
             str(input_object.schedule_id)
@@ -249,7 +240,6 @@ class CreateAudit(graphene.Mutation):
             alert_ids=alert_ids,
             schedule_id=schedule_id,
             schedule_periods=schedule_periods,
-            observers=observers,
             preferences=preferences,
         )
         return CreateAudit(audit_id=resp.get('id'))
@@ -274,7 +264,6 @@ class ModifyAuditInput(graphene.InputObjectType):
     )
     alterable = graphene.Boolean(description="Whether the audit is alterable")
     comment = graphene.String(description="Audit comment")
-    observers = graphene.List(graphene.String)
     preferences = graphene.Field(
         AuditPreferencesInput, description="Preferences to set for the audit"
     )
@@ -317,11 +306,6 @@ class ModifyAudit(graphene.Mutation):
             alert_ids = [str(alert_id) for alert_id in input_object.alert_ids]
         else:
             alert_ids = []
-
-        if input_object.observers is not None:
-            observers = [str(observer) for observer in input_object.observers]
-        else:
-            observers = None
 
         target_id = str(input_object.target_id)
         scanner_id = str(input_object.scanner_id)
@@ -382,7 +366,6 @@ class ModifyAudit(graphene.Mutation):
             schedule_periods=schedule_periods,
             comment=comment,
             alert_ids=alert_ids,
-            observers=observers,
             preferences=preferences,
         )
 

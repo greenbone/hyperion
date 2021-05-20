@@ -115,7 +115,6 @@ class ModifyAuditTestCase(SeleneTestCase):
             comment="Foo Bar",
             policy_id=policy_id,
             name="bar",
-            observers=None,
             preferences={
                 'auto_delete': 'keep',
                 'auto_delete_data': 4,
@@ -190,7 +189,6 @@ class ModifyAuditTestCase(SeleneTestCase):
             comment="Foo Bar",
             policy_id=policy_id,
             name="bar",
-            observers=None,
             preferences={
                 'auto_delete': 'no',
                 'max_checks': 7,
@@ -261,7 +259,6 @@ class ModifyAuditTestCase(SeleneTestCase):
             comment="Foo Bar",
             policy_id=policy_id,
             name="bar",
-            observers=None,
             preferences={
                 'auto_delete': 'keep',
                 'auto_delete_data': 4,
@@ -333,7 +330,6 @@ class ModifyAuditTestCase(SeleneTestCase):
             comment="Foo Bar",
             policy_id=policy_id,
             name="bar",
-            observers=None,
             preferences={
                 'auto_delete': 'keep',
                 'auto_delete_data': 4,

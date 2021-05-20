@@ -98,7 +98,6 @@ class CreateAuditTestCase(SeleneTestCase):
             alert_ids=None,
             alterable=None,
             comment=None,
-            observers=None,
             preferences={
                 'auto_delete': 'keep',
                 'auto_delete_data': 4,
@@ -165,7 +164,6 @@ class CreateAuditTestCase(SeleneTestCase):
             alert_ids=None,
             alterable=None,
             comment=None,
-            observers=None,
             preferences={
                 'auto_delete': 'no',
                 'max_checks': 7,

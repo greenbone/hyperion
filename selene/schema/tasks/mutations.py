@@ -157,11 +157,6 @@ class CreateTaskInput(graphene.InputObjectType):
         description="Whether the task should be alterable",
     )
     comment = graphene.String(description="Task comment")
-    observers = graphene.List(
-        graphene.String,
-        description="List of UUIDs for users which should be allowed to "
-        "observe the task",
-    )
     preferences = graphene.Field(
         TaskPreferencesInput, description="Preferences to set for the task"
     )
@@ -201,11 +196,6 @@ class CreateTask(graphene.Mutation):
             alert_ids = [str(alert_id) for alert_id in input_object.alert_ids]
         else:
             alert_ids = None
-
-        if input_object.observers is not None:
-            observers = [str(observer) for observer in input_object.observers]
-        else:
-            observers = None
 
         schedule_id = (
             str(input_object.schedule_id)
@@ -278,7 +268,6 @@ class CreateTask(graphene.Mutation):
             alert_ids=alert_ids,
             schedule_id=schedule_id,
             schedule_periods=schedule_periods,
-            observers=observers,
             preferences=preferences,
         )
         return CreateTask(task_id=resp.get('id'))
@@ -314,11 +303,6 @@ class ModifyTaskInput(graphene.InputObjectType):
         description="Whether the task should be alterable",
     )
     comment = graphene.String(description="Task comment")
-    observers = graphene.List(
-        graphene.String,
-        description="List of UUIDs for users which should be allowed to "
-        "observe the task",
-    )
     preferences = graphene.Field(
         TaskPreferencesInput, description="Preferences to set for the task"
     )
@@ -361,11 +345,6 @@ class ModifyTask(graphene.Mutation):
             alert_ids = [str(alert_id) for alert_id in input_object.alert_ids]
         else:
             alert_ids = []
-
-        if input_object.observers is not None:
-            observers = [str(observer) for observer in input_object.observers]
-        else:
-            observers = None
 
         target_id = str(input_object.target_id)
         scanner_id = str(input_object.scanner_id)
@@ -428,7 +407,6 @@ class ModifyTask(graphene.Mutation):
             schedule_periods=schedule_periods,
             comment=comment,
             alert_ids=alert_ids,
-            observers=observers,
             preferences=preferences,
         )
 
