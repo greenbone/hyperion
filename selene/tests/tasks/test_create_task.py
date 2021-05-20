@@ -96,7 +96,6 @@ class CreateTaskTestCase(SeleneTestCase):
             alert_ids=None,
             alterable=None,
             comment=None,
-            observers=None,
             preferences={
                 'auto_delete': 'keep',
                 'auto_delete_data': 4,
@@ -106,7 +105,6 @@ class CreateTaskTestCase(SeleneTestCase):
                 'assets_apply_overrides': 'no',
             },
             schedule_id=None,
-            schedule_periods=None,
         )
 
     def test_create_task_auto_delete_reports_none(
@@ -163,7 +161,6 @@ class CreateTaskTestCase(SeleneTestCase):
             alert_ids=None,
             alterable=None,
             comment=None,
-            observers=None,
             preferences={
                 'auto_delete': 'no',
                 'max_checks': 7,
@@ -172,5 +169,4 @@ class CreateTaskTestCase(SeleneTestCase):
                 'assets_apply_overrides': 'no',
             },
             schedule_id=None,
-            schedule_periods=None,
         )

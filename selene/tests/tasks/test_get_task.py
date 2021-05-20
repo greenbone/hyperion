@@ -298,7 +298,6 @@ class TaskTestCase(SeleneTestCase):
                         id
                         name
                     }
-                    schedulePeriods
                 }
             }
             '''
@@ -342,10 +341,6 @@ class TaskTestCase(SeleneTestCase):
         self.assertEqual(schedule['timezone'], 'UTC')
         self.assertRegex(schedule['icalendar'], r'^BEGIN:VCALENDAR.*')
         self.assertEqual(schedule['timezone'], 'UTC')
-
-        schedule_periods = task['schedulePeriods']
-
-        self.assertEqual(schedule_periods, 0)
 
         alerts = task['alerts']
         self.assertEqual(len(alerts), 2)

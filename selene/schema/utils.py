@@ -32,6 +32,8 @@ from selene.schema.parser import parse_bool, parse_datetime, parse_int
 
 XmlElement = ElementTree.Element  # pylint: disable=invalid-name
 
+RESET_UUID = "0"
+
 
 def has_id(element: XmlElement) -> bool:
     if element is None:
