@@ -107,7 +107,6 @@ class CreateAuditTestCase(SeleneTestCase):
                 'assets_apply_overrides': 'no',
             },
             schedule_id=None,
-            schedule_periods=None,
         )
 
     def test_create_audit_auto_delete_reports_none(
@@ -172,5 +171,4 @@ class CreateAuditTestCase(SeleneTestCase):
                 'assets_apply_overrides': 'no',
             },
             schedule_id=None,
-            schedule_periods=None,
         )

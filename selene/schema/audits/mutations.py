@@ -136,12 +136,6 @@ class CreateAuditInput(graphene.InputObjectType):
     schedule_id = graphene.UUID(
         description="UUID of a schedule when the audit should be run"
     )
-    schedule_periods = graphene.Int(
-        description=(
-            "A limit to the number of times the "
-            "audit will be scheduled, or 0 for no limit"
-        )
-    )
 
 
 class CreateAudit(graphene.Mutation):
@@ -162,7 +156,6 @@ class CreateAudit(graphene.Mutation):
 
         name = input_object.name
         alterable = input_object.alterable
-        schedule_periods = input_object.schedule_periods
         comment = input_object.comment
 
         if input_object.alert_ids is not None:
@@ -239,7 +232,6 @@ class CreateAudit(graphene.Mutation):
             comment=comment,
             alert_ids=alert_ids,
             schedule_id=schedule_id,
-            schedule_periods=schedule_periods,
             preferences=preferences,
         )
         return CreateAudit(audit_id=resp.get('id'))
@@ -270,12 +262,6 @@ class ModifyAuditInput(graphene.InputObjectType):
     schedule_id = graphene.UUID(
         description="UUID of a schedule when the audit should be run."
     )
-    schedule_periods = graphene.Int(
-        description=(
-            "A limit to the number of times the "
-            "audit will be scheduled, or 0 for no limit."
-        )
-    )
 
 
 class ModifyAudit(graphene.Mutation):
@@ -299,7 +285,6 @@ class ModifyAudit(graphene.Mutation):
         audit_id = str(input_object.audit_id)
         name = input_object.name
         comment = input_object.comment
-        schedule_periods = input_object.schedule_periods
         alterable = input_object.alterable
 
         if input_object.alert_ids is not None:
@@ -363,7 +348,6 @@ class ModifyAudit(graphene.Mutation):
             scanner_id=scanner_id,
             alterable=alterable,
             schedule_id=schedule_id,
-            schedule_periods=schedule_periods,
             comment=comment,
             alert_ids=alert_ids,
             preferences=preferences,

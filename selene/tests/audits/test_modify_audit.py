@@ -125,7 +125,6 @@ class ModifyAuditTestCase(SeleneTestCase):
             },
             scanner_id=scanner_id,
             schedule_id=schedule_id,
-            schedule_periods=None,
             target_id=target_id,
         )
 
@@ -198,7 +197,6 @@ class ModifyAuditTestCase(SeleneTestCase):
             },
             scanner_id=scanner_id,
             schedule_id=schedule_id,
-            schedule_periods=None,
             target_id=target_id,
         )
 
@@ -269,7 +267,6 @@ class ModifyAuditTestCase(SeleneTestCase):
             },
             scanner_id=scanner_id,
             schedule_id=RESET_UUID,
-            schedule_periods=None,
             target_id=target_id,
         )
 
@@ -340,6 +337,5 @@ class ModifyAuditTestCase(SeleneTestCase):
             },
             scanner_id=scanner_id,
             schedule_id=schedule_id,
-            schedule_periods=None,
             target_id=target_id,
         )

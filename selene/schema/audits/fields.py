@@ -388,9 +388,6 @@ class Audit(EntityObjectType):
     schedule = graphene.Field(
         AuditSchedule, description="Used schedule for the audit"
     )
-    schedule_periods = graphene.Int(
-        description="Number of recurrences for the schedule"
-    )
 
     preferences = graphene.Field(
         AuditPreferences, description="Preferences set for the audit"
@@ -450,10 +447,6 @@ class Audit(EntityObjectType):
     @staticmethod
     def resolve_schedule(root, _info):
         return get_sub_element_if_id_available(root, 'schedule')
-
-    @staticmethod
-    def resolve_schedule_periods(root, _info):
-        return get_int_from_element(root, 'schedule_periods')
 
     @staticmethod
     def resolve_preferences(root, _info):

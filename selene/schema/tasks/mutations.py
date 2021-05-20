@@ -163,12 +163,6 @@ class CreateTaskInput(graphene.InputObjectType):
     schedule_id = graphene.UUID(
         description="UUID of a schedule when the task should be run"
     )
-    schedule_periods = graphene.Int(
-        description=(
-            "A limit to the number of times the "
-            "task will be scheduled, or 0 for no limit"
-        ),
-    )
 
 
 class CreateTask(graphene.Mutation):
@@ -189,7 +183,6 @@ class CreateTask(graphene.Mutation):
 
         name = input_object.name
         alterable = input_object.alterable
-        schedule_periods = input_object.schedule_periods
         comment = input_object.comment
 
         if input_object.alert_ids is not None:
@@ -267,7 +260,6 @@ class CreateTask(graphene.Mutation):
             comment=comment,
             alert_ids=alert_ids,
             schedule_id=schedule_id,
-            schedule_periods=schedule_periods,
             preferences=preferences,
         )
         return CreateTask(task_id=resp.get('id'))
@@ -309,12 +301,6 @@ class ModifyTaskInput(graphene.InputObjectType):
     schedule_id = graphene.UUID(
         description="UUID of a schedule when the task should be run"
     )
-    schedule_periods = graphene.Int(
-        description=(
-            "A limit to the number of times the "
-            "task will be scheduled, or 0 for no limit."
-        ),
-    )
 
 
 class ModifyTask(graphene.Mutation):
@@ -338,7 +324,6 @@ class ModifyTask(graphene.Mutation):
         task_id = str(input_object.task_id)
         name = input_object.name
         comment = input_object.comment
-        schedule_periods = input_object.schedule_periods
         alterable = input_object.alterable
 
         if input_object.alert_ids is not None:
@@ -404,7 +389,6 @@ class ModifyTask(graphene.Mutation):
             scanner_id=scanner_id,
             alterable=alterable,
             schedule_id=schedule_id,
-            schedule_periods=schedule_periods,
             comment=comment,
             alert_ids=alert_ids,
             preferences=preferences,

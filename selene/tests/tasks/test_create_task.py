@@ -105,7 +105,6 @@ class CreateTaskTestCase(SeleneTestCase):
                 'assets_apply_overrides': 'no',
             },
             schedule_id=None,
-            schedule_periods=None,
         )
 
     def test_create_task_auto_delete_reports_none(
@@ -170,5 +169,4 @@ class CreateTaskTestCase(SeleneTestCase):
                 'assets_apply_overrides': 'no',
             },
             schedule_id=None,
-            schedule_periods=None,
         )
