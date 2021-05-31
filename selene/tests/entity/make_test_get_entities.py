@@ -155,7 +155,7 @@ def make_test_get_entities(
 
         get_entities = gmp_commands[gmp_cmd]
 
-        get_entities.assert_called_with(filter='lorem', **kwargs)
+        get_entities.assert_called_with(filter_string='lorem', **kwargs)
 
         entities = json['data'][plural_selene_name]['nodes']
 

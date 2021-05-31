@@ -103,7 +103,7 @@ def make_test_after_first(
         get_entities = gmp_commands[gmp_cmd]
 
         get_entities.assert_called_with(
-            filter='lorem rows=10 first=125', **kwargs
+            filter_string='lorem rows=10 first=125', **kwargs
         )
 
         entities = json['data'][plural_selene_name]['nodes']
