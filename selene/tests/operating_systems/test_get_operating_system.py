@@ -21,8 +21,6 @@ from pathlib import Path
 
 from unittest.mock import patch
 
-from gvm.protocols.next import AssetType
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.entity import make_test_get_entity
@@ -48,7 +46,7 @@ class OperatingSystemTestCase(SeleneTestCase):
 
     def test_get_operating_system(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_asset',
+            'get_operating_system',
             '''
             <get_assets_response>
                 <asset id="75d23ba8-3d23-11ea-858e-b7c2cb43e815">
@@ -88,7 +86,7 @@ class OperatingSystemTestCase(SeleneTestCase):
         operating_system_xml_path = CWD / 'example-os.xml'
         operating_system_xml_str = operating_system_xml_path.read_text()
 
-        mock_gmp.mock_response('get_asset', operating_system_xml_str)
+        mock_gmp.mock_response('get_operating_system', operating_system_xml_str)
 
         self.login('foo', 'bar')
 
@@ -142,8 +140,9 @@ class OperatingSystemTestCase(SeleneTestCase):
 
 
 class OperatingSystemGetEntityTestCase(SeleneTestCase):
+    gmp_cmd = 'get_operating_system'
     gmp_name = 'asset'
     selene_name = 'operatingSystem'
     test_get_entity = make_test_get_entity(
-        gmp_name, selene_name=selene_name, asset_type=AssetType.OPERATING_SYSTEM
+        gmp_name=gmp_name, gmp_cmd=gmp_cmd, selene_name=selene_name
     )

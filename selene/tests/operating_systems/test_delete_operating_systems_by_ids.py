@@ -19,7 +19,6 @@
 from uuid import uuid4
 
 from unittest.mock import patch
-from gvm.protocols.next import AssetType as GvmAssetType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
@@ -48,7 +47,7 @@ class DeleteOperatingSystemsByIdsTestCase(SeleneTestCase):
         id2 = uuid4()
 
         mock_gmp.mock_response(
-            'get_assets',
+            'get_operating_systems',
             f'''
             <get_assets_response status="200" status_text="OK">
                 <asset id="{id1}">
@@ -80,14 +79,17 @@ class DeleteOperatingSystemsByIdsTestCase(SeleneTestCase):
 
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} ',
-            asset_type=GvmAssetType.OPERATING_SYSTEM,
+        mock_gmp.gmp_protocol.get_operating_systems.assert_called_with(
+            filter_string=f'uuid={id1} uuid={id2} ',
         )
 
-        mock_gmp.gmp_protocol.delete_asset.assert_any_call(asset_id=str(id1))
+        mock_gmp.gmp_protocol.delete_operating_system.assert_any_call(
+            operating_system_id=str(id1)
+        )
 
-        mock_gmp.gmp_protocol.delete_asset.assert_any_call(asset_id=str(id2))
+        mock_gmp.gmp_protocol.delete_operating_system.assert_any_call(
+            operating_system_id=str(id2)
+        )
 
     def test_delete_operating_systems_invalid(self, mock_gmp: GmpMockFactory):
         self.login('foo', 'bar')
@@ -97,7 +99,7 @@ class DeleteOperatingSystemsByIdsTestCase(SeleneTestCase):
 
         # Only one of the requested operating_systems is found.
         mock_gmp.mock_response(
-            'get_assets',
+            'get_operating_systems',
             f'''
             <get_assets_response status="200" status_text="OK">
                 <asset id="{id1}">
@@ -126,7 +128,6 @@ class DeleteOperatingSystemsByIdsTestCase(SeleneTestCase):
 
         self.assertFalse(ok)
 
-        mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} ',
-            asset_type=GvmAssetType.OPERATING_SYSTEM,
+        mock_gmp.gmp_protocol.get_operating_systems.assert_called_with(
+            filter_string=f'uuid={id1} uuid={id2} ',
         )
