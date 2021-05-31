@@ -41,7 +41,7 @@ class UserSettingTestCase(SeleneTestCase):
 
     def test_get_user_setting(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_setting',
+            'get_user_setting',
             '''
             <get_settings_response>
                 <setting id="75d23ba8-3d23-11ea-858e-b7c2cb43e815">
