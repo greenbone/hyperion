@@ -65,10 +65,12 @@ def create_export_by_filter_mutation(
             if with_details:
                 # not all get_entities function has details argument
                 xml: XmlElement = get_entities(
-                    filter=filter_string, details=True, **kwargs
+                    filter_string=filter_string, details=True, **kwargs
                 )
             else:
-                xml: XmlElement = get_entities(filter=filter_string, **kwargs)
+                xml: XmlElement = get_entities(
+                    filter_string=filter_string, **kwargs
+                )
 
             serialized_xml = etree.tostring(xml, encoding='unicode')
 
@@ -125,10 +127,12 @@ def create_export_by_ids_mutation(
             if with_details:
                 # not all get_entities function has details argument
                 xml: XmlElement = get_entities(
-                    filter=filter_string, details=True, **kwargs
+                    filter_string=filter_string, details=True, **kwargs
                 )
             else:
-                xml: XmlElement = get_entities(filter=filter_string, **kwargs)
+                xml: XmlElement = get_entities(
+                    filter_string=filter_string, **kwargs
+                )
             serialized_xml = etree.tostring(xml, encoding='unicode')
 
             return AbstractExportByIds(exported_entities=serialized_xml)
@@ -183,7 +187,7 @@ def create_delete_by_filter_mutation(
             )
             # Get the entities via a filter
             get_entities_xml_response = get_entities(
-                filter=filter_string, **kwargs
+                filter_string=filter_string, **kwargs
             )
 
             xml_entities = get_entities_xml_response.findall(
@@ -261,7 +265,7 @@ def create_delete_by_ids_mutation(
             # we might only delete some of the entities until an error
             # interrupts the deletion process.
             get_entities_xml_response = get_entities(
-                filter=filter_string, **kwargs
+                filter_string=filter_string, **kwargs
             )
 
             xml_entities = get_entities_xml_response.findall(
@@ -325,7 +329,7 @@ def create_export_secinfos_by_ids_mutation(
                 filter_string += f'uuid={str(entity_id)} '
 
             xml: XmlElement = get_entities(
-                filter=filter_string, info_type=info_type, details=True
+                filter_string=filter_string, info_type=info_type, details=True
             )
             serialized_xml = etree.tostring(xml, encoding='unicode')
 
