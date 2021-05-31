@@ -41,11 +41,11 @@ class ModifyHostTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_modify_asset(self, mock_gmp: GmpMockFactory):
+    def test_modify_host(self, mock_gmp: GmpMockFactory):
         host_id = str(uuid4())
 
         mock_gmp.mock_response(
-            'modify_asset',
+            'modify_host',
             '''
             <modify_asset_response status="200" status_text="OK"/>
             ''',
@@ -74,6 +74,6 @@ class ModifyHostTestCase(SeleneTestCase):
 
         self.assertEqual(ok, True)
 
-        mock_gmp.gmp_protocol.modify_asset.assert_called_with(
-            asset_id=str(host_id), comment="bar"
+        mock_gmp.gmp_protocol.modify_host.assert_called_with(
+            host_id=str(host_id), comment="bar"
         )

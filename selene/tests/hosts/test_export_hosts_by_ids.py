@@ -19,7 +19,6 @@
 from uuid import uuid4
 
 from unittest.mock import patch
-from gvm.protocols.next import AssetType as GvmAssetType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
@@ -57,7 +56,7 @@ class ExportHostsByIdsTestCase(SeleneTestCase):
             '</get_assets_response>'
         )
 
-        mock_gmp.mock_response('get_assets', mock_xml)
+        mock_gmp.mock_response('get_hosts', mock_xml)
 
         response = self.query(
             f'''
@@ -76,9 +75,8 @@ class ExportHostsByIdsTestCase(SeleneTestCase):
         hosts_xml = json['data']['exportHostsByIds']['exportedEntities']
 
         self.assertEqual(mock_xml, hosts_xml)
-        mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter=f'uuid={self.id1} uuid={self.id2} ',
-            asset_type=GvmAssetType.HOST,
+        mock_gmp.gmp_protocol.get_hosts.assert_called_with(
+            filter_string=f'uuid={self.id1} uuid={self.id2} ',
         )
 
     def test_export_empty_host_ids_array(self, mock_gmp: GmpMockFactory):
@@ -97,7 +95,7 @@ class ExportHostsByIdsTestCase(SeleneTestCase):
             'start=\"1\"/><asset_count>16<filtered>0</filtered>'
             '<page>0</page></asset_count></get_assets_response>'
         )
-        mock_gmp.mock_response('get_assets', bytes(mock_xml, 'utf-8'))
+        mock_gmp.mock_response('get_hosts', bytes(mock_xml, 'utf-8'))
 
         response = self.query(
             '''
@@ -117,6 +115,4 @@ class ExportHostsByIdsTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, hosts_xml)
 
-        mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter='', asset_type=GvmAssetType.HOST
-        )
+        mock_gmp.gmp_protocol.get_hosts.assert_called_with(filter_string='')

@@ -45,7 +45,7 @@ class DeleteAssetsByFilterTestCase(SeleneTestCase):
         id2 = uuid4()
 
         mock_gmp.mock_response(
-            'get_assets',
+            'get_hosts',
             f'''
             <get_assets_response status="200" status_text="OK">
                 <apply_overrides>0</apply_overrides>
@@ -77,6 +77,6 @@ class DeleteAssetsByFilterTestCase(SeleneTestCase):
 
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.delete_asset.assert_any_call(asset_id=str(id1))
+        mock_gmp.gmp_protocol.delete_host.assert_any_call(host_id=str(id1))
 
-        mock_gmp.gmp_protocol.delete_asset.assert_any_call(asset_id=str(id2))
+        mock_gmp.gmp_protocol.delete_host.assert_any_call(host_id=str(id2))

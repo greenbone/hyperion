@@ -21,8 +21,6 @@ from pathlib import Path
 
 from unittest.mock import patch
 
-from gvm.protocols.next import AssetType
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.entity import make_test_get_entity
@@ -48,7 +46,7 @@ class HostTestCase(SeleneTestCase):
 
     def test_get_host(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_asset',
+            'get_host',
             '''
             <get_assets_response>
                 <asset id="75d23ba8-3d23-11ea-858e-b7c2cb43e815">
@@ -86,7 +84,7 @@ class HostTestCase(SeleneTestCase):
         host_xml_path = CWD / 'example-host.xml'
         host_xml_str = host_xml_path.read_text()
 
-        mock_gmp.mock_response('get_asset', host_xml_str)
+        mock_gmp.mock_response('get_host', host_xml_str)
 
         self.login('foo', 'bar')
 
@@ -190,8 +188,9 @@ class HostTestCase(SeleneTestCase):
 
 
 class HostGetEntityTestCase(SeleneTestCase):
+    gmp_cmd = 'get_host'
     gmp_name = 'asset'
     selene_name = 'host'
     test_get_entity = make_test_get_entity(
-        gmp_name, selene_name=selene_name, asset_type=AssetType.HOST
+        gmp_name=gmp_name, gmp_cmd=gmp_cmd, selene_name=selene_name
     )
