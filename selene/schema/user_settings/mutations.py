@@ -43,7 +43,7 @@ class ModifyUserSetting(graphene.Mutation):
     @require_authentication
     def mutate(_root, info, setting_id, value):
         gmp = get_gmp(info)
-        gmp.modify_setting(setting_id=str(setting_id), value=value)
+        gmp.modify_user_setting(setting_id=str(setting_id), value=value)
         return ModifyUserSetting(ok=True)
 
 
@@ -69,5 +69,5 @@ class ModifyUserSettingByName(graphene.Mutation):
     @require_authentication
     def mutate(_root, info, setting_name, value):
         gmp = get_gmp(info)
-        gmp.modify_setting(name=setting_name, value=value)
+        gmp.modify_user_setting(name=setting_name, value=value)
         return ModifyUserSetting(ok=True)
