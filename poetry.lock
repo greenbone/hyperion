@@ -271,7 +271,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
 name = "graphdoc"
-version = "0.3.0"
+version = "0.3.1"
 description = "Generate HTML docs for your GraphQL API"
 category = "main"
 optional = false
@@ -916,7 +916,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "2e9982c39544983acd8453d1e135cebcfe3e483ee97dac404bdb68a26b3b1934"
+content-hash = "2a038456e2a5e3a8840cc558a234c5bd1413271f94869bafd6cb352ab9c728dd"
 
 [metadata.files]
 alabaster = [
@@ -1124,8 +1124,8 @@ docutils = [
     {file = "docutils-0.17.1.tar.gz", hash = "sha256:686577d2e4c32380bb50cbb22f575ed742d58168cee37e99117a854bcd88f125"},
 ]
 graphdoc = [
-    {file = "graphdoc-0.3.0-py3-none-any.whl", hash = "sha256:52e2ff7976776929e315195f3a425c23537eba0d124f60e137c66b34f2e7d38e"},
-    {file = "graphdoc-0.3.0.tar.gz", hash = "sha256:db6029a3e9b8b78d6860c152c83232de6c69bb77b55177d0cdec17a1292817e3"},
+    {file = "graphdoc-0.3.1-py3-none-any.whl", hash = "sha256:d3c6450fbf2e6be489b142a0f61382941e6c587396611b44b44123c610cca7b3"},
+    {file = "graphdoc-0.3.1.tar.gz", hash = "sha256:97bebb9d239e484594e4e0a72f14fe56b186eef56ca3b767a2e6187a96e3b530"},
 ]
 graphene = [
     {file = "graphene-2.1.8-py2.py3-none-any.whl", hash = "sha256:09165f03e1591b76bf57b133482db9be6dac72c74b0a628d3c93182af9c5a896"},
