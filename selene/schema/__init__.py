@@ -127,7 +127,6 @@ from selene.schema.hosts.mutations import (
     DeleteHost,
     DeleteHostsByFilter,
     DeleteHostsByIds,
-    DeleteHostsByReport,
     ExportHostsByFilter,
     ExportHostsByIds,
     ModifyHost,
@@ -146,7 +145,6 @@ from selene.schema.operating_systems.mutations import (
     DeleteOperatingSystem,
     DeleteOperatingSystemsByIds,
     DeleteOperatingSystemsByFilter,
-    DeleteOperatingSystemsByReport,
     ExportOperatingSystemsByFilter,
     ExportOperatingSystemsByIds,
     ModifyOperatingSystem,
@@ -513,7 +511,6 @@ class Mutations(ObjectType):
     delete_host = DeleteHost.Field()
     delete_hosts_by_filter = DeleteHostsByFilter.Field()
     delete_hosts_by_ids = DeleteHostsByIds.Field()
-    delete_hosts_by_report = DeleteHostsByReport.Field()
     export_hosts_by_filter = ExportHostsByFilter.Field()
     export_hosts_by_ids = ExportHostsByIds.Field()
     modify_host = ModifyHost.Field()
@@ -533,7 +530,6 @@ class Mutations(ObjectType):
     delete_operating_system = DeleteOperatingSystem.Field()
     delete_operating_systems_by_ids = DeleteOperatingSystemsByIds.Field()
     delete_operating_systems_by_filter = DeleteOperatingSystemsByFilter.Field()
-    delete_operating_systems_by_report = DeleteOperatingSystemsByReport.Field()
     export_operating_systems_by_ids = ExportOperatingSystemsByIds.Field()
     export_operating_systems_by_filter = ExportOperatingSystemsByFilter.Field()
     modify_operating_system = ModifyOperatingSystem.Field()
