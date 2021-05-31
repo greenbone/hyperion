@@ -22,7 +22,7 @@ from enum import auto
 
 import graphene
 
-from gvm.protocols.gmpv214.gmpv214 import UserAuthType as GvmUserAuthType
+from gvm.protocols.next import UserAuthType as GvmUserAuthType
 
 from selene.schema.utils import require_authentication, get_gmp
 
