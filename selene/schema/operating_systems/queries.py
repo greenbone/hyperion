@@ -21,7 +21,6 @@ from uuid import UUID
 import graphene
 
 from graphql import ResolveInfo
-from gvm.protocols.next import AssetType
 
 from selene.schema.operating_systems.fields import OperatingSystem
 
@@ -80,9 +79,7 @@ class GetOperatingSystem(graphene.Field):
     def resolve(_root, info, operating_system_id: UUID):
         gmp = get_gmp(info)
 
-        xml = gmp.get_asset(
-            str(operating_system_id), asset_type=AssetType.OPERATING_SYSTEM
-        )
+        xml = gmp.get_operating_system(str(operating_system_id))
         return xml.find('asset')
 
 
@@ -148,13 +145,12 @@ class GetOperatingSystems(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_assets(
-            asset_type=AssetType.OPERATING_SYSTEM,
-            filter=filter_string.filter_string,
+        xml: XmlElement = gmp.get_operating_systems(
+            filter_string=filter_string.filter_string,
         )
 
-        asset_elements = xml.findall('asset')
+        operating_system_elements = xml.findall('asset')
         counts = xml.find('asset_count')
         requested = xml.find('assets')
 
-        return Entities(asset_elements, counts, requested)
+        return Entities(operating_system_elements, counts, requested)

@@ -18,8 +18,6 @@
 
 import graphene
 
-from gvm.protocols.next import AssetType as GvmAssetType
-
 from selene.schema.utils import get_gmp, require_authentication
 from selene.schema.entities import (
     create_delete_by_filter_mutation,
@@ -48,39 +46,16 @@ class DeleteOperatingSystem(graphene.Mutation):
     @require_authentication
     def mutate(_root, info, operating_system_id):
         gmp = get_gmp(info)
-        gmp.delete_asset(asset_id=str(operating_system_id))
-        return DeleteOperatingSystem(ok=True)
-
-
-class DeleteOperatingSystemsByReport(graphene.Mutation):
-    """Deletes a list of  operating systems from a report
-    Args:
-        reportID (str): Report ID for operating systems list to delete.
-    Returns:
-        ok (Boolean)
-    """
-
-    class Arguments:
-        report_id = graphene.String(
-            required=True,
-            description='report_id for asset list to delete.',
-            name='id',
+        gmp.delete_operating_system(
+            operating_system_id=str(operating_system_id)
         )
-
-    ok = graphene.Boolean()
-
-    @staticmethod
-    @require_authentication
-    def mutate(_root, info, report_id):
-        gmp = get_gmp(info)
-        gmp.delete_asset(report_id=str(report_id))
-        return DeleteOperatingSystemsByReport(ok=True)
+        return DeleteOperatingSystem(ok=True)
 
 
 #   schema: DeleteByIds, DeleteByIds.'
 
 DeleteByIdsClass = create_delete_by_ids_mutation(
-    entity_name='asset', asset_type=GvmAssetType.OPERATING_SYSTEM
+    entity_name='operating_system', gmp_entity_response='asset'
 )
 
 
@@ -118,7 +93,7 @@ class DeleteOperatingSystemsByIds(DeleteByIdsClass):
 
 
 DeleteByFilterClass = create_delete_by_filter_mutation(
-    entity_name='asset', asset_type=GvmAssetType.OPERATING_SYSTEM
+    entity_name='operating_system', gmp_entity_response='asset'
 )
 
 
@@ -159,9 +134,7 @@ class DeleteOperatingSystemsByFilter(DeleteByFilterClass):
 # 'AssertionError: Found different types with the same name in the
 #   schema: ExportByIds, ExportByIds.'
 
-ExportByIdsClass = create_export_by_ids_mutation(
-    entity_name='asset', asset_type=GvmAssetType.OPERATING_SYSTEM
-)
+ExportByIdsClass = create_export_by_ids_mutation(entity_name='operating_system')
 
 
 class ExportOperatingSystemsByIds(ExportByIdsClass):
@@ -169,7 +142,7 @@ class ExportOperatingSystemsByIds(ExportByIdsClass):
 
 
 ExportByFilterClass = create_export_by_filter_mutation(
-    entity_name='asset', asset_type=GvmAssetType.OPERATING_SYSTEM
+    entity_name='operating_system'
 )
 
 
@@ -186,7 +159,9 @@ class ModifyOperatingSystemInput(graphene.InputObjectType):
     """
 
     operating_system_id = graphene.UUID(
-        required=True, description="UUID of asset to modify.", name='id'
+        required=True,
+        description="UUID of operating_system to modify.",
+        name='id',
     )
     comment = graphene.String(description="OperatingSystem comment.")
 
@@ -218,6 +193,6 @@ class ModifyOperatingSystem(graphene.Mutation):
 
         gmp = get_gmp(info)
 
-        gmp.modify_asset(operating_system_id, comment=comment)
+        gmp.modify_operating_system(operating_system_id, comment=comment)
 
         return ModifyOperatingSystem(ok=True)
