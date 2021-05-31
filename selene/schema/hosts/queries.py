@@ -21,7 +21,6 @@ from uuid import UUID
 import graphene
 
 from graphql import ResolveInfo
-from gvm.protocols.next import AssetType
 
 from selene.schema.hosts.fields import Host
 
@@ -80,7 +79,7 @@ class GetHost(graphene.Field):
     def resolve(_root, info, host_id: UUID):
         gmp = get_gmp(info)
 
-        xml = gmp.get_asset(str(host_id), asset_type=AssetType.HOST)
+        xml = gmp.get_host(str(host_id))
         return xml.find('asset')
 
 
@@ -146,12 +145,12 @@ class GetHosts(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_assets(
-            asset_type=AssetType.HOST, filter=filter_string.filter_string
+        xml: XmlElement = gmp.get_hosts(
+            filter_string=filter_string.filter_string
         )
 
-        asset_elements = xml.findall('asset')
+        host_elements = xml.findall('asset')
         counts = xml.find('asset_count')
         requested = xml.find('assets')
 
-        return Entities(asset_elements, counts, requested)
+        return Entities(host_elements, counts, requested)
