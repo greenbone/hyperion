@@ -142,7 +142,7 @@ class LoginLogoutTestCase(SeleneTestCase):
             ''',
         )
         mock_gmp.mock_response(
-            'get_setting',
+            'get_user_setting',
             '''
             <get_settings_response>
                 <setting>
