@@ -84,7 +84,7 @@ class BulkTagTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.modify_tag.assert_called_with(
             str(self.tag_id),
-            resource_filter="foo",
+            resource_filter_string="foo",
             resource_type=get_entity_type_from_string('os'),
             resource_action="add",
         )

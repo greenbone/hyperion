@@ -149,7 +149,9 @@ class GetFilters(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_filters(
-            filter=filter_string.filter_string, alerts=alerts, trash=trash
+            filter_string=filter_string.filter_string,
+            alerts=alerts,
+            trash=trash,
         )
 
         filter_elements = xml.findall('filter')

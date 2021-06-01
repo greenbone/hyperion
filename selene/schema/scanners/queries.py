@@ -149,7 +149,7 @@ class GetScanners(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_scanners(
-            filter=filter_string.filter_string, details=True
+            filter_string=filter_string.filter_string, details=True
         )
 
         scanner_elements = xml.findall('scanner')

@@ -78,7 +78,7 @@ class ExportVulnerabilitiesByIdsTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, vulnerabilities_xml)
         mock_gmp.gmp_protocol.get_vulnerabilities.assert_called_with(
-            filter=f'uuid={self.id1} uuid={self.id2} '
+            filter_string=f'uuid={self.id1} uuid={self.id2} '
         )
 
     def test_export_empty_ids_array(self, mock_gmp: GmpMockFactory):
@@ -119,4 +119,6 @@ class ExportVulnerabilitiesByIdsTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, vulnerabilities_xml)
 
-        mock_gmp.gmp_protocol.get_vulnerabilities.assert_called_with(filter='')
+        mock_gmp.gmp_protocol.get_vulnerabilities.assert_called_with(
+            filter_string=''
+        )

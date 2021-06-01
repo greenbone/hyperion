@@ -79,7 +79,7 @@ class DeleteSchedulesByIdsTestCase(SeleneTestCase):
         self.assertTrue(ok)
 
         mock_gmp.gmp_protocol.get_schedules.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} '
+            filter_string=f'uuid={id1} uuid={id2} '
         )
 
         mock_gmp.gmp_protocol.delete_schedule.assert_any_call(
@@ -126,5 +126,5 @@ class DeleteSchedulesByIdsTestCase(SeleneTestCase):
         self.assertFalse(ok)
 
         mock_gmp.gmp_protocol.get_schedules.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} '
+            filter_string=f'uuid={id1} uuid={id2} '
         )

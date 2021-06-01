@@ -202,7 +202,9 @@ class GetPermissionsTestCase(SeleneTestCase):
             },
         )
 
-        mock_gmp.gmp_protocol.get_permissions.assert_called_with(filter=None)
+        mock_gmp.gmp_protocol.get_permissions.assert_called_with(
+            filter_string=None
+        )
 
 
 class PermissionsGetEntitiesTestCase(SeleneTestCase):

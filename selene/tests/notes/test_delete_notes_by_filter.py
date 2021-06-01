@@ -76,7 +76,9 @@ class DeleteNotesByFilterTestCase(SeleneTestCase):
 
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.get_notes.assert_called_with(filter='name~Clone')
+        mock_gmp.gmp_protocol.get_notes.assert_called_with(
+            filter_string='name~Clone'
+        )
 
         mock_gmp.gmp_protocol.delete_note.assert_any_call(note_id=str(id1))
 

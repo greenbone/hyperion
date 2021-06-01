@@ -118,7 +118,7 @@ class AggregateTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.get_aggregates.assert_called_with(
             resource_type=GvmEntityType.NVT,
-            filter=None,
+            filter_string=None,
             data_columns=None,
             group_column=None,
             subgroup_column=None,
@@ -203,7 +203,7 @@ class AggregateTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.get_aggregates.assert_called_with(
             resource_type=GvmEntityType.NVT,
-            filter='~openssl',
+            filter_string='~openssl',
             data_columns=['severity', 'qod'],
             group_column='solution_type',
             subgroup_column=None,
@@ -338,7 +338,7 @@ class AggregateTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.get_aggregates.assert_called_with(
             resource_type=GvmEntityType.NVT,
-            filter='~openssl',
+            filter_string='~openssl',
             data_columns=['severity'],
             group_column='solution_type',
             subgroup_column='family',
@@ -436,7 +436,7 @@ class AggregateTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.get_aggregates.assert_called_with(
             resource_type=GvmEntityType.NVT,
-            filter=None,
+            filter_string=None,
             data_columns=None,
             group_column='uuid',
             subgroup_column=None,
@@ -511,7 +511,7 @@ class AggregateTestCase(SeleneTestCase):
 
         mock_gmp.gmp_protocol.get_aggregates.assert_called_with(
             resource_type=GvmEntityType.NVT,
-            filter=None,
+            filter_string=None,
             data_columns=None,
             group_column='name',
             subgroup_column=None,

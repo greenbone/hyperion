@@ -77,7 +77,9 @@ class DeleteAuditsByFilterTestCase(SeleneTestCase):
 
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.get_audits.assert_called_with(filter='name~Clone')
+        mock_gmp.gmp_protocol.get_audits.assert_called_with(
+            filter_string='name~Clone'
+        )
 
         mock_gmp.gmp_protocol.delete_audit.assert_any_call(str(id1))
 

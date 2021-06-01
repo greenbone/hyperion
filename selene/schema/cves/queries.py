@@ -145,7 +145,7 @@ class GetCVEs(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_info_list(
-            filter=filter_string.filter_string, info_type=GvmInfoType.CVE
+            filter_string=filter_string.filter_string, info_type=GvmInfoType.CVE
         )
 
         requested = None

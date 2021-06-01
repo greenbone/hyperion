@@ -203,5 +203,5 @@ class ExportUsersByFilterTestCase(SeleneTestCase):
             users_xml.translate(str.maketrans('', '', string.whitespace)),
         )
         mock_gmp.gmp_protocol.get_users.assert_called_with(
-            filter=f"uuid={self.id1} uuid={self.id2}"
+            filter_string=f"uuid={self.id1} uuid={self.id2}"
         )

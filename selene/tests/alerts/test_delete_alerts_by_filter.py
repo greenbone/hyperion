@@ -77,7 +77,9 @@ class DeleteAlertsByFilterTestCase(SeleneTestCase):
 
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.get_alerts.assert_called_with(filter='name~Clone')
+        mock_gmp.gmp_protocol.get_alerts.assert_called_with(
+            filter_string='name~Clone'
+        )
 
         mock_gmp.gmp_protocol.delete_alert.assert_any_call(alert_id=str(id1))
 

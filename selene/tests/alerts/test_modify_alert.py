@@ -691,7 +691,7 @@ class ModifyAlertTestCase(SeleneTestCase):
 
         self.login('foo', 'bar')
 
-        response = self.query(self.compose_method_query('TIPPINGPOINT'))
+        response = self.query(self.compose_method_query('TIPPINGPOINT_SMS'))
 
         self.assertResponseNoErrors(response)
 
@@ -700,7 +700,7 @@ class ModifyAlertTestCase(SeleneTestCase):
             name="foo",
             condition=AlertCondition.ALWAYS,
             event=AlertEvent.TASK_RUN_STATUS_CHANGED,
-            method=AlertMethod.TIPPINGPOINT,
+            method=AlertMethod.TIPPINGPOINT_SMS,
             comment=None,
             method_data={
                 'delta_report_id': str(self.id1),

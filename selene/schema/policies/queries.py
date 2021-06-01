@@ -156,7 +156,7 @@ class GetPolicies(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_policies(
-            filter=filter_string.filter_string, details=False
+            filter_string=filter_string.filter_string, details=False
         )
 
         policy_elements = xml.findall('config')

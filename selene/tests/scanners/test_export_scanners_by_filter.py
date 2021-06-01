@@ -75,5 +75,5 @@ class ExportScannersByFilterTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, xml)
         mock_gmp.gmp_protocol.get_scanners.assert_called_with(
-            filter=f'uuid={id1} uuid={id2}', details=True
+            filter_string=f'uuid={id1} uuid={id2}', details=True
         )

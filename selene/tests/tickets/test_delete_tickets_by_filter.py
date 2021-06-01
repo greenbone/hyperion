@@ -83,7 +83,7 @@ class DeleteTicketByFilterTestCase(SeleneTestCase):
         self.assertTrue(ok)
 
         mock_gmp.gmp_protocol.get_tickets.assert_called_with(
-            filter="name~Clone"
+            filter_string="name~Clone"
         )
 
         mock_gmp.gmp_protocol.delete_ticket.assert_any_call(

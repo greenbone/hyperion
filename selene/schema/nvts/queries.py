@@ -481,7 +481,7 @@ class GetNVTs(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_info_list(
-            filter=filter_string.filter_string, info_type=GvmInfoType.NVT
+            filter_string=filter_string.filter_string, info_type=GvmInfoType.NVT
         )
 
         requested = None

@@ -198,7 +198,7 @@ class DeleteUsersByIdsTestCase(SeleneTestCase):
         self.assertTrue(ok)
 
         mock_gmp.gmp_protocol.get_users.assert_called_with(
-            filter=f'uuid={self.id1} uuid={self.id2} '
+            filter_string=f'uuid={self.id1} uuid={self.id2} '
         )
 
         mock_gmp.gmp_protocol.delete_user.assert_any_call(
@@ -242,5 +242,5 @@ class DeleteUsersByIdsTestCase(SeleneTestCase):
         self.assertFalse(ok)
 
         mock_gmp.gmp_protocol.get_users.assert_called_with(
-            filter=f'uuid={self.id1} uuid={self.id2} '
+            filter_string=f'uuid={self.id1} uuid={self.id2} '
         )

@@ -79,7 +79,7 @@ class ExportCpesByIdsTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, oval_definitions_xml)
         mock_gmp.gmp_protocol.get_info_list.assert_called_with(
-            filter=f'uuid={self.id1} uuid={self.id2} ',
+            filter_string=f'uuid={self.id1} uuid={self.id2} ',
             details=True,
             info_type=GvmInfoType.CPE,
         )
@@ -123,5 +123,5 @@ class ExportCpesByIdsTestCase(SeleneTestCase):
         self.assertEqual(mock_xml, oval_definitions_xml)
 
         mock_gmp.gmp_protocol.get_info_list.assert_called_with(
-            filter='', details=True, info_type=GvmInfoType.CPE
+            filter_string='', details=True, info_type=GvmInfoType.CPE
         )

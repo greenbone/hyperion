@@ -76,7 +76,9 @@ class DeleteTagsByFilterTestCase(SeleneTestCase):
 
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.get_tags.assert_called_with(filter='name~Clone')
+        mock_gmp.gmp_protocol.get_tags.assert_called_with(
+            filter_string='name~Clone'
+        )
 
         mock_gmp.gmp_protocol.delete_tag.assert_any_call(tag_id=str(id1))
 

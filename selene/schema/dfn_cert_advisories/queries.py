@@ -159,7 +159,7 @@ class GetDFNCertAdvisories(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_info_list(
-            filter=filter_string.filter_string,
+            filter_string=filter_string.filter_string,
             info_type=GvmInfoType.DFN_CERT_ADV,
             details=details,
         )

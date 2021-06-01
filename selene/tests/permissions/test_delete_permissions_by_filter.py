@@ -130,7 +130,7 @@ class DeletePermissionsByFilterTestCase(SeleneTestCase):
         self.assertTrue(ok)
 
         mock_gmp.gmp_protocol.get_permissions.assert_called_with(
-            filter="name~create_agent"
+            filter_string="name~create_agent"
         )
 
         mock_gmp.gmp_protocol.delete_permission.assert_called_with(
