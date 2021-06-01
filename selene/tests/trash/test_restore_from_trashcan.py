@@ -39,7 +39,7 @@ class RestoreFromTrashcanTestCase(SeleneTestCase):
 
     def test_restore(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'restore',
+            'restore_from_trashcan',
             '''
             <restore_response status="200" status_text="OK"/>
             ''',
@@ -67,6 +67,6 @@ class RestoreFromTrashcanTestCase(SeleneTestCase):
 
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.restore.assert_called_with(
+        mock_gmp.gmp_protocol.restore_from_trashcan.assert_called_with(
             '3ad2c2cd-00b2-4b34-b185-5fc61bad653e'
         )
