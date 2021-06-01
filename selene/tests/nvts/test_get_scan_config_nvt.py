@@ -41,7 +41,7 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
 
     def test_get_scan_config_nvt_none_fields(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_nvt',
+            'get_scan_config_nvt',
             '''
             <get_nvts_response>
                 <nvt oid="1.3.6.1.4.1.25623.1.0.814313">
@@ -138,7 +138,7 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
         nvt_xml_path = CWD / 'example-scan-config-nvt.xml'
         nvt_xml_str = nvt_xml_path.read_text()
 
-        mock_gmp.mock_response('get_nvt', nvt_xml_str)
+        mock_gmp.mock_response('get_scan_config_nvt', nvt_xml_str)
 
         self.login('foo', 'bar')
 
@@ -271,6 +271,6 @@ class GetScanConfigNvtTestCase(SeleneTestCase):
             {"type": "VendorFix", "method": "", "description": "Just update."},
         )
 
-        mock_gmp.gmp_protocol.get_nvt.assert_called_with(
+        mock_gmp.gmp_protocol.get_scan_config_nvt.assert_called_with(
             "1.3.6.1.4.1.25623.1.0.100315"
         )

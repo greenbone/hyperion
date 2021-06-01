@@ -24,12 +24,12 @@ from selene.tests import SeleneTestCase, GmpMockFactory
 
 
 @patch('selene.views.Gmp', new_callable=GmpMockFactory)
-class GetPreferenceTestCase(SeleneTestCase):
+class GetPreferencesTestCase(SeleneTestCase):
     def test_require_authentication(self, _mock_gmp: GmpMockFactory):
         response = self.query(
             '''
             query {
-                preference (name: "<type>:<Name of preference>",
+                scanConfigPreferences (
                     nvtOid:"Some NVT OID",
                     configId: "daba56c8-73ec-11df-a475-002264764cea"
                 ) {
@@ -42,15 +42,22 @@ class GetPreferenceTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_get_preference(self, mock_gmp: GmpMockFactory):
+    def test_get_scan_config_preferences(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_preference',
+            'get_scan_config_preferences',
             '''
             <get_preferences_response status="200" status_text="OK">
             <preference>
-                <nvt oid="1.3.6.1.4.1.25623.1.0.999999">
-                <name>Name of VT</name>
-                </nvt>
+                <id>42</id>
+                <hr_name>Name of preference</hr_name>
+                <name>Name of preference</name>
+                <type>radio</type>
+                <value>Some value</value>
+                <alt>Some alternative1</alt>
+                <alt>Some alternative2</alt>
+                <default>Some default</default>
+            </preference>
+            <preference>
                 <id>42</id>
                 <hr_name>Name of preference</hr_name>
                 <name>Name of preference</name>
@@ -69,14 +76,10 @@ class GetPreferenceTestCase(SeleneTestCase):
         response = self.query(
             '''
             query{
-            preference(name: "<type>:<Name of preference>",
+            scanConfigPreferences(
                 nvtOid:"Some NVT OID",
                 configId: "daba56c8-73ec-11df-a475-002264764cea"
             ){
-                    nvt {
-                    id
-                    name
-                    }
                     hrName
                     name
                     type
@@ -89,26 +92,32 @@ class GetPreferenceTestCase(SeleneTestCase):
         )
 
         self.assertResponseNoErrors(response)
-
         json = response.json()
-        preference = json['data']['preference']
+        preference1 = json['data']['scanConfigPreferences'][0]
 
+        self.assertEqual(preference1['hrName'], 'Name of preference')
+        self.assertEqual(preference1['name'], 'Name of preference')
+        self.assertEqual(preference1['type'], 'radio')
+        self.assertEqual(preference1['value'], 'Some value')
         self.assertEqual(
-            preference['nvt']['id'], '1.3.6.1.4.1.25623.1.0.999999'
-        )
-        self.assertEqual(preference['nvt']['name'], 'Name of VT')
-        self.assertEqual(preference['hrName'], 'Name of preference')
-        self.assertEqual(preference['name'], 'Name of preference')
-        self.assertEqual(preference['type'], 'radio')
-        self.assertEqual(preference['value'], 'Some value')
-        self.assertEqual(
-            preference['alternativeValues'],
+            preference1['alternativeValues'],
             ['Some alternative1', 'Some alternative2'],
         )
-        self.assertEqual(preference['default'], 'Some default')
+        self.assertEqual(preference1['default'], 'Some default')
 
-        mock_gmp.gmp_protocol.get_preference.assert_called_with(
-            name="<type>:<Name of preference>",
+        preference2 = json['data']['scanConfigPreferences'][1]
+
+        self.assertEqual(preference2['hrName'], 'Name of preference')
+        self.assertEqual(preference2['name'], 'Name of preference')
+        self.assertEqual(preference2['type'], 'radio')
+        self.assertEqual(preference2['value'], 'Some value')
+        self.assertEqual(
+            preference2['alternativeValues'],
+            ['Some alternative1', 'Some alternative2'],
+        )
+        self.assertEqual(preference2['default'], 'Some default')
+
+        mock_gmp.gmp_protocol.get_scan_config_preferences.assert_called_with(
             nvt_oid="Some NVT OID",
             config_id="daba56c8-73ec-11df-a475-002264764cea",
         )
