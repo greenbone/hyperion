@@ -115,12 +115,9 @@ class DeleteScanConfigsByIds(graphene.Mutation):
         if len(scan_config_ids) != len(found_ids):
             return DeleteScanConfigsByIds(ok=False)
         for scan_config_id in scan_config_ids:
-            if ultimate:
-                gmp.delete_scan_config(
-                    config_id=str(scan_config_id), ultimate=True
-                )
-            else:
-                gmp.delete_scan_config(config_id=str(scan_config_id))
+            gmp.delete_scan_config(
+                config_id=str(scan_config_id), ultimate=ultimate
+            )
 
         return DeleteScanConfigsByIds(ok=True)
 
@@ -156,10 +153,7 @@ class DeleteScanConfigsByFilter(graphene.Mutation):
         configs = configs_xml.findall('config')
         for config in configs:
             scan_config_id = str(config.get('id'))
-            if ultimate:
-                gmp.delete_scan_config(config_id=scan_config_id, ultimate=True)
-            else:
-                gmp.delete_scan_config(config_id=scan_config_id)
+            gmp.delete_scan_config(config_id=scan_config_id, ultimate=ultimate)
 
         return DeleteScanConfigsByFilter(ok=True)
 
