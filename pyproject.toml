@@ -13,7 +13,7 @@ graphene-django = "^2.9.0"
 python-gvm = "^21.5.1"
 django-cors-headers = "^3.2.1"
 lxml = "^4.6.3"
-graphdoc = "^0.3.0"
+graphdoc = "^0.3.1"
 
 
 [tool.poetry.dev-dependencies]
