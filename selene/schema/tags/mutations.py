@@ -452,9 +452,7 @@ class BulkTag(graphene.Mutation):
         if input_object.resource_filter is not None:
             gmp.modify_tag(
                 str(input_object.tag_id),
-                resource_filter_string=(
-                    input_object.resource_filter.filter_string
-                ),
+                resource_filter=(input_object.resource_filter.filter_string),
                 resource_type=EntityType.get(input_object.resource_type),
                 resource_action='add',
             )
