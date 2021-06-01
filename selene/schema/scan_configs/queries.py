@@ -86,7 +86,7 @@ class GetScanConfig(graphene.Field):
         #   <config_count>
         gmp = get_gmp(info)
 
-        xml = gmp.get_config(str(config_id), tasks=True)
+        xml = gmp.get_scan_config(str(config_id), tasks=True)
         return xml.find('config')
 
 
@@ -155,8 +155,8 @@ class GetScanConfigs(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_configs(
-            filter=filter_string.filter_string, details=False
+        xml: XmlElement = gmp.get_scan_configs(
+            filter_string=filter_string.filter_string, details=False
         )
 
         scan_config_elements = xml.findall('config')
