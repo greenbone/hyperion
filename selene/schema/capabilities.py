@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import graphene
+from gvm.protocols.next import HelpFormat
 
 from selene.schema.utils import (
     require_authentication,
@@ -34,7 +35,7 @@ class GetCapabilities(graphene.List):
     def resolve(_root, info):
         gmp = get_gmp(info)
 
-        xml = gmp.help(format='xml', help_type='brief')
+        xml = gmp.help(help_format=HelpFormat.XML, brief=True)
         elem_list = xml.find('schema').findall('command')
 
         cap_list = [get_text_from_element(elem, 'name') for elem in elem_list]
