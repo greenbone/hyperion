@@ -37,9 +37,9 @@ class DeleteScanConfigTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_delete_config(self, mock_gmp: GmpMockFactory):
+    def test_delete_scan_config(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'delete_config',
+            'delete_scan_config',
             '''
             <delete_config_response status="200" status_text="OK"/>
             ''',

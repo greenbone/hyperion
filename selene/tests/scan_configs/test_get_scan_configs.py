@@ -68,7 +68,7 @@ class ScanConfigsTestCase(SeleneTestCase):
         self.assertResponseAuthenticationRequired(response)
 
     def test_get_scan_configs(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response('get_configs', self.xml)
+        mock_gmp.mock_response('get_scan_configs', self.xml)
 
         self.login('foo', 'bar')
 
@@ -122,7 +122,7 @@ class ScanConfigsTestCase(SeleneTestCase):
         )
 
     def test_get_filtered_scan_configs(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response('get_configs', self.xml)
+        mock_gmp.mock_response('get_scan_configs', self.xml)
 
         self.login('foo', 'bar')
 
@@ -171,25 +171,36 @@ class ScanConfigsTestCase(SeleneTestCase):
 class ScanConfigsPaginationTestCase(SeleneTestCase):
     gmp_name = 'config'
     selene_name = 'scanConfig'
+    gmp_cmd = 'get_scan_configs'
     test_pagination_with_after_and_first = make_test_after_first(
-        gmp_name, selene_name=selene_name, details=False
+        gmp_name, gmp_cmd=gmp_cmd, selene_name=selene_name, details=False
     )
-    test_counts = make_test_counts(gmp_name, selene_name=selene_name)
+    test_counts = make_test_counts(
+        gmp_name, gmp_cmd=gmp_cmd, selene_name=selene_name
+    )
     test_page_info = make_test_page_info(
-        gmp_name, selene_name=selene_name, query=GetScanConfigs
+        gmp_name, gmp_cmd=gmp_cmd, selene_name=selene_name, query=GetScanConfigs
     )
     test_pagination_with_before_and_last = make_test_before_last(
-        gmp_name, selene_name=selene_name, details=False
+        gmp_name, selene_name=selene_name, gmp_cmd=gmp_cmd, details=False
     )
-    test_edges = make_test_edges(gmp_name, selene_name=selene_name)
+    test_edges = make_test_edges(
+        gmp_name,
+        selene_name=selene_name,
+        gmp_cmd=gmp_cmd,
+    )
     test_after_first_before_last = make_test_after_first_before_last(
-        gmp_name, selene_name=selene_name, details=False
+        gmp_name, selene_name=selene_name, gmp_cmd=gmp_cmd, details=False
     )
 
 
 class ScanConfigsGetEntitiesTestCase(SeleneTestCase):
     gmp_name = 'config'
     selene_name = 'scanConfig'
+    gmp_cmd = 'get_scan_configs'
     test_get_entities = make_test_get_entities(
-        gmp_name, selene_name=selene_name, details=False
+        gmp_name=gmp_name,
+        selene_name=selene_name,
+        gmp_cmd=gmp_cmd,
+        details=False,
     )

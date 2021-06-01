@@ -54,7 +54,7 @@ class ExportScanConfigsByFilterTestCase(SeleneTestCase):
             '</get_configs_response>'
         )
 
-        mock_gmp.mock_response('get_configs', bytes(mock_xml, 'utf-8'))
+        mock_gmp.mock_response('get_scan_configs', bytes(mock_xml, 'utf-8'))
 
         response = self.query(
             '''
@@ -74,6 +74,6 @@ class ExportScanConfigsByFilterTestCase(SeleneTestCase):
         xml = json['data']['exportScanConfigsByFilter']['exportedEntities']
 
         self.assertEqual(mock_xml, xml)
-        mock_gmp.gmp_protocol.get_configs.assert_called_with(
-            filter="uuid={id1} uuid={id2}", details=True
+        mock_gmp.gmp_protocol.get_scan_configs.assert_called_with(
+            filter_string="uuid={id1} uuid={id2}", details=True
         )
