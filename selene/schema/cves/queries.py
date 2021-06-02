@@ -19,7 +19,6 @@
 import graphene
 
 from graphql import ResolveInfo
-from gvm.protocols.next import InfoType as GvmInfoType
 
 from selene.schema.cves.fields import CVE
 
@@ -78,7 +77,7 @@ class GetCVE(graphene.Field):
     def resolve(_root, info, cve_id: str):
         gmp = get_gmp(info)
 
-        xml = gmp.get_info(str(cve_id), info_type=GvmInfoType.CVE)
+        xml = gmp.get_cve(str(cve_id))
         return xml.find('info')
 
 
@@ -144,8 +143,8 @@ class GetCVEs(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_info_list(
-            filter_string=filter_string.filter_string, info_type=GvmInfoType.CVE
+        xml: XmlElement = gmp.get_cve_list(
+            filter_string=filter_string.filter_string
         )
 
         requested = None

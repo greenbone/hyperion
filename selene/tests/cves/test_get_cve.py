@@ -21,8 +21,6 @@ from pathlib import Path
 
 from unittest.mock import patch
 
-from gvm.protocols.next import InfoType as GvmInfoType
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.entity import make_test_get_entity
@@ -49,7 +47,7 @@ class CVETestCase(SeleneTestCase):
     def test_get_cve_none_cases(self, mock_gmp: GmpMockFactory):
         cve_id = 'CVE-1999-0001'
         mock_gmp.mock_response(
-            'get_info',
+            'get_cve',
             f'''
             <get_info_response>
                 <info id="{cve_id}">
@@ -109,14 +107,12 @@ class CVETestCase(SeleneTestCase):
         self.assertIsNone(cve['refs'])
         self.assertIsNone(cve['products'])
 
-        mock_gmp.gmp_protocol.get_info.assert_called_with(
-            cve_id, info_type=GvmInfoType.CVE
-        )
+        mock_gmp.gmp_protocol.get_cve.assert_called_with(cve_id)
 
     def test_get_cve_products_empty(self, mock_gmp: GmpMockFactory):
         cve_id = 'CVE-1999-0001'
         mock_gmp.mock_response(
-            'get_info',
+            'get_cve',
             f'''
             <get_info_response>
                 <info id="{cve_id}">
@@ -147,15 +143,13 @@ class CVETestCase(SeleneTestCase):
 
         self.assertIsNone(cve['products'])
 
-        mock_gmp.gmp_protocol.get_info.assert_called_with(
-            cve_id, info_type=GvmInfoType.CVE
-        )
+        mock_gmp.gmp_protocol.get_cve.assert_called_with(cve_id)
 
     def test_complex_cve(self, mock_gmp: GmpMockFactory):
         cve_xml_path = CWD / 'example-cve.xml'
         cve_xml_str = cve_xml_path.read_text()
 
-        mock_gmp.mock_response('get_info', cve_xml_str)
+        mock_gmp.mock_response('get_cve', cve_xml_str)
 
         self.login('foo', 'bar')
 
@@ -277,6 +271,7 @@ class CVETestCase(SeleneTestCase):
 class CVEGetEntityTestCase(SeleneTestCase):
     gmp_name = 'info'
     selene_name = 'cve'
+    gmp_cmd = 'get_cve'
     test_get_entity = make_test_get_entity(
-        gmp_name, selene_name=selene_name, info_type=GvmInfoType.CVE
+        gmp_name=gmp_name, selene_name=selene_name, gmp_cmd=gmp_cmd
     )

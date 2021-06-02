@@ -36,6 +36,8 @@ def return_gmp_methods(mock_object):
         'get_cpe_list': mock_object.get_cpe_list,
         'get_credential': mock_object.get_credential,
         'get_credentials': mock_object.get_credentials,
+        'get_cve': mock_object.get_cve,
+        'get_cve_list': mock_object.get_cve_list,
         'get_host': mock_object.get_host,
         'get_hosts': mock_object.get_hosts,
         'get_filter': mock_object.get_filter,
