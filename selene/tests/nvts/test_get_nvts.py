@@ -18,8 +18,6 @@
 
 from unittest.mock import patch
 
-from gvm.protocols.next import InfoType as GvmInfoType
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.pagination import (
@@ -55,7 +53,7 @@ class NVTsTestCase(SeleneTestCase):
 
     def test_get_nvts(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_info_list',
+            'get_nvt_list',
             '''
             <get_info_response>
                 <info id="NVT-2020-12345">
@@ -101,7 +99,7 @@ class NVTsTestCase(SeleneTestCase):
 
     def test_get_filtered_nvts(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_info_list',
+            'get_nvt_list',
             '''
             <get_info_response>
                 <info id="NVT-2020-12345">
@@ -149,49 +147,51 @@ class NVTsTestCase(SeleneTestCase):
 
 
 class NVTsPaginationTestCase(SeleneTestCase):
-    entity_name = 'info'
-    gmp_cmd = 'get_info_list'
+    gmp_name = 'info'
+    gmp_cmd = 'get_nvt_list'
     selene_name = 'nvt'
     test_pagination_with_after_and_first = make_test_after_first(
-        entity_name,
+        gmp_name=gmp_name,
         selene_name=selene_name,
         gmp_cmd=gmp_cmd,
-        info_type=GvmInfoType.NVT,
     )
     test_counts = make_test_counts(
-        entity_name, selene_name=selene_name, gmp_cmd=gmp_cmd, no_plural=True
+        gmp_name=gmp_name,
+        selene_name=selene_name,
+        gmp_cmd=gmp_cmd,
+        no_plural=True,
     )
     test_page_info = make_test_page_info(
-        entity_name,
+        gmp_name=gmp_name,
         selene_name=selene_name,
         gmp_cmd=gmp_cmd,
         query=GetNVTs,
         no_plural=True,
     )
     test_edges = make_test_edges(
-        entity_name, gmp_cmd=gmp_cmd, selene_name=selene_name, no_plural=True
+        gmp_name=gmp_name,
+        gmp_cmd=gmp_cmd,
+        selene_name=selene_name,
+        no_plural=True,
     )
     test_pagination_with_before_and_last = make_test_before_last(
-        entity_name,
+        gmp_name=gmp_name,
         selene_name=selene_name,
         gmp_cmd=gmp_cmd,
-        info_type=GvmInfoType.NVT,
     )
     test_after_first_before_last = make_test_after_first_before_last(
-        entity_name,
+        gmp_name=gmp_name,
         selene_name=selene_name,
         gmp_cmd=gmp_cmd,
-        info_type=GvmInfoType.NVT,
     )
 
 
 class NVTsGetEntitiesTestCase(SeleneTestCase):
     gmp_name = 'info'
-    gmp_cmd = 'get_info_list'
+    gmp_cmd = 'get_nvt_list'
     selene_name = 'nvt'
     test_get_entities = make_test_get_entities(
-        gmp_name,
+        gmp_name=gmp_name,
         selene_name=selene_name,
         gmp_cmd=gmp_cmd,
-        info_type=GvmInfoType.NVT,
     )

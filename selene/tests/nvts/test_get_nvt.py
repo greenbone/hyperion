@@ -21,8 +21,6 @@ from pathlib import Path
 
 from unittest.mock import patch
 
-from gvm.protocols.next import InfoType as GvmInfoType
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.entity import make_test_get_entity
@@ -48,7 +46,7 @@ class NVTTestCase(SeleneTestCase):
 
     def test_get_nvt(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_info',
+            'get_nvt',
             '''
             <get_info_response>
                 <info id="1.3.6.1.4.1.25623.1.0.814313">
@@ -84,7 +82,7 @@ class NVTTestCase(SeleneTestCase):
 
     def test_get_nvt_none_fields(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_info',
+            'get_nvt',
             '''
             <get_info_response>
                 <info id="1.3.6.1.4.1.25623.1.0.814313">
@@ -181,7 +179,7 @@ class NVTTestCase(SeleneTestCase):
         nvt_xml_path = CWD / 'example-nvt.xml'
         nvt_xml_str = nvt_xml_path.read_text()
 
-        mock_gmp.mock_response('get_info', nvt_xml_str)
+        mock_gmp.mock_response('get_nvt', nvt_xml_str)
 
         self.login('foo', 'bar')
 
@@ -353,6 +351,7 @@ class NVTTestCase(SeleneTestCase):
 class NVTGetEntityTestCase(SeleneTestCase):
     gmp_name = 'info'
     selene_name = 'nvt'
+    gmp_cmd = 'get_nvt'
     test_get_entity = make_test_get_entity(
-        gmp_name, selene_name=selene_name, info_type=GvmInfoType.NVT
+        gmp_name=gmp_name, selene_name=selene_name, gmp_cmd=gmp_cmd
     )

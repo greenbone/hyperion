@@ -46,6 +46,8 @@ def return_gmp_methods(mock_object):
         'get_info_list': mock_object.get_info_list,
         'get_note': mock_object.get_note,
         'get_notes': mock_object.get_notes,
+        'get_nvt': mock_object.get_nvt,
+        'get_nvt_list': mock_object.get_nvt_list,
         'get_operating_system': mock_object.get_operating_system,
         'get_operating_systems': mock_object.get_operating_systems,
         'get_override': mock_object.get_override,
