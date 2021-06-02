@@ -19,7 +19,6 @@
 import graphene
 
 from graphql import ResolveInfo
-from gvm.protocols.next import InfoType as GvmInfoType
 
 from selene.schema.cpes.fields import CPE
 
@@ -89,7 +88,7 @@ class GetCPE(graphene.Field):
     def resolve(_root, info, cpe_id: str):
         gmp = get_gmp(info)
 
-        xml = gmp.get_info(str(cpe_id), info_type=GvmInfoType.CPE)
+        xml = gmp.get_cpe(str(cpe_id))
         return xml.find('info')
 
 
@@ -155,8 +154,8 @@ class GetCPEs(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_info_list(
-            filter_string=filter_string.filter_string, info_type=GvmInfoType.CPE
+        xml: XmlElement = gmp.get_cpe_list(
+            filter_string=filter_string.filter_string
         )
 
         requested = None

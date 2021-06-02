@@ -22,8 +22,6 @@ from pathlib import Path
 
 from unittest.mock import patch
 
-from gvm.protocols.next import InfoType as GvmInfoType
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.entity import make_test_get_entity
@@ -49,7 +47,7 @@ class CPETestCase(SeleneTestCase):
 
     def test_get_cpe(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_info',
+            'get_cpe',
             '''
             <get_info_response>
                 <info id="cpe:/a:foo:bar">
@@ -87,7 +85,7 @@ class CPETestCase(SeleneTestCase):
 
     def test_get_cpe_none_fields(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_info',
+            'get_cpe',
             '''
             <get_info_response>
                 <info id="cpe:/a:foo:bar">
@@ -144,7 +142,7 @@ class CPETestCase(SeleneTestCase):
         cpe_xml_path = CWD / 'example-cpe.xml'
         cpe_xml_str = cpe_xml_path.read_text()
 
-        mock_gmp.mock_response('get_info', cpe_xml_str)
+        mock_gmp.mock_response('get_cpe', cpe_xml_str)
 
         self.login('foo', 'bar')
 
@@ -195,7 +193,8 @@ class CPETestCase(SeleneTestCase):
 
 class CPEGetEntityTestCase(SeleneTestCase):
     gmp_name = 'info'
+    gmp_cmd = 'get_cpe'
     selene_name = 'cpe'
     test_get_entity = make_test_get_entity(
-        gmp_name, selene_name=selene_name, info_type=GvmInfoType.CPE
+        gmp_name=gmp_name, selene_name=selene_name, gmp_cmd=gmp_cmd
     )
