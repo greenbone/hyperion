@@ -36,9 +36,9 @@ class DeleteHostTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_delete_asset(self, mock_gmp: GmpMockFactory):
+    def test_delete_host(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'delete_asset',
+            'delete_host',
             '''
             <delete_asset_response status="200" status_text="OK"/>
             ''',

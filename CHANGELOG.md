@@ -30,7 +30,7 @@ $ cd hyperion && git log
 - Add Bulk Export for NVTs. [#25](https://github.com/greenbone/hyperion/pull/25)
 
 ### Changed
-
+- `getPreference(s)` is now divided into `getScanConfigPreference(s)` and `getNvtPreference(s)` [#168](https://github.com/greenbone/hyperion/pull/168)
 - Revisit audit and task object types [#133](https://github.com/greenbone/hyperion/pull/133), [#149](https://github.com/greenbone/hyperion/pull/149), [#150](https://github.com/greenbone/hyperion/pull/150)
 - Revisit authentication methods [#93](https://github.com/greenbone/hyperion/pull/93)
 - Revisit port list object type, queries and mutations [#108](https://github.com/greenbone/hyperion/pull/108)
@@ -56,7 +56,7 @@ $ cd hyperion && git log
 ### Deprecated
 
 ### Removed
-
+- BulkDeleteByReport (for Hosts and OperatingSystems) [#168](https://github.com/greenbone/hyperion/pull/168)
 - Remove OVAL definitions from the schema [#136](https://github.com/greenbone/hyperion/pull/136)
 - Remove our sphinx extension for documenting the GraphQL schema [#123](https://github.com/greenbone/hyperion/pull/123)
 

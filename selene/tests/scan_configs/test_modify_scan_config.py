@@ -47,7 +47,7 @@ class ModifyScanConfigSetNameTestCase(SeleneTestCase):
 
     def test_modify_scan_config_set_name(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'modify_config_set_name',
+            'modify_scan_config_set_name',
             '''
             <modify_config_response status="200" status_text="OK"/>
             ''',
@@ -76,7 +76,7 @@ class ModifyScanConfigSetNameTestCase(SeleneTestCase):
 
         self.assertEqual(ok, True)
 
-        mock_gmp.gmp_protocol.modify_config_set_name.assert_called_with(
+        mock_gmp.gmp_protocol.modify_scan_config_set_name.assert_called_with(
             config_id=str(self.id1), name=self.name
         )
 
@@ -105,7 +105,7 @@ class ModifyScanConfigSetCommentTestCase(SeleneTestCase):
 
     def test_modify_scan_config_set_comment(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'modify_config_set_comment',
+            'modify_scan_config_set_comment',
             '''
             <modify_config_response status="200" status_text="OK"/>
             ''',
@@ -134,7 +134,7 @@ class ModifyScanConfigSetCommentTestCase(SeleneTestCase):
 
         self.assertEqual(ok, True)
 
-        mock_gmp.gmp_protocol.modify_config_set_comment.assert_called_with(
+        mock_gmp.gmp_protocol.modify_scan_config_set_comment.assert_called_with(
             config_id=str(self.id1), comment=self.comment1
         )
 
@@ -167,7 +167,7 @@ class ModifyScanConfigSetFamilySelectionTestCase(SeleneTestCase):
         self, mock_gmp: GmpMockFactory
     ):
         mock_gmp.mock_response(
-            'modify_config_set_family_selection',
+            'modify_scan_config_set_family_selection',
             '''
             <modify_config_response status="200" status_text="OK"/>
             ''',
@@ -201,7 +201,7 @@ class ModifyScanConfigSetFamilySelectionTestCase(SeleneTestCase):
         self.assertEqual(ok, True)
 
         # pylint: disable=line-too-long
-        mock_gmp.gmp_protocol.modify_config_set_family_selection.assert_called_with(
+        mock_gmp.gmp_protocol.modify_scan_config_set_family_selection.assert_called_with(
             config_id=str(self.id1),
             families=[("family1", True, False), ("family2", False, True)],
             auto_add_new_families=True,
@@ -236,7 +236,7 @@ class ModifyScanConfigSetNvtPreferenceTestCase(SeleneTestCase):
         self, mock_gmp: GmpMockFactory
     ):
         mock_gmp.mock_response(
-            'modify_config_set_nvt_preference',
+            'modify_scan_config_set_nvt_preference',
             '''
             <modify_config_response status="200" status_text="OK"/>
             ''',
@@ -268,7 +268,7 @@ class ModifyScanConfigSetNvtPreferenceTestCase(SeleneTestCase):
         self.assertEqual(ok, True)
 
         # pylint: disable=line-too-long
-        mock_gmp.gmp_protocol.modify_config_set_nvt_preference.assert_called_with(
+        mock_gmp.gmp_protocol.modify_scan_config_set_nvt_preference.assert_called_with(
             config_id=str(self.id1),
             name=self.name,
             nvt_oid="1.3.6.1.4.1.25623.1.0.100315",
@@ -304,7 +304,7 @@ class ModifyScanConfigSetNvtSelectionTestCase(SeleneTestCase):
         self, mock_gmp: GmpMockFactory
     ):
         mock_gmp.mock_response(
-            'modify_config_set_nvt_selection',
+            'modify_scan_config_set_nvt_selection',
             '''
             <modify_config_response status="200" status_text="OK"/>
             ''',
@@ -335,7 +335,7 @@ class ModifyScanConfigSetNvtSelectionTestCase(SeleneTestCase):
         self.assertEqual(ok, True)
 
         # pylint: disable=line-too-long
-        mock_gmp.gmp_protocol.modify_config_set_nvt_selection.assert_called_with(
+        mock_gmp.gmp_protocol.modify_scan_config_set_nvt_selection.assert_called_with(
             config_id=str(self.id1), family=self.family, nvt_oids=[self.nvt_oid]
         )
 
@@ -368,7 +368,7 @@ class ModifyScanConfigSetScannerPreferenceTestCase(SeleneTestCase):
         self, mock_gmp: GmpMockFactory
     ):
         mock_gmp.mock_response(
-            'modify_config_set_scanner_preference',
+            'modify_scan_config_set_scanner_preference',
             '''
             <modify_config_response status="200" status_text="OK"/>
             ''',
@@ -399,6 +399,6 @@ class ModifyScanConfigSetScannerPreferenceTestCase(SeleneTestCase):
         self.assertEqual(ok, True)
 
         # pylint: disable=line-too-long
-        mock_gmp.gmp_protocol.modify_config_set_scanner_preference.assert_called_with(
+        mock_gmp.gmp_protocol.modify_scan_config_set_scanner_preference.assert_called_with(
             config_id=str(self.id1), name=self.name, value=self.value
         )

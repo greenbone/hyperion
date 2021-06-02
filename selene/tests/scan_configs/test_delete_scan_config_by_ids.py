@@ -49,7 +49,7 @@ class DeleteScanConfigsByIdsTestCase(SeleneTestCase):
         id2 = uuid4()
 
         mock_gmp.mock_response(
-            'get_configs',
+            'get_scan_configs',
             f'''
             <get_config_response status="200" status_text="OK">
                 <config id="{id1}">
@@ -78,15 +78,15 @@ class DeleteScanConfigsByIdsTestCase(SeleneTestCase):
         ok = json['data']['deleteScanConfigsByIds']['ok']
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.get_configs.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} '
+        mock_gmp.gmp_protocol.get_scan_configs.assert_called_with(
+            filter_string=f'uuid={id1} uuid={id2} '
         )
 
-        mock_gmp.gmp_protocol.delete_config.assert_any_call(
+        mock_gmp.gmp_protocol.delete_scan_config.assert_any_call(
             config_id=str(id1), ultimate=True
         )
 
-        mock_gmp.gmp_protocol.delete_config.assert_any_call(
+        mock_gmp.gmp_protocol.delete_scan_config.assert_any_call(
             config_id=str(id2), ultimate=True
         )
 
@@ -98,7 +98,7 @@ class DeleteScanConfigsByIdsTestCase(SeleneTestCase):
 
         # Return only one config instead of the queried two.
         mock_gmp.mock_response(
-            'get_configs',
+            'get_scan_configs',
             f'''
             <get_config_response status="200" status_text="OK">
                 <config id="{id1}">
@@ -125,6 +125,6 @@ class DeleteScanConfigsByIdsTestCase(SeleneTestCase):
         ok = json['data']['deleteScanConfigsByIds']['ok']
         self.assertFalse(ok)
 
-        mock_gmp.gmp_protocol.get_configs.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} '
+        mock_gmp.gmp_protocol.get_scan_configs.assert_called_with(
+            filter_string=f'uuid={id1} uuid={id2} '
         )

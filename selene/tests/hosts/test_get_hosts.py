@@ -18,8 +18,6 @@
 
 from unittest.mock import patch
 
-from gvm.protocols.next import AssetType
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.pagination import (
@@ -55,7 +53,7 @@ class HostsTestCase(SeleneTestCase):
 
     def test_get_hosts(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_assets',
+            'get_hosts',
             '''
             <get_assets_response>
                 <asset id="15085a9a-3d24-11ea-944a-6f78adc016ea">
@@ -101,7 +99,7 @@ class HostsTestCase(SeleneTestCase):
 
     def test_get_filtered_hosts(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_assets',
+            'get_hosts',
             '''
             <get_assets_response>
                 <asset id="f650a1c0-3d23-11ea-8540-e790e17c1b00">
@@ -149,27 +147,40 @@ class HostsTestCase(SeleneTestCase):
 
 
 class HostsPaginationTestCase(SeleneTestCase):
-    entity_name = 'asset'
+    gmp_cmd = 'get_hosts'
+    gmp_name = 'asset'
     selene_name = 'host'
     test_pagination_with_after_and_first = make_test_after_first(
-        entity_name, selene_name=selene_name, asset_type=AssetType.HOST
+        gmp_name=gmp_name, gmp_cmd=gmp_cmd, selene_name=selene_name
     )
-    test_counts = make_test_counts(entity_name, selene_name=selene_name)
+    test_counts = make_test_counts(
+        gmp_name=gmp_name, gmp_cmd=gmp_cmd, selene_name=selene_name
+    )
     test_page_info = make_test_page_info(
-        entity_name, selene_name=selene_name, query=GetHosts
+        gmp_name=gmp_name,
+        gmp_cmd=gmp_cmd,
+        selene_name=selene_name,
+        query=GetHosts,
     )
-    test_edges = make_test_edges(entity_name, selene_name=selene_name)
+    test_edges = make_test_edges(
+        gmp_name=gmp_name, gmp_cmd=gmp_cmd, selene_name=selene_name
+    )
     test_pagination_with_before_and_last = make_test_before_last(
-        entity_name, selene_name=selene_name, asset_type=AssetType.HOST
+        gmp_name=gmp_name,
+        gmp_cmd=gmp_cmd,
+        selene_name=selene_name,
     )
     test_after_first_before_last = make_test_after_first_before_last(
-        entity_name, selene_name=selene_name, asset_type=AssetType.HOST
+        gmp_name=gmp_name,
+        gmp_cmd=gmp_cmd,
+        selene_name=selene_name,
     )
 
 
 class HostGetEntitiesTestCase(SeleneTestCase):
+    gmp_cmd = 'get_hosts'
     gmp_name = 'asset'
     selene_name = 'host'
     test_get_entities = make_test_get_entities(
-        gmp_name, selene_name=selene_name, asset_type=AssetType.HOST
+        gmp_name=gmp_name, gmp_cmd=gmp_cmd, selene_name=selene_name
     )

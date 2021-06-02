@@ -87,7 +87,7 @@ def make_test_after_first_before_last(
         get_entities = gmp_commands[gmp_cmd]
 
         get_entities.assert_called_with(
-            filter='lorem rows=15 first=323', **kwargs
+            filter_string='lorem rows=15 first=323', **kwargs
         )
 
         entities = json['data'][plural_selene_name]['nodes']

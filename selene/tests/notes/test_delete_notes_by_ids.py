@@ -78,7 +78,7 @@ class DeleteNotesByIdsTestCase(SeleneTestCase):
         self.assertTrue(ok)
 
         mock_gmp.gmp_protocol.get_notes.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} '
+            filter_string=f'uuid={id1} uuid={id2} '
         )
 
         mock_gmp.gmp_protocol.delete_note.assert_any_call(note_id=str(id1))
@@ -121,5 +121,5 @@ class DeleteNotesByIdsTestCase(SeleneTestCase):
         self.assertFalse(ok)
 
         mock_gmp.gmp_protocol.get_notes.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} '
+            filter_string=f'uuid={id1} uuid={id2} '
         )

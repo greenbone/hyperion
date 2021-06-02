@@ -75,5 +75,5 @@ class ExportSchedulesByFilterTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, xml)
         mock_gmp.gmp_protocol.get_schedules.assert_called_with(
-            filter="uuid={id1} uuid={id2}"
+            filter_string="uuid={id1} uuid={id2}"
         )

@@ -18,7 +18,6 @@
 
 import graphene
 
-from gvm.protocols.next import AssetType as GvmAssetType
 
 from selene.schema.entities import (
     create_delete_by_ids_mutation,
@@ -82,39 +81,12 @@ class DeleteHost(graphene.Mutation):
     @require_authentication
     def mutate(_root, info, host_id):
         gmp = get_gmp(info)
-        gmp.delete_asset(asset_id=str(host_id))
+        gmp.delete_host(host_id=str(host_id))
         return DeleteHost(ok=True)
 
 
-class DeleteHostsByReport(graphene.Mutation):
-    """Deletes a list of hosts from a report
-    Args:
-        reportID (str): Report ID for host list to delete.
-    Returns:
-        ok (Boolean)
-    """
-
-    class Arguments:
-        report_id = graphene.String(
-            required=True,
-            description='report_id for host list to delete.',
-            name='id',
-        )
-
-    ok = graphene.Boolean()
-
-    @staticmethod
-    @require_authentication
-    def mutate(_root, info, report_id):
-        gmp = get_gmp(info)
-        gmp.delete_asset(report_id=str(report_id))
-        return DeleteHostsByReport(ok=True)
-
-
-#   schema: DeleteByIds, DeleteByIds.'
-
 DeleteByIdsClass = create_delete_by_ids_mutation(
-    entity_name='asset', asset_type=GvmAssetType.HOST
+    entity_name='host', gmp_entity_response='asset'
 )
 
 
@@ -152,7 +124,7 @@ class DeleteHostsByIds(DeleteByIdsClass):
 
 
 DeleteByFilterClass = create_delete_by_filter_mutation(
-    entity_name='asset', asset_type=GvmAssetType.HOST
+    entity_name='host', gmp_entity_response='asset'
 )
 
 
@@ -193,18 +165,14 @@ class DeleteHostsByFilter(DeleteByFilterClass):
 # 'AssertionError: Found different types with the same name in the
 #   schema: ExportByIds, ExportByIds.'
 
-ExportByIdsClass = create_export_by_ids_mutation(
-    entity_name='asset', asset_type=GvmAssetType.HOST
-)
+ExportByIdsClass = create_export_by_ids_mutation(entity_name='host')
 
 
 class ExportHostsByIds(ExportByIdsClass):
     pass
 
 
-ExportByFilterClass = create_export_by_filter_mutation(
-    entity_name='asset', asset_type=GvmAssetType.HOST
-)
+ExportByFilterClass = create_export_by_filter_mutation(entity_name='host')
 
 
 class ExportHostsByFilter(ExportByFilterClass):
@@ -250,6 +218,6 @@ class ModifyHost(graphene.Mutation):
 
         gmp = get_gmp(info)
 
-        gmp.modify_asset(host_id, comment=comment)
+        gmp.modify_host(host_id=host_id, comment=comment)
 
         return ModifyHost(ok=True)

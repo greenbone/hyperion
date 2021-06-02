@@ -147,7 +147,9 @@ class GetTargets(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_targets(filter=filter_string.filter_string)
+        xml: XmlElement = gmp.get_targets(
+            filter_string=filter_string.filter_string
+        )
 
         target_elements = xml.findall('target')
         counts = xml.find('target_count')

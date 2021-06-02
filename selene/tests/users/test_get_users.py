@@ -332,7 +332,7 @@ class GetUsersTestCase(SeleneTestCase):
         self.assertEqual(user2["ifacesAllow"], 0)
         self.assertEqual(user2["sources"], ["file", "another source"])
 
-        mock_gmp.gmp_protocol.get_users.assert_called_with(filter=None)
+        mock_gmp.gmp_protocol.get_users.assert_called_with(filter_string=None)
 
 
 class UsersGetEntitiesTestCase(SeleneTestCase):

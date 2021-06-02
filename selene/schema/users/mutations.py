@@ -22,7 +22,7 @@ from enum import auto
 
 import graphene
 
-from gvm.protocols.gmpv214.gmpv214 import UserAuthType as GvmUserAuthType
+from gvm.protocols.next import UserAuthType as GvmUserAuthType
 
 from selene.schema.utils import require_authentication, get_gmp
 
@@ -243,7 +243,7 @@ class DeleteUsersByFilter(graphene.Mutation):
         )
 
         gmp = get_gmp(info)
-        get_users_xml_response = gmp.get_users(filter=filter_string)
+        get_users_xml_response = gmp.get_users(filter_string=filter_string)
         xml_users = get_users_xml_response.findall("user")
 
         found_ids = []
@@ -310,7 +310,7 @@ class DeleteUsersByIds(graphene.Mutation):
         for user_id in user_ids:
             filter_string += f'uuid={str(user_id)} '
 
-        get_users_xml_response = gmp.get_users(filter=filter_string)
+        get_users_xml_response = gmp.get_users(filter_string=filter_string)
         xml_users = get_users_xml_response.findall("user")
 
         found_ids = []

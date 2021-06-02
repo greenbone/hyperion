@@ -146,7 +146,7 @@ class GetOverrides(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_overrides(
-            filter=filter_string.filter_string, details=True
+            filter_string=filter_string.filter_string, details=True
         )
 
         override_elements = xml.findall('override')

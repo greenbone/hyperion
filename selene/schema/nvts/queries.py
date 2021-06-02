@@ -45,62 +45,6 @@ class GetScanConfigNvt(graphene.Field):
 
     Args:
         id (str): OID of the NVT to get
-
-    Example:
-
-        .. code-block::
-
-            query {
-                nvt (id:"1.3.6.1.4.1.25623.1.0.999999") {
-                id
-                creationTime
-                modificationTime
-                category
-                summary
-                family
-                cvssBase
-                qod {
-                    value
-                    type
-                }
-                severities {
-                    score
-                    severitiesList {
-                        date
-                        origin
-                        score
-                        type
-                        value
-                    }
-                }
-                refs{
-                    warning
-                    refList{
-                        id
-                        type
-                    }
-                }
-                tags
-                preferenceCount
-                timeout
-                defaultTimeout
-                }
-            }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                    "nvt": {
-                        "name": "Some name of a NVT",
-                        .....
-                        .....
-                    }
-                }
-            }
-
     """
 
     def __init__(self):
@@ -115,7 +59,7 @@ class GetScanConfigNvt(graphene.Field):
     def resolve(_root, info, oid):
         gmp = get_gmp(info)
 
-        xml = gmp.get_nvt(oid)
+        xml = gmp.get_scan_config_nvt(oid)
         return xml.find('nvt')
 
 
@@ -169,7 +113,7 @@ class GetScanConfigNvts(graphene.List):
     ):
         gmp = get_gmp(info)
 
-        xml = gmp.get_nvts(
+        xml = gmp.get_scan_config_nvts(
             details=details,
             preferences=preferences,
             preference_count=preference_count,
@@ -242,7 +186,7 @@ class GetNvtFamilies(graphene.List):
         return families.findall('family')
 
 
-class GetPreference(graphene.Field):
+class GetNvtPreference(graphene.Field):
     """Get a single preference by name.
 
     name (str): Name of the preference. Has format type:name.
@@ -281,28 +225,20 @@ class GetPreference(graphene.Field):
             NvtPreference,
             name=graphene.String(required=True),
             nvt_oid=graphene.String(),
-            config_id=graphene.UUID(),
             resolver=self.resolve,
         )
 
     @staticmethod
     @require_authentication
-    def resolve(
-        _root, info, name: str, nvt_oid: str = None, config_id: str = None
-    ):
+    def resolve(_root, info, name: str, nvt_oid: str = None):
         gmp = get_gmp(info)
 
-        if config_id is not None:
-            config_id = str(config_id)
-
-        xml = gmp.get_preference(
-            name=name, nvt_oid=nvt_oid, config_id=config_id
-        )
+        xml = gmp.get_nvt_preference(name=name, nvt_oid=nvt_oid)
         return xml.find('preference')
 
 
-class GetPreferences(graphene.List):
-    """Request a list of preferences
+class GetNvtPreferences(graphene.List):
+    """Request a list of nvt preferences
 
     When the command includes a config_id attribute, the preference element
     includes the preference name, type and value, and the NVT to which the
@@ -310,43 +246,6 @@ class GetPreferences(graphene.List):
     name and value, with the NVT and type built into the name.
 
     nvt_oid (str, optional): OID of nvt.
-    config_id (UUID, optional): UUID of a scan config of which to show
-        preference values.
-
-
-    Example:
-
-        .. code-block::
-
-            query {
-                preferences (
-                    nvtOid:"Some NVT OID",
-                    configId: "daba56c8-73ec-11df-a475-002264764cea"
-                ) {
-                    name
-                    value
-                }
-            }
-
-        Response:
-
-        .. code-block::
-
-            {
-                "data": {
-                "preferences": [
-                    {
-                        "name": "Some name 1",
-                        "value": "Some value 1"
-                    },
-                    {
-                        "name": "Some name 2",
-                        "value": "Some value 2"
-                    }
-                ]
-                }
-            }
-
     """
 
     def __init__(self):
@@ -354,18 +253,14 @@ class GetPreferences(graphene.List):
             NvtPreference,
             resolver=self.resolve,
             nvt_oid=graphene.String(),
-            config_id=graphene.UUID(),
         )
 
     @staticmethod
     @require_authentication
-    def resolve(_root, info, nvt_oid: str = None, config_id: str = None):
+    def resolve(_root, info, nvt_oid: str = None):
         gmp = get_gmp(info)
 
-        if config_id is not None:
-            config_id = str(config_id)
-
-        xml = gmp.get_preferences(nvt_oid=nvt_oid, config_id=config_id)
+        xml = gmp.get_nvt_preferences(nvt_oid=nvt_oid)
 
         return xml.findall('preference')
 
@@ -481,7 +376,7 @@ class GetNVTs(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_info_list(
-            filter=filter_string.filter_string, info_type=GvmInfoType.NVT
+            filter_string=filter_string.filter_string, info_type=GvmInfoType.NVT
         )
 
         requested = None

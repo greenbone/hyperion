@@ -19,7 +19,6 @@
 from uuid import uuid4
 
 from unittest.mock import patch
-from gvm.protocols.next import AssetType as GvmAssetType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
@@ -59,7 +58,7 @@ class ExportOperatingSystemsByIdsTestCase(SeleneTestCase):
             '</get_assets_response>'
         )
 
-        mock_gmp.mock_response('get_assets', mock_xml)
+        mock_gmp.mock_response('get_operating_systems', mock_xml)
 
         response = self.query(
             f'''
@@ -82,9 +81,8 @@ class ExportOperatingSystemsByIdsTestCase(SeleneTestCase):
         ]
 
         self.assertEqual(mock_xml, operating_systems_xml)
-        mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter=f'uuid={self.id1} uuid={self.id2} ',
-            asset_type=GvmAssetType.OPERATING_SYSTEM,
+        mock_gmp.gmp_protocol.get_operating_systems.assert_called_with(
+            filter_string=f'uuid={self.id1} uuid={self.id2} ',
         )
 
     def test_export_empty_ids_array(self, mock_gmp: GmpMockFactory):
@@ -103,7 +101,9 @@ class ExportOperatingSystemsByIdsTestCase(SeleneTestCase):
             'start=\"1\"/><asset_count>16<filtered>0</filtered>'
             '<page>0</page></asset_count></get_assets_response>'
         )
-        mock_gmp.mock_response('get_assets', bytes(mock_xml, 'utf-8'))
+        mock_gmp.mock_response(
+            'get_operating_systems', bytes(mock_xml, 'utf-8')
+        )
 
         response = self.query(
             '''
@@ -125,6 +125,6 @@ class ExportOperatingSystemsByIdsTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, operating_systems_xml)
 
-        mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter='', asset_type=GvmAssetType.OPERATING_SYSTEM
+        mock_gmp.gmp_protocol.get_operating_systems.assert_called_with(
+            filter_string=''
         )

@@ -23,8 +23,6 @@ from selene.schema.utils import require_authentication, get_gmp
 from selene.schema.entities import (
     create_export_by_ids_mutation,
     create_export_by_filter_mutation,
-    create_delete_by_ids_mutation,
-    create_delete_by_filter_mutation,
 )
 
 
@@ -67,19 +65,11 @@ class DeleteScanConfig(graphene.Mutation):
     @require_authentication
     def mutate(_root, info, config_id, ultimate):
         gmp = get_gmp(info)
-        gmp.delete_config(str(config_id), ultimate=ultimate)
+        gmp.delete_scan_config(str(config_id), ultimate=ultimate)
         return DeleteScanConfig(ok=True)
 
 
-# Explicit classes needed, else we get error
-# 'AssertionError: Found different types with the same name in the
-#   schema: DeleteByIds, DeleteByIds.'
-
-
-DeleteByIdsClass = create_delete_by_ids_mutation(entity_name='config')
-
-
-class DeleteScanConfigsByIds(DeleteByIdsClass):
+class DeleteScanConfigsByIds(graphene.Mutation):
     """Deletes a list of scan configs
 
     Args:
@@ -89,33 +79,50 @@ class DeleteScanConfigsByIds(DeleteByIdsClass):
 
     Returns:
         ok (Boolean)
-
-    Example
-
-        mutation {
-            deleteScanConfigByIds(
-                ids: ["5f8e7b31-35ea-4b43-9797-6d77f058906b"],
-                ultimate: false)
-            {
-                ok
-            }
-        }
-
-        Response
-        {
-            "data": {
-                "deleteScanConfigByIds": {
-                    "ok": true
-                }
-            }
-        }
     """
 
+    class Arguments:
+        scan_config_ids = graphene.List(
+            graphene.UUID,
+            required=True,
+            name='ids',
+            description="List of UUIDs of entities to delete.",
+        )
+        ultimate = graphene.Boolean()
 
-DeleteByFilterClass = create_delete_by_filter_mutation(entity_name='config')
+    ok = graphene.Boolean()
+
+    @staticmethod
+    @require_authentication
+    def mutate(_root, info, scan_config_ids=None, ultimate=None):
+        gmp = get_gmp(info)
+
+        filter_string = ''
+        for scan_config_id in scan_config_ids:
+            filter_string += f'uuid={str(scan_config_id)} '
+        # Get the configs via a filter. This is needed because we need to
+        # be sure that the configs we want to delete really exist. Else
+        # we might only delete some of the entities until an error
+        # interrupts the deletion process.
+        configs_xml = gmp.get_scan_configs(filter_string=filter_string)
+
+        configs = configs_xml.findall("config")
+        found_ids = []
+        for config in configs:
+            found_ids.append(config.get('id'))
+
+        # Configs only get deleted if all entities were found.
+        if len(scan_config_ids) != len(found_ids):
+            return DeleteScanConfigsByIds(ok=False)
+        for scan_config_id in scan_config_ids:
+            gmp.delete_scan_config(
+                config_id=str(scan_config_id), ultimate=ultimate
+            )
+
+        return DeleteScanConfigsByIds(ok=True)
 
 
-class DeleteScanConfigsByFilter(DeleteByFilterClass):
+class DeleteScanConfigsByFilter(graphene.Mutation):
     """Deletes a filtered list of scan configs
 
     Args:
@@ -125,27 +132,30 @@ class DeleteScanConfigsByFilter(DeleteByFilterClass):
 
     Returns:
         ok (Boolean)
-
-    Example
-
-        mutation {
-            deleteScanConfigByFilter(
-                filterString:"name~Clone",
-                ultimate: false)
-            {
-                ok
-            }
-        }
-
-        Response
-        {
-            "data": {
-                "deleteScanConfigByFilter": {
-                    "ok": true
-                }
-            }
-        }
     """
+
+    class Arguments:
+        filter_string = graphene.String(
+            description="Filter term for entities to delete."
+        )
+        ultimate = graphene.Boolean()
+
+    ok = graphene.Boolean()
+
+    @staticmethod
+    @require_authentication
+    def mutate(_root, info, filter_string: str = None, ultimate: bool = None):
+        gmp = get_gmp(info)
+
+        # Get the scan configs via a filter
+        configs_xml = gmp.get_scan_configs(filter_string=filter_string)
+
+        configs = configs_xml.findall('config')
+        for config in configs:
+            scan_config_id = str(config.get('id'))
+            gmp.delete_scan_config(config_id=scan_config_id, ultimate=ultimate)
+
+        return DeleteScanConfigsByFilter(ok=True)
 
 
 class CloneScanConfig(graphene.Mutation):
@@ -188,7 +198,7 @@ class CloneScanConfig(graphene.Mutation):
     @require_authentication
     def mutate(_root, info, config_id):
         gmp = get_gmp(info)
-        elem = gmp.clone_config(str(config_id))
+        elem = gmp.clone_scan_config(str(config_id))
         return CloneScanConfig(config_id=elem.get('id'))
 
 
@@ -197,7 +207,7 @@ class CloneScanConfig(graphene.Mutation):
 #   schema: ExportByIds, ExportByIds.'
 
 ExportByIdsClass = create_export_by_ids_mutation(
-    entity_name='config', with_details=True
+    entity_name='scan_config', with_details=True
 )
 
 
@@ -206,7 +216,7 @@ class ExportScanConfigsByIds(ExportByIdsClass):
 
 
 ExportByFilterClass = create_export_by_filter_mutation(
-    entity_name='config', with_details=True
+    entity_name='scan_config', with_details=True
 )
 
 
@@ -255,7 +265,7 @@ class ImportScanConfig(graphene.Mutation):
     @require_authentication
     def mutate(_root, info, config):
         gmp = get_gmp(info)
-        elem = gmp.import_config(config=config)
+        elem = gmp.import_scan_config(config=config)
 
         return ImportScanConfig(config_id=elem.get('id'))
 
@@ -329,7 +339,7 @@ class CreateScanConfig(graphene.Mutation):
             input_object.comment if input_object.comment is not None else None
         )
 
-        elem = gmp.create_config(
+        elem = gmp.create_scan_config(
             config_id=config_id, name=name, comment=comment
         )
 
@@ -393,7 +403,7 @@ class CreateScanConfigFromOspScanner(graphene.Mutation):
             required=True, name='input'
         )
 
-    id_of_created_config = graphene.String(name='id')
+    id_of_created_scan_config = graphene.String(name='id')
 
     @staticmethod
     @require_authentication
@@ -409,12 +419,12 @@ class CreateScanConfigFromOspScanner(graphene.Mutation):
             input_object.comment if input_object.comment is not None else None
         )
 
-        elem = gmp.create_config_from_osp_scanner(
+        elem = gmp.create_scan_config_from_osp_scanner(
             scanner_id=scanner_id, name=name, comment=comment
         )
 
         return CreateScanConfigFromOspScanner(
-            id_of_created_config=elem.get('id')
+            id_of_created_scan_config=elem.get('id')
         )
 
 
@@ -479,7 +489,7 @@ class ModifyScanConfigSetName(graphene.Mutation):
         name = input_object.name if input_object.name is not None else None
 
         gmp = get_gmp(info)
-        gmp.modify_config_set_name(config_id=config_id, name=name)
+        gmp.modify_scan_config_set_name(config_id=config_id, name=name)
 
         return ModifyScanConfigSetName(ok=True)
 
@@ -549,7 +559,7 @@ class ModifyScanConfigSetComment(graphene.Mutation):
         )
 
         gmp = get_gmp(info)
-        gmp.modify_config_set_comment(config_id=config_id, comment=comment)
+        gmp.modify_scan_config_set_comment(config_id=config_id, comment=comment)
 
         return ModifyScanConfigSetComment(ok=True)
 
@@ -670,7 +680,7 @@ class ModifyScanConfigSetFamilySelection(graphene.Mutation):
                 )
 
         gmp = get_gmp(info)
-        gmp.modify_config_set_family_selection(
+        gmp.modify_scan_config_set_family_selection(
             config_id=config_id,
             families=families,
             auto_add_new_families=auto_add_new_families,
@@ -764,7 +774,7 @@ class ModifyScanConfigSetNvtPreference(graphene.Mutation):
         value = input_object.value if input_object.value is not None else None
 
         gmp = get_gmp(info)
-        gmp.modify_config_set_nvt_preference(
+        gmp.modify_scan_config_set_nvt_preference(
             config_id=config_id, name=name, nvt_oid=nvt_oid, value=value
         )
 
@@ -853,7 +863,7 @@ class ModifyScanConfigSetNvtSelection(graphene.Mutation):
         )
 
         gmp = get_gmp(info)
-        gmp.modify_config_set_nvt_selection(
+        gmp.modify_scan_config_set_nvt_selection(
             config_id=config_id, family=family, nvt_oids=nvt_oids
         )
 
@@ -935,7 +945,7 @@ class ModifyScanConfigSetScannerPreference(graphene.Mutation):
         value = input_object.value if input_object.value is not None else None
 
         gmp = get_gmp(info)
-        gmp.modify_config_set_scanner_preference(
+        gmp.modify_scan_config_set_scanner_preference(
             config_id=config_id, name=name, value=value
         )
 

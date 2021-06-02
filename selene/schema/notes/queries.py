@@ -145,7 +145,7 @@ class GetNotes(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_notes(
-            filter=filter_string.filter_string, details=True
+            filter_string=filter_string.filter_string, details=True
         )
 
         note_elements = xml.findall('note')

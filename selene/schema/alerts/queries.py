@@ -132,7 +132,7 @@ class GetAlerts(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_alerts(
-            filter=filter_string.filter_string, tasks=True
+            filter_string=filter_string.filter_string, tasks=True
         )
 
         alert_elements = xml.findall('alert')

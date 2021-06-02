@@ -29,9 +29,8 @@ class GetPreferencesTestCase(SeleneTestCase):
         response = self.query(
             '''
             query {
-                preferences (
+                nvtPreferences (
                     nvtOid:"Some NVT OID",
-                    configId: "daba56c8-73ec-11df-a475-002264764cea"
                 ) {
                     name
                     value
@@ -42,9 +41,9 @@ class GetPreferencesTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_get_preference(self, mock_gmp: GmpMockFactory):
+    def test_get_nvt_preference(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_preferences',
+            'get_nvt_preferences',
             '''
             <get_preferences_response status="200" status_text="OK">
             <preference>
@@ -82,9 +81,8 @@ class GetPreferencesTestCase(SeleneTestCase):
         response = self.query(
             '''
             query{
-            preferences(
+            nvtPreferences(
                 nvtOid:"Some NVT OID",
-                configId: "daba56c8-73ec-11df-a475-002264764cea"
             ){
                     nvt {
                     id
@@ -103,7 +101,7 @@ class GetPreferencesTestCase(SeleneTestCase):
 
         self.assertResponseNoErrors(response)
         json = response.json()
-        preference1 = json['data']['preferences'][0]
+        preference1 = json['data']['nvtPreferences'][0]
 
         self.assertEqual(
             preference1['nvt']['id'], '1.3.6.1.4.1.25623.1.0.999999'
@@ -119,7 +117,7 @@ class GetPreferencesTestCase(SeleneTestCase):
         )
         self.assertEqual(preference1['default'], 'Some default')
 
-        preference2 = json['data']['preferences'][1]
+        preference2 = json['data']['nvtPreferences'][1]
 
         self.assertResponseNoErrors(response)
         self.assertEqual(
@@ -136,7 +134,6 @@ class GetPreferencesTestCase(SeleneTestCase):
         )
         self.assertEqual(preference2['default'], 'Some default')
 
-        mock_gmp.gmp_protocol.get_preferences.assert_called_with(
+        mock_gmp.gmp_protocol.get_nvt_preferences.assert_called_with(
             nvt_oid="Some NVT OID",
-            config_id="daba56c8-73ec-11df-a475-002264764cea",
         )

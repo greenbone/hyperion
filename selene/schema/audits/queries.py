@@ -139,7 +139,7 @@ class GetAudits(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_audits(
-            filter=filter_string.filter_string, details=True
+            filter_string=filter_string.filter_string, details=True
         )
 
         audit_elements = xml.findall('task')

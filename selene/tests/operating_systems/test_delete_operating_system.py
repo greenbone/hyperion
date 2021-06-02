@@ -40,7 +40,7 @@ class DeleteOperatingSystemTestCase(SeleneTestCase):
 
     def test_delete_asset(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'delete_asset',
+            'delete_operating_system',
             '''
             <delete_asset_response status="200" status_text="OK"/>
             ''',

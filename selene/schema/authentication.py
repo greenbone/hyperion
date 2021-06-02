@@ -112,7 +112,7 @@ class LoginMutation(graphene.Mutation):
             # actually store the timeout in the session
             request.session.set_expiry(timeout)
 
-            setting_response = gmp.get_setting(USER_SETTING_LOCALE)
+            setting_response = gmp.get_user_setting(USER_SETTING_LOCALE)
             setting_element = get_subelement(setting_response, 'setting')
             setting = get_text_from_element(setting_element, 'value')
 

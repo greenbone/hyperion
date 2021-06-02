@@ -32,7 +32,7 @@ from selene.schema.relay import (
 
 from selene.schema.utils import require_authentication, get_gmp, XmlElement
 
-from selene.schema.scan_configs.fields import ScanConfig
+from selene.schema.scan_configs.fields import ScanConfig, ScannerPreference
 
 
 class GetScanConfig(graphene.Field):
@@ -86,7 +86,7 @@ class GetScanConfig(graphene.Field):
         #   <config_count>
         gmp = get_gmp(info)
 
-        xml = gmp.get_config(str(config_id), tasks=True)
+        xml = gmp.get_scan_config(str(config_id), tasks=True)
         return xml.find('config')
 
 
@@ -155,8 +155,8 @@ class GetScanConfigs(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_configs(
-            filter=filter_string.filter_string, details=False
+        xml: XmlElement = gmp.get_scan_configs(
+            filter_string=filter_string.filter_string, details=False
         )
 
         scan_config_elements = xml.findall('config')
@@ -164,3 +164,73 @@ class GetScanConfigs(EntityConnectionField):
         requested = xml.find('configs')
 
         return Entities(scan_config_elements, counts, requested)
+
+
+class GetScanConfigPreference(graphene.Field):
+    """Get a single scan config preference by name.
+
+    name (str): Name of the preference. Has format type:name.
+    nvt_oid (str, optional): OID of nvt.
+    config_id (UUID, optional): UUID of scan config of which to show
+        preference values.
+    """
+
+    def __init__(self):
+        super().__init__(
+            ScannerPreference,
+            name=graphene.String(required=True),
+            nvt_oid=graphene.String(),
+            config_id=graphene.UUID(),
+            resolver=self.resolve,
+        )
+
+    @staticmethod
+    @require_authentication
+    def resolve(
+        _root, info, name: str, nvt_oid: str = None, config_id: str = None
+    ):
+        gmp = get_gmp(info)
+
+        if config_id is not None:
+            config_id = str(config_id)
+
+        xml = gmp.get_scan_config_preference(
+            name=name, nvt_oid=nvt_oid, config_id=config_id
+        )
+        return xml.find('preference')
+
+
+class GetScanConfigPreferences(graphene.List):
+    """Request a list of scan config preferences
+
+    When the command includes a config_id attribute, the preference element
+    includes the preference name, type and value, and the NVT to which the
+    preference applies. Otherwise, the preference element includes just the
+    name and value, with the NVT and type built into the name.
+
+    nvt_oid (str, optional): OID of nvt.
+    config_id (UUID, optional): UUID of a scan config of which to show
+        preference values.
+    """
+
+    def __init__(self):
+        super().__init__(
+            ScannerPreference,
+            resolver=self.resolve,
+            nvt_oid=graphene.String(),
+            config_id=graphene.UUID(),
+        )
+
+    @staticmethod
+    @require_authentication
+    def resolve(_root, info, nvt_oid: str = None, config_id: str = None):
+        gmp = get_gmp(info)
+
+        if config_id is not None:
+            config_id = str(config_id)
+
+        xml = gmp.get_scan_config_preferences(
+            nvt_oid=nvt_oid, config_id=config_id
+        )
+
+        return xml.findall('preference')

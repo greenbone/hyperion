@@ -148,7 +148,9 @@ class GetSchedules(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_schedules(filter=filter_string.filter_string)
+        xml: XmlElement = gmp.get_schedules(
+            filter_string=filter_string.filter_string
+        )
 
         schedule_elements = xml.findall('schedule')
         counts = xml.find('schedule_count')

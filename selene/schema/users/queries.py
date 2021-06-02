@@ -76,7 +76,9 @@ class GetUsers(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_users(filter=filter_string.filter_string)
+        xml: XmlElement = gmp.get_users(
+            filter_string=filter_string.filter_string
+        )
 
         user_elements = xml.findall('user')
         counts = xml.find('user_count')

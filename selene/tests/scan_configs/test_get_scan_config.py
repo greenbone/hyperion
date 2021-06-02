@@ -52,7 +52,7 @@ class GetScanConfigTestCase(SeleneTestCase):
 
     def test_get_scan_config_none_fields(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_config',
+            'get_scan_config',
             '''
             <get_config_response status="200" status_text="OK">
                 <config id="daba56c8-73ec-11df-a475-002264764cea">
@@ -130,7 +130,7 @@ class GetScanConfigTestCase(SeleneTestCase):
         scan_config_xml_path = CWD / 'example-scan-config.xml'
         scan_config_xml_str = scan_config_xml_path.read_text()
 
-        mock_gmp.mock_response('get_config', scan_config_xml_str)
+        mock_gmp.mock_response('get_scan_config', scan_config_xml_str)
 
         self.login('foo', 'bar')
 
@@ -141,8 +141,8 @@ class GetScanConfigTestCase(SeleneTestCase):
                ) {
                     name
                     type
-            	    id
-            	    trash
+                    id
+                    trash
                     familyCount
                     familyGrowing
                     nvtCount
@@ -319,6 +319,7 @@ class GetScanConfigTestCase(SeleneTestCase):
 class ScanConfigGetEntityTestCase(SeleneTestCase):
     gmp_name = 'config'
     selene_name = 'scanConfig'
+    gmp_cmd = 'get_scan_config'
     test_get_entity = make_test_get_entity(
-        gmp_name, selene_name=selene_name, tasks=True
+        gmp_name=gmp_name, selene_name=selene_name, gmp_cmd=gmp_cmd, tasks=True
     )

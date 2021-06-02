@@ -139,7 +139,7 @@ class GetTasks(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_tasks(
-            filter=filter_string.filter_string, details=True
+            filter_string=filter_string.filter_string, details=True
         )
 
         task_elements = xml.findall('task')

@@ -36,9 +36,9 @@ class CloneScanConfigTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_clone_config(self, mock_gmp: GmpMockFactory):
+    def test_clone_scan_config(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'clone_config',
+            'clone_scan_config',
             '''
             <create_config_response status="201" status_text="OK,
              resource created" id="e1438fb2-ab2c-4f4a-ad6c-de97005256e8"/>

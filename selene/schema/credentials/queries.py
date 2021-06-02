@@ -169,7 +169,7 @@ class GetCredentials(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_credentials(
-            filter=filter_string.filter_string
+            filter_string=filter_string.filter_string
         )
 
         credential_elements = xml.findall('credential')

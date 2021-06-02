@@ -153,7 +153,9 @@ class GetTickets(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_tickets(filter=filter_string.filter_string)
+        xml: XmlElement = gmp.get_tickets(
+            filter_string=filter_string.filter_string
+        )
 
         ticket_elements = xml.findall('ticket')
         counts = xml.find('ticket_count')

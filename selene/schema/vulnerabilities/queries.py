@@ -152,7 +152,7 @@ class GetVulnerabilities(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_vulnerabilities(
-            filter=filter_string.filter_string
+            filter_string=filter_string.filter_string
         )
 
         vulnerability_elements = xml.findall('vuln')

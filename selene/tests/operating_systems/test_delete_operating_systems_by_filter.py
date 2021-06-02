@@ -19,7 +19,6 @@
 from uuid import uuid4
 
 from unittest.mock import patch
-from gvm.protocols.next import AssetType as GvmAssetType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
@@ -46,7 +45,7 @@ class DeleteOperatingSystemsByFilterTestCase(SeleneTestCase):
         id2 = uuid4()
 
         mock_gmp.mock_response(
-            'get_assets',
+            'get_operating_systems',
             f'''
             <get_assets_response status="200" status_text="OK">
                 <asset id="{id1}">
@@ -77,10 +76,14 @@ class DeleteOperatingSystemsByFilterTestCase(SeleneTestCase):
 
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter='name~Clone', asset_type=GvmAssetType.OPERATING_SYSTEM
+        mock_gmp.gmp_protocol.get_operating_systems.assert_called_with(
+            filter_string='name~Clone'
         )
 
-        mock_gmp.gmp_protocol.delete_asset.assert_any_call(asset_id=str(id1))
+        mock_gmp.gmp_protocol.delete_operating_system.assert_any_call(
+            operating_system_id=str(id1)
+        )
 
-        mock_gmp.gmp_protocol.delete_asset.assert_any_call(asset_id=str(id2))
+        mock_gmp.gmp_protocol.delete_operating_system.assert_any_call(
+            operating_system_id=str(id2)
+        )

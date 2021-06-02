@@ -127,7 +127,6 @@ from selene.schema.hosts.mutations import (
     DeleteHost,
     DeleteHostsByFilter,
     DeleteHostsByIds,
-    DeleteHostsByReport,
     ExportHostsByFilter,
     ExportHostsByIds,
     ModifyHost,
@@ -146,7 +145,6 @@ from selene.schema.operating_systems.mutations import (
     DeleteOperatingSystem,
     DeleteOperatingSystemsByIds,
     DeleteOperatingSystemsByFilter,
-    DeleteOperatingSystemsByReport,
     ExportOperatingSystemsByFilter,
     ExportOperatingSystemsByIds,
     ModifyOperatingSystem,
@@ -167,7 +165,12 @@ from selene.schema.scanners.mutations import (
     VerifyScanner,
 )
 
-from selene.schema.scan_configs.queries import GetScanConfig, GetScanConfigs
+from selene.schema.scan_configs.queries import (
+    GetScanConfig,
+    GetScanConfigs,
+    GetScanConfigPreference,
+    GetScanConfigPreferences,
+)
 
 from selene.schema.scan_configs.mutations import (
     CreateScanConfig,
@@ -268,8 +271,8 @@ from selene.schema.nvts.queries import (
     GetNVTs,
     GetScanConfigNvt,
     GetScanConfigNvts,
-    GetPreference,
-    GetPreferences,
+    GetNvtPreference,
+    GetNvtPreferences,
 )
 
 from selene.schema.nvts.mutations import ExportNVTsByFilter, ExportNVTsByIds
@@ -513,7 +516,6 @@ class Mutations(ObjectType):
     delete_host = DeleteHost.Field()
     delete_hosts_by_filter = DeleteHostsByFilter.Field()
     delete_hosts_by_ids = DeleteHostsByIds.Field()
-    delete_hosts_by_report = DeleteHostsByReport.Field()
     export_hosts_by_filter = ExportHostsByFilter.Field()
     export_hosts_by_ids = ExportHostsByIds.Field()
     modify_host = ModifyHost.Field()
@@ -533,7 +535,6 @@ class Mutations(ObjectType):
     delete_operating_system = DeleteOperatingSystem.Field()
     delete_operating_systems_by_ids = DeleteOperatingSystemsByIds.Field()
     delete_operating_systems_by_filter = DeleteOperatingSystemsByFilter.Field()
-    delete_operating_systems_by_report = DeleteOperatingSystemsByReport.Field()
     export_operating_systems_by_ids = ExportOperatingSystemsByIds.Field()
     export_operating_systems_by_filter = ExportOperatingSystemsByFilter.Field()
     modify_operating_system = ModifyOperatingSystem.Field()
@@ -769,8 +770,8 @@ class Query(ObjectType):
     policies = GetPolicies()
     port_list = GetPortList()
     port_lists = GetPortLists()
-    preference = GetPreference()
-    preferences = GetPreferences()
+    nvt_preference = GetNvtPreference()
+    nvt_preferences = GetNvtPreferences()
     report_format = GetReportFormat()
     report_formats = GetReportFormats()
     report = GetReport()
@@ -781,6 +782,8 @@ class Query(ObjectType):
     roles = GetRoles()
     scan_config = GetScanConfig()
     scan_configs = GetScanConfigs()
+    scan_config_preference = GetScanConfigPreference()
+    scan_config_preferences = GetScanConfigPreferences()
     scanner = GetScanner()
     scanners = GetScanners()
     schedule = GetSchedule()

@@ -41,11 +41,11 @@ class ModifyOperatingSystemTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_modify_asset(self, mock_gmp: GmpMockFactory):
+    def test_modify_operating_system(self, mock_gmp: GmpMockFactory):
         operating_system_id = str(uuid4())
 
         mock_gmp.mock_response(
-            'modify_asset',
+            'modify_operating_system',
             '''
             <modify_asset_response status="200" status_text="OK"/>
             ''',
@@ -74,6 +74,6 @@ class ModifyOperatingSystemTestCase(SeleneTestCase):
 
         self.assertEqual(ok, True)
 
-        mock_gmp.gmp_protocol.modify_asset.assert_called_with(
-            asset_id=str(operating_system_id), comment="bar"
+        mock_gmp.gmp_protocol.modify_operating_system.assert_called_with(
+            operating_system_id=str(operating_system_id), comment="bar"
         )

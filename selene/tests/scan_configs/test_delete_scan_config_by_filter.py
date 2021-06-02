@@ -57,8 +57,8 @@ class DeleteScanConfigsByFilterTestCase(SeleneTestCase):
 
         self.assertResponseAuthenticationRequired(response)
 
-    def test_delte_scan_configs_by_filter(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response('get_configs', self.xml)
+    def test_delete_scan_configs_by_filter(self, mock_gmp: GmpMockFactory):
+        mock_gmp.mock_response('get_scan_configs', self.xml)
 
         self.login('foo', 'bar')
 
@@ -82,13 +82,13 @@ class DeleteScanConfigsByFilterTestCase(SeleneTestCase):
         ok = json['data']['deleteScanConfigsByFilter']['ok']
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.get_configs.assert_called_with(
-            filter="name~Clone"
+        mock_gmp.gmp_protocol.get_scan_configs.assert_called_with(
+            filter_string="name~Clone"
         )
 
-        mock_gmp.gmp_protocol.delete_config.assert_any_call(
-            config_id=str(self.id1)
+        mock_gmp.gmp_protocol.delete_scan_config.assert_any_call(
+            config_id=str(self.id1), ultimate=False
         )
-        mock_gmp.gmp_protocol.delete_config.assert_any_call(
-            config_id=str(self.id2)
+        mock_gmp.gmp_protocol.delete_scan_config.assert_any_call(
+            config_id=str(self.id2), ultimate=False
         )

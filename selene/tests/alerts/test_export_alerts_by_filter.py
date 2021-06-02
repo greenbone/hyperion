@@ -70,5 +70,5 @@ class ExportAlertsByFilterTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, xml)
         mock_gmp.gmp_protocol.get_alerts.assert_called_with(
-            filter='lorem=ipsum'
+            filter_string='lorem=ipsum'
         )

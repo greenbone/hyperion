@@ -48,7 +48,7 @@ class ModifyUserSettingTestCase(SeleneTestCase):
         self.assertResponseAuthenticationRequired(response)
 
     def test_modify_setting(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response('modify_setting', self.xml)
+        mock_gmp.mock_response('modify_user_setting', self.xml)
 
         self.login('foo', 'bar')
 
@@ -67,12 +67,12 @@ class ModifyUserSettingTestCase(SeleneTestCase):
 
         self.assertResponseNoErrors(response)
 
-        mock_gmp.gmp_protocol.modify_setting.assert_called_with(
+        mock_gmp.gmp_protocol.modify_user_setting.assert_called_with(
             setting_id='578a1c14-e2dc-45ef-a591-89d31391d007', value='30'
         )
 
     def test_modify_setting_without_id(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response('modify_setting', self.xml)
+        mock_gmp.mock_response('modify_user_setting', self.xml)
 
         self.login('foo', 'bar')
 
@@ -91,7 +91,7 @@ class ModifyUserSettingTestCase(SeleneTestCase):
         self.assertResponseHasErrors(response)
 
     def test_modify_setting_without_value(self, mock_gmp: GmpMockFactory):
-        mock_gmp.mock_response('modify_setting', self.xml)
+        mock_gmp.mock_response('modify_user_setting', self.xml)
 
         self.login('foo', 'bar')
 

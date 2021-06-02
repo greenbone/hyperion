@@ -58,5 +58,5 @@ class RestoreFromTrashcan(graphene.Mutation):
     @require_authentication
     def mutate(_root, info, restore_id):
         gmp = get_gmp(info)
-        gmp.restore(str(restore_id))
+        gmp.restore_from_trashcan(str(restore_id))
         return EmptyTrashcan(ok=True)

@@ -76,7 +76,9 @@ class GetRoles(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_roles(filter=filter_string.filter_string)
+        xml: XmlElement = gmp.get_roles(
+            filter_string=filter_string.filter_string
+        )
 
         role_elements = xml.findall('role')
         counts = xml.find('role_count')

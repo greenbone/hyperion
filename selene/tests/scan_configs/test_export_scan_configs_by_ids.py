@@ -56,7 +56,7 @@ class ExportScanConfigsByIdsTestCase(SeleneTestCase):
             '</get_configs_response>'
         )
 
-        mock_gmp.mock_response('get_configs', mock_xml)
+        mock_gmp.mock_response('get_scan_configs', mock_xml)
 
         response = self.query(
             f'''
@@ -75,8 +75,8 @@ class ExportScanConfigsByIdsTestCase(SeleneTestCase):
         configs_xml = json['data']['exportScanConfigsByIds']['exportedEntities']
 
         self.assertEqual(mock_xml, configs_xml)
-        mock_gmp.gmp_protocol.get_configs.assert_called_with(
-            filter=f'uuid={self.id1} uuid={self.id2} ', details=True
+        mock_gmp.gmp_protocol.get_scan_configs.assert_called_with(
+            filter_string=f'uuid={self.id1} uuid={self.id2} ', details=True
         )
 
     def test_export_empty_ids_array(self, mock_gmp: GmpMockFactory):
@@ -95,7 +95,7 @@ class ExportScanConfigsByIdsTestCase(SeleneTestCase):
             '<configs max=\"10\" start=\"1\"/><config_count>16<filtered>0'
             '</filtered><page>0</page></config_count></get_configs_response>'
         )
-        mock_gmp.mock_response('get_configs', bytes(mock_xml, 'utf-8'))
+        mock_gmp.mock_response('get_scan_configs', bytes(mock_xml, 'utf-8'))
 
         response = self.query(
             '''
@@ -115,6 +115,6 @@ class ExportScanConfigsByIdsTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, configs_xml)
 
-        mock_gmp.gmp_protocol.get_configs.assert_called_with(
-            filter='', details=True
+        mock_gmp.gmp_protocol.get_scan_configs.assert_called_with(
+            filter_string='', details=True
         )

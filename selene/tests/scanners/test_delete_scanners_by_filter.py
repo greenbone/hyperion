@@ -77,7 +77,7 @@ class DeleteScannersByFilterTestCase(SeleneTestCase):
         self.assertTrue(ok)
 
         mock_gmp.gmp_protocol.get_scanners.assert_called_with(
-            filter='name~Clone'
+            filter_string='name~Clone'
         )
 
         mock_gmp.gmp_protocol.delete_scanner.assert_any_call(

@@ -75,5 +75,5 @@ class ExportOverridesByFilterTestCase(SeleneTestCase):
 
         self.assertEqual(mock_xml, xml)
         mock_gmp.gmp_protocol.get_overrides.assert_called_with(
-            filter="uuid={id1} uuid={id2}", details=True
+            filter_string="uuid={id1} uuid={id2}", details=True
         )

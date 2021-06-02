@@ -261,7 +261,7 @@ class ImportPolicy(graphene.Mutation):
     @require_authentication
     def mutate(_root, info, policy):
         gmp = get_gmp(info)
-        elem = gmp.import_config(config=policy)
+        elem = gmp.import_policy(policy=policy)
 
         return ImportPolicy(policy_id=elem.get('id'))
 

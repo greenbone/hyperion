@@ -47,7 +47,7 @@ class CreateScanConfigTestCase(SeleneTestCase):
 
     def test_create_scan_config(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'create_config',
+            'create_scan_config',
             f'''
             <create_config_response status="201" status_text="OK,
              resource created" id="{self.id2}"/>
@@ -77,6 +77,6 @@ class CreateScanConfigTestCase(SeleneTestCase):
 
         self.assertEqual(created_config_id, str(self.id2))
 
-        mock_gmp.gmp_protocol.create_config.assert_called_with(
+        mock_gmp.gmp_protocol.create_scan_config.assert_called_with(
             config_id=str(self.id1), name='some_name', comment='some_comment'
         )

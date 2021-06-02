@@ -152,7 +152,9 @@ class GetTags(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_tags(filter=filter_string.filter_string)
+        xml: XmlElement = gmp.get_tags(
+            filter_string=filter_string.filter_string
+        )
 
         tag_elements = xml.findall('tag')
         counts = xml.find('tag_count')

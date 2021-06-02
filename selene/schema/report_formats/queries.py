@@ -102,7 +102,7 @@ class GetReportFormats(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_report_formats(
-            filter=filter_string.filter_string
+            filter_string=filter_string.filter_string
         )
 
         report_format_elements = xml.findall('report_format')

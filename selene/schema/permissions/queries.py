@@ -73,7 +73,7 @@ class GetPermissions(EntityConnectionField):
         )
 
         xml: XmlElement = gmp.get_permissions(
-            filter=filter_string.filter_string
+            filter_string=filter_string.filter_string
         )
 
         permission_elements = xml.findall('permission')

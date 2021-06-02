@@ -35,7 +35,7 @@ class GetUserSetting(graphene.Field):
     def resolve(_root, info, user_setting_id: graphene.UUID):
         gmp = get_gmp(info)
 
-        xml = gmp.get_setting(str(user_setting_id))
+        xml = gmp.get_user_setting(str(user_setting_id))
         return xml.find('setting')
 
 
@@ -50,5 +50,5 @@ class GetUserSettings(graphene.List):
     def resolve(_root, info, filter_string: str = None):
         gmp = get_gmp(info)
 
-        xml = gmp.get_settings(filter=filter_string)
+        xml = gmp.get_user_settings(filter_string=filter_string)
         return xml.findall('setting')

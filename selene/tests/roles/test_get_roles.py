@@ -127,7 +127,7 @@ class GetRolesTestCase(SeleneTestCase):
         self.assertEqual(role2['id'], f'{self.id2}')
         self.assertEqual(role2['users'], ['hyperion_test_user', 'myuser'])
 
-        mock_gmp.gmp_protocol.get_roles.assert_called_with(filter=None)
+        mock_gmp.gmp_protocol.get_roles.assert_called_with(filter_string=None)
 
 
 class RolesGetEntitiesTestCase(SeleneTestCase):

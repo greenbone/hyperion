@@ -43,7 +43,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
         nvt_xml_path = CWD / 'example-scan-config-nvt.xml'
         nvt_xml_str = nvt_xml_path.read_text()
 
-        mock_gmp.mock_response('get_nvts', nvt_xml_str)
+        mock_gmp.mock_response('get_scan_config_nvts', nvt_xml_str)
 
         self.login('foo', 'bar')
 
@@ -222,7 +222,7 @@ class GetScanConfigsNvtsTestCase(SeleneTestCase):
             ],
         )
 
-        mock_gmp.gmp_protocol.get_nvts.assert_called_with(
+        mock_gmp.gmp_protocol.get_scan_config_nvts.assert_called_with(
             config_id=None,
             details=True,
             family=None,

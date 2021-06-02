@@ -139,7 +139,7 @@ class GetAggregate(graphene.Field):
 
         xml = gmp.get_aggregates(
             resource_type=data_type_enum,
-            filter=input_object.filter_string,
+            filter_string=input_object.filter_string,
             data_columns=input_object.data_columns,
             group_column=input_object.group_column,
             subgroup_column=input_object.subgroup_column,

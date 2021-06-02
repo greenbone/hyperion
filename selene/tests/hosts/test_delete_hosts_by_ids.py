@@ -19,7 +19,6 @@
 from uuid import uuid4
 
 from unittest.mock import patch
-from gvm.protocols.next import AssetType as GvmAssetType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
@@ -48,7 +47,7 @@ class DeleteHostsByIdsTestCase(SeleneTestCase):
         id2 = uuid4()
 
         mock_gmp.mock_response(
-            'get_assets',
+            'get_hosts',
             f'''
             <get_assets_response status="200" status_text="OK">
                 <asset id="{id1}">
@@ -80,13 +79,13 @@ class DeleteHostsByIdsTestCase(SeleneTestCase):
 
         self.assertTrue(ok)
 
-        mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} ', asset_type=GvmAssetType.HOST
+        mock_gmp.gmp_protocol.get_hosts.assert_called_with(
+            filter_string=f'uuid={id1} uuid={id2} '
         )
 
-        mock_gmp.gmp_protocol.delete_asset.assert_any_call(asset_id=str(id1))
+        mock_gmp.gmp_protocol.delete_host.assert_any_call(host_id=str(id1))
 
-        mock_gmp.gmp_protocol.delete_asset.assert_any_call(asset_id=str(id2))
+        mock_gmp.gmp_protocol.delete_host.assert_any_call(host_id=str(id2))
 
     def test_delete_hosts_invalid(self, mock_gmp: GmpMockFactory):
         self.login('foo', 'bar')
@@ -96,7 +95,7 @@ class DeleteHostsByIdsTestCase(SeleneTestCase):
 
         # Only one of the requested hosts is found.
         mock_gmp.mock_response(
-            'get_assets',
+            'get_hosts',
             f'''
             <get_assets_response status="200" status_text="OK">
                 <asset id="{id1}">
@@ -118,13 +117,12 @@ class DeleteHostsByIdsTestCase(SeleneTestCase):
             '''
         )
         json = response.json()
-
         self.assertResponseNoErrors(response)
 
         ok = json['data']['deleteHostsByIds']['ok']
 
         self.assertFalse(ok)
 
-        mock_gmp.gmp_protocol.get_assets.assert_called_with(
-            filter=f'uuid={id1} uuid={id2} ', asset_type=GvmAssetType.HOST
+        mock_gmp.gmp_protocol.get_hosts.assert_called_with(
+            filter_string=f'uuid={id1} uuid={id2} '
         )

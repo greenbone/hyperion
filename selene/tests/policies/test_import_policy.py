@@ -66,7 +66,7 @@ class ImportPolicyTestCase(SeleneTestCase):
             '</create_config_response>'
         )
 
-        mock_gmp.mock_response('import_config', response_xml)
+        mock_gmp.mock_response('import_policy', response_xml)
 
         response = self.query(
             f'''
@@ -87,6 +87,6 @@ class ImportPolicyTestCase(SeleneTestCase):
 
         self.assertEqual(id_new_policy, "1dc12755-564a-4344-bf5e-e9c457329a48")
 
-        mock_gmp.gmp_protocol.import_config.assert_called_with(
-            config=policy_xml.replace('\\', '')
+        mock_gmp.gmp_protocol.import_policy.assert_called_with(
+            policy=policy_xml.replace('\\', '')
         )

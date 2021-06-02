@@ -66,7 +66,7 @@ class ImportScanConfigTestCase(SeleneTestCase):
             '</create_config_response>'
         )
 
-        mock_gmp.mock_response('import_config', response_xml)
+        mock_gmp.mock_response('import_scan_config', response_xml)
 
         response = self.query(
             f'''
@@ -87,6 +87,6 @@ class ImportScanConfigTestCase(SeleneTestCase):
 
         self.assertEqual(id_new_config, "1dc12755-564a-4344-bf5e-e9c457329a48")
 
-        mock_gmp.gmp_protocol.import_config.assert_called_with(
+        mock_gmp.gmp_protocol.import_scan_config.assert_called_with(
             config=config_xml.replace('\\', '')
         )
