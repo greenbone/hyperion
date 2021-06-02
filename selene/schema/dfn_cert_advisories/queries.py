@@ -19,7 +19,6 @@
 import graphene
 
 from graphql import ResolveInfo
-from gvm.protocols.next import InfoType as GvmInfoType
 
 from selene.schema.dfn_cert_advisories.fields import DFNCertAdvisory
 
@@ -89,9 +88,7 @@ class GetDFNCertAdvisory(graphene.Field):
     def resolve(_root, info, dfn_cert_advisory_id: str):
         gmp = get_gmp(info)
 
-        xml = gmp.get_info(
-            str(dfn_cert_advisory_id), info_type=GvmInfoType.DFN_CERT_ADV
-        )
+        xml = gmp.get_dfn_cert_advisory(str(dfn_cert_advisory_id))
         return xml.find('info')
 
 
@@ -158,9 +155,8 @@ class GetDFNCertAdvisories(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_info_list(
+        xml: XmlElement = gmp.get_dfn_cert_advisory_list(
             filter_string=filter_string.filter_string,
-            info_type=GvmInfoType.DFN_CERT_ADV,
             details=details,
         )
 

@@ -22,7 +22,6 @@ from pathlib import Path
 
 from unittest.mock import patch
 
-from gvm.protocols.next import InfoType as GvmInfoType
 
 from selene.tests import SeleneTestCase, GmpMockFactory
 
@@ -49,7 +48,7 @@ class DFNCertAdvisoryTestCase(SeleneTestCase):
 
     def test_get_dfn_cert_advisory(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_info',
+            'get_dfn_cert_advisory',
             '''
             <get_info_response>
                 <info id="DFN-CERT-2008-0644">
@@ -85,7 +84,7 @@ class DFNCertAdvisoryTestCase(SeleneTestCase):
 
     def test_get_dfn_cert_advisory_none_cases(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_info',
+            'get_dfn_cert_advisory',
             '''
             <get_info_response>
                 <info id="DFN-CERT-2008-0644">
@@ -138,7 +137,9 @@ class DFNCertAdvisoryTestCase(SeleneTestCase):
         dfn_cert_advisory_xml_path = CWD / 'example-dfn-cert.xml'
         dfn_cert_advisory_xml_str = dfn_cert_advisory_xml_path.read_text()
 
-        mock_gmp.mock_response('get_info', dfn_cert_advisory_xml_str)
+        mock_gmp.mock_response(
+            'get_dfn_cert_advisory', dfn_cert_advisory_xml_str
+        )
 
         self.login('foo', 'bar')
 
@@ -202,7 +203,8 @@ mit den Rechten der Anwendung ausführen.''',
 
 class DFNCertAdvisoryGetEntityTestCase(SeleneTestCase):
     gmp_name = 'info'
+    gmp_cmd = 'get_dfn_cert_advisory'
     selene_name = 'dfnCertAdvisory'
     test_get_entity = make_test_get_entity(
-        gmp_name, selene_name=selene_name, info_type=GvmInfoType.DFN_CERT_ADV
+        gmp_name=gmp_name, selene_name=selene_name, gmp_cmd=gmp_cmd
     )
