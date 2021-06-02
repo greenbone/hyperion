@@ -21,8 +21,6 @@ from pathlib import Path
 
 from unittest.mock import patch
 
-from gvm.protocols.next import InfoType as GvmInfoType
-
 from selene.tests import SeleneTestCase, GmpMockFactory
 
 from selene.tests.entity import make_test_get_entity
@@ -48,7 +46,7 @@ class CertBundTestCase(SeleneTestCase):
 
     def test_get_cert_bund_advisory(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_info',
+            'get_cert_bund_advisory',
             '''
             <get_info_response>
                 <info id="CB-K13/0093">
@@ -84,7 +82,7 @@ class CertBundTestCase(SeleneTestCase):
 
     def test_get_cert_bund_advisory_none_fields(self, mock_gmp: GmpMockFactory):
         mock_gmp.mock_response(
-            'get_info',
+            'get_cert_bund_advisory',
             '''
             <get_info_response>
                 <info id="CB-K13/0093">
@@ -160,7 +158,7 @@ class CertBundTestCase(SeleneTestCase):
         cert_bund_xml_path = CWD / 'example-cert-bund.xml'
         cert_bund_xml_str = cert_bund_xml_path.read_text()
 
-        mock_gmp.mock_response('get_info', cert_bund_xml_str)
+        mock_gmp.mock_response('get_cert_bund_advisory', cert_bund_xml_str)
 
         self.login('foo', 'bar')
 
@@ -301,6 +299,7 @@ OpenSSL ist eine im Quelltext frei verfügbare Bibliothek, die Secure Sockets La
 class CertBundAdvisoryGetEntityTestCase(SeleneTestCase):
     gmp_name = 'info'
     selene_name = 'certBundAdvisory'
+    gmp_cmd = 'get_cert_bund_advisory'
     test_get_entity = make_test_get_entity(
-        gmp_name, selene_name=selene_name, info_type=GvmInfoType.CERT_BUND_ADV
+        gmp_name=gmp_name, selene_name=selene_name, gmp_cmd=gmp_cmd
     )

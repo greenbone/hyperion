@@ -32,6 +32,8 @@ def return_gmp_methods(mock_object):
         'get_alerts': mock_object.get_alerts,
         'get_audit': mock_object.get_audit,
         'get_audits': mock_object.get_audits,
+        'get_cert_bund_advisory': mock_object.get_cert_bund_advisory,
+        'get_cert_bund_advisory_list': mock_object.get_cert_bund_advisory_list,
         'get_cpe': mock_object.get_cpe,
         'get_cpe_list': mock_object.get_cpe_list,
         'get_credential': mock_object.get_credential,

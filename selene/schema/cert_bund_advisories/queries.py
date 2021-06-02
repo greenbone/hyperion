@@ -19,7 +19,6 @@
 import graphene
 
 from graphql import ResolveInfo
-from gvm.protocols.next import InfoType as GvmInfoType
 
 from selene.schema.cert_bund_advisories.fields import CertBundAdvisory
 
@@ -71,9 +70,7 @@ class GetCertBundAdvisory(graphene.Field):
     def resolve(_root, info, cert_bund_advisory_id: str):
         gmp = get_gmp(info)
 
-        xml = gmp.get_info(
-            str(cert_bund_advisory_id), info_type=GvmInfoType.CERT_BUND_ADV
-        )
+        xml = gmp.get_cert_bund_advisory(str(cert_bund_advisory_id))
         return xml.find('info')
 
 
@@ -132,9 +129,8 @@ class GetCertBundAdvisories(EntityConnectionField):
             filter_string, first=first, last=last, after=after, before=before
         )
 
-        xml: XmlElement = gmp.get_info_list(
+        xml: XmlElement = gmp.get_cert_bund_advisory_list(
             filter_string=filter_string.filter_string,
-            info_type=GvmInfoType.CERT_BUND_ADV,
             details=details,
         )
 
