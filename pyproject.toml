@@ -19,7 +19,7 @@ graphdoc = "^0.3.1"
 [tool.poetry.dev-dependencies]
 autohooks = "^21.6.0"
 autohooks-plugin-black = "^1.2.0"
-autohooks-plugin-pylint = "^1.2.0"
+autohooks-plugin-pylint = "^21.6.0"
 pylint-django = "^2.4.3"
 coverage = "^5.5"
 sphinx = "^4.0.2"
