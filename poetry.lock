@@ -639,7 +639,7 @@ six = ">=1.5"
 
 [[package]]
 name = "python-gvm"
-version = "21.5.2"
+version = "21.6.0"
 description = "Library to communicate with remote servers over GMP or OSP"
 category = "main"
 optional = false
@@ -917,7 +917,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=1.2.3)", "pytest-flake8", "pyt
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "87bfe2e84c0582168d1a6b8d2db6d0ae179d87d641c9cc6b297276258cab96b8"
+content-hash = "be0551159ebe1fbc9495a57200e417a64763a6b77d8794e9773d9ab43fcc54b5"
 
 [metadata.files]
 alabaster = [
@@ -1356,8 +1356,8 @@ python-dateutil = [
     {file = "python_dateutil-2.8.1-py2.py3-none-any.whl", hash = "sha256:75bb3f31ea686f1197762692a9ee6a7550b59fc6ca3a1f4b5d7e32fb98e2da2a"},
 ]
 python-gvm = [
-    {file = "python-gvm-21.5.2.tar.gz", hash = "sha256:69f313d780dcaef321ef53a47df1fedaf525811531310d373de68acbc024636f"},
-    {file = "python_gvm-21.5.2-py3-none-any.whl", hash = "sha256:a9e801c2a9fd038a95070e8cf72f9d964187c5580fec71124009e3b6e8479859"},
+    {file = "python-gvm-21.6.0.tar.gz", hash = "sha256:667c2a6037a3eea3477a5d1b6ba036ee34d649fcefe4f221415caef923640c5c"},
+    {file = "python_gvm-21.6.0-py3-none-any.whl", hash = "sha256:0b1ad9ab816db3471628e6051773370f30400a8ed8a81649ed837f0e9f49dccb"},
 ]
 pytz = [
     {file = "pytz-2021.1-py2.py3-none-any.whl", hash = "sha256:eb10ce3e7736052ed3623d49975ce333bcd712c7bb19a58b9e2089d4057d0798"},
