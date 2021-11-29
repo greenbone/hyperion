@@ -2,6 +2,8 @@
 
 # Project Hyperion <!-- omit in toc -->
 
+:warning: This project has been abandoned. Therefore this repository is unmaintained and will not get any further changes!
+
 [![code test coverage](https://codecov.io/gh/greenbone/hyperion/branch/master/graph/badge.svg)](https://codecov.io/gh/greenbone/hyperion)
 [![Build and test](https://github.com/greenbone/hyperion/actions/workflows/ci-python.yml/badge.svg)](https://github.com/greenbone/hyperion/actions/workflows/ci-python.yml)
 
